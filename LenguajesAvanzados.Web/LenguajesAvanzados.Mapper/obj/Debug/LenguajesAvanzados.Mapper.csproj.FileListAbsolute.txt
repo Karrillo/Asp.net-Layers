@@ -1,7 +1,0 @@
-C:\Users\Carrillo\Desktop\LenguajesAvanzados.Web\LenguajesAvanzados.Mapper\bin\Debug\LenguajesAvanzados.Mapper.dll
-C:\Users\Carrillo\Desktop\LenguajesAvanzados.Web\LenguajesAvanzados.Mapper\bin\Debug\LenguajesAvanzados.Mapper.pdb
-C:\Users\Carrillo\Desktop\LenguajesAvanzados.Web\LenguajesAvanzados.Mapper\bin\Debug\LenguajesAvanzados.Core.dll
-C:\Users\Carrillo\Desktop\LenguajesAvanzados.Web\LenguajesAvanzados.Mapper\bin\Debug\LenguajesAvanzados.Core.pdb
-C:\Users\Carrillo\Desktop\LenguajesAvanzados.Web\LenguajesAvanzados.Mapper\obj\Debug\LenguajesAvanzados.Mapper.csprojResolveAssemblyReference.cache
-C:\Users\Carrillo\Desktop\LenguajesAvanzados.Web\LenguajesAvanzados.Mapper\obj\Debug\LenguajesAvanzados.Mapper.dll
-C:\Users\Carrillo\Desktop\LenguajesAvanzados.Web\LenguajesAvanzados.Mapper\obj\Debug\LenguajesAvanzados.Mapper.pdb

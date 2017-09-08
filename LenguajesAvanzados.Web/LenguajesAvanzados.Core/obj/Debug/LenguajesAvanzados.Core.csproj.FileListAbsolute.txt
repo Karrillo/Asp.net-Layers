@@ -1,6 +1,0 @@
-C:\Users\Carrillo\Desktop\LenguajesAvanzados.Web\LenguajesAvanzados.Core\bin\Debug\LenguajesAvanzados.Core.dll
-C:\Users\Carrillo\Desktop\LenguajesAvanzados.Web\LenguajesAvanzados.Core\bin\Debug\LenguajesAvanzados.Core.pdb
-C:\Users\Carrillo\Desktop\LenguajesAvanzados.Web\LenguajesAvanzados.Core\bin\Debug\Ninject.dll
-C:\Users\Carrillo\Desktop\LenguajesAvanzados.Web\LenguajesAvanzados.Core\bin\Debug\Ninject.xml
-C:\Users\Carrillo\Desktop\LenguajesAvanzados.Web\LenguajesAvanzados.Core\obj\Debug\LenguajesAvanzados.Core.dll
-C:\Users\Carrillo\Desktop\LenguajesAvanzados.Web\LenguajesAvanzados.Core\obj\Debug\LenguajesAvanzados.Core.pdb

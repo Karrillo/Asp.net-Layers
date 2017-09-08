@@ -1,0 +1,9 @@
+C:\Users\Carrillo\Documents\Visual Studio 2017\Projects\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\SantaMarta.Bussines.dll
+C:\Users\Carrillo\Documents\Visual Studio 2017\Projects\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\SantaMarta.Bussines.pdb
+C:\Users\Carrillo\Documents\Visual Studio 2017\Projects\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\SantaMarta.Data.dll
+C:\Users\Carrillo\Documents\Visual Studio 2017\Projects\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\SantaMarta.DataAccess.dll
+C:\Users\Carrillo\Documents\Visual Studio 2017\Projects\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\SantaMarta.DataAccess.pdb
+C:\Users\Carrillo\Documents\Visual Studio 2017\Projects\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\SantaMarta.Data.pdb
+C:\Users\Carrillo\Documents\Visual Studio 2017\Projects\SantaMarta.Web\SantaMarta.Bussines\obj\Debug\SantaMarta.Bussines.csprojResolveAssemblyReference.cache
+C:\Users\Carrillo\Documents\Visual Studio 2017\Projects\SantaMarta.Web\SantaMarta.Bussines\obj\Debug\SantaMarta.Bussines.dll
+C:\Users\Carrillo\Documents\Visual Studio 2017\Projects\SantaMarta.Web\SantaMarta.Bussines\obj\Debug\SantaMarta.Bussines.pdb
