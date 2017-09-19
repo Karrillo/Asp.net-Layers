@@ -1,12 +1,15 @@
-﻿using SantaMarta.Data.Models.ConfigInterface;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace SantaMarta.Data.Models.Users
 {
-    public class Users : Entity
+    public class Users
     {
-        public string Name { get; set; }
-        public string Password { get; set; }
-        public bool Type { get; set; }
-        public bool State { get; set; }
+        [Key]
+        public Int64 IDUser { get; set; }
+        public String Nickname { get; set; }
+        public String Password { get; set; }
+        public Boolean Type { get; set; }
+        public Boolean State { get; set; }
     }
 }

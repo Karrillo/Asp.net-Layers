@@ -1,18 +1,21 @@
-﻿using SantaMarta.Data.Models.ConfigInterface;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace SantaMarta.Data.Models.Invoices
 {
-    public class Invoices : Entity
+    public class Invoices 
     {
-        public string Date { get; set; }
-        public string State { get; set; }
-        public string LimitDate { get; set; }
-        public string Code { get; set; }
-        public decimal Total { get; set; }
-        public decimal Tax { get; set; }
-        public decimal Discount { get; set; }
-        public int? IdClient { get; set; }
-        public int? IdProvider { get; set; }
-        public int? IdUser { get; set; }
+        [Key]
+        public Int64 IDInvoice { get; set; }
+        public String CurrentDate { get; set; }
+        public Boolean State { get; set; }
+        public DateTime LimitDate { get; set; }
+        public String Code { get; set; }
+        public Decimal Total { get; set; }
+        public Decimal Tax { get; set; }
+        public Decimal Discount { get; set; }
+        public Int64? IdClient { get; set; }
+        public Int64? IdProvider { get; set; }
+        public Int64? IdUser { get; set; }
     }
 }

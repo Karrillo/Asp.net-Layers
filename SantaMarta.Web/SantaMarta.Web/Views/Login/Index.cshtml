@@ -1,0 +1,46 @@
+﻿@model SantaMarta.Data.Models.Users.Users
+
+@{
+    Layout = null;
+    ViewBag.Title = "Login";
+}
+<!DOCTYPE html>
+<html>
+@*HEAD*@
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Login</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    @*CSS*@
+    <link href="~/AdminPacket/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/Styles/stylesLogin.css" rel="stylesheet" />
+    <title>Santa Marta</title>
+</head>
+@*BODY*@
+<body>
+    <section class="container login-form">
+        <form method="post" role="Login">
+            <section>
+                <img src="~/Img/logo.png" alt="" class="img-responsive" />
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    @Html.TextBoxFor(m => m.Nickname, new { @class = "form-control input-lg", type = "text", placeholder = "Nickname" })
+                </div>
+                <div class="form-group">
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control input-lg", type = "password", placeholder = "Password" })
+                </div>
+                <a></a>
+                <button type="submit" name="go" class="btn btn-lg btn-block btn-success" />Ingresar</button>
+                @Html.ValidationSummary()
+            </section>
+        </form>
+        @*JS*@
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="~/scripts/jquery.validate.min.js"></script>
+        <script src="~/scripts/jquery.validate.unobtrusive.min.js"></script>
+        <script src="~/scripts/jquery-3.1.1.min.js"></script>
+        <script src="~/AdminPacket/bootstrap/js/bootstrap.min.js"></script>
+    </section>
+</body>
+</html>

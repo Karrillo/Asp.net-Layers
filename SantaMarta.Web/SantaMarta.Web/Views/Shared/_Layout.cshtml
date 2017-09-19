@@ -3,40 +3,216 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <title>@ViewBag.Title</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    @*CSS*@
+    @Styles.Render("~/AdminPacket/plugins/font-awesome/css")
+    @Styles.Render("~/AdminPacket/plugins/ionicons/css")
+    @Styles.Render("~/AdminPacket/bootstrap/css")
+    @Styles.Render("~/AdminPacket/dist/css")
+
+    <link href="~/AdminPacket/dist/css/skins/skin-green.min.css" rel="stylesheet" />
+    @*HEAD*@
 </head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+<body class="hold-transition skin-green sidebar-mini">
+    <div class="wrapper">
+
+        @*HEADER*@
+        <header class="main-header">
+            <a href="#" class="logo">
+                <span class="logo-mini"><b>S</b>.M.</span>
+                <span class="logo-lg"><b>Santa</b> Marta</span>
+            </a>
+
+            <nav class="navbar navbar-static-top" role="navigation">
+                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"></a>
+
+                @*SALIR*@
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href=@Url.Action("Logout", "Login")>Salir <i class="fa fa-sign-out"></i></a>
+                        </li>
+                    </ul>
+                </div>
+                @if (Session["tipo"] != null)
+                {
+                    <div class="navbar-custom-menu">
+                        <ul class="nav navbar-nav">
+                            <li class="dropdown messages-menu">
+                                <a href="#" data-toggle="dropdown">
+                                    <i class="fa fa-gears"></i>
+                                </a>
+                                <ul class="dropdown-menu navbar-custom-menu" style="background-color:#00a65a;">
+                                    <li class="header" style="background-color:#222d32; color:white;">Configuracion Super Usuario</li>
+                                    <li>
+                                        <ul style="list-style:none">
+                                            <li>
+                                                <a href=@Url.Action("Index", "Usuarios") style="color:white">
+                                                    <h4>
+                                                        <i class="fa fa-users"> Usuarios</i>
+                                                    </h4>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=@Url.Action("Index", "Categorias") style="color:white">
+                                                    <h4>
+                                                        <i class="fa fa-folder-o"> Categorias</i>
+                                                    </h4>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=@Url.Action("Index", "Cuentas") style="color:white">
+                                                    <h4>
+                                                        <i class="fa fa-credit-card"> Cuentas</i>
+                                                    </h4>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                }
+            </nav>
+        </header>
+
+        @*MENU*@
+        <aside class="main-sidebar">
+            <section class="sidebar">
+                <div class="user-panel">
+                </div>
+                <ul class="sidebar-menu">
+
+                    @*SANTA MARTA*@
+                    <li class="header">MENU</li>
+
+                    @*HOME*@
+                    <li>
+                        <a href=@Url.Action("Index", "Home")>
+                            <i class="fa fa-home"></i><span>Home</span>
+                        </a>
+                    </li>
+
+                    @*MOVIMIENTOS*@
+                    <li>
+                        <a href=@Url.Action("Index", "ActivosPasivos")>
+                            <i class="fa fa-th"></i> <span>Movimientos</span>
+                        </a>
+                    </li>
+
+                    @*CONTACTOS*@
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-user"></i>
+                            <span>Contactos</span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li id="sidebar-clientes"><a href="@Url.Action("Index", "Clientes")"><i class="fa fa-circle-o"></i> Clientes</a></li>
+                            <li id="sidebar-proveedores"><a href=@Url.Action("Index", "Proveedor")><i class="fa fa-circle-o"></i> Proveedores</a></li>
+                        </ul>
+                    </li>
+
+                    @*VENTAS*@
+                    <li>
+                        <a href="@Url.Action("Index", "Ventas")">
+                            <i class="fa fa-caret-square-o-up"></i>
+                            <span>Ventas</span>
+                        </a>
+                    </li>
+
+                    @*COMPRAS*@
+                    <li>
+                        <a href=@Url.Action("Index", "Compras")>
+                            <i class="fa  fa-caret-square-o-down"></i>
+                            <span>Compras</span>
+                        </a>
+                    </li>
+
+                    @*PRODUCTOS*@
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-book"></i> <span>Productos</span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li id="sidebar-productosSM"><a href=@Url.Action("Index", "ProductosSM")><i class="fa fa-circle-o"></i>Productos a Venta</a></li>
+                            <li id="sidebar-productos"><a href=@Url.Action("Index", "Productos")><i class="fa fa-circle-o"></i>Productos de Compra</a></li>
+                        </ul>
+                    </li>
+
+                    @*Planilla*@
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-credit-card-alt"></i>
+                            <span>Planillas</span>
+                        </a>
+                    </li>
+
+                    @*Inventario*@
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-cubes"></i>
+                            <span>Inventario</span>
+                        </a>
+                    </li>
+
+                    @*Costos*@
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-balance-scale"></i>
+                            <span>Costos</span>
+                        </a>
+                    </li>
+
+                    @*CALENDARIO*@
+                    <li>
+                        <a href="@Url.Action("Index", "Calendar")">
+                            <i class="fa fa-calendar"></i>
+                            <span>Calendar</span>
+                        </a>
+                    </li>
+
                 </ul>
-            </div>
+            </section>
+        </aside>
+
+        <div class="content-wrapper">
+            <section class="content-header">
+                <h1>
+                    @ViewBag.Title
+                    <small>@ViewBag.SubTitle</small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="#"><i class="fa fa-home"></i>@ViewBag.SubTitle</a></li>
+                    <li class="active">@ViewBag.Title</li>
+                </ol>
+            </section>
+            <section class="content">
+                @RenderBody()
+            </section>
         </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
+
+        @*FOOTER*@
+        <footer class="main-footer"></footer>
+        <aside class="control-sidebar control-sidebar-dark">
+            <div class="tab-content">
+            </div>
+        </aside>
+        <div class="control-sidebar-bg"></div>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+    @*JS*@
+    @Scripts.Render("~/AdminPacket/plugins/jquery/js")
+    @RenderSection("menu", required: false)
+    @Scripts.Render("~/AdminPacket/bootstrap/js")
+    @Scripts.Render("~/AdminPacket/plugins/slimscroll/js")
+    @Scripts.Render("~/AdminPacket/plugins/fastclick/js")
+    @Scripts.Render("~/scripts/Shared/_Layout")
+    @Scripts.Render("~/AdminPacket/dist/js")
     @RenderSection("scripts", required: false)
+
 </body>
 </html>

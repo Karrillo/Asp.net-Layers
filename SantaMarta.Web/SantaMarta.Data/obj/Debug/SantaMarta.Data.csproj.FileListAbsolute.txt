@@ -3,3 +3,7 @@ C:\Users\Carrillo\Documents\Visual Studio 2017\Projects\SantaMarta.Web\SantaMart
 C:\Users\Carrillo\Documents\Visual Studio 2017\Projects\SantaMarta.Web\SantaMarta.Data\obj\Debug\SantaMarta.Data.csprojResolveAssemblyReference.cache
 C:\Users\Carrillo\Documents\Visual Studio 2017\Projects\SantaMarta.Web\SantaMarta.Data\obj\Debug\SantaMarta.Data.dll
 C:\Users\Carrillo\Documents\Visual Studio 2017\Projects\SantaMarta.Web\SantaMarta.Data\obj\Debug\SantaMarta.Data.pdb
+C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.Data\bin\Debug\SantaMarta.Data.dll
+C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.Data\bin\Debug\SantaMarta.Data.pdb
+C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.Data\obj\Debug\SantaMarta.Data.dll
+C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.Data\obj\Debug\SantaMarta.Data.pdb

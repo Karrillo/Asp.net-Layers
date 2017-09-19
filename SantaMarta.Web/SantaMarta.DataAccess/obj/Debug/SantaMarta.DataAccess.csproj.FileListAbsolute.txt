@@ -5,3 +5,25 @@ C:\Users\Carrillo\Documents\Visual Studio 2017\Projects\SantaMarta.Web\SantaMart
 C:\Users\Carrillo\Documents\Visual Studio 2017\Projects\SantaMarta.Web\SantaMarta.DataAccess\obj\Debug\SantaMarta.DataAccess.csprojResolveAssemblyReference.cache
 C:\Users\Carrillo\Documents\Visual Studio 2017\Projects\SantaMarta.Web\SantaMarta.DataAccess\obj\Debug\SantaMarta.DataAccess.dll
 C:\Users\Carrillo\Documents\Visual Studio 2017\Projects\SantaMarta.Web\SantaMarta.DataAccess\obj\Debug\SantaMarta.DataAccess.pdb
+C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.DataAccess\bin\Debug\SantaMarta.DataAccess.dll
+C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.DataAccess\bin\Debug\SantaMarta.DataAccess.pdb
+C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.DataAccess\bin\Debug\EntityFramework.dll
+C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.DataAccess\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.DataAccess\bin\Debug\Mono.Security.dll
+C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.DataAccess\bin\Debug\Npgsql.dll
+C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.DataAccess\bin\Debug\Npgsql.EntityFramework.dll
+C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.DataAccess\bin\Debug\SantaMarta.Data.dll
+C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.DataAccess\bin\Debug\SantaMarta.Data.pdb
+C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.DataAccess\bin\Debug\EntityFramework.xml
+C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.DataAccess\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.DataAccess\bin\Debug\Npgsql.xml
+C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.DataAccess\bin\Debug\Npgsql.EntityFramework.xml
+C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.DataAccess\bin\Debug\de\Npgsql.resources.dll
+C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.DataAccess\bin\Debug\es\Npgsql.resources.dll
+C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.DataAccess\bin\Debug\fi\Npgsql.resources.dll
+C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.DataAccess\bin\Debug\fr\Npgsql.resources.dll
+C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.DataAccess\bin\Debug\ja\Npgsql.resources.dll
+C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.DataAccess\bin\Debug\zh-CN\Npgsql.resources.dll
+C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.DataAccess\obj\Debug\SantaMarta.DataAccess.csprojResolveAssemblyReference.cache
+C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.DataAccess\obj\Debug\SantaMarta.DataAccess.dll
+C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.DataAccess\obj\Debug\SantaMarta.DataAccess.pdb

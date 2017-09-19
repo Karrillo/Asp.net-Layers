@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using SantaMarta.Data.Models.Users;
 using SantaMarta.DataAccess.UserAccess;
 
@@ -12,6 +8,11 @@ namespace SantaMarta.Bussines.UsersBussines
     {
 
         private UserAccess userAccess = new UserAccess();
+
+        public Users Check(string nickname, string password)
+        {
+            return userAccess.Check(nickname, password);
+        }
 
         public bool Create(Users input)
         {

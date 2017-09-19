@@ -1,10 +1,13 @@
-﻿using SantaMarta.Data.Models.ConfigInterface;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace SantaMarta.Data.Models.Clients
 {
-    public class Clients : Entity
+    public class Clients 
     {
-        public bool State { get; set; }
-        public int? IdPerson { get; set; }
+        [Key]
+        public Int64 IDClient { get; set; }
+        public Boolean State { get; set; }
+        public Int64? IdPerson { get; set; }
     }
 }

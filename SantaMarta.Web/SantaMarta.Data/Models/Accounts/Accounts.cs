@@ -1,9 +1,12 @@
-﻿using SantaMarta.Data.Models.ConfigInterface;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace SantaMarta.Data.Models.Accounts
 {
-    public class Account : Entity
+    public class Accounts
     {
-        public string Name { get; set; }
+        [Key]
+        public Int64 IDAccount { get; set; }
+        public String Name { get; set; }
     }
 }

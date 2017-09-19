@@ -1,9 +1,12 @@
-﻿using SantaMarta.Data.Models.ConfigInterface;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace SantaMarta.Data.Models.Categories
 {
-    public class Categories : Entity
+    public class Categories
     {
-        public string Type { get; set; }
+        [Key]
+        public Int64 IDCategory { get; set; }
+        public String Name { get; set; }
     }
 }
