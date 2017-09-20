@@ -16,6 +16,6 @@ namespace SantaMarta.Data.Models.Invoices
         public Decimal Discount { get; set; }
         public Int64? IdClient { get; set; }
         public Int64? IdProvider { get; set; }
-        public Int64? IdUser { get; set; }
+        public Int64? IdDetail { get; set; }
     }
 }
