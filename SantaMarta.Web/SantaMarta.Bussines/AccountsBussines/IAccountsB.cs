@@ -5,9 +5,9 @@ namespace SantaMarta.Bussines.AccountsBussines
 {
     public interface IAccountsB
     {
-        bool Create(Accounts input);
-        bool Update(Accounts input);
-        bool Delete(int id);
+        int Create(Accounts input);
+        int Update(Accounts input);
+        int Delete(int id);
         Accounts GetById(int id);
         List<Accounts> GetAll();
     }

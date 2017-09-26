@@ -1,0 +1,52 @@
+﻿@model SantaMarta.Data.Store_Procedures.All_Clients
+
+@{
+    Layout = null;
+    ViewBag.Title = "Detalles";
+}
+@*modal*@
+<div style="padding: 20px 30px; background: #00a65a; z-index: 999999; font-size: 16px; font-weight: 600;" class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h3 class="modal-title" id="myModalLabel">Informacion del Cliente</h3>
+</div>
+
+<div class="modal-body">
+
+        <div class="box-body">
+            <label> Identicacion: </label>
+            @Html.DisplayFor(model => model.identification)
+            <br>
+            <label>Nombre(s):</label> 
+            @Html.DisplayFor(model => model.Name)
+            <br>
+            <label>Primer Apellido:</label> 
+            @Html.DisplayFor(model => model.FirstName)
+            <br>
+            <label>Segundo Apellido:</label> 
+            @Html.DisplayFor(model => model.SecondName)
+            <br>
+            <label>Nombre de Negocio:</label> 
+            @Html.DisplayFor(model => model.NameCompany)
+            <br>
+            <label>Celular:</label> 
+            @Html.DisplayFor(model => model.CellPhone)
+            <br>
+            <label>Telefono:</label>
+            @Html.DisplayFor(model => model.Phone)
+            <br>
+            <label>Correo Electronico:</label>
+            @Html.DisplayFor(model => model.Email)
+            <br>
+            <label>Direccion:</label>
+            @Html.DisplayFor(model => model.Address)
+            </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+        </div>
+
+</div>
+
+<script src="~/scripts/jquery.validate.min.js"></script>
+<script src="~/scripts/jquery.validate.unobtrusive.min.js"></script>

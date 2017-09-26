@@ -35,7 +35,7 @@
                         </li>
                     </ul>
                 </div>
-                @if (Session["tipo"] != null)
+                @if (Session["Type"] != null)
                 {
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav">
@@ -48,21 +48,21 @@
                                     <li>
                                         <ul style="list-style:none">
                                             <li>
-                                                <a href=@Url.Action("Index", "Usuarios") style="color:white">
+                                                <a href=@Url.Action("Index", "Users") style="color:white">
                                                     <h4>
                                                         <i class="fa fa-users"> Usuarios</i>
                                                     </h4>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href=@Url.Action("Index", "Categorias") style="color:white">
+                                                <a href=@Url.Action("Index", "Categories") style="color:white">
                                                     <h4>
                                                         <i class="fa fa-folder-o"> Categorias</i>
                                                     </h4>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href=@Url.Action("Index", "Cuentas") style="color:white">
+                                                <a href=@Url.Action("Index", "Accounts") style="color:white">
                                                     <h4>
                                                         <i class="fa fa-credit-card"> Cuentas</i>
                                                     </h4>
@@ -110,8 +110,8 @@
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
-                            <li id="sidebar-clientes"><a href="@Url.Action("Index", "Clientes")"><i class="fa fa-circle-o"></i> Clientes</a></li>
-                            <li id="sidebar-proveedores"><a href=@Url.Action("Index", "Proveedor")><i class="fa fa-circle-o"></i> Proveedores</a></li>
+                            <li id="sidebar-clientes"><a href="@Url.Action("Index", "Clients")"><i class="fa fa-circle-o"></i> Clientes</a></li>
+                            <li id="sidebar-proveedores"><a href=@Url.Action("Index", "Providers")><i class="fa fa-circle-o"></i> Proveedores</a></li>
                         </ul>
                     </li>
 
@@ -138,43 +138,39 @@
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
-                            <li id="sidebar-productosSM"><a href=@Url.Action("Index", "ProductosSM")><i class="fa fa-circle-o"></i>Productos a Venta</a></li>
-                            <li id="sidebar-productos"><a href=@Url.Action("Index", "Productos")><i class="fa fa-circle-o"></i>Productos de Compra</a></li>
+                            <li id="sidebar-productosSM"><a href=@Url.Action("Index", "ProductsSM")><i class="fa fa-circle-o"></i>Productos a Venta</a></li>
+                            <li id="sidebar-productos"><a href=@Url.Action("Index", "Products")><i class="fa fa-circle-o"></i>Productos de Compra</a></li>
                         </ul>
                     </li>
 
                     @*Planilla*@
-                    <li>
+                    @*<li>
                         <a href="#">
                             <i class="fa fa-credit-card-alt"></i>
                             <span>Planillas</span>
                         </a>
-                    </li>
-
+                    </li>*@
                     @*Inventario*@
-                    <li>
+                    @*<li>
                         <a href="#">
                             <i class="fa fa-cubes"></i>
                             <span>Inventario</span>
                         </a>
-                    </li>
-
+                    </li>*@
                     @*Costos*@
-                    <li>
+                    @*<li>
                         <a href="#">
                             <i class="fa fa-balance-scale"></i>
                             <span>Costos</span>
                         </a>
-                    </li>
-
+                    </li>*@
                     @*CALENDARIO*@
-                    <li>
+                    @*<li>
                         <a href="@Url.Action("Index", "Calendar")">
                             <i class="fa fa-calendar"></i>
                             <span>Calendar</span>
                         </a>
-                    </li>
-
+                    </li>*@
                 </ul>
             </section>
         </aside>

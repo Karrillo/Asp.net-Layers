@@ -1,0 +1,44 @@
+﻿@model SantaMarta.Data.Models.Products.Products
+
+@{
+    Layout = null;
+    ViewBag.Title = "Delete";
+}
+
+@*modal*@
+<div style="padding: 20px 30px; background: #00a65a; z-index: 999999; font-size: 16px; font-weight: 600;" class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h3 class="modal-title" id="myModalLabel">Borrar Producto</h3>
+</div>
+
+<div class="modal-body">
+
+    @using (Ajax.BeginForm("Delete", "Products", null, new AjaxOptions
+    {
+
+        //HttpMethod = "POST",
+        Url = Url.Action("Delete", "Products"),
+        UpdateTargetId = "modal-content",
+        OnSuccess = "closeModalDelete",
+        InsertionMode = InsertionMode.Replace
+
+    },
+               new { @class = "form-horizontal", role = "form", id = "frmDelete" }))
+    {
+
+        @Html.AntiForgeryToken()
+        //textbox
+        <div class="box-body">
+
+            <p>Estas seguro de borrar este Producto?</p>
+
+        </div>@*botones*@
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            <input id="btnCreate" type="submit" value="Borrar" class="btn btn-danger" />
+        </div>
+    }
+</div>
+

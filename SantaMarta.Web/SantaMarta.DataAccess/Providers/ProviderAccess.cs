@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
-using SantaMarta.Data.Models.Providers;
 using SantaMarta.DataAccess.Entity;
+using SantaMarta.Data.Store_Procedures;
+using System.Linq;
+using SantaMarta.Data.Models.Persons;
+using System;
 
 namespace SantaMarta.DataAccess.ProviderAccess
 {
@@ -8,29 +11,30 @@ namespace SantaMarta.DataAccess.ProviderAccess
     {
         ContextDb db = new ContextDb();
 
-        public List<Providers> GetAll()
+        public List<All_Providers> GetAll()
         {
-            return null;
+            List<All_Providers> providers = db.All_Providers_Active().ToList();
+            return providers;
         }
 
-        public Providers GetById(int id)
+        public All_Providers GetById(int id)
         {
-            return null;
+            return db.View_Provider(id);
         }
 
-        public bool Update(Providers user)
+        public int Update(Persons personProvider, Int64 id)
         {
-            return true;
+            return db.Update_Provider(personProvider, id);
         }
 
-        public bool Create(Providers user)
+        public int Create(Persons personProvider)
         {
-            return true;
+            return db.Insert_Provider(personProvider);
         }
 
-        public bool Delete(int id)
+        public int Delete(int id)
         {
-            return true;
+            return db.Delete_Provider(id);
         }
     }
 }

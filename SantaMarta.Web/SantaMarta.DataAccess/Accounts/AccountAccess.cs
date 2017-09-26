@@ -1,7 +1,7 @@
 ﻿using SantaMarta.DataAccess.Entity;
 using System.Collections.Generic;
 using SantaMarta.Data.Models.Accounts;
-
+using System.Linq;
 
 namespace SantaMarta.DataAccess.AccountAccess
 {
@@ -11,27 +11,28 @@ namespace SantaMarta.DataAccess.AccountAccess
 
         public List<Accounts> GetAll()
         {
-            return null;
+            List<Accounts> accounts = db.List_Accounts().ToList();
+            return accounts;
         }
 
         public Accounts GetById(int id)
         {
-            return null;
+            return db.View_Accounts(id);
         }
 
-        public bool Update(Accounts user)
+        public int Update(Accounts user)
         {
-            return true;
+            return db.Update_Account(user);
         }
 
-        public bool Create(Accounts user)
+        public int Create(Accounts user)
         {
-            return true;
+            return db.Insert_Account(user);
         }
 
-        public bool Delete(int id)
+        public int Delete(int id)
         {
-            return true;
+            return db.Delete_Account(id);
         }
     }
 }

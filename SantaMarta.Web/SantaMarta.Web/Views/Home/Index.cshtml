@@ -7,7 +7,7 @@
 }
 @Scripts.Render("~/AdminPacket/plugins/jquery/js")
 
-@if (Session["user"] == null)
+@if (Session["nickname"] == null)
 {
     Response.Redirect("~/Login/Index");
 
@@ -15,7 +15,7 @@
 
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
-<div class="row">
+@*<div class="row">
     <div class="col-md-12">
         <div class="box box-info">
             <div class="box-header with-border">
@@ -188,5 +188,5 @@
                 alert("Error loading data! Please try again.");
             }
         });
-    });
+    });*@
 </script>

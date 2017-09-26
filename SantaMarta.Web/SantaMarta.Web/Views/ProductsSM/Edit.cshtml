@@ -1,0 +1,58 @@
+﻿@model SantaMarta.Data.Models.Products.Products
+
+@{
+    Layout = null;
+    ViewBag.Title = "Edit";
+}
+
+@*modal*@
+<div style="padding: 20px 30px; background: #00a65a; z-index: 999999; font-size: 16px; font-weight: 600;" class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h3 class="modal-title" id="myModalLabel">Modificar Producto</h3>
+</div>
+
+<div class="modal-body">
+
+    @using (Ajax.BeginForm("Edit", "ProductsSM", null, new AjaxOptions
+    {
+        HttpMethod = "POST",
+        Url = Url.Action("Edit", "ProductsSM"),
+        UpdateTargetId = "modal-content",
+        OnSuccess = "closeModalEdit",
+        InsertionMode = InsertionMode.Replace
+    },
+        new { @class = "form-horizontal", role = "form", id = "frmEdit" }))
+    {
+
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        //textbox
+        <div class="box-body">
+            Codigo:
+            @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Codigo" } })
+            @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+            <br>
+            Nombre:
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Nombre" } })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            <br>
+            Precio:
+            @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Precio" } })
+            @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+            <br>
+            Descripcion:
+            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Descripcion" } })
+            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            <br>
+        </div>@*botones*@
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+            <input id="btnCreate" type="submit" value="Guardar" class="btn btn-success" />
+        </div>
+    }
+</div>
+
+<script src="~/scripts/jquery.validate.min.js"></script>
+<script src="~/scripts/jquery.validate.unobtrusive.min.js"></script>

@@ -1,0 +1,168 @@
+﻿@model IEnumerable<SantaMarta.Data.Store_Procedures.All_Providers>
+
+@{
+    ViewBag.Title = "Proveedores";
+}
+
+@section Menu {
+    @Scripts.Render("~/scripts/Tables/Data/menu")
+}
+@Styles.Render("~/AdminPacket/plugins/datatables/css")
+
+@if (Session["Nickname"] == null)
+{
+    Response.Redirect("~/Login/Index");
+
+}
+
+@*Boton ingresar nuevo*@
+<div class="box-header">
+    <a class="btn btn-success fa fa-user-plus pull-right" data-target="#modal-crear" data-toggle="modal" href="/Providers/Create"> Nuevo Cliente</a>
+</div>
+@*Table*@
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+
+    <div class="box">
+        <div class="box-header">
+            <h3 class="box-title">Lista de Clientes</h3>
+        </div>
+
+        <div class="box-body">
+            <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Primer Apellido</th>
+                        <th>Segundo Apellido</th>
+                        <th>Nombre(s)</th>
+                        <th>Celular</th>
+                        <th>Correo</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @*lista de clientes*@
+                    @foreach (var item in Model)
+                {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.SecondName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                            <td>@Html.DisplayFor(modelItem => item.CellPhone)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                            @if (Session["Type"] != null)
+                            {
+                                <td>
+                                    @if (Session["Type"] != null)
+                                    {
+                                        @*Boton Editar*@
+                                        <a class="btn btn-primary glyphicon glyphicon-edit" data-target="#modal-editar" data-toggle="modal" href="@Url.Action("Edit", "Providers", new { id = item.IDPerson })"></a>
+                                        @*Boton Borrar*@
+                                        <a class="btn btn-danger glyphicon glyphicon-trash" data-target="#modal-editar" data-toggle="modal" href="@Url.Action("Delete", "Providers", new { id = item.IDPerson })"></a>
+                                    }
+                                    <a class="btn btn-info glyphicon glyphicon-file" data-target="#modal-details" data-toggle="modal" href="@Url.Action("Details", "Providers", new { id = item.IDPerson })"></a>
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Primer Apellido</th>
+                        <th>Segundo Apellido</th>
+                        <th>Nombre(s)</th>
+                        <th>Celular</th>
+                        <th>Correo</th>
+                        <th>Acciones</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+}
+
+@*modal*@
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-crear" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+@*modal 2*@
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-editar" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+@*modal 3*@
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-delete" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+
+@*modal 4*@
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-details" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/AdminPacket/plugins/datatables/js")
+    @Scripts.Render("~/scripts/Tables/Data")
+
+    <script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+    <script>
+        $('body').on('hidden.bs.modal', '.modal', function () {
+            $(this).removeData('bs.modal');
+        });
+    </script>
+}
+
+
+<script>
+    function closeModalCreate(data) {
+        if (data.success) {
+            $('#modal-crear').modal('hide');
+            window.location.href = "/Providers/Index";
+        }
+    }
+</script>
+
+<script>
+    function closeModalEdit(data) {
+        if (data.success) {
+            $('#modal-editar').modal('hide');
+            window.location.href = "/Providers/Index";
+        }
+    }
+</script>
+
+<script>
+    function closeModalDelete(data) {
+        if (data.success) {
+            $('#modal-delete').modal('hide');
+            window.location.href = "/Providers/Index";
+        }
+    }
+</script>
+
+<script>
+    function closeModalDelete(data) {
+        if (data.success) {
+            $('#modal-details').modal('hide');
+            window.location.href = "/Providers/Index";
+        }
+    }
+</script>
+

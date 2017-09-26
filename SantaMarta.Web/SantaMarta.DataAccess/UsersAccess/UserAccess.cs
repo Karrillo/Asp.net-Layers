@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using SantaMarta.Data.Models.Users;
 using SantaMarta.DataAccess.Entity;
+using System.Linq;
 
 namespace SantaMarta.DataAccess.UserAccess
 {
@@ -15,27 +16,28 @@ namespace SantaMarta.DataAccess.UserAccess
 
         public List<Users> GetAll()
         {
-            return null;
+            List<Users> users = db.List_Users().ToList();
+            return users;
         }
 
         public Users GetById(int id)
         {
-            return null;
+            return db.View_Users(id);
         }
 
-        public bool Update(Users user)
+        public int Update(Users user)
         {
-            return true;
+            return db.Update_User(user);
         }
 
-        public bool Create(Users user)
+        public int Create(Users user)
         {
-            return true;
+            return db.Insert_User(user);
         }
 
-        public bool Delete(int id)
+        public int Delete(int id)
         {
-            return true;
+            return db.Delete_User(id);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using SantaMarta.Data.Models.Providers;
+﻿using SantaMarta.Data.Models.Persons;
+using SantaMarta.Data.Store_Procedures;
 using SantaMarta.DataAccess.ProviderAccess;
 using System.Collections.Generic;
 
@@ -8,29 +9,29 @@ namespace SantaMarta.Bussines.ProvidersBussines
     {
         private ProviderAccess providerAccess = new ProviderAccess();
 
-        public bool Create(Providers input)
+        public int Create(Persons input)
         {
             return providerAccess.Create(input);
         }
 
-        public bool Delete(int id)
+        public int Delete(int id)
         {
             return providerAccess.Delete(id);
         }
 
-        public List<Providers> GetAll()
+        public List<All_Providers> GetAll()
         {
             return providerAccess.GetAll();
         }
 
-        public Providers GetById(int id)
+        public All_Providers GetById(int id)
         {
             return providerAccess.GetById(id);
         }
 
-        public bool Update(Providers input)
+        public int Update(Persons input, int id)
         {
-            return providerAccess.Update(input);
+            return providerAccess.Update(input, id);
         }
     }
 }
