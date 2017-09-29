@@ -1,0 +1,63 @@
+﻿@model IList<SantaMarta.Data.Models.Categories.Categories>
+
+@{
+    ViewBag.Title = "Categorias";
+}
+
+<link href="~/Scripts/Tree/tree.css" rel="stylesheet" />
+<div class="box-header">
+    <a class="btn btn-success btn-lg pull-right" data-target="#modal-crear" data-toggle="modal" href="/Categories/Create">
+        <span class="glyphicon glyphicon-plus"></span> Nueva Categoria
+    </a>
+</div>
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading">Lista de Categorias</div>
+        <div class="panel-body">
+
+            @using (Html.BeginForm())
+            {
+                var categories = ViewBag.Categories;
+                var subCategories = ViewBag.SubCategories;
+
+                <div class="tree">
+                    @for (int i = 0; i < categories.Count; i++)
+                    {
+                        <ul>
+                            <li>
+                                <a href="#">
+                                    @*@Html.CheckBoxFor(model => model[i].IsAuthor, new { @class = "tree-checkbox parent", @id = @Model[i].Id })*@
+                                    <label for=@i>
+                                        <strong>Categorias:</strong>
+                                        @categories[i].Name
+                                    </label>
+                                </a>
+                                <ul>
+                                    @for (int j = 0; j < subCategories.Count; j++)
+                                    {
+                                        if (categories[i].IDCategory == subCategories[j].IdCategory)
+                                        {
+                                            int k = 1 + j;
+                                            @*@Html.HiddenFor(model => model[i].BookViewModel[j].Id)*@
+                                            <li>
+                                                <a href="#">
+                                                    @*@Html.CheckBoxFor(model => model[i].BookViewModel[j].IsWritten, new { @class = "tree-checkbox node-item", @iid = i + "" + j })*@
+                                                    <label for=@i@j>
+                                                        <strong>Sub-Categoria @(k):</strong>
+                                                        @subCategories[j].Name
+                                                    </label>
+                                                </a>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            </li>
+                        </ul>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/Tree/tree.js"></script>

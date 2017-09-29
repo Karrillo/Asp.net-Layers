@@ -6,6 +6,7 @@ namespace SantaMarta.Bussines.ClientsBussines
 {
     public interface IClientsB
     {
+        int CreateCP(int id);
         int Create(Persons input);
         int Update(Persons input, int id);
         int Delete(int id);

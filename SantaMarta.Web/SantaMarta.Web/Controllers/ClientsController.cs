@@ -144,5 +144,25 @@ namespace SantaMarta.Web.Controllers
                 return PartialView();
             }
         }
+
+        public ActionResult CreateCP(int id)
+        {
+            return PartialView();
+        }
+
+        // POST: Clients/Delete/5
+        [HttpPost]
+        public ActionResult CreateCP(int id, FormCollection collection)
+        {
+            try
+            {
+                clientsB.CreateCP(id);
+                return Json(new { success = true });
+            }
+            catch
+            {
+                return PartialView();
+            }
+        }
     }
 }

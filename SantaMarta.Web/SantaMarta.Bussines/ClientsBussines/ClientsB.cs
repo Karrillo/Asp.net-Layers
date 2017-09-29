@@ -8,7 +8,10 @@ namespace SantaMarta.Bussines.ClientsBussines
     public class ClientsB : IClientsB
     {
         private ClientAccess clientAccess = new ClientAccess();
-
+        public int CreateCP(int id)
+        {
+            return clientAccess.CreateCP(id);
+        }
         public int Create(Persons input)
         {
             return clientAccess.Create(input);

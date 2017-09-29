@@ -1,14 +1,11 @@
 ﻿@model IEnumerable<SantaMarta.Data.Models.Users.Users>
-
 @{
     ViewBag.Title = "Usuarios del Sistema";
 }
-
 @section Menu {
     @Scripts.Render("~/scripts/Tables/Data/menu")
 }
 @Styles.Render("~/AdminPacket/plugins/datatables/css")
-
 @if (Session["Type"] == null)
 {
     Response.Redirect("~/Login/Index");
@@ -16,9 +13,10 @@
 
 @*Boton ingresar nuevo*@
 <div class="box-header">
-    <a class="btn btn-success fa fa-user-plus pull-right" data-target="#modal-crear" data-toggle="modal" href="/Users/Create"> Nuevo Usuario</a>
+    <a class="btn btn-success btn-lg pull-right" data-target="#modal-crear" data-toggle="modal" href="/Users/Create">
+        <span class="glyphicon glyphicon-plus"></span> Nuevo Usuario
+    </a>
 </div>
-
 @*Table*@
 @using (Html.BeginForm())
 {
@@ -28,7 +26,6 @@
         <div class="box-header">
             <h3 class="box-title">Lista de Clientes</h3>
         </div>
-
         <div class="box-body">
             <table id="example1" class="table table-bordered table-striped">
                 <thead>
@@ -51,7 +48,6 @@
                                 <a class="btn btn-primary glyphicon glyphicon-edit" data-target="#modal-editar" data-toggle="modal" href="@Url.Action("Edit", "Users", new { id = item.IDUser })"></a>
                                 <a class="btn btn-danger glyphicon glyphicon-trash" data-target="#modal-editar" data-toggle="modal" href="@Url.Action("Delete", "Users", new { id = item.IDUser })"></a>
                                 <a class="btn btn-info glyphicon glyphicon-file" data-target="#modal-details" data-toggle="modal" href="@Url.Action("Details", "Users", new { id = item.IDUser })"></a>
-
                             </td>
                         </tr>
                     }
@@ -68,12 +64,10 @@
         </div>
     </div>
 }
-
 @*modal*@
 <div class="modal fade" tabindex="-1" role="dialog" id="modal-crear" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-
         </div>
     </div>
 </div>
@@ -81,7 +75,6 @@
 <div class="modal fade" tabindex="-1" role="dialog" id="modal-editar" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-
         </div>
     </div>
 </div>
@@ -89,7 +82,6 @@
 <div class="modal fade" tabindex="-1" role="dialog" id="modal-delete" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-
         </div>
     </div>
 </div>
@@ -97,24 +89,19 @@
 <div class="modal fade" tabindex="-1" role="dialog" id="modal-details" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-
         </div>
     </div>
 </div>
-
 @section Scripts {
     @Scripts.Render("~/AdminPacket/plugins/datatables/js")
     @Scripts.Render("~/scripts/Tables/Data")
-
     <script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
-
     <script>
         $('body').on('hidden.bs.modal', '.modal', function () {
             $(this).removeData('bs.modal');
         });
     </script>
 }
-
 
 <script>
     function closeModalCreate(data) {
@@ -124,7 +111,6 @@
         }
     }
 </script>
-
 <script>
     function closeModalEdit(data) {
         if (data.success) {
@@ -133,7 +119,6 @@
         }
     }
 </script>
-
 <script>
     function closeModalDelete(data) {
         if (data.success) {
@@ -142,7 +127,6 @@
         }
     }
 </script>
-
 <script>
     function closeModalDelete(data) {
         if (data.success) {

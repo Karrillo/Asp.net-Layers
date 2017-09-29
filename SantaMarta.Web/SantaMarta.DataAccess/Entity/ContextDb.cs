@@ -133,6 +133,13 @@ namespace SantaMarta.DataAccess.Entity
                 SecondNameParameter, EmailParameter, PhoneParameter, CellPhoneParameter, AddressParameter, identificationParameter,
                 NameCompanyParameter, IdPersonParameter);
         }
+        public virtual int Insert_Client_Provider(Int64 IdClient)
+        {
+            var IdClientParameter =
+                new Npgsql.NpgsqlParameter("IdClient", IdClient);
+
+            return this.Database.ExecuteSqlCommand("select * from Insert_Client_Provider (@IdClient)", IdClientParameter);
+        }
         public virtual int Delete_Client(Int64 IdPerson)
         {
             var IdPersonParameter =
@@ -253,6 +260,13 @@ namespace SantaMarta.DataAccess.Entity
                 "@CellPhone, @Email, @Address, @Identification, @NameCompany, @IDPerson)", NameParameter, FirstNameParameter,
                 SecondNameParameter, EmailParameter, PhoneParameter, CellPhoneParameter, AddressParameter, identificationParameter,
                 NameCompanyParameter, IdPersonParameter);
+        }
+        public virtual int Insert_Provider_Client(Int64 IdProvider)
+        {
+            var IdProviderParameter =
+                new Npgsql.NpgsqlParameter("IdProvider", IdProvider);
+
+            return this.Database.ExecuteSqlCommand("select * from Insert_Provider_Client (@IdProvider)", IdProviderParameter);
         }
         public virtual int Delete_Provider(Int64 IdPerson)
         {
@@ -464,6 +478,7 @@ namespace SantaMarta.DataAccess.Entity
             return this.Database.SqlQuery<Users>("select * from View_Users (@IDUser)", IDUserParameter).FirstOrDefault();
         }
         #endregion
+        //accounts
         #region Accounts
         public virtual int Insert_Account(Accounts accounts)
         {
@@ -503,6 +518,7 @@ namespace SantaMarta.DataAccess.Entity
             return this.Database.SqlQuery<Accounts>("select * from View_Account (@IDAccount)", IDAccountParameter).FirstOrDefault();
         }
         #endregion
+        //categories
         #region Categories
         public virtual int Insert_Category(Categories categories)
         {
@@ -535,6 +551,7 @@ namespace SantaMarta.DataAccess.Entity
             return this.Database.SqlQuery<Categories>("select * from View_Categories ()").ToList();
         }
         #endregion
+        //subcategories
         #region SubCategories
         public virtual int Insert_SubCategory(SubCategories subcategories)
         {
@@ -566,7 +583,12 @@ namespace SantaMarta.DataAccess.Entity
         {
             return this.Database.SqlQuery<SubCategories>("select * from View_SubCategory ()").ToList();
         }
+        public virtual List<SubCategories> View_SubCategories()
+        {
+            return this.Database.SqlQuery<SubCategories>("select * from View_SubCategories ()").ToList();
+        }
         #endregion
+        //assetsliabilities
         #region AssetsLiabilities
         public virtual int Insert_AssetLiability(AssetsLiabilities assetsLiabilities)
         {
@@ -670,6 +692,7 @@ namespace SantaMarta.DataAccess.Entity
             return this.Database.SqlQuery<Sum_AssetLiability>("select * from Sum_AssetLiability ()").ToList();
         }
         #endregion
+        //details
         #region Details
         public virtual int Insert_Detail(Int64 IDUser)
         {
@@ -679,6 +702,7 @@ namespace SantaMarta.DataAccess.Entity
             return this.Database.ExecuteSqlCommand("select * from Insert_Detail (@IDUser)", IDUserParameter);
         }
         #endregion
+        //purchases
         #region Purchases
         public virtual int Insert_Purchase(Purchases purchases)
         {
@@ -705,6 +729,7 @@ namespace SantaMarta.DataAccess.Entity
             return this.Database.ExecuteSqlCommand("select * from Delete_Purchase (@IDPurchase)", IDPurchaseParameter);
         }
         #endregion
+        //sales
         #region Sales
         public virtual int Insert_Sale(Sales sales)
         {
@@ -731,6 +756,7 @@ namespace SantaMarta.DataAccess.Entity
             return this.Database.ExecuteSqlCommand("select * from Delete_Sale (@IDSale)", IDSaleParameter);
         }
         #endregion
+        //invoice
         #region Invoice
         public virtual int Insert_Invoice(Invoices invoices)
         {
@@ -774,13 +800,13 @@ namespace SantaMarta.DataAccess.Entity
         {
             return this.Database.SqlQuery<Views_Invoices>("select * from Views_Invoices_All_Purchase ()").ToList();
         }
-        public virtual View_Invoice_Details View_Invoice_Details(Int64 IDInvoice)
+        public virtual List<View_Invoice_Details> View_Invoice_Details(Int64 IDInvoice)
         {
 
             var IDInvoiceParameter =
                 new Npgsql.NpgsqlParameter("IDInvoice", IDInvoice);
 
-            return this.Database.SqlQuery<View_Invoice_Details>("select * from View_Invoice_Details ( @IDInvoice)", IDInvoiceParameter).FirstOrDefault();
+            return this.Database.SqlQuery<View_Invoice_Details>("select * from View_Invoice_Details ( @IDInvoice)", IDInvoiceParameter).ToList();
         }
         public virtual decimal Sum_Invoices_Sale(Int64 IDInvoice)
         {

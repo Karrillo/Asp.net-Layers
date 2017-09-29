@@ -6,6 +6,7 @@ namespace SantaMarta.Bussines.ProvidersBussines
 {
     public interface IProvidersB
     {
+        int CreatePC(int id);
         int Create(Persons input);
         int Update(Persons input, int id);
         int Delete(int id);

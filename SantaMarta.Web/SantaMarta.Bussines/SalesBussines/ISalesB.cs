@@ -5,9 +5,9 @@ namespace SantaMarta.Bussines.SalesBussines
 {
     public interface ISalesB
     {
-        bool Create(Sales input);
+        int Create(Sales input);
         bool Update(Sales input);
-        bool Delete(int id);
+        int Delete(int id);
         Sales GetById(int id);
         List<Sales> GetAll();
     }

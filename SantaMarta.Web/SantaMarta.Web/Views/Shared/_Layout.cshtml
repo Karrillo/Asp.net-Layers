@@ -10,23 +10,19 @@
     @Styles.Render("~/AdminPacket/plugins/ionicons/css")
     @Styles.Render("~/AdminPacket/bootstrap/css")
     @Styles.Render("~/AdminPacket/dist/css")
-
     <link href="~/AdminPacket/dist/css/skins/skin-green.min.css" rel="stylesheet" />
     @*HEAD*@
 </head>
 <body class="hold-transition skin-green sidebar-mini">
     <div class="wrapper">
-
         @*HEADER*@
         <header class="main-header">
             <a href="#" class="logo">
                 <span class="logo-mini"><b>S</b>.M.</span>
                 <span class="logo-lg"><b>Santa</b> Marta</span>
             </a>
-
             <nav class="navbar navbar-static-top" role="navigation">
                 <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"></a>
-
                 @*SALIR*@
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
@@ -43,29 +39,26 @@
                                 <a href="#" data-toggle="dropdown">
                                     <i class="fa fa-gears"></i>
                                 </a>
-                                <ul class="dropdown-menu navbar-custom-menu" style="background-color:#00a65a;">
-                                    <li class="header" style="background-color:#222d32; color:white;">Configuracion Super Usuario</li>
+                                <ul class="dropdown-menu">
+                                    <li class="header" style="font-weight: bold;">Configuracion Super Usuario</li>
                                     <li>
-                                        <ul style="list-style:none">
+                                        <ul class="menu">
                                             <li>
-                                                <a href=@Url.Action("Index", "Users") style="color:white">
-                                                    <h4>
-                                                        <i class="fa fa-users"> Usuarios</i>
-                                                    </h4>
+                                                <a href=@Url.Action("Index", "Users")>
+                                                    <div class="pull-left fa fa-users" style="font-size:20px; color:dimgrey;"></div>
+                                                    <h4>Usuarios</h4>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href=@Url.Action("Index", "Categories") style="color:white">
-                                                    <h4>
-                                                        <i class="fa fa-folder-o"> Categorias</i>
-                                                    </h4>
+                                                <a href=@Url.Action("Index", "Categories")>
+                                                    <div class="pull-left fa fa-folder-o" style="font-size:20px; color:dimgrey;"></div>
+                                                    <h4>Categorias</h4>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href=@Url.Action("Index", "Accounts") style="color:white">
-                                                    <h4>
-                                                        <i class="fa fa-credit-card"> Cuentas</i>
-                                                    </h4>
+                                                <a href=@Url.Action("Index", "Accounts")>
+                                                    <div class="pull-left fa fa-credit-card" style="font-size:20px; color:dimgrey;"></div>
+                                                    <h4>Cuentas</h4>
                                                 </a>
                                             </li>
                                         </ul>
@@ -77,31 +70,26 @@
                 }
             </nav>
         </header>
-
         @*MENU*@
         <aside class="main-sidebar">
             <section class="sidebar">
                 <div class="user-panel">
                 </div>
                 <ul class="sidebar-menu">
-
                     @*SANTA MARTA*@
                     <li class="header">MENU</li>
-
                     @*HOME*@
                     <li>
                         <a href=@Url.Action("Index", "Home")>
                             <i class="fa fa-home"></i><span>Home</span>
                         </a>
                     </li>
-
                     @*MOVIMIENTOS*@
                     <li>
                         <a href=@Url.Action("Index", "ActivosPasivos")>
                             <i class="fa fa-th"></i> <span>Movimientos</span>
                         </a>
                     </li>
-
                     @*CONTACTOS*@
                     <li class="treeview">
                         <a href="#">
@@ -114,7 +102,6 @@
                             <li id="sidebar-proveedores"><a href=@Url.Action("Index", "Providers")><i class="fa fa-circle-o"></i> Proveedores</a></li>
                         </ul>
                     </li>
-
                     @*VENTAS*@
                     <li>
                         <a href="@Url.Action("Index", "Ventas")">
@@ -122,7 +109,6 @@
                             <span>Ventas</span>
                         </a>
                     </li>
-
                     @*COMPRAS*@
                     <li>
                         <a href=@Url.Action("Index", "Compras")>
@@ -130,7 +116,6 @@
                             <span>Compras</span>
                         </a>
                     </li>
-
                     @*PRODUCTOS*@
                     <li class="treeview">
                         <a href="#">
@@ -142,39 +127,37 @@
                             <li id="sidebar-productos"><a href=@Url.Action("Index", "Products")><i class="fa fa-circle-o"></i>Productos de Compra</a></li>
                         </ul>
                     </li>
-
                     @*Planilla*@
                     @*<li>
-                        <a href="#">
-                            <i class="fa fa-credit-card-alt"></i>
-                            <span>Planillas</span>
-                        </a>
-                    </li>*@
+                            <a href="#">
+                                <i class="fa fa-credit-card-alt"></i>
+                                <span>Planillas</span>
+                            </a>
+                        </li>*@
                     @*Inventario*@
                     @*<li>
-                        <a href="#">
-                            <i class="fa fa-cubes"></i>
-                            <span>Inventario</span>
-                        </a>
-                    </li>*@
+                            <a href="#">
+                                <i class="fa fa-cubes"></i>
+                                <span>Inventario</span>
+                            </a>
+                        </li>*@
                     @*Costos*@
                     @*<li>
-                        <a href="#">
-                            <i class="fa fa-balance-scale"></i>
-                            <span>Costos</span>
-                        </a>
-                    </li>*@
+                            <a href="#">
+                                <i class="fa fa-balance-scale"></i>
+                                <span>Costos</span>
+                            </a>
+                        </li>*@
                     @*CALENDARIO*@
                     @*<li>
-                        <a href="@Url.Action("Index", "Calendar")">
-                            <i class="fa fa-calendar"></i>
-                            <span>Calendar</span>
-                        </a>
-                    </li>*@
+                            <a href="@Url.Action("Index", "Calendar")">
+                                <i class="fa fa-calendar"></i>
+                                <span>Calendar</span>
+                            </a>
+                        </li>*@
                 </ul>
             </section>
         </aside>
-
         <div class="content-wrapper">
             <section class="content-header">
                 <h1>
@@ -190,7 +173,6 @@
                 @RenderBody()
             </section>
         </div>
-
         @*FOOTER*@
         <footer class="main-footer"></footer>
         <aside class="control-sidebar control-sidebar-dark">
@@ -199,7 +181,6 @@
         </aside>
         <div class="control-sidebar-bg"></div>
     </div>
-
     @*JS*@
     @Scripts.Render("~/AdminPacket/plugins/jquery/js")
     @RenderSection("menu", required: false)
@@ -209,6 +190,5 @@
     @Scripts.Render("~/scripts/Shared/_Layout")
     @Scripts.Render("~/AdminPacket/dist/js")
     @RenderSection("scripts", required: false)
-
 </body>
 </html>

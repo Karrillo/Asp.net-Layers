@@ -1,0 +1,37 @@
+﻿@model SantaMarta.Data.Models.Clients.Clients
+    @{
+        Layout = null;
+        ViewBag.Title = "Delete";
+    }
+    @*modal*@
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Agregar a Proveedor</h4>
+    </div>
+    <div class="modal-body">
+        @using (Ajax.BeginForm("CreateCP", "Clients", null, new AjaxOptions
+        {
+
+            //HttpMethod = "POST",
+            Url = Url.Action("CreateCP", "Clients"),
+            UpdateTargetId = "modal-content",
+            OnSuccess = "closeModalCreateCP",
+            InsertionMode = InsertionMode.Replace
+
+        },
+                                              new { @class = "form-horizontal", role = "form", id = "frmDelete" }))
+        {
+
+            @Html.AntiForgeryToken()
+            //textbox
+            <div class="box-body">
+                <p>Estas seguro que desea que este cliente sea proveedor?</p>
+            </div>@*botones*@
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <input id="btnCreate" type="submit" value="Guardar" class="btn btn-success" />
+            </div>
+        }
+    </div>

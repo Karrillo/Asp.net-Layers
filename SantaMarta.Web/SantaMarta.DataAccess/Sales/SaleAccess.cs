@@ -24,14 +24,14 @@ namespace SantaMarta.DataAccess.SaleAccess
             return true;
         }
 
-        public bool Create(Sales user)
+        public int Create(Sales sales)
         {
-            return true;
+            return db.Insert_Sale(sales);
         }
 
-        public bool Delete(int id)
+        public int Delete(int id)
         {
-            return true;
+            return db.Delete_Sale(id);
         }
     }
 }

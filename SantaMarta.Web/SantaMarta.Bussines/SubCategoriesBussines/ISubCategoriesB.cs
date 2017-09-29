@@ -6,9 +6,9 @@ namespace SantaMarta.Bussines.SubCategoriesBussines
 {
     public interface ISubCategoriesB
     {
-        bool Create(SubCategories input);
-        bool Update(SubCategories input);
-        bool Delete(int id);
+        int Create(SubCategories input);
+        int Update(SubCategories input);
+        int Delete(int id);
         SubCategories GetById(int id);
         List<SubCategories> GetAll();
     }

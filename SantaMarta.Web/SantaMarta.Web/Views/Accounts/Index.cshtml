@@ -1,14 +1,11 @@
 ﻿@model IEnumerable<SantaMarta.Data.Models.Accounts.Accounts>
-
 @{
     ViewBag.Title = "Cuentas de Movimientos";
 }
-
 @section Menu {
     @Scripts.Render("~/scripts/Tables/Data/menu")
 }
 @Styles.Render("~/AdminPacket/plugins/datatables/css")
-
 @if (Session["Type"] == null)
 {
     Response.Redirect("~/Login/Index");
@@ -16,9 +13,10 @@
 
 @*Boton ingresar nuevo*@
 <div class="box-header">
-    <a class="btn btn-success fa fa-credit-card pull-right" data-target="#modal-crear" data-toggle="modal" href="/Accounts/Create"> Nueva Cuenta</a>
+    <a class="btn btn-success btn-lg pull-right" data-target="#modal-crear" data-toggle="modal" href="/Accounts/Create">
+        <span class="glyphicon glyphicon-plus"></span> Nueva Cuenta
+    </a>
 </div>
-
 @*Table*@
 @using (Html.BeginForm())
 {
@@ -28,7 +26,6 @@
         <div class="box-header">
             <h3 class="box-title">Lista de Cuentas</h3>
         </div>
-
         <div class="box-body">
             <table id="example1" class="table table-bordered table-striped">
                 <thead>
@@ -63,12 +60,10 @@
         </div>
     </div>
 }
-
 @*modal*@
 <div class="modal fade" tabindex="-1" role="dialog" id="modal-crear" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-
         </div>
     </div>
 </div>
@@ -76,7 +71,6 @@
 <div class="modal fade" tabindex="-1" role="dialog" id="modal-editar" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-
         </div>
     </div>
 </div>
@@ -84,25 +78,20 @@
 <div class="modal fade" tabindex="-1" role="dialog" id="modal-delete" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-
         </div>
     </div>
 </div>
 
-
 @section Scripts {
     @Scripts.Render("~/AdminPacket/plugins/datatables/js")
     @Scripts.Render("~/scripts/Tables/Data")
-
     <script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
-
     <script>
         $('body').on('hidden.bs.modal', '.modal', function () {
             $(this).removeData('bs.modal');
         });
     </script>
 }
-
 
 <script>
     function closeModalCreate(data) {
@@ -112,7 +101,6 @@
         }
     }
 </script>
-
 <script>
     function closeModalEdit(data) {
         if (data.success) {
@@ -121,7 +109,6 @@
         }
     }
 </script>
-
 <script>
     function closeModalDelete(data) {
         if (data.success) {

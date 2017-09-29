@@ -8,7 +8,10 @@ namespace SantaMarta.Bussines.ProvidersBussines
     public class ProvidersB : IProvidersB
     {
         private ProviderAccess providerAccess = new ProviderAccess();
-
+        public int CreatePC(int id)
+        {
+            return providerAccess.CreatePC(id);
+        }
         public int Create(Persons input)
         {
             return providerAccess.Create(input);

@@ -29,3 +29,48 @@ C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\zh-CN\Npg
 C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.Bussines\obj\Debug\SantaMarta.Bussines.csprojResolveAssemblyReference.cache
 C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.Bussines\obj\Debug\SantaMarta.Bussines.dll
 C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.Bussines\obj\Debug\SantaMarta.Bussines.pdb
+C:\Users\joser\Desktop\Asp.net-Layers-master (1)\Asp.net-Layers-master\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\SantaMarta.Bussines.dll
+C:\Users\joser\Desktop\Asp.net-Layers-master (1)\Asp.net-Layers-master\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\SantaMarta.Bussines.pdb
+C:\Users\joser\Desktop\Asp.net-Layers-master (1)\Asp.net-Layers-master\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\SantaMarta.Data.dll
+C:\Users\joser\Desktop\Asp.net-Layers-master (1)\Asp.net-Layers-master\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\SantaMarta.DataAccess.dll
+C:\Users\joser\Desktop\Asp.net-Layers-master (1)\Asp.net-Layers-master\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\EntityFramework.dll
+C:\Users\joser\Desktop\Asp.net-Layers-master (1)\Asp.net-Layers-master\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\joser\Desktop\Asp.net-Layers-master (1)\Asp.net-Layers-master\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\Npgsql.dll
+C:\Users\joser\Desktop\Asp.net-Layers-master (1)\Asp.net-Layers-master\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\Mono.Security.dll
+C:\Users\joser\Desktop\Asp.net-Layers-master (1)\Asp.net-Layers-master\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\SantaMarta.DataAccess.pdb
+C:\Users\joser\Desktop\Asp.net-Layers-master (1)\Asp.net-Layers-master\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\SantaMarta.Data.pdb
+C:\Users\joser\Desktop\Asp.net-Layers-master (1)\Asp.net-Layers-master\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\EntityFramework.xml
+C:\Users\joser\Desktop\Asp.net-Layers-master (1)\Asp.net-Layers-master\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\joser\Desktop\Asp.net-Layers-master (1)\Asp.net-Layers-master\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\Npgsql.xml
+C:\Users\joser\Desktop\Asp.net-Layers-master (1)\Asp.net-Layers-master\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\de\Npgsql.resources.dll
+C:\Users\joser\Desktop\Asp.net-Layers-master (1)\Asp.net-Layers-master\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\es\Npgsql.resources.dll
+C:\Users\joser\Desktop\Asp.net-Layers-master (1)\Asp.net-Layers-master\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\fi\Npgsql.resources.dll
+C:\Users\joser\Desktop\Asp.net-Layers-master (1)\Asp.net-Layers-master\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\fr\Npgsql.resources.dll
+C:\Users\joser\Desktop\Asp.net-Layers-master (1)\Asp.net-Layers-master\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\ja\Npgsql.resources.dll
+C:\Users\joser\Desktop\Asp.net-Layers-master (1)\Asp.net-Layers-master\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\zh-CN\Npgsql.resources.dll
+C:\Users\joser\Desktop\Asp.net-Layers-master (1)\Asp.net-Layers-master\SantaMarta.Web\SantaMarta.Bussines\obj\Debug\SantaMarta.Bussines.csprojResolveAssemblyReference.cache
+C:\Users\joser\Desktop\Asp.net-Layers-master (1)\Asp.net-Layers-master\SantaMarta.Web\SantaMarta.Bussines\obj\Debug\SantaMarta.Bussines.csproj.CoreCompileInputs.cache
+C:\Users\joser\Desktop\Asp.net-Layers-master (1)\Asp.net-Layers-master\SantaMarta.Web\SantaMarta.Bussines\obj\Debug\SantaMarta.Bussines.dll
+C:\Users\joser\Desktop\Asp.net-Layers-master (1)\Asp.net-Layers-master\SantaMarta.Web\SantaMarta.Bussines\obj\Debug\SantaMarta.Bussines.pdb
+C:\Users\Carrillo\Documents\GitHub\Asp.net-Layers\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\SantaMarta.Bussines.dll
+C:\Users\Carrillo\Documents\GitHub\Asp.net-Layers\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\SantaMarta.Bussines.pdb
+C:\Users\Carrillo\Documents\GitHub\Asp.net-Layers\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\SantaMarta.Data.dll
+C:\Users\Carrillo\Documents\GitHub\Asp.net-Layers\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\SantaMarta.DataAccess.dll
+C:\Users\Carrillo\Documents\GitHub\Asp.net-Layers\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\EntityFramework.dll
+C:\Users\Carrillo\Documents\GitHub\Asp.net-Layers\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Carrillo\Documents\GitHub\Asp.net-Layers\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\Npgsql.dll
+C:\Users\Carrillo\Documents\GitHub\Asp.net-Layers\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\Mono.Security.dll
+C:\Users\Carrillo\Documents\GitHub\Asp.net-Layers\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\SantaMarta.DataAccess.pdb
+C:\Users\Carrillo\Documents\GitHub\Asp.net-Layers\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\SantaMarta.Data.pdb
+C:\Users\Carrillo\Documents\GitHub\Asp.net-Layers\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\EntityFramework.xml
+C:\Users\Carrillo\Documents\GitHub\Asp.net-Layers\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Carrillo\Documents\GitHub\Asp.net-Layers\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\Npgsql.xml
+C:\Users\Carrillo\Documents\GitHub\Asp.net-Layers\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\de\Npgsql.resources.dll
+C:\Users\Carrillo\Documents\GitHub\Asp.net-Layers\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\es\Npgsql.resources.dll
+C:\Users\Carrillo\Documents\GitHub\Asp.net-Layers\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\fi\Npgsql.resources.dll
+C:\Users\Carrillo\Documents\GitHub\Asp.net-Layers\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\fr\Npgsql.resources.dll
+C:\Users\Carrillo\Documents\GitHub\Asp.net-Layers\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\ja\Npgsql.resources.dll
+C:\Users\Carrillo\Documents\GitHub\Asp.net-Layers\SantaMarta.Web\SantaMarta.Bussines\bin\Debug\zh-CN\Npgsql.resources.dll
+C:\Users\Carrillo\Documents\GitHub\Asp.net-Layers\SantaMarta.Web\SantaMarta.Bussines\obj\Debug\SantaMarta.Bussines.csprojResolveAssemblyReference.cache
+C:\Users\Carrillo\Documents\GitHub\Asp.net-Layers\SantaMarta.Web\SantaMarta.Bussines\obj\Debug\SantaMarta.Bussines.dll
+C:\Users\Carrillo\Documents\GitHub\Asp.net-Layers\SantaMarta.Web\SantaMarta.Bussines\obj\Debug\SantaMarta.Bussines.pdb

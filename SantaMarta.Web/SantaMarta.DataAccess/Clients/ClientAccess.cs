@@ -26,7 +26,10 @@ namespace SantaMarta.DataAccess.ClientAccess
         {
             return db.update_Client(personClient, id);
         }
-
+        public int CreateCP(int id)
+        {
+            return db.Insert_Client_Provider(id);
+        }
         public int Create(Persons personClient)
         {
             return db.Insert_Client(personClient);

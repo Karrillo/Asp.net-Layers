@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using SantaMarta.Data.Models.Categories;
 using SantaMarta.DataAccess.Entity;
+using System.Linq;
 
 namespace SantaMarta.DataAccess.CategoryAccess
 {
@@ -10,7 +11,8 @@ namespace SantaMarta.DataAccess.CategoryAccess
 
         public List<Categories> GetAll()
         {
-            return null;
+            List<Categories> categories = db.View_Categories().ToList();
+            return categories;
         }
 
         public Categories GetById(int id)
@@ -18,19 +20,19 @@ namespace SantaMarta.DataAccess.CategoryAccess
             return null;
         }
 
-        public bool Update(Categories user)
+        public int Update(Categories user)
         {
-            return true;
+            return 0;
         }
 
-        public bool Create(Categories user)
+        public int Create(Categories user)
         {
-            return true;
+            return 0;
         }
 
-        public bool Delete(int id)
+        public int Delete(int id)
         {
-            return true;
+            return 0;
         }
     }
 }

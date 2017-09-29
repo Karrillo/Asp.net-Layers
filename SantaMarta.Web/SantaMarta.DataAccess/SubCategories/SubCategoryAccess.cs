@@ -1,6 +1,7 @@
 ﻿using SantaMarta.Data.Models.SubCategories;
 using SantaMarta.DataAccess.Entity;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SantaMarta.DataAccess.SubCategoryAccess
 {
@@ -10,7 +11,8 @@ namespace SantaMarta.DataAccess.SubCategoryAccess
 
         public List<SubCategories> GetAll()
         {
-            return null;
+            List<SubCategories> subCategories = db.View_SubCategories().ToList();
+            return subCategories;
         }
 
         public SubCategories GetById(int id)
@@ -18,19 +20,19 @@ namespace SantaMarta.DataAccess.SubCategoryAccess
             return null;
         }
 
-        public bool Update(SubCategories user)
+        public int Update(SubCategories user)
         {
-            return true;
+            return 0;
         }
 
-        public bool Create(SubCategories user)
+        public int Create(SubCategories user)
         {
-            return true;
+            return 0;
         }
 
-        public bool Delete(int id)
+        public int Delete(int id)
         {
-            return true;
+            return 0;
         }
     }
 }
