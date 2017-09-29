@@ -14,12 +14,12 @@ namespace SantaMarta.Bussines.UsersBussines
             return userAccess.Check(nickname, password);
         }
 
-        public bool Create(Users input)
+        public int Create(Users input)
         {
             return userAccess.Create(input);
         }
 
-        public bool Delete(int id)
+        public int Delete(int id)
         {
             return userAccess.Delete(id);
         }
@@ -34,7 +34,7 @@ namespace SantaMarta.Bussines.UsersBussines
             return userAccess.GetById(id);
         }
 
-        public bool Update(Users input)
+        public int Update(Users input)
         {
             return userAccess.Update(input);
         }

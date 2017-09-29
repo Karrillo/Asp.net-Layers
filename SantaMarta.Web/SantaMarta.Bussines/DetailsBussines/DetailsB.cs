@@ -1,5 +1,6 @@
 ﻿using SantaMarta.Data.Models.Details;
 using SantaMarta.DataAccess.DetailAccess;
+using System;
 using System.Collections.Generic;
 
 namespace SantaMarta.Bussines.DetailsBussines
@@ -8,9 +9,9 @@ namespace SantaMarta.Bussines.DetailsBussines
     {
         private DetailAccess detailAccess = new DetailAccess();
 
-        public bool Create(Details input)
+        public int Create(Int64 id)
         {
-            return detailAccess.Create(input);
+            return detailAccess.Create(id);
         }
 
         public bool Delete(int id)

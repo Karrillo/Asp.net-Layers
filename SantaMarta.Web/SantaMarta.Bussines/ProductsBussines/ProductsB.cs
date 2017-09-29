@@ -7,12 +7,12 @@ namespace SantaMarta.Bussines.ProductsBussines
     public class ProductsB : IProductsB
     {
         private ProductAccess productAccess = new ProductAccess();
-        public bool Create(Products input)
+        public int Create(Products input)
         {
             return productAccess.Create(input);
         }
 
-        public bool Delete(int id)
+        public int Delete(int id)
         {
             return productAccess.Delete(id);
         }
@@ -27,9 +27,9 @@ namespace SantaMarta.Bussines.ProductsBussines
             return productAccess.GetById(id);
         }
 
-        public bool Update(Products input)
+        public int Update(Products input, int id)
         {
-            return productAccess.Update(input);
+            return productAccess.Update(input, id);
         }
     }
 }

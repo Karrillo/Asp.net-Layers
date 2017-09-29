@@ -1,14 +1,15 @@
-﻿using SantaMarta.Data.Models.Providers;
+﻿using SantaMarta.Data.Models.Persons;
+using SantaMarta.Data.Store_Procedures;
 using System.Collections.Generic;
 
 namespace SantaMarta.Bussines.ProvidersBussines
 {
     public interface IProvidersB
     {
-        bool Create(Providers input);
-        bool Update(Providers input);
-        bool Delete(int id);
-        Providers GetById(int id);
-        List<Providers> GetAll();
+        int Create(Persons input);
+        int Update(Persons input, int id);
+        int Delete(int id);
+        All_Providers GetById(int id);
+        List<All_Providers> GetAll();
     }
 }

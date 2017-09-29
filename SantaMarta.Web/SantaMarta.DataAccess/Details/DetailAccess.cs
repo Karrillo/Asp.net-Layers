@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using SantaMarta.Data.Models.Details;
 using SantaMarta.DataAccess.Entity;
+using System;
 
 namespace SantaMarta.DataAccess.DetailAccess
 {
@@ -18,14 +19,14 @@ namespace SantaMarta.DataAccess.DetailAccess
             return null;
         }
 
-        public bool Update(Details user)
+        public bool Update(Details details)
         {
             return true;
         }
 
-        public bool Create(Details user)
+        public int Create(Int64 id)
         {
-            return true;
+            return db.Insert_Detail(id);
         }
 
         public bool Delete(int id)

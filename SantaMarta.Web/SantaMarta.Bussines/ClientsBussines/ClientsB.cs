@@ -1,4 +1,5 @@
-﻿using SantaMarta.Data.Models.Clients;
+﻿using SantaMarta.Data.Models.Persons;
+using SantaMarta.Data.Store_Procedures;
 using SantaMarta.DataAccess.ClientAccess;
 using System.Collections.Generic;
 
@@ -8,29 +9,29 @@ namespace SantaMarta.Bussines.ClientsBussines
     {
         private ClientAccess clientAccess = new ClientAccess();
 
-        public bool Create(Clients input)
+        public int Create(Persons input)
         {
             return clientAccess.Create(input);
         }
 
-        public bool Delete(int id)
+        public int Delete(int id)
         {
             return clientAccess.Delete(id);
         }
 
-        public List<Clients> GetAll()
+        public List<All_Clients> GetAll()
         {
             return clientAccess.GetAll();
         }
 
-        public Clients GetById(int id)
+        public All_Clients GetById(int id)
         {
             return clientAccess.GetById(id);
         }
 
-        public bool Update(Clients input)
+        public int Update(Persons input, int id)
         {
-            return clientAccess.Update(input);
+            return clientAccess.Update(input, id);
         }
     }
 }

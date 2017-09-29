@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
-using SantaMarta.Data.Models.Clients;
 using SantaMarta.DataAccess.Entity;
+using SantaMarta.Data.Store_Procedures;
+using SantaMarta.Data.Models.Persons;
+using System.Linq;
+using System;
 
 namespace SantaMarta.DataAccess.ClientAccess
 {
@@ -8,29 +11,30 @@ namespace SantaMarta.DataAccess.ClientAccess
     {
         ContextDb db = new ContextDb();
 
-        public List<Clients> GetAll()
+        public List<All_Clients> GetAll()
         {
-            return null;
+            List <All_Clients> clients = db.All_Clients_Active().ToList();
+            return clients;
         }
 
-        public Clients GetById(int id)
+        public All_Clients GetById(int id)
         {
-            return null;
+            return db.View_Client(id);
         }
 
-        public bool Update(Clients user)
+        public int Update(Persons personClient, Int64 id)
         {
-            return true;
+            return db.update_Client(personClient, id);
         }
 
-        public bool Create(Clients user)
+        public int Create(Persons personClient)
         {
-            return true;
+            return db.Insert_Client(personClient);
         }
 
-        public bool Delete(int id)
+        public int Delete(int id)
         {
-            return true;
+            return db.Delete_Client(id);
         }
     }
 }

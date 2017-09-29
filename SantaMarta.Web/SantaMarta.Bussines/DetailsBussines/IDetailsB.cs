@@ -1,11 +1,12 @@
 ﻿using SantaMarta.Data.Models.Details;
+using System;
 using System.Collections.Generic;
 
 namespace SantaMarta.Bussines.DetailsBussines
 {
     public interface IDetailsB
     {
-        bool Create(Details input);
+        int Create(Int64 id);
         bool Update(Details input);
         bool Delete(int id);
         Details GetById(int id);

@@ -1,14 +1,15 @@
-﻿using SantaMarta.Data.Models.Clients;
+﻿using SantaMarta.Data.Models.Persons;
+using SantaMarta.Data.Store_Procedures;
 using System.Collections.Generic;
 
 namespace SantaMarta.Bussines.ClientsBussines
 {
     public interface IClientsB
     {
-        bool Create(Clients input);
-        bool Update(Clients input);
-        bool Delete(int id);
-        Clients GetById(int id);
-        List<Clients> GetAll();
+        int Create(Persons input);
+        int Update(Persons input, int id);
+        int Delete(int id);
+        All_Clients GetById(int id);
+        List<All_Clients> GetAll();
     }
 }

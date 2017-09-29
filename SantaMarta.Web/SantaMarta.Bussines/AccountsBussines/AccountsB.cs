@@ -12,12 +12,12 @@ namespace SantaMarta.Bussines.AccountsBussines
     {
         private AccountAccess accountAccess = new AccountAccess();
 
-        public bool Create(Accounts input)
+        public int Create(Accounts input)
         {
             return accountAccess.Create(input);
         }
 
-        public bool Delete(int id)
+        public int Delete(int id)
         {
             return accountAccess.Delete(id);
         }
@@ -32,7 +32,7 @@ namespace SantaMarta.Bussines.AccountsBussines
             return accountAccess.GetById(id);
         }
 
-        public bool Update(Accounts input)
+        public int Update(Accounts input)
         {
             return accountAccess.Update(input);
         }

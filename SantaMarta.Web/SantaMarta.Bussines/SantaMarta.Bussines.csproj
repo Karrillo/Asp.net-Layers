@@ -56,6 +56,8 @@
     <Compile Include="PersonsBussines\Person.cs" />
     <Compile Include="ProductsBussines\IProductsB.cs" />
     <Compile Include="ProductsBussines\ProductsB.cs" />
+    <Compile Include="ProductsProvidersBussines\IProductsProvidersB.cs" />
+    <Compile Include="ProductsProvidersBussines\ProductsProvidersB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProvidersBussines\IProvidersB.cs" />
     <Compile Include="ProvidersBussines\ProvidersB.cs" />

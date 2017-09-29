@@ -55,8 +55,8 @@ namespace SantaMarta.DataAccess.Entity
                 new Npgsql.NpgsqlParameter("FirstName", typeof(string));
 
             var SecondNameParameter = person.SecondName != null ?
-                new Npgsql.NpgsqlParameter("Email", person.Email) :
-                new Npgsql.NpgsqlParameter("Email", typeof(string));
+                new Npgsql.NpgsqlParameter("SecondName", person.SecondName) :
+                new Npgsql.NpgsqlParameter("SecondName", typeof(string));
 
             var EmailParameter = person.Email != null ?
                 new Npgsql.NpgsqlParameter("Email", person.Email) :
@@ -98,8 +98,8 @@ namespace SantaMarta.DataAccess.Entity
                 new Npgsql.NpgsqlParameter("FirstName", typeof(string));
 
             var SecondNameParameter = person.SecondName != null ?
-                new Npgsql.NpgsqlParameter("Email", person.Email) :
-                new Npgsql.NpgsqlParameter("Email", typeof(string));
+                new Npgsql.NpgsqlParameter("SecondName", person.SecondName) :
+                new Npgsql.NpgsqlParameter("SecondName", typeof(string));
 
             var EmailParameter = person.Email != null ?
                 new Npgsql.NpgsqlParameter("Email", person.Email) :
@@ -176,8 +176,8 @@ namespace SantaMarta.DataAccess.Entity
                 new Npgsql.NpgsqlParameter("FirstName", typeof(string));
 
             var SecondNameParameter = person.SecondName != null ?
-                new Npgsql.NpgsqlParameter("Email", person.Email) :
-                new Npgsql.NpgsqlParameter("Email", typeof(string));
+                new Npgsql.NpgsqlParameter("SecondName", person.SecondName) :
+                new Npgsql.NpgsqlParameter("SecondName", typeof(string));
 
             var EmailParameter = person.Email != null ?
                 new Npgsql.NpgsqlParameter("Email", person.Email) :
@@ -219,8 +219,8 @@ namespace SantaMarta.DataAccess.Entity
                 new Npgsql.NpgsqlParameter("FirstName", typeof(string));
 
             var SecondNameParameter = person.SecondName != null ?
-                new Npgsql.NpgsqlParameter("Email", person.Email) :
-                new Npgsql.NpgsqlParameter("Email", typeof(string));
+                new Npgsql.NpgsqlParameter("SecondName", person.SecondName) :
+                new Npgsql.NpgsqlParameter("SecondName", typeof(string));
 
             var EmailParameter = person.Email != null ?
                 new Npgsql.NpgsqlParameter("Email", person.Email) :
@@ -393,44 +393,45 @@ namespace SantaMarta.DataAccess.Entity
         #endregion
         //users
         #region Users
-        public virtual int Insert_User(string nickname, string password, bool type, bool state)
+        public virtual int Insert_User(Users user)
         {
-            var nicknameParameter = nickname != null ?
-                new Npgsql.NpgsqlParameter("nickname", nickname) :
+            var nicknameParameter = user.Nickname != null ?
+                new Npgsql.NpgsqlParameter("nickname", user.Nickname) :
                 new Npgsql.NpgsqlParameter("nickname", typeof(string));
 
-            var passwordParameter = password != null ?
-                new Npgsql.NpgsqlParameter("password", password) :
+            var passwordParameter = user.Password != null ?
+                new Npgsql.NpgsqlParameter("password", user.Password) :
                 new Npgsql.NpgsqlParameter("password", typeof(string));
 
             var typeParameter =
-                new Npgsql.NpgsqlParameter("type", type);
+                new Npgsql.NpgsqlParameter("type", user.Type);
 
-            var stateParameter =
-                new Npgsql.NpgsqlParameter("state", state);
+            var StateParameter =
+                new Npgsql.NpgsqlParameter("State", user.State);
 
-            return this.Database.ExecuteSqlCommand("select * from Insert_User (@nickname, @password, @type, @state)", nicknameParameter, passwordParameter, typeParameter, stateParameter);
+
+            return this.Database.ExecuteSqlCommand("select * from Insert_User (@nickname, @password, @type)", nicknameParameter, passwordParameter, typeParameter);
         }
-        public virtual int Update_User(string nickname, string password, bool type, bool state, Int64 IDUser)
+        public virtual int Update_User(Users users)
         {
-            var nicknameParameter = nickname != null ?
-                new Npgsql.NpgsqlParameter("nickname", nickname) :
+            var nicknameParameter = users.Nickname != null ?
+                new Npgsql.NpgsqlParameter("nickname", users.Nickname) :
                 new Npgsql.NpgsqlParameter("nickname", typeof(string));
 
-            var passwordParameter = password != null ?
-                new Npgsql.NpgsqlParameter("password", password) :
+            var passwordParameter = users.Password != null ?
+                new Npgsql.NpgsqlParameter("password", users.Password) :
                 new Npgsql.NpgsqlParameter("password", typeof(string));
 
             var typeParameter =
-                new Npgsql.NpgsqlParameter("type", type);
+                new Npgsql.NpgsqlParameter("type", users.Type);
 
             var stateParameter =
-                new Npgsql.NpgsqlParameter("state", state);
+                new Npgsql.NpgsqlParameter("state", users.State);
 
             var IDUserParameter =
-                new Npgsql.NpgsqlParameter("IDUser", IDUser);
+                new Npgsql.NpgsqlParameter("IDUser", users.IDUser);
 
-            return this.Database.ExecuteSqlCommand("select * from Update_User (@nickname, @password, @type, @state, @IDUser)", nicknameParameter, passwordParameter, typeParameter, stateParameter, IDUserParameter);
+            return this.Database.ExecuteSqlCommand("select * from Update_User (@nickname, @password, @type, @IDUser)", nicknameParameter, passwordParameter, typeParameter, IDUserParameter);
         }
         public virtual int Delete_User(Int64 IDUser)
         {
@@ -451,11 +452,19 @@ namespace SantaMarta.DataAccess.Entity
 
             return this.Database.SqlQuery<Users>("select * from check_User (@nickname, @password)", nicknameParameter, passwordParameter).FirstOrDefault();
         }
-        public virtual List<Users> View_Users()
+        public virtual List<Users> List_Users()
         {
-            return this.Database.SqlQuery<Users>("select * from check_User (@nickname, @password)").ToList();
+            return this.Database.SqlQuery<Users>("select * from List_Users ()").ToList();
+        }
+         public virtual Users View_Users(Int64 IDUser)
+        {
+            var IDUserParameter =
+               new Npgsql.NpgsqlParameter("IDUser", IDUser);
+
+            return this.Database.SqlQuery<Users>("select * from View_Users (@IDUser)", IDUserParameter).FirstOrDefault();
         }
         #endregion
+        //accounts
         #region Accounts
         public virtual int Insert_Account(Accounts accounts)
         {
@@ -483,11 +492,19 @@ namespace SantaMarta.DataAccess.Entity
 
             return this.Database.ExecuteSqlCommand("select * from Delete_Account (@IDAccount)", IDAccountParameter);
         }
-        public virtual List<Accounts> View_Accounts()
+        public virtual List<Accounts> List_Accounts()
         {
-            return this.Database.SqlQuery<Accounts>("select * from View_Accounts ()").ToList();
+            return this.Database.SqlQuery<Accounts>("select * from List_Accounts ()").ToList();
+        }
+        public virtual Accounts View_Accounts(Int64 IDAccount)
+        {
+            var IDAccountParameter =
+               new Npgsql.NpgsqlParameter("IDAccount", IDAccount);
+
+            return this.Database.SqlQuery<Accounts>("select * from View_Account (@IDAccount)", IDAccountParameter).FirstOrDefault();
         }
         #endregion
+        //categories
         #region Categories
         public virtual int Insert_Category(Categories categories)
         {
@@ -520,6 +537,7 @@ namespace SantaMarta.DataAccess.Entity
             return this.Database.SqlQuery<Categories>("select * from View_Categories ()").ToList();
         }
         #endregion
+        //subcategories
         #region SubCategories
         public virtual int Insert_SubCategory(SubCategories subcategories)
         {
@@ -552,6 +570,7 @@ namespace SantaMarta.DataAccess.Entity
             return this.Database.SqlQuery<SubCategories>("select * from View_SubCategory ()").ToList();
         }
         #endregion
+        //assetsliabilities
         #region AssetsLiabilities
         public virtual int Insert_AssetLiability(AssetsLiabilities assetsLiabilities)
         {
@@ -655,6 +674,7 @@ namespace SantaMarta.DataAccess.Entity
             return this.Database.SqlQuery<Sum_AssetLiability>("select * from Sum_AssetLiability ()").ToList();
         }
         #endregion
+        //details
         #region Details
         public virtual int Insert_Detail(Int64 IDUser)
         {
@@ -664,6 +684,7 @@ namespace SantaMarta.DataAccess.Entity
             return this.Database.ExecuteSqlCommand("select * from Insert_Detail (@IDUser)", IDUserParameter);
         }
         #endregion
+        //purchases
         #region Purchases
         public virtual int Insert_Purchase(Purchases purchases)
         {
@@ -690,6 +711,7 @@ namespace SantaMarta.DataAccess.Entity
             return this.Database.ExecuteSqlCommand("select * from Delete_Purchase (@IDPurchase)", IDPurchaseParameter);
         }
         #endregion
+        //sales
         #region Sales
         public virtual int Insert_Sale(Sales sales)
         {
@@ -716,6 +738,7 @@ namespace SantaMarta.DataAccess.Entity
             return this.Database.ExecuteSqlCommand("select * from Delete_Sale (@IDSale)", IDSaleParameter);
         }
         #endregion
+        //invoice
         #region Invoice
         public virtual int Insert_Invoice(Invoices invoices)
         {
@@ -759,13 +782,13 @@ namespace SantaMarta.DataAccess.Entity
         {
             return this.Database.SqlQuery<Views_Invoices>("select * from Views_Invoices_All_Purchase ()").ToList();
         }
-        public virtual View_Invoice_Details View_Invoice_Details(Int64 IDInvoice)
+        public virtual List<View_Invoice_Details> View_Invoice_Details(Int64 IDInvoice)
         {
 
             var IDInvoiceParameter =
                 new Npgsql.NpgsqlParameter("IDInvoice", IDInvoice);
 
-            return this.Database.SqlQuery<View_Invoice_Details>("select * from View_Invoice_Details ( @IDInvoice)", IDInvoiceParameter).FirstOrDefault();
+            return this.Database.SqlQuery<View_Invoice_Details>("select * from View_Invoice_Details ( @IDInvoice)", IDInvoiceParameter).ToList();
         }
         public virtual decimal Sum_Invoices_Sale(Int64 IDInvoice)
         {

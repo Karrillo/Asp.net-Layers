@@ -8,12 +8,12 @@ namespace SantaMarta.Bussines.SalesBussines
     {
         private SaleAccess saleAccess = new SaleAccess();
 
-        public bool Create(Sales input)
+        public int Create(Sales input)
         {
             return saleAccess.Create(input);
         }
 
-        public bool Delete(int id)
+        public int Delete(int id)
         {
             return saleAccess.Delete(id);
         }
