@@ -3,10 +3,6 @@ C:\Users\Carrillo\Documents\Visual Studio 2017\Projects\SantaMarta.Web\SantaMart
 C:\Users\Carrillo\Documents\Visual Studio 2017\Projects\SantaMarta.Web\SantaMarta.Data\obj\Debug\SantaMarta.Data.csprojResolveAssemblyReference.cache
 C:\Users\Carrillo\Documents\Visual Studio 2017\Projects\SantaMarta.Web\SantaMarta.Data\obj\Debug\SantaMarta.Data.dll
 C:\Users\Carrillo\Documents\Visual Studio 2017\Projects\SantaMarta.Web\SantaMarta.Data\obj\Debug\SantaMarta.Data.pdb
-C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.Data\bin\Debug\SantaMarta.Data.dll
-C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.Data\bin\Debug\SantaMarta.Data.pdb
-C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.Data\obj\Debug\SantaMarta.Data.dll
-C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.Data\obj\Debug\SantaMarta.Data.pdb
 C:\Users\joser\Desktop\Asp.net-Layers-master (1)\Asp.net-Layers-master\SantaMarta.Web\SantaMarta.Data\bin\Debug\SantaMarta.Data.dll
 C:\Users\joser\Desktop\Asp.net-Layers-master (1)\Asp.net-Layers-master\SantaMarta.Web\SantaMarta.Data\bin\Debug\SantaMarta.Data.pdb
 C:\Users\joser\Desktop\Asp.net-Layers-master (1)\Asp.net-Layers-master\SantaMarta.Web\SantaMarta.Data\obj\Debug\SantaMarta.Data.csprojResolveAssemblyReference.cache
@@ -17,3 +13,7 @@ C:\Users\Carrillo\Documents\GitHub\Asp.net-Layers\SantaMarta.Web\SantaMarta.Data
 C:\Users\Carrillo\Documents\GitHub\Asp.net-Layers\SantaMarta.Web\SantaMarta.Data\bin\Debug\SantaMarta.Data.pdb
 C:\Users\Carrillo\Documents\GitHub\Asp.net-Layers\SantaMarta.Web\SantaMarta.Data\obj\Debug\SantaMarta.Data.dll
 C:\Users\Carrillo\Documents\GitHub\Asp.net-Layers\SantaMarta.Web\SantaMarta.Data\obj\Debug\SantaMarta.Data.pdb
+C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.Data\bin\Debug\SantaMarta.Data.dll
+C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.Data\bin\Debug\SantaMarta.Data.pdb
+C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.Data\obj\Debug\SantaMarta.Data.dll
+C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.Data\obj\Debug\SantaMarta.Data.pdb

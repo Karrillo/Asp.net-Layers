@@ -64,6 +64,12 @@
     <Reference Include="Npgsql.EntityFramework, Version=2.2.7.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
       <HintPath>..\packages\Npgsql.EntityFramework.2.2.7\lib\net45\Npgsql.EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="PdfSharp, Version=1.32.3057.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp.1.32.3057.0\lib\net20\PdfSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp.Charting, Version=1.32.3057.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp.1.32.3057.0\lib\net20\PdfSharp.Charting.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -157,6 +163,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountsController.cs" />
+    <Compile Include="Controllers\AssetsLiabilitiesController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\ClientsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -164,6 +171,9 @@
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\ProductsSMController.cs" />
     <Compile Include="Controllers\ProvidersController.cs" />
+    <Compile Include="Controllers\PurchasesController.cs" />
+    <Compile Include="Controllers\SalesController.cs" />
+    <Compile Include="Controllers\SubCategoriesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -1022,6 +1032,10 @@
     <Content Include="Scripts\Charts\Inline.js" />
     <Content Include="Scripts\Charts\Morris-menu.js" />
     <Content Include="Scripts\Charts\Morris.js" />
+    <Content Include="Scripts\Daterangepicker\daterangepicker.min.css" />
+    <Content Include="Scripts\Daterangepicker\index.js" />
+    <Content Include="Scripts\Daterangepicker\jquery-3.2.1.min.js" />
+    <Content Include="Scripts\Daterangepicker\daterangepicker.min.js" />
     <Content Include="Scripts\Documentation\Documentation-menu.js" />
     <Content Include="Scripts\Elements\Buttons-menu.js" />
     <Content Include="Scripts\Elements\General-menu.js" />
@@ -1054,6 +1068,7 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Scripts\Daterangepicker\moment.min.js" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
@@ -1134,6 +1149,19 @@
     <Content Include="Views\Categories\Index.cshtml" />
     <Content Include="Views\Clients\CreateCP.cshtml" />
     <Content Include="Views\Providers\CreatePC.cshtml" />
+    <Content Include="Views\AssetsLiabilities\Index.cshtml" />
+    <Content Include="Views\SubCategories\Create.cshtml" />
+    <Content Include="Views\SubCategories\Edit.cshtml" />
+    <Content Include="Views\SubCategories\Delete.cshtml" />
+    <Content Include="Views\Categories\Create.cshtml" />
+    <Content Include="Views\Categories\Edit.cshtml" />
+    <Content Include="Views\Categories\Delete.cshtml" />
+    <Content Include="Views\AssetsLiabilities\Details.cshtml" />
+    <Content Include="Views\AssetsLiabilities\Create.cshtml" />
+    <Content Include="Views\AssetsLiabilities\Edit.cshtml" />
+    <Content Include="Views\AssetsLiabilities\Delete.cshtml" />
+    <Content Include="Views\Sales\Index.cshtml" />
+    <Content Include="Views\Purchases\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

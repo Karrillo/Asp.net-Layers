@@ -17,22 +17,22 @@ namespace SantaMarta.DataAccess.CategoryAccess
 
         public Categories GetById(int id)
         {
-            return null;
+            return db.View_Category(id);
         }
 
-        public int Update(Categories user)
+        public int Update(Categories category)
         {
-            return 0;
+            return db.Update_Category(category);
         }
 
-        public int Create(Categories user)
+        public int Create(Categories category)
         {
-            return 0;
+            return db.Insert_Category(category);
         }
 
         public int Delete(int id)
         {
-            return 0;
+            return db.Delete_Category(id);
         }
     }
 }

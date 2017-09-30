@@ -54,7 +54,7 @@
 /*Time for some hover effects*/
 /*We will apply the hover effect the the lineage of the element also*/
 .tree li a:hover, .tree li a:hover + ul li a {
-    background: #b2b1b1;
+    background: #d1d1d1;
     color: #ffffff;
     border: 1px solid #00a65a;
 }

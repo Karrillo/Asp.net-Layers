@@ -528,7 +528,7 @@ namespace SantaMarta.DataAccess.Entity
 
             return this.Database.ExecuteSqlCommand("select * from Insert_Category (@name)", nameParameter);
         }
-        public virtual int Update_Account(Categories categories)
+        public virtual int Update_Category(Categories categories)
         {
             var nameParameter = categories.Name != null ?
                 new Npgsql.NpgsqlParameter("name", categories.Name) :
@@ -550,16 +550,26 @@ namespace SantaMarta.DataAccess.Entity
         {
             return this.Database.SqlQuery<Categories>("select * from View_Categories ()").ToList();
         }
+        public virtual Categories View_Category(Int64 IDCategory)
+        {
+            var IDCategoryParameter =
+               new Npgsql.NpgsqlParameter("IDCategory", IDCategory);
+
+            return this.Database.SqlQuery<Categories>("select * from View_Category (@IDCategory)", IDCategoryParameter).FirstOrDefault();
+        }
         #endregion
         //subcategories
         #region SubCategories
         public virtual int Insert_SubCategory(SubCategories subcategories)
         {
-            var nameParameter = subcategories.Name != null ?
-                new Npgsql.NpgsqlParameter("name", subcategories.Name) :
-                new Npgsql.NpgsqlParameter("name", typeof(string));
+            var NameParameter = subcategories.Name != null ?
+                new Npgsql.NpgsqlParameter("Name", subcategories.Name) :
+                new Npgsql.NpgsqlParameter("Name", typeof(string));
 
-            return this.Database.ExecuteSqlCommand("select * from Insert_SubCategory (@name)", nameParameter);
+            var IDCategoryParameter =
+                new Npgsql.NpgsqlParameter("IDCategory", subcategories.IdCategory);
+
+            return this.Database.ExecuteSqlCommand("select * from Insert_SubCategory (@Name, @IDCategory)", NameParameter, IDCategoryParameter);
         }
         public virtual int Update_SubCategory(SubCategories subcategories)
         {
@@ -586,6 +596,13 @@ namespace SantaMarta.DataAccess.Entity
         public virtual List<SubCategories> View_SubCategories()
         {
             return this.Database.SqlQuery<SubCategories>("select * from View_SubCategories ()").ToList();
+        }
+        public virtual SubCategories View_SubCategory(Int64 IDSubCategory)
+        {
+            var IDSubCategoryParameter =
+               new Npgsql.NpgsqlParameter("IDSubCategory", IDSubCategory);
+
+            return this.Database.SqlQuery<SubCategories>("select * from View_SubCategory (@IDSubCategory)", IDSubCategoryParameter).FirstOrDefault();
         }
         #endregion
         //assetsliabilities

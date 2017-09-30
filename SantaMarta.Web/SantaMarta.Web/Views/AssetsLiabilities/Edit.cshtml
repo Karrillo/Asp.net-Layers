@@ -1,0 +1,116 @@
+﻿@model SantaMarta.Data.ActivosPasivos
+
+@{
+    Layout = null;
+    ViewBag.Title = "Edit";
+}
+
+@Styles.Render("~/AdminPacket/plugins/icheck/css")
+@Styles.Render("~/AdminPacket/bootstrap/css")
+@Styles.Render("~/AdminPacket/plugins/datepicker/css")
+@Scripts.Render("~/AdminPacket/plugins/jquery/js")
+@Scripts.Render("~/AdminPacket/bootstrap/js")
+@Scripts.Render("~/AdminPacket/plugins/slimscroll/js")
+@Scripts.Render("~/AdminPacket/plugins/fastclick/js")
+@Scripts.Render("~/scripts/Shared/_Layout")
+@Scripts.Render("~/AdminPacket/dist/js")
+@Scripts.Render("~/AdminPacket/plugins/datepicker/js")
+@Scripts.Render("~/AdminPacket/plugins/icheck/js")
+
+<script src="~/scripts/jquery.validate.min.js"></script>
+<script src="~/scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+@*modal*@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title" id="myModalLabel">Modificar Movimiento</h4>
+</div>
+
+<div class="modal-body">
+
+    @using (Ajax.BeginForm("Edit", "ActivosPasivos", null, new AjaxOptions
+    {
+        HttpMethod = "POST",
+        Url = Url.Action("Edit", "ActivosPasivos"),
+        UpdateTargetId = "modal-content",
+        OnSuccess = "closeModalEdit",
+        InsertionMode = InsertionMode.Replace
+    },
+                                                                 new { @class = "form-horizontal", role = "form", id = "frmCrear" }))
+    {
+
+        @Html.AntiForgeryToken()
+        //textbox
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="box-body">
+            Fecha:
+            @Html.TextBoxFor(model => model.Fecha, new { @class = "form-control", id = "datepicker", placeholder = "Fecha: MM/DD/YYYY" })
+            @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
+            <br>
+            N° Documento:
+            @Html.EditorFor(model => model.Numero, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Nº Documento" } })
+            @Html.ValidationMessageFor(model => model.Numero, "", new { @class = "text-danger" })
+            <br>
+            Nombre:
+            @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Nombre" } })
+            @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+            <br>
+            <p>Tipo de Transferencia</p>
+            @Html.RadioButtonFor(model => model.Tipo, false) Ingreso
+            <br>
+            @Html.RadioButtonFor(model => model.Tipo, true) Gasto
+            <br>
+            @Html.ValidationMessageFor(model => model.Tipo, "", new { @class = "text-danger" })
+            <br>
+            Monto:
+            @Html.EditorFor(model => model.Monto, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Monto" } })
+            @Html.ValidationMessageFor(model => model.Monto, "", new { @class = "text-danger" })
+            <br>
+            Descripcion:
+            @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Descripcion" } })
+            @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+            <br>
+            Factura:
+            @Html.DropDownList("IDFactura", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.IDFactura, "", new { @class = "text-danger" })
+            <br>
+            Categoria:
+            @Html.DropDownList("IDCategoria", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.IDCategoria, "", new { @class = "text-danger" })
+            <br>
+            Cuenta:
+            @Html.DropDownList("IDCuenta", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.IDCuenta, "", new { @class = "text-danger" })
+            <br>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            <input id="btnCreate" type="submit" value="Guardar" class="btn btn-success" />
+        </div>
+    }
+</div>
+
+<script>
+    $(function () {
+        $('#datepicker').datepicker();
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('input').iCheck({
+            radioClass: 'iradio_flat'
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('input').iCheck({
+            radioClass: 'iradio_flat-green'
+        });
+    });
+</script>

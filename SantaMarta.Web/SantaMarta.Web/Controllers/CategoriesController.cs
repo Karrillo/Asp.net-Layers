@@ -1,6 +1,9 @@
 ﻿using SantaMarta.Bussines.CategoriesBussines;
 using SantaMarta.Bussines.SubCategoriesBussines;
+using SantaMarta.Data.Models.Categories;
+using System;
 using System.Linq;
+using System.Net;
 using System.Web.Mvc;
 
 namespace SantaMarta.Web.Controllers
@@ -26,7 +29,7 @@ namespace SantaMarta.Web.Controllers
         // GET: Categories/Create
         public ActionResult Create()
         {
-            return View();
+            return PartialView();
         }
 
         // POST: Categories/Create
@@ -35,20 +38,38 @@ namespace SantaMarta.Web.Controllers
         {
             try
             {
-                // TODO: Add insert logic here
+                Categories category = new Categories();
 
-                return RedirectToAction("Index");
+                category.Name = collection["Name"];
+
+                categoriesB.Create(category);
+
+                return Json(new { success = true });
             }
-            catch
+            catch (InvalidCastException e)
             {
-                return View();
+                Console.WriteLine("IOException source: {0}", e.Source);
+
+                return PartialView(collection);
             }
         }
 
         // GET: Categories/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            if (id == 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var category = categoriesB.GetById(id);
+
+            if (category == null)
+            {
+                return HttpNotFound();
+            }
+
+            return PartialView(category);
         }
 
         // POST: Categories/Edit/5
@@ -57,20 +78,30 @@ namespace SantaMarta.Web.Controllers
         {
             try
             {
-                // TODO: Add update logic here
+                if (ModelState.IsValid)
+                {
 
-                return RedirectToAction("Index");
+                    Categories category = new Categories();
+
+                    category.Name = collection["Name"];
+                    category.IDCategory = id;
+
+                    categoriesB.Update(category);
+
+                }
+
+                return Json(new { success = true });
             }
             catch
             {
-                return View();
+                return PartialView(collection);
             }
         }
 
         // GET: Categories/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            return PartialView();
         }
 
         // POST: Categories/Delete/5
@@ -80,12 +111,12 @@ namespace SantaMarta.Web.Controllers
             try
             {
                 // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
+                categoriesB.Delete(id);
+                return Json(new { success = true });
             }
             catch
             {
-                return View();
+                return PartialView();
             }
         }
     }
