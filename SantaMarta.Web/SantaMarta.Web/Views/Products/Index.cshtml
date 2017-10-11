@@ -7,10 +7,10 @@
 }
 @Styles.Render("~/AdminPacket/plugins/datatables/css")
 @Styles.Render("~/AdminPacket/plugins/select2/css")
-@*@if (Session["Nickname"] == null)
+@if (Session["users"] == null)
     {
         Response.Redirect("~/Login/Index");
-    }*@
+    }
 @*Boton ingresar nuevo*@
 <div class="box-header">
     <a class="btn btn-success btn-lg pull-right" data-target="#modal-crear" data-toggle="modal" href="/Products/Create">

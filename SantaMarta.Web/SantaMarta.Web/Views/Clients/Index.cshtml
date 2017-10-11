@@ -6,7 +6,7 @@
     @Scripts.Render("~/scripts/Tables/Data/menu")
 }
 @Styles.Render("~/AdminPacket/plugins/datatables/css")
-@if (Session["Nickname"] == null)
+@if (Session["users"] == null)
 {
     Response.Redirect("~/Login/Index");
 

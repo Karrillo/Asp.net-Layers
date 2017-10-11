@@ -1,1 +1,49 @@
-﻿
+﻿@model SantaMarta.Data.Store_Procedures.AssetsLiabilitiesDetails
+@{
+    Layout = null;
+    ViewBag.Title = "Detalles";
+}
+
+@*modal*@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h3 class="modal-title" id="myModalLabel">Informacion del Movimiento</h3>
+</div>
+<div class="modal-body">
+    <div class="box-body">
+        <label> Usuario: </label>
+        @Html.DisplayFor(model => model.NameUser)
+        <br>
+        <label> Numero de Documento:</label>
+        @Html.DisplayFor(model => model.Code)
+        <br>
+        <label> A Nombre: </label>
+        @Html.DisplayFor(model => model.Name)
+        <br>
+        <label> Descripcion: </label>
+        @Html.DisplayFor(model => model.Description)
+        <br>
+        <label> Tipo: </label>
+        @Html.DisplayFor(model => model.Type)
+        <br>
+        <label> Monto: </label>
+        @Html.DisplayFor(model => model.Rode)
+        <br>
+        <label> Cuenta: </label>
+        @Html.DisplayFor(model => model.NameAccount)
+        <br>
+        <label> Categoria: </label>
+        @Html.DisplayFor(model => model.NameCategory)
+        <br>
+        <label> Sub-Categoria: </label>
+        @Html.DisplayFor(model => model.NameSubCategory)
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+    </div>
+</div>
+<script src="~/scripts/jquery.validate.min.js"></script>
+<script src="~/scripts/jquery.validate.unobtrusive.min.js"></script>
+

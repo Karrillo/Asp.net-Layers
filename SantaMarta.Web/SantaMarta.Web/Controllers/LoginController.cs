@@ -21,7 +21,7 @@ namespace SantaMarta.Web.Controllers
             var userLogin = userB.Check(nickname, password);
             if (userLogin != null)
             {
-                Session["nickname"] = userLogin.Nickname;
+                Session["users"] = userLogin;
                 if (userLogin.Type == true)
                 {
                     Session["type"] = userLogin.Type;

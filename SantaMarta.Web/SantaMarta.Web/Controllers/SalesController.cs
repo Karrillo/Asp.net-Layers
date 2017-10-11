@@ -1,4 +1,9 @@
-﻿using System;
+﻿using SantaMarta.Bussines.AssetsLiabilitiesBussines;
+using SantaMarta.Bussines.ClientsBussines;
+using SantaMarta.Bussines.DetailsBussines;
+using SantaMarta.Bussines.ProductsBussines;
+using SantaMarta.Bussines.SalesBussines;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +13,12 @@ namespace SantaMarta.Web.Controllers
 {
     public class SalesController : Controller
     {
+        SalesB saleB = new SalesB();
+        AssetsLiabilitiesB assetsLiabilitiesB = new AssetsLiabilitiesB();
+        ClientsB clientsB = new ClientsB();
+        ProductsB productsB = new ProductsB();
+        DetailsB details = new DetailsB();
+
         // GET: Sales
         public ActionResult Index()
         {
@@ -73,6 +84,27 @@ namespace SantaMarta.Web.Controllers
         // POST: Sales/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
+        {
+            try
+            {
+                // TODO: Add delete logic here
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        public ActionResult Assets(int id)
+        {
+            return View();
+        }
+
+        // POST: Sales/Delete/5
+        [HttpPost]
+        public ActionResult Assets(int id, FormCollection collection)
         {
             try
             {

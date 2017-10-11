@@ -1070,6 +1070,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Scripts\Daterangepicker\moment.min.js" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
+    <Content Include="Scripts\jquery-1.7.1.js" />
+    <Content Include="Scripts\jquery-1.7.1.min.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.js" />
@@ -1158,10 +1160,13 @@
     <Content Include="Views\Categories\Delete.cshtml" />
     <Content Include="Views\AssetsLiabilities\Details.cshtml" />
     <Content Include="Views\AssetsLiabilities\Create.cshtml" />
-    <Content Include="Views\AssetsLiabilities\Edit.cshtml" />
     <Content Include="Views\AssetsLiabilities\Delete.cshtml" />
     <Content Include="Views\Sales\Index.cshtml" />
     <Content Include="Views\Purchases\Index.cshtml" />
+    <Content Include="Views\Sales\Create.cshtml" />
+    <Content Include="Views\Sales\Delete.cshtml" />
+    <Content Include="Views\Sales\Assets.cshtml" />
+    <Content Include="Views\Sales\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

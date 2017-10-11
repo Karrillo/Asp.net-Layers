@@ -12,6 +12,7 @@ namespace SantaMarta.Web.Controllers
     {
         CategoriesB categoriesB = new CategoriesB();
         SubCategoriesB subCategoriesB = new SubCategoriesB();
+
         // GET: Categories
         public ActionResult Index()
         {

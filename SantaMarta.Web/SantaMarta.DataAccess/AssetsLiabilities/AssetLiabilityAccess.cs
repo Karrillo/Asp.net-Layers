@@ -3,6 +3,7 @@ using SantaMarta.Data.Models.AssetsLiabilities;
 using SantaMarta.DataAccess.Entity;
 using System;
 using System.Linq;
+using SantaMarta.Data.Store_Procedures;
 
 namespace SantaMarta.DataAccess.AssetLiabilityAccess
 {
@@ -35,9 +36,14 @@ namespace SantaMarta.DataAccess.AssetLiabilityAccess
         {
             return db.Delete_AssetLiability(id);
         }
-        public decimal TotalSum(string dateStart, string dateEnd, bool type)
+        public Decimal? TotalSum(string dateStart, string dateEnd, bool type)
         {
-            return db.Date_Sum_AssetLiability(dateStart, dateEnd, type);
+            Decimal? total = db.Date_Sum_AssetLiability(dateStart, dateEnd, type);
+            if (total == null)
+            {
+                total = 0;
+            }
+            return total;
         }
         public List<AssetsLiabilities> GetAllDate(String dateStart, String dateEnd)
         {

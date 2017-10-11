@@ -6,7 +6,7 @@
 
 <link href="~/Scripts/Tree/tree.css" rel="stylesheet" />
 
-@if (Session["Nickname"] == null)
+@if (Session["users"] == null)
 {
     Response.Redirect("~/Login/Index");
 

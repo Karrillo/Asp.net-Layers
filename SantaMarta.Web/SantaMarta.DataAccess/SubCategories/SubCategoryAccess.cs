@@ -16,9 +16,20 @@ namespace SantaMarta.DataAccess.SubCategoryAccess
             return subCategories;
         }
 
+        public List<SubCategories> GetByIdAll(int id)
+        {
+            List<SubCategories> subCategories = db.View_SubCategoryByCategory(id).ToList();
+            return subCategories;
+        }
+
         public SubCategories GetById(int id)
         {
             return db.View_SubCategory(id);
+        }
+
+        public String GetByIdName(int id)
+        {
+            return db.View_CategoryName(id);
         }
 
         public int Update(SubCategories subcaterory)

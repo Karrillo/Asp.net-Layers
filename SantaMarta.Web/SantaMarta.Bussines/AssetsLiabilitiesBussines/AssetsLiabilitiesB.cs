@@ -1,4 +1,5 @@
 ﻿using SantaMarta.Data.Models.AssetsLiabilities;
+using SantaMarta.Data.Store_Procedures;
 using SantaMarta.DataAccess.AssetLiabilityAccess;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace SantaMarta.Bussines.AssetsLiabilitiesBussines
         {
             return assetsLiabilityAccess.Create(input);
         }
-        public decimal TotalSum(String dateStart, String dateEnd, Boolean type)
+        public Decimal? TotalSum(String dateStart, String dateEnd, Boolean type)
         {
             return assetsLiabilityAccess.TotalSum(dateStart, dateEnd, type);
         }

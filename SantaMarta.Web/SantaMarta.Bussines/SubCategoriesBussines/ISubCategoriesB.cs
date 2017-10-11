@@ -11,5 +11,7 @@ namespace SantaMarta.Bussines.SubCategoriesBussines
         int Delete(int id);
         SubCategories GetById(int id);
         List<SubCategories> GetAll();
+        List<SubCategories> GetByIdAll(int id);
+        string GetByIdName(int id);
     }
 }
