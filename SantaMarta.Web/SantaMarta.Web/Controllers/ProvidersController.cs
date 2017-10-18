@@ -146,5 +146,25 @@ namespace SantaMarta.Web.Controllers
                 return PartialView();
             }
         }
+
+        public ActionResult CreatePC(int id)
+        {
+            return PartialView();
+        }
+
+        // POST: Clients/Delete/5
+        [HttpPost]
+        public ActionResult CreatePC(int id, FormCollection collection)
+        {
+            try
+            {
+                providersB.CreatePC(id);
+                return Json(new { success = true });
+            }
+            catch
+            {
+                return PartialView();
+            }
+        }
     }
 }

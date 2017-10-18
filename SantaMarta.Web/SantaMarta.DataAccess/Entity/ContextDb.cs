@@ -15,6 +15,7 @@ using SantaMarta.Data.Store_Procedures;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 
 namespace SantaMarta.DataAccess.Entity
@@ -133,6 +134,13 @@ namespace SantaMarta.DataAccess.Entity
                 SecondNameParameter, EmailParameter, PhoneParameter, CellPhoneParameter, AddressParameter, identificationParameter,
                 NameCompanyParameter, IdPersonParameter);
         }
+        public virtual int Insert_Client_Provider(Int64 IdClient)
+        {
+            var IdClientParameter =
+                new Npgsql.NpgsqlParameter("IdClient", IdClient);
+
+            return this.Database.ExecuteSqlCommand("select * from Insert_Client_Provider (@IdClient)", IdClientParameter);
+        }
         public virtual int Delete_Client(Int64 IdPerson)
         {
             var IdPersonParameter =
@@ -161,6 +169,13 @@ namespace SantaMarta.DataAccess.Entity
         public virtual List<All_Clients> All_Clients_Deleted()
         {
             return this.Database.SqlQuery<All_Clients>("select * from All_Clients_Deleted ()").ToList();
+        }
+        public virtual List<All_Clients> Seach_Client_Word(String name)
+        {
+            var nameParameter =
+                new Npgsql.NpgsqlParameter("Name", name);
+
+            return this.Database.SqlQuery<All_Clients>("select * from Seach_Client_Word (@Name)", nameParameter).ToList();
         }
         #endregion
         //porviders
@@ -253,6 +268,13 @@ namespace SantaMarta.DataAccess.Entity
                 "@CellPhone, @Email, @Address, @Identification, @NameCompany, @IDPerson)", NameParameter, FirstNameParameter,
                 SecondNameParameter, EmailParameter, PhoneParameter, CellPhoneParameter, AddressParameter, identificationParameter,
                 NameCompanyParameter, IdPersonParameter);
+        }
+        public virtual int Insert_Provider_Client(Int64 IdProvider)
+        {
+            var IdProviderParameter =
+                new Npgsql.NpgsqlParameter("IdProvider", IdProvider);
+
+            return this.Database.ExecuteSqlCommand("select * from Insert_Provider_Client (@IdProvider)", IdProviderParameter);
         }
         public virtual int Delete_Provider(Int64 IdPerson)
         {
@@ -514,7 +536,7 @@ namespace SantaMarta.DataAccess.Entity
 
             return this.Database.ExecuteSqlCommand("select * from Insert_Category (@name)", nameParameter);
         }
-        public virtual int Update_Account(Categories categories)
+        public virtual int Update_Category(Categories categories)
         {
             var nameParameter = categories.Name != null ?
                 new Npgsql.NpgsqlParameter("name", categories.Name) :
@@ -536,16 +558,26 @@ namespace SantaMarta.DataAccess.Entity
         {
             return this.Database.SqlQuery<Categories>("select * from View_Categories ()").ToList();
         }
+        public virtual Categories View_Category(Int64 IDCategory)
+        {
+            var IDCategoryParameter =
+               new Npgsql.NpgsqlParameter("IDCategory", IDCategory);
+
+            return this.Database.SqlQuery<Categories>("select * from View_Category (@IDCategory)", IDCategoryParameter).FirstOrDefault();
+        }
         #endregion
         //subcategories
         #region SubCategories
         public virtual int Insert_SubCategory(SubCategories subcategories)
         {
-            var nameParameter = subcategories.Name != null ?
-                new Npgsql.NpgsqlParameter("name", subcategories.Name) :
-                new Npgsql.NpgsqlParameter("name", typeof(string));
+            var NameParameter = subcategories.Name != null ?
+                new Npgsql.NpgsqlParameter("Name", subcategories.Name) :
+                new Npgsql.NpgsqlParameter("Name", typeof(string));
 
-            return this.Database.ExecuteSqlCommand("select * from Insert_SubCategory (@name)", nameParameter);
+            var IDCategoryParameter =
+                new Npgsql.NpgsqlParameter("IDCategory", subcategories.IdCategory);
+
+            return this.Database.ExecuteSqlCommand("select * from Insert_SubCategory (@Name, @IDCategory)", NameParameter, IDCategoryParameter);
         }
         public virtual int Update_SubCategory(SubCategories subcategories)
         {
@@ -569,6 +601,31 @@ namespace SantaMarta.DataAccess.Entity
         {
             return this.Database.SqlQuery<SubCategories>("select * from View_SubCategory ()").ToList();
         }
+        public virtual List<SubCategories> View_SubCategories()
+        {
+            return this.Database.SqlQuery<SubCategories>("select * from View_SubCategories ()").ToList();
+        }
+        public virtual SubCategories View_SubCategory(Int64 IDSubCategory)
+        {
+            var IDSubCategoryParameter =
+               new Npgsql.NpgsqlParameter("IDSubCategory", IDSubCategory);
+
+            return this.Database.SqlQuery<SubCategories>("select * from View_SubCategory (@IDSubCategory)", IDSubCategoryParameter).FirstOrDefault();
+        }
+        public virtual List<SubCategories> View_SubCategoryByCategory(Int64 IDSubCategory)
+        {
+            var IDSubCategoryParameter =
+               new Npgsql.NpgsqlParameter("IDSubCategory", IDSubCategory);
+
+            return this.Database.SqlQuery<SubCategories>("select * from View_SubCategoryByCategoty (@IDSubCategory)", IDSubCategoryParameter).ToList();
+        }
+        public virtual String View_CategoryName(Int64 IDSubCategory)
+        {
+            var IDSubCategoryParameter =
+               new Npgsql.NpgsqlParameter("IDSubCategory", IDSubCategory);
+
+            return this.Database.SqlQuery<String>("select * from View_CategoryName (@IDSubCategory)", IDSubCategoryParameter).FirstOrDefault();
+        }
         #endregion
         //assetsliabilities
         #region AssetsLiabilities
@@ -588,9 +645,8 @@ namespace SantaMarta.DataAccess.Entity
             var RodeParameter = 
                 new Npgsql.NpgsqlParameter("Rode", assetsLiabilities.Rode);
 
-            var CodeParameter = assetsLiabilities.Code != null ?
-                new Npgsql.NpgsqlParameter("Code", assetsLiabilities.Code) :
-                new Npgsql.NpgsqlParameter("Code", typeof(string));
+            var CodeParameter =
+                new Npgsql.NpgsqlParameter("Code", assetsLiabilities.Code);
 
             var DescriptionParameter = assetsLiabilities.Description != null ?
                 new Npgsql.NpgsqlParameter("Description", assetsLiabilities.Description) :
@@ -602,19 +658,12 @@ namespace SantaMarta.DataAccess.Entity
             var IdAccountParameter =
                 new Npgsql.NpgsqlParameter("IdAccount", assetsLiabilities.IdAccount);
 
-            var IdCategoryParameter =
-                new Npgsql.NpgsqlParameter("IdCategory", assetsLiabilities.IdCategory);
-
             var IdSubCategoryParameter =
                 new Npgsql.NpgsqlParameter("IdSubCategory", assetsLiabilities.IdSubCategory);
 
-            var IdInvoiceParameter =
-                new Npgsql.NpgsqlParameter("IdInvoice", assetsLiabilities.IdInvoice);
-
-            return this.Database.ExecuteSqlCommand("select * from Insert_AssetLiability (@CurrentDate, @Name, @Type, @Rode, " +
-                "@Code, @Description, @IdUser, @IdAccount, @IdCategory, @IdSubCategory, @IdInvoice)", CurrentDateParameter, NameParameter,
-                TypeParameter, RodeParameter, CodeParameter, DescriptionParameter, IdUserParameter, IdAccountParameter,
-                IdCategoryParameter, IdSubCategoryParameter, IdInvoiceParameter);
+            return this.Database.ExecuteSqlCommand("select * from Insert_AssetLiability (@CurrentDate, @Code, @Rode, @Type, " +
+                "@Description, @Name, @IdAccount, @IdSubCategory, @IdUser)", CurrentDateParameter, CodeParameter, RodeParameter,
+                TypeParameter, DescriptionParameter, NameParameter, IdAccountParameter, IdSubCategoryParameter, IdUserParameter);
         }
         public virtual int Delete_AssetLiability(Int64 IDAssetLiability)
         {
@@ -634,22 +683,23 @@ namespace SantaMarta.DataAccess.Entity
         {
             return this.Database.SqlQuery<AssetsLiabilities>("select * from All_AssetsLiabilities ()").ToList();
         }
-        public virtual decimal Date_Sum_AssetLiability(string dateMax, string dateMin, bool type)
+        public virtual Decimal? Date_Sum_AssetLiability(String dateMax, String dateMin, Boolean type)
         {
-            var dateMaxParameter = dateMax != null ?
-                new Npgsql.NpgsqlParameter("dateMax", dateMax) :
-                new Npgsql.NpgsqlParameter("dateMax", typeof(string));
-
             var dateMinParameter = dateMin != null ?
                 new Npgsql.NpgsqlParameter("dateMin", dateMin) :
                 new Npgsql.NpgsqlParameter("dateMin", typeof(string));
 
-            var typeParameter =
+            var dateMaxParameter = dateMax != null ?
+                new Npgsql.NpgsqlParameter("dateMax", dateMax) :
+                new Npgsql.NpgsqlParameter("dateMax", typeof(string));
+
+            var typeParameter = 
                 new Npgsql.NpgsqlParameter("type", type);
+            return this.Database.SqlQuery<Nullable<decimal>>("select * from Date_Sum_AssetLiability (@dateMin, @dateMax, @type)", dateMinParameter, dateMaxParameter, typeParameter).FirstOrDefault();
 
-            return this.Database.SqlQuery<decimal>("select * from Date_Sum_AssetLiability (@dateMax, @dateMin, @type)", dateMaxParameter, dateMinParameter, typeParameter).FirstOrDefault();
+            //return this.Database.SqlQuery<Nullable<decimal>>("select * from Date_Sum_AssetLiability (@dateMin, @dateMax, @type)", dateMinParameter, dateMaxParameter, typeParameter).FirstOrDefault();
         }
-        public virtual List<AssetsLiabilities> Date_AssetLiability(string dateMax, string dateMin)
+        public virtual List<AssetsLiabilities> Date_AssetLiability(String dateMax, String dateMin)
         {
             var dateMaxParameter = dateMax != null ?
                 new Npgsql.NpgsqlParameter("dateMax", dateMax) :
@@ -659,7 +709,7 @@ namespace SantaMarta.DataAccess.Entity
                 new Npgsql.NpgsqlParameter("dateMin", dateMin) :
                 new Npgsql.NpgsqlParameter("dateMin", typeof(string));
 
-            return this.Database.SqlQuery<AssetsLiabilities>("select * from Date_AssetLiability (@dateMax, @dateMin, @type)", dateMaxParameter, dateMinParameter).ToList();
+            return this.Database.SqlQuery<AssetsLiabilities>("select * from Date_AssetLiability (@dateMin, @dateMax)", dateMinParameter, dateMaxParameter).ToList();
         }
         public virtual List<Sum_Account_Category> Sum_Account()
         {

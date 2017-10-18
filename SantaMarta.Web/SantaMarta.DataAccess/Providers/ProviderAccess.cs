@@ -26,7 +26,10 @@ namespace SantaMarta.DataAccess.ProviderAccess
         {
             return db.Update_Provider(personProvider, id);
         }
-
+        public int CreatePC(int id)
+        {
+            return db.Insert_Provider_Client(id);
+        }
         public int Create(Persons personProvider)
         {
             return db.Insert_Provider(personProvider);

@@ -8,12 +8,12 @@ namespace SantaMarta.Bussines.CategoriesBussines
     {
         private CategoryAccess categoryAccess = new CategoryAccess();
 
-        public bool Create(Categories input)
+        public int Create(Categories input)
         {
             return categoryAccess.Create(input);
         }
 
-        public bool Delete(int id)
+        public int Delete(int id)
         {
             return categoryAccess.Delete(id);
         }
@@ -28,7 +28,7 @@ namespace SantaMarta.Bussines.CategoriesBussines
             return categoryAccess.GetById(id);
         }
 
-        public bool Update(Categories input)
+        public int Update(Categories input)
         {
             return categoryAccess.Update(input);
         }

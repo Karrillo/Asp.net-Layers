@@ -1,0 +1,172 @@
+﻿@model IList<SantaMarta.Data.Models.Categories.Categories>
+
+@{
+    ViewBag.Title = "Categorias";
+}
+
+<link href="~/Scripts/Tree/tree.css" rel="stylesheet" />
+
+@if (Session["users"] == null)
+{
+    Response.Redirect("~/Login/Index");
+
+}
+
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading">Lista de Categorias</div>
+        <div class="panel-body">
+
+            @using (Html.BeginForm())
+            {
+                var categories = ViewBag.Categories;
+                var subCategories = ViewBag.SubCategories;
+                <div class="box-header">
+                    <a class="btn btn-success btn-lg pull-left" data-target="#modal-createCategory" data-toggle="modal" href="/Categories/Create">
+                        <span class="glyphicon glyphicon-plus"></span> Nueva Categoria
+                    </a>
+                </div>
+                <div class="tree">
+                    @for (int i = 0; i < categories.Count; i++)
+                    {
+                        <ul>
+                            <li>
+                                <a href="#">
+                                    <label for=@i>
+                                        <strong>Categorias:</strong>
+                                        @categories[i].Name
+                                    </label>
+                                </a>
+                                <a class="btn btn-success glyphicon glyphicon-plus" data-target="#modal-createSubCategory" data-toggle="modal" href="@Url.Action("Create", "SubCategories", new { id = categories[i].IDCategory})"></a>
+                                <a class="btn btn-primary glyphicon glyphicon-pencil" data-target="#modal-editCategory" data-toggle="modal" href="@Url.Action("Edit", "Categories", new { id = categories[i].IDCategory})"></a>
+                                <a class="btn btn-danger glyphicon glyphicon-minus" data-target="#modal-deleteCategory" data-toggle="modal" href="@Url.Action("Delete", "Categories", new { id = categories[i].IDCategory})"></a>
+                                <ul>
+                                    @for (int j = 0; j < subCategories.Count; j++)
+                                    {
+                                        if (categories[i].IDCategory == subCategories[j].IdCategory)
+                                        {
+                                            int k = 1 + j;
+                                            <li>
+                                                <a href="#">
+                                                    <label for=@i@j>
+                                                        <strong>Sub-Categoria @(k):</strong>
+                                                        @subCategories[j].Name
+                                                    </label>
+                                                </a>
+                                                <a class="btn btn-primary glyphicon glyphicon-pencil" data-target="#modal-editSubCategory" data-toggle="modal" href="@Url.Action("Edit", "SubCategories", new { id = subCategories[j].IDSubCategory})"></a>
+                                                <a class="btn btn-danger glyphicon glyphicon-minus" data-target="#modal-deleteSubCategory" data-toggle="modal" href="@Url.Action("Delete", "SubCategories", new { id = subCategories[j].IDSubCategory})"></a>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            </li>
+                        </ul>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@*modal*@
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-createCategory" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+@*modal 2*@
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-editCategory" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+@*modal 3*@
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-deleteCategory" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+@*modal 4*@
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-createSubCategory" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+@*modal 5*@
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-editSubCategory" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+@*modal 6*@
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-deleteSubCategory" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/Tree/tree.js"></script>
+
+@section Scripts {
+    <script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script>
+        $('body').on('hidden.bs.modal', '.modal', function () {
+            $(this).removeData('bs.modal');
+        });
+    </script>
+}
+
+<script>
+    function closeModalCreateCategory(data) {
+        if (data.success) {
+            $('#modal-createCategory').modal('hide');
+            window.location.href = "/Categories/Index";
+        }
+    }
+</script>
+<script>
+    function closeModalEditCategory(data) {
+        if (data.success) {
+            $('#modal-editarCategory').modal('hide');
+            window.location.href = "/Categories/Index";
+        }
+    }
+</script>
+<script>
+    function closeModalDeleteCategory(data) {
+        if (data.success) {
+            $('#modal-deleteCategory').modal('hide');
+            window.location.href = "/Categories/Index";
+        }
+    }
+</script>
+<script>
+    function closeModalCreateSubCategory(data) {
+        if (data.success) {
+            $('#modal-createSubCategory').modal('hide');
+            window.location.href = "/Categories/Index";
+        }
+    }
+</script>
+<script>
+    function closeModalEditSubCategory(data) {
+        if (data.success) {
+            $('#modal-editarSubCategory').modal('hide');
+            window.location.href = "/Categories/Index";
+        }
+    }
+</script>
+<script>
+    function closeModalDeleteSubCategory(data) {
+        if (data.success) {
+            $('#modal-deleteSubCategory').modal('hide');
+            window.location.href = "/Categories/Index";
+        }
+    }
+</script>

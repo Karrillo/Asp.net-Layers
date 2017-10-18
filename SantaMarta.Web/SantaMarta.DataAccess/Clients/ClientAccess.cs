@@ -21,12 +21,18 @@ namespace SantaMarta.DataAccess.ClientAccess
         {
             return db.View_Client(id);
         }
-
+        public List<All_Clients> GetByName(String name)
+        {
+            return db.Seach_Client_Word(name);
+        }
         public int Update(Persons personClient, Int64 id)
         {
             return db.update_Client(personClient, id);
         }
-
+        public int CreateCP(int id)
+        {
+            return db.Insert_Client_Provider(id);
+        }
         public int Create(Persons personClient)
         {
             return db.Insert_Client(personClient);

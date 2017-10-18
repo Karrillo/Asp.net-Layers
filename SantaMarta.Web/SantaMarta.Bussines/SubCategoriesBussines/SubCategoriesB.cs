@@ -8,12 +8,12 @@ namespace SantaMarta.Bussines.SubCategoriesBussines
     {
         private SubCategoryAccess subCategoryAccess = new SubCategoryAccess();
 
-        public bool Create(SubCategories input)
+        public int Create(SubCategories input)
         {
             return subCategoryAccess.Create(input);
         }
 
-        public bool Delete(int id)
+        public int Delete(int id)
         {
             return subCategoryAccess.Delete(id);
         }
@@ -22,13 +22,21 @@ namespace SantaMarta.Bussines.SubCategoriesBussines
         {
             return subCategoryAccess.GetAll();
         }
+        public List<SubCategories> GetByIdAll(int id)
+        {
+            return subCategoryAccess.GetByIdAll(id);
+        }
 
         public SubCategories GetById(int id)
         {
             return subCategoryAccess.GetById(id);
         }
+        public string GetByIdName(int id)
+        {
+            return subCategoryAccess.GetByIdName(id);
+        }
 
-        public bool Update(SubCategories input)
+        public int Update(SubCategories input)
         {
             return subCategoryAccess.Update(input);
         }

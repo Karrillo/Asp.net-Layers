@@ -1,20 +1,16 @@
 ﻿@model SantaMarta.Data.Models.Accounts.Accounts
-
 @{
     Layout = null;
     ViewBag.Title = "Edit";
 }
-
 @*modal*@
-<div style="padding: 20px 30px; background: #00a65a; z-index: 999999; font-size: 16px; font-weight: 600;" class="modal-header">
+<div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
     <h4 class="modal-title" id="myModalLabel">Modificar Cuenta</h4>
 </div>
-
 <div class="modal-body">
-
     @using (Ajax.BeginForm("Edit", "Accounts", null, new AjaxOptions
     {
 
@@ -25,7 +21,7 @@
         InsertionMode = InsertionMode.Replace
 
     },
-        new { @class = "form-horizontal", role = "form", id = "frmEdit" }))
+                new { @class = "form-horizontal", role = "form", id = "frmEdit" }))
     {
 
         @Html.AntiForgeryToken()
@@ -45,7 +41,6 @@
         </div>
     }
 </div>
-
 <script src="~/scripts/jquery.validate.min.js"></script>
 <script src="~/scripts/jquery.validate.unobtrusive.min.js">
 <

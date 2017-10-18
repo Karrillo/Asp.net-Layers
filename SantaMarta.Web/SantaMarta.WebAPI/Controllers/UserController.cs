@@ -58,10 +58,10 @@ namespace SantaMarta.WebAPI.Controllers
 
             userCheck = userB.Check(users.Nickname,users.Password);
 
-            if (userCheck == null)
-            {
-                return NotFound();
-            }
+            //if (userCheck == null)
+            //{
+            //    return NotFound();
+            //}
 
             return Ok(userCheck);
         }

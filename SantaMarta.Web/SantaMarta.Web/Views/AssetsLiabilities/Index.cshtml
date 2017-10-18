@@ -1,0 +1,243 @@
+﻿@model IEnumerable<SantaMarta.Data.Models.AssetsLiabilities.AssetsLiabilities>
+
+@{
+    ViewBag.Title = "Movimientos";
+}
+
+@section Menu {
+    @Scripts.Render("~/scripts/Tables/Data/menu")
+}
+
+@Styles.Render("~/AdminPacket/plugins/datatables/css")
+
+<link href="~/Scripts/Daterangepicker/daterangepicker.min.css" rel="stylesheet" />
+
+
+@if (Session["users"] == null)
+{
+    Response.Redirect("~/Login/Index");
+
+}
+
+
+@using (Html.BeginForm("Index", "AssetsLiabilities", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-lg-2 col-xs-6">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                <input type="text" class="form-control" name="value_from_start_date" data-datepicker="separateRange" placeholder="YYYY/MM/DD" />
+            </div>
+        </div>
+
+        <div class="col-lg-2 col-xs-6">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                <input type="text" class="form-control" name="value_from_end_date" data-datepicker="separateRange" placeholder="YYYY/MM/DD" />
+                <div class="input-group-btn">
+                    <button type="submit" class="btn btn-success ion ion-android-search"></button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 col-xs-12 pull-right">
+            <a class="btn btn-success ion ion-stats-bars pull-right" data-target="#modal-crear" data-toggle="modal" href="/AssetsLiabilities/Create"> Nuevo Movimiento</a>
+        </div>
+    </div>
+}
+
+<div class="box-header row">
+    <a class="btn btn-info fa fa-file-pdf-o pull-right col-lg-2 col-sm-12" href="/AssetsLiabilities/createPdf"> Descargar Pdf</a>
+</div>
+
+<div class="row">
+
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-aqua"><i class="ion ion-stats-bars"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Movimientos: @ViewBag.Movimientos</span>
+                <span class="info-box-number"> @ViewBag.Fecha</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-green"><i class="ion ion-arrow-graph-up-right"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Ingresos</span>
+                <span class="info-box-number">₡ @ViewBag.assets</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix visible-sm-block"></div>
+
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-red"><i class="ion ion-arrow-graph-down-right"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Gastos</span>
+                <span class="info-box-number">₡ @ViewBag.liabilities</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-yellow"><i class="ion ion-ios-pie"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Total</span>
+                <span class="info-box-number">₡ @ViewBag.Total</span>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">Lista de Movimientos</h3>
+    </div>
+
+    <div class="box-body">
+        <table id="example1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Nº Documento</th>
+                    <th>Nombre</th>
+                    <th>Monto</th>
+                    @if (Session["Type"] != null)
+                    {
+                        <th>Acciones</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    if (item.State == true)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.CurrentDate)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Code)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Name)</td>
+
+                            @if (item.Type == true)
+                            {
+                                <td><p style="color:darkseagreen">+ @Html.DisplayFor(modelItem => item.Rode)</p></td>
+                            }
+                            else
+                            {
+                                <td><p style="color:red">- @Html.DisplayFor(modelItem => item.Rode)</p></td>
+                            }
+
+                            @if (Session["Type"] != null)
+                            {
+                                <td>
+                                    <a class="btn btn-danger glyphicon glyphicon-remove-sign" data-target="#modal-delete" data-toggle="modal" href="@Url.Action("Delete", "AssetsLiabilities", new { id = item.IDAssetLiability })"></a>
+                                    <a class="btn btn-info glyphicon glyphicon-file" data-target="#modal-details" data-toggle="modal" href="@Url.Action("Details", "AssetsLiabilities", new { id = item.IDAssetLiability })"></a>
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    <a class="btn btn-info glyphicon glyphicon-file" data-target="#modal-details" data-toggle="modal" href="@Url.Action("Details", "AssetsLiabilities", new { id = item.IDAssetLiability })"></a>
+                                </td>
+                            }
+                        </tr>
+                    }else{
+                        <tr>
+                            <td><p style="color:grey">Nula: @Html.DisplayFor(modelItem => item.CurrentDate)</p></td>
+                            <td><p style="color:grey">Nula: @Html.DisplayFor(modelItem => item.Code)</p></td>
+                            <td><p style="color:grey">Nula: @Html.DisplayFor(modelItem => item.Name)</p></td>
+                            <td><p style="color:grey">Nula: @Html.DisplayFor(modelItem => item.Rode)</p></td>
+                            <td>
+                                <a class="btn btn-info glyphicon glyphicon-file" data-target="#modal-details" data-toggle="modal" href="@Url.Action("Details", "AssetsLiabilities", new { id = item.IDAssetLiability })"></a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Nº Documento</th>
+                    <th>Nombre</th>
+                    <th>Monto</th>
+                    @if (Session["Type"] != null)
+                    {
+                        <th>Acciones</th>
+                    }
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-crear" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-delete" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-details" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/AdminPacket/plugins/datatables/js")
+    @Scripts.Render("~/scripts/Tables/Data")
+
+    <script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/Daterangepicker/moment.min.js"></script>
+    <script src="~/Scripts/Daterangepicker/daterangepicker.min.js"></script>
+    <script src="~/Scripts/Daterangepicker/index.js"></script>
+
+    <script>
+        $('body').on('hidden.bs.modal', '.modal', function () {
+            $(this).removeData('bs.modal');
+        });
+    </script>
+}
+
+<script>
+    function closeModalCreate(data) {
+        if (data.success) {
+            $('#modal-crear').modal('hide');
+            window.location.href = "/AssetsLiabilities/Index";
+        }
+    }
+</script>
+
+<script>
+    function closeModalDelete(data) {
+        if (data.success) {
+            $('#modal-delete').modal('hide');
+            window.location.href = "/AssetsLiabilities/Index";
+        }
+    }
+</script>
+
+<script>
+    function closeModalDetails(data) {
+        if (data.success) {
+            $('#modal-details').modal('hide');
+            window.location.href = "/AssetsLiabilities/Index";
+        }
+    }
+</script>

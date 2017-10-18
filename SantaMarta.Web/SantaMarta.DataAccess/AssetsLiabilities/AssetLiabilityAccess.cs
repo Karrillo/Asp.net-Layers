@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using SantaMarta.Data.Models.AssetsLiabilities;
 using SantaMarta.DataAccess.Entity;
+using System;
+using System.Linq;
+using SantaMarta.Data.Store_Procedures;
 
 namespace SantaMarta.DataAccess.AssetLiabilityAccess
 {
@@ -10,27 +13,41 @@ namespace SantaMarta.DataAccess.AssetLiabilityAccess
 
         public List<AssetsLiabilities> GetAll()
         {
-            return null;
+            List<AssetsLiabilities> assetsLiabilities = db.All_AssetsLiabilities().ToList();
+            return assetsLiabilities;
         }
 
         public AssetsLiabilities GetById(int id)
         {
-            return null;
+            return db.View_AssetLiability(id);
         }
 
-        public bool Update(AssetsLiabilities user)
+        public int Update(AssetsLiabilities assetsLiabilities)
         {
-            return true;
+            return 0;
         }
 
-        public bool Create(AssetsLiabilities user)
+        public int Create(AssetsLiabilities assetsLiabilities)
         {
-            return true;
+            return db.Insert_AssetLiability(assetsLiabilities);
         }
 
-        public bool Delete(int id)
+        public int Delete(int id)
         {
-            return true;
+            return db.Delete_AssetLiability(id);
+        }
+        public Decimal? TotalSum(string dateStart, string dateEnd, bool type)
+        {
+            Decimal? total = db.Date_Sum_AssetLiability(dateStart, dateEnd, type);
+            if (total == null)
+            {
+                total = 0;
+            }
+            return total;
+        }
+        public List<AssetsLiabilities> GetAllDate(String dateStart, String dateEnd)
+        {
+            return db.Date_AssetLiability(dateStart, dateEnd);
         }
     }
 }

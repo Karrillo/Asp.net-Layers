@@ -1,0 +1,127 @@
+﻿
+@{
+    ViewBag.Title = "Factura";
+}
+
+<style>
+    hr {
+        display: block;
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+        margin-left: auto;
+        margin-right: auto;
+        border-style: inset;
+        border-width: 1px;
+    }
+</style>
+
+<div class="container">
+    <form>
+        <div class="form-group row">
+            <div class="col-lg-2 col-sm-12 pull-right">
+                <label>Fecha:</label>
+                <input class="form-control pull-left" id="ex1" type="text">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-lg-4 col-sm-12">
+                <label>Numero de Factura:</label>
+                <input class="form-control" id="ex2" type="text">
+            </div>
+            <div class="col-lg-8 col-sm-12">
+                <label>A Nombre:</label>
+                <input class="form-control" id="ex3" type="text">
+            </div>
+        </div>
+    </form>
+</div>
+<hr>
+<div class="container">
+    <form>
+        <div class="form-group row">
+            <div class="col-lg-2 col-sm-12">
+                <label>Codigo del Producto:</label>
+                <input class="form-control" id="ex2" type="text">
+            </div>
+            <div class="col-lg-5 col-sm-12">
+                <label>Nombre del Producto:</label>
+                <input class="form-control" id="ex3" type="text">
+            </div>
+            <div class="col-lg-2 col-sm-12">
+                <label>Cantidad:</label>
+                <input class="form-control" id="ex2" type="text">
+            </div>
+            <div class="col-lg-2 col-sm-12">
+                <label>Precio:</label>
+                <input class="form-control" id="ex2" type="text">
+            </div>
+            <div class="col-lg-1 col-sm-12">
+                <label></label>
+                <input class="form-control btn btn-success glyphicon glyphicon-plus-sign" type="submit" value="Insertar">
+            </div>
+        </div>
+    </form>
+</div>
+<hr>
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">Productos</h3>
+    </div>
+    <div class="box-body no-padding">
+        <table class="table table-condensed">
+            <tbody>
+                <tr>
+                    <th>Codigo</th>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Total</th>
+                </tr>
+                <tr>
+                    <td>P01</td>
+                    <td>Bizcotela</td>
+                    <td>5</td>
+                    <td>450</td>
+                    <td>2250</td>
+                </tr>    
+            </tbody>
+        </table>
+    </div>
+</div>
+<hr>
+<div class="container">
+    <form>
+        <div class="form-group row">
+            <div class="col-lg-1 col-sm-1 pull-left">
+                <input type="checkbox" id="credit" name="interest" value="credit">
+                <label for="credit">Credito</label>
+                <input class="form-control" type="text" id="otherValue" name="credit"/>
+            </div>
+            <div class="col-lg-2 col-sm-12 pull-right">
+                <label>Impuesto:</label>
+                <input class="form-control pull-left" id="ex1" type="text">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-lg-2 col-sm-12 pull-right">
+                <label>Descuento:</label>
+                <input class="form-control pull-left" id="ex1" type="text">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-lg-2 col-sm-12 pull-right">
+                <label>Total:</label>
+                <input class="form-control pull-left" id="ex1" type="text">
+            </div>
+        </div>
+    </form>
+</div>
+<hr>
+<div class="box-header">
+    <a class="btn btn-danger btn-lg pull-right" href="/Sales/Create">
+        <span></span> Cancelar
+    </a>
+    <a class="btn btn-success btn-lg pull-right" href="/Sales/Create">
+        <span class="glyphicon glyphicon-plus"></span> Emitir Factura
+    </a>
+</div>
