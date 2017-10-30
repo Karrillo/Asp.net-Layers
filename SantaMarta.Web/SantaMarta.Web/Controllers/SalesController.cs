@@ -80,7 +80,7 @@ namespace SantaMarta.Web.Controllers
                 var clients = clientsB.GetAll().ToList();
                 ViewData["clientsCode"] = new SelectList(clients, "IdClient", "Code");
                 ViewData["clientsCompany"] = new SelectList(clients, "IdClient", "NameCompany");
-                var name = clients.Select(u => new { IdClient = u.IDClient, Name = u.Name +" "+ u.FirstName +" "+ u.SecondName });
+                var name = clients.Select(u => new { IdClient = u.IDClient, Name = u.Name + " " + u.FirstName + " " + u.SecondName });
                 ViewData["clientsName"] = new SelectList(name, "IDClient", "Name");
 
                 var products = productsB.GetAll().ToList();
@@ -121,18 +121,21 @@ namespace SantaMarta.Web.Controllers
                 Invoices invoices = new Invoices();
                 invoices.IdDetail = details;
                 DateTime date = DateTime.Today;
-                if (limitDate != null)
+                if (limitDate != "0")
                 {
                     invoices.LimitDate = date.AddDays(Convert.ToInt32(limitDate));
                 }
                 invoices.Total = Convert.ToDecimal(total);
-                invoices.Discount = Convert.ToDecimal(discount);
+                if (discount != "")
+                {
+                    invoices.Discount = Convert.ToDecimal(discount);
+                }
                 invoices.Code = code;
                 invoices.IdClient = Convert.ToInt64(idClient);
                 invoices.IdProvider = 1;
                 invoicesB.Create(invoices);
 
-                return View("Index");
+                return RedirectToAction("Index");
             }
             catch
             {
@@ -193,6 +196,12 @@ namespace SantaMarta.Web.Controllers
             {
                 return View("Error", new HandleErrorInfo(ex, "AssetsLiabilities", "Create"));
             }
+        }
+
+        public JsonResult GetSubCategories(string id)
+        {
+            var subCategories = subCategoriesB.GetByIdAll(int.Parse(id));
+            return Json(new SelectList(subCategories, "IDSubCategory", "Name"), JsonRequestBehavior.AllowGet);
         }
     }
 }

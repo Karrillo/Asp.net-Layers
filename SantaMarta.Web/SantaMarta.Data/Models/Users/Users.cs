@@ -15,7 +15,7 @@ namespace SantaMarta.Data.Models.Users
         public String Nickname { get; set; }
 
         [RegularExpression(@"^[^-\s][A-Za-z0-9]*$", ErrorMessage = "Caracteres especiales no son permitidos")]
-        [Required(ErrorMessage = "El codigo es requerido")]
+        [Required(ErrorMessage = "El password es requerido")]
         [DataType(DataType.Text)]
         [StringLength(10, MinimumLength = 1, ErrorMessage = "El numero de caracteres debe ser menor a 10")]
         public String Password { get; set; }

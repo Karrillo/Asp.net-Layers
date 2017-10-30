@@ -815,9 +815,8 @@ namespace SantaMarta.DataAccess.Entity
         #region Invoice
         public virtual int Insert_Invoice(Invoices invoices)
         {
-            var LimitDateParameter = invoices.LimitDate != null ?
-                new Npgsql.NpgsqlParameter("LimitDate", invoices.LimitDate) :
-                new Npgsql.NpgsqlParameter("LimitDate", typeof(string));
+            var LimitDateParameter = 
+                new Npgsql.NpgsqlParameter("LimitDate", invoices.LimitDate);
 
             var CodeParameter =
                 new Npgsql.NpgsqlParameter("Code", invoices.Code);

@@ -59,7 +59,7 @@ namespace SantaMarta.Data.Models.Persons
         [StringLength(40, MinimumLength = 1, ErrorMessage = "El numero de caracteres debe ser menor a 40")]
         public String NameCompany { get; set; }
 
-        [RegularExpression(@"^[^-\s][A-Za-z]*$", ErrorMessage = "Caracteres especiales no son permitidos")]
+        [RegularExpression(@"^[^-\s][A-Za-z0-9]*$", ErrorMessage = "Caracteres especiales no son permitidos")]
         [Required(ErrorMessage = "El codigo es requerido")]
         [DataType(DataType.Text)]
         [StringLength(30, MinimumLength = 1, ErrorMessage = "El numero de caracteres debe ser menor a 30")]

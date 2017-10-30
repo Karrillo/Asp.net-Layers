@@ -12,7 +12,11 @@ namespace SantaMarta.DataAccess.UserAccess
         public Users Check(string nickname, string password)
         {
             Users user = db.Check_Users(nickname, password);
-            return Decrypt(user);
+            if (user != null)
+            {
+                return Decrypt(user);
+            }
+            return user;
         }
 
         public List<Users> GetAll()

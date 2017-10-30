@@ -1,8 +1,8 @@
-﻿@m@model SantaMarta.Data.Models.AssetsLiabilities.AssetsLiabilities
+﻿@model SantaMarta.Data.Models.AssetsLiabilities.AssetsLiabilities
 
 @{
     Layout = null;
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Assets";
 }
 
 @Styles.Render("~/AdminPacket/bootstrap/css")
@@ -14,7 +14,7 @@
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
-    <h4 class="modal-title" id="myModalLabel">Nuevo Movimiento</h4>
+    <h4 class="modal-title" id="myModalLabel">Abono a Factura</h4>
 </div>
 
 <div class="modal-body">
@@ -24,10 +24,10 @@
         HttpMethod = "POST",
         Url = Url.Action("Assets", "Sales"),
         UpdateTargetId = "modal-content",
-        OnSuccess = "closeModalCreate",
+        OnSuccess = "closeModalAssets",
         InsertionMode = InsertionMode.Replace
     },
-                                                 new { @class = "form-horizontal", role = "form", id = "frmCrear" }))
+        new { @class = "form-horizontal", role = "form", id = "frmCrear" }))
     {
 
         @Html.AntiForgeryToken()
@@ -39,7 +39,7 @@
             @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Nº Documento" } })
             @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
             <br>
-            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Nombre" } })
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Nombre", @readonly = "readonly" } })
             @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
             <br>
             @Html.EditorFor(model => model.Rode, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Monto", id = "rode" } })
