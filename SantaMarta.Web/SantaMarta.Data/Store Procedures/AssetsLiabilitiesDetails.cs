@@ -10,7 +10,7 @@ namespace SantaMarta.Data.Store_Procedures
     {
         public Int64 IDAssetLiability { get; set; }
         public DateTime CurrentDate { get; set; }
-        public Int64 Code { get; set; }
+        public String Code { get; set; }
         public Decimal Rode { get; set; }
         public String Type { get; set; }
         public String Description { get; set; }

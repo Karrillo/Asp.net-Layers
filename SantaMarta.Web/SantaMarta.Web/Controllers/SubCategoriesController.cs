@@ -8,7 +8,8 @@ namespace SantaMarta.Web.Controllers
 {
     public class SubCategoriesController : Controller
     {
-        SubCategoriesB subCategoriesB = new SubCategoriesB();
+        private SubCategoriesB subCategoriesB = new SubCategoriesB();
+
         // GET: SubCategories
         public ActionResult Index()
         {

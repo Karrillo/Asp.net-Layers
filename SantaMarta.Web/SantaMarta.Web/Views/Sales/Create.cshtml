@@ -1,127 +1,483 @@
-﻿
+﻿@model SantaMarta.Data.Models.Invoices.Invoices
+
 @{
-    ViewBag.Title = "Factura";
+    ViewBag.Title = "Ventas";
 }
 
-<style>
-    hr {
-        display: block;
-        margin-top: 0.5em;
-        margin-bottom: 0.5em;
-        margin-left: auto;
-        margin-right: auto;
-        border-style: inset;
-        border-width: 1px;
-    }
-</style>
+@Styles.Render("~/AdminPacket/plugins/select2/css")
+@Styles.Render("~/AdminPacket/dist/css")
+<link href="~/Scripts/Datepicker/bootstrap-datepicker.min.css" rel="stylesheet" />
+
+<hr />
 
 <div class="container">
-    <form>
-        <div class="form-group row">
-            <div class="col-lg-2 col-sm-12 pull-right">
-                <label>Fecha:</label>
-                <input class="form-control pull-left" id="ex1" type="text">
-            </div>
+    <div class="row">
+        <div class="col-lg-2 pull-right">
+            <label>Fecha:</label>
+            <input class="form-control" type="text" id="txt_date" value="@DateTime.Now.Year/@DateTime.Now.Month/@DateTime.Now.Day" required readonly />
         </div>
-        <div class="form-group row">
-            <div class="col-lg-4 col-sm-12">
-                <label>Numero de Factura:</label>
-                <input class="form-control" id="ex2" type="text">
-            </div>
-            <div class="col-lg-8 col-sm-12">
-                <label>A Nombre:</label>
-                <input class="form-control" id="ex3" type="text">
-            </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 pull-right">
+            <label>Numero de Documento:</label>
+            <input class="form-control" type="text" name="NInvoice" id="txt_numberInvoice" placeholder="N Documento" />
         </div>
-    </form>
+    </div>
+    <div class="row">
+        <div class="col-lg-5 pull-right">
+            <label>Nombre de Compañía:</label>
+            @Html.DropDownList("clientsCompany", null, "Seleccionar el producto", new { @class = "form-control select2" })
+        </div>
+        <div class="col-lg-5 pull-right">
+            <label>Nombre del Cliente:</label>
+            @Html.DropDownList("clientsName", null, "Seleccionar el producto", new { @class = "form-control select2" })
+        </div>
+        <div class="col-lg-2 pull-right">
+            <label>Codigo de Cliente:</label>
+            @Html.DropDownList("clientsCode", null, "Seleccionar el producto", new { @class = "form-control select2" })
+        </div>
+    </div>
 </div>
-<hr>
-<div class="container">
-    <form>
-        <div class="form-group row">
-            <div class="col-lg-2 col-sm-12">
+
+<hr />
+
+<form action="javascript:fn_agregar()" ; method="post" id="frm_usu" class="form-horizontal">
+    <div class="container">
+        <div class="row" style="padding: 0; margin: 0; list-style: none; display: flex; align-items: center; justify-content: center;">
+            <div class="col-lg-2">
                 <label>Codigo del Producto:</label>
-                <input class="form-control" id="ex2" type="text">
+                @Html.DropDownList("productsCode", null, "Seleccionar el producto", new { @class = "form-control select2" })
             </div>
-            <div class="col-lg-5 col-sm-12">
+            <div class="col-lg-4">
                 <label>Nombre del Producto:</label>
-                <input class="form-control" id="ex3" type="text">
+                @Html.DropDownList("productsName", null, "Seleccionar el producto", new { @class = "form-control select2" })
             </div>
-            <div class="col-lg-2 col-sm-12">
+            <div class="col-lg-1">
                 <label>Cantidad:</label>
-                <input class="form-control" id="ex2" type="text">
+                <input class="form-control" id="txt_quantity" type="text">
             </div>
-            <div class="col-lg-2 col-sm-12">
+            <div class="col-lg-1">
+                <label>Impuesto:</label>
+                <input class="form-control" id="txt_tax" type="text" required readonly>
+            </div>
+            <div class="col-lg-1">
                 <label>Precio:</label>
-                <input class="form-control" id="ex2" type="text">
+                <input class="form-control" id="txt_price" type="text" required readonly>
             </div>
-            <div class="col-lg-1 col-sm-12">
-                <label></label>
-                <input class="form-control btn btn-success glyphicon glyphicon-plus-sign" type="submit" value="Insertar">
+            <div class="col-lg-1">
+                <input class="btn btn-primary" style="position: relative; top:10px;" type="submit" name="agregar" id="btn_product" value="Agregar" />
             </div>
         </div>
-    </form>
-</div>
-<hr>
+    </div>
+</form>
+
+<hr />
+
 <div class="box">
     <div class="box-header">
         <h3 class="box-title">Productos</h3>
     </div>
     <div class="box-body no-padding">
-        <table class="table table-condensed">
+        <table id="detalle" class="table table-condensed">
             <tbody>
                 <tr>
                     <th>Codigo</th>
                     <th>Producto</th>
                     <th>Cantidad</th>
                     <th>Precio</th>
-                    <th>Total</th>
+                    <th>Subtotal</th>
+                    <th>Borrar</th>
                 </tr>
-                <tr>
-                    <td>P01</td>
-                    <td>Bizcotela</td>
-                    <td>5</td>
-                    <td>450</td>
-                    <td>2250</td>
-                </tr>    
             </tbody>
         </table>
     </div>
 </div>
-<hr>
+
+<hr />
+
 <div class="container">
-    <form>
-        <div class="form-group row">
-            <div class="col-lg-1 col-sm-1 pull-left">
-                <input type="checkbox" id="credit" name="interest" value="credit">
-                <label for="credit">Credito</label>
-                <input class="form-control" type="text" id="otherValue" name="credit"/>
-            </div>
-            <div class="col-lg-2 col-sm-12 pull-right">
-                <label>Impuesto:</label>
-                <input class="form-control pull-left" id="ex1" type="text">
-            </div>
+    <div class="row">
+        <div class="col-lg-2 pull-left">
+            <input type="checkbox" id="selectedCredit" value="true" name="selectedCredit"> Credito
+            <select id="credit" style="display:none" class="form-control">
+                <option value="0" disabled selected>Selecciona</option>
+                <option value="8">8 Dias</option>
+                <option value="15">15 Dias</option>
+                <option value="22">22 Dias</option>
+                <option value="30">30 Dias</option>
+            </select>
         </div>
-        <div class="form-group row">
-            <div class="col-lg-2 col-sm-12 pull-right">
-                <label>Descuento:</label>
-                <input class="form-control pull-left" id="ex1" type="text">
-            </div>
+        <div class="col-lg-2 pull-right">
+            <label>Descuento:</label>
+            <input class="form-control" type="text" name="Discount" id="txt_discount" placeholder="Descuento" />
         </div>
-        <div class="form-group row">
-            <div class="col-lg-2 col-sm-12 pull-right">
-                <label>Total:</label>
-                <input class="form-control pull-left" id="ex1" type="text">
-            </div>
-        </div>
-    </form>
+    </div>
 </div>
-<hr>
-<div class="box-header">
-    <a class="btn btn-danger btn-lg pull-right" href="/Sales/Create">
-        <span></span> Cancelar
-    </a>
-    <a class="btn btn-success btn-lg pull-right" href="/Sales/Create">
-        <span class="glyphicon glyphicon-plus"></span> Emitir Factura
-    </a>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-2 pull-right">
+            <label>Total:</label>
+            <input class="form-control" type="text" name="Total" id="txt_total" placeholder="Total" required readonly />
+        </div>
+    </div>
 </div>
+
+<input class="btn btn-success btn-lg" type="button" id="btn_finalizar" value="Emitir Venta" />
+<input class="btn btn-danger btn-lg" type="button" id="btn_txtnueva" value="Salir" />
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+@section Scripts {
+    @Scripts.Render("~/AdminPacket/plugins/select2/js")
+    @Scripts.Render("~/Scripts/Forms/Advanced")
+    <script src="~/Scripts/Mark/jquery.mask.min.js"></script>
+    <script src="~/Scripts/Daterangepicker/moment.min.js"></script>
+    <script src="~/Scripts/Datepicker/bootstrap-datepicker.min.js"></script>
+
+}
+<script>
+    $(document).ready(function () {
+        $('#txt_fecha').mask('0000/00/00');
+        $('#txt_quantity').mask('0000', { reverse: true });
+        $('#txt_tax').mask('000.00', { reverse: true });
+        $('#txt_price').mask('000,000,000,000,000.00', { reverse: true });
+        $('#txt_discount').mask('000.00', { reverse: true });
+        $('#txt_total').mask('000,000,000,000,000.00', { reverse: true });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#txt_date").datepicker({
+            format: 'yyyy/mm/dd',
+            autoclose: true,
+            todayBtn: 'linked',
+            calendarWeeks: true,
+            todayHighlight: true
+        })
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btn_finalizar").click(function () {
+            var i = 0;
+
+            var envio = "{IdClient:'" + $("#clientsCode :selected").val() +
+                "', Discount:'" + $('#txt_discount').val() +
+                "',Total:'" + $('#txt_total').val() +
+                "', CurrentDate:'" + $('#txt_date').val() +
+                "', Code:'" + $('#txt_numberInvoice').val() +
+                "', LimitDate:'" + $('#credit :selected').val() +
+                "',";
+
+            $("#detalle tbody tr").each(function (index) {
+                if (i == 0) {
+                    envio += "sale:[{IdProduct:'" + $(this).find('td').eq(0).text() +
+                        "',Quantity:'" + $(this).find('td').eq(3).text() +
+                        "',Total:'" + $(this).find('td').eq(5).text() + "'}";
+                } else {
+                    envio += ",{IdProduct:'" + $(this).find('td').eq(0).text() +
+                        "',Quantity:'" + $(this).find('td').eq(3).text() +
+                        "',Total:'" + $(this).find('td').eq(5).text() + "'}";
+                }
+                i = 1;
+            });
+            envio += "]}";
+
+            var json = eval("(" + envio + ')');
+
+            $.ajax({
+                url: "Create",
+                data: JSON.stringify(json),
+                type: "POST",
+                async: false,
+                contentType: 'application/json;charset=UTF-8',
+                dataType: 'json',
+                success: function (response) {
+                    alertify.alert(response);
+                    valid = response.valid;
+                },
+                error: function (error) {
+                    alertify.alert(error);
+                }
+            });
+        });
+
+    });
+
+    function total() {
+        var total = 0;
+        $("#detalle tbody tr").each(function (index) {
+            if (index > 0) {
+                total = total + parseFloat($(this).find('td').eq(5).text());
+            }
+            $("#txt_total").val(total.toFixed(2));
+        });
+
+    }
+
+    function fn_agregar() {
+
+        cadena = "<tr>"
+        cadena = cadena + "<td style='display: none;'>" + $("#productsCode :selected").val() + "</td>";
+        cadena = cadena + "<td>" + $("#productsCode :selected").text() + "</td>";
+        cadena = cadena + "<td>" + $("#productsName :selected").text() + "</td>";
+        cadena = cadena + "<td>" + $("#txt_quantity").val() + "</td>";
+
+        var tax = parseFloat($("#txt_tax").val());
+        var price = parseFloat($("#txt_price").val());
+        var total = ((price * tax) / 100);
+        var subPrice = total + price;
+        cadena = cadena + "<td>" + subPrice.toFixed(2) + "</td>";
+
+        var y = 0;
+        var x = 0;
+        y = $("#txt_quantity").val();
+        x = subPrice;
+        var subtotal = (x * y);
+        cadena = cadena + "<td>" + subtotal.toFixed(2) + "</td>"
+        cadena = cadena + "<td><a class ='elimina'><button class='btn btn-danger' type='button'><span class='fa fa-remove'></span></button></a></td>";
+        $("#detalle tbody").append(cadena);
+        sumar(subtotal);
+        fn_dar_eliminar();
+        limpiarCliente();
+        limpiar();
+    };
+
+    function limpiar() {
+        $('#productsCode').select2("val", 0);
+        $('#productsName').select2("val", 0);
+        $("#txt_tax").val("");
+        $("#txt_quantity").val("");
+        $("#txt_price").val("");
+    }
+
+    function limpiarCliente() {
+        $("tbody tr #Code").val('');
+        $("tbody tr #Name").val('');
+        $("tbody tr #txt_quantity").val('');
+        $("tbody tr #txt_price").val('');
+    }
+
+    function limpiarDetalle() {
+        $("#detalle tbody tr").val("");
+    }
+
+    function sumar(subtotal) {
+        var total = parseFloat($("#txt_total").val());
+        if (total > 0) {
+            total += parseFloat(subtotal);
+            $("#txt_total").val(total.toFixed(2));
+        } else {
+            $("#txt_total").val(subtotal);
+        }
+    }
+
+    function fn_dar_eliminar() {
+        $("a.elimina").click(function () {
+            var valor = $(this).parents("tr").find("td").eq(5).html();
+            $(this).parents("tr").fadeOut("normal", function () {
+                $(this).remove();
+                total();
+            });
+        });
+    };
+</script>
+
+@*<script>
+        $(document).ready(function () {
+            $("#btn_product").click(function () {
+                var envio = "{ IDProduct:'" + $("#productsCode").val() + "', Quantity:'" + $('#txt_quantity').val() + "'}";
+                var json = eval("(" + envio + ')');
+                $.ajax({
+                    type: "POST",
+                    url: "GetProduct",
+                    data: JSON.stringify(json),
+                    async: false,
+                    contentType: 'application/json;charset=UTF-8',
+                    dataType: 'json',
+                    success: function (mensaje) {
+                        $(mensaje).each(function (index, item) {
+                            $("#txt_price").val(item.Price)
+                        });
+                    }
+                });
+            });
+        });
+    </script>*@
+
+<script>
+    document.getElementById("txt_discount").addEventListener("change", myFunction);
+    function myFunction() {
+        var total = 0;
+        $("#detalle tbody tr").each(function (index) {
+            if (index > 0) {
+                total = total + parseFloat($(this).find('td').eq(5).text());
+            }
+        });
+        var discount = parseFloat(this.value);
+        if (discount > 0) {
+            discount = ((total * discount) / 100);
+            total = (total - discount);
+            $("#txt_total").val(total.toFixed(2));
+        } else {
+            $("#txt_total").val(total.toFixed(2));
+        }
+    }
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#productsCode").change(function () {
+            if ($("#productsCode").val() > 0) {
+                var valueName = $("#productsName :selected").val();
+                if (valueName != $("#productsCode").val()) {
+                    $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetProduct")',
+                    dataType: 'json',
+                    data: { id: $("#productsCode").val() },
+                    success: function (product) {
+                    var products = product;
+                    $("#txt_price").val(products.Price);
+                    $("#txt_tax").val(products.Tax);
+                    $('#productsName').select2("val", products.IDProduct);
+                },
+                    error: function (ex) {
+                    alert('Failed to retrieve product.' + ex);
+                }
+            });
+           }
+          }
+        return false;
+        })
+    });
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        $("#productsName").change(function () {
+            if ($("#productsName").val() > 0) {
+                var valueCode = $("#productsCode :selected").val();
+                if (valueCode != $("#productsName").val()) {
+                    $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetProduct")',
+                    dataType: 'json',
+                    data: { id: $("#productsName").val() },
+                    success: function (product) {
+                    var products = product;
+                    $("#txt_price").val(products.Price);
+                    $("#txt_tax").val(products.Tax);
+                    $('#productsCode').select2("val", products.IDProduct);
+                },
+                    error: function (ex) {
+                    alert('Failed to retrieve product.' + ex);
+                }
+            });
+           }
+          }
+        return false;
+        })
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#clientsCompany").change(function () {
+            if ($("#clientsCompany").val() > 0) {
+                var valueName = $("#clientsName :selected").val();
+                var valueCode = $("#clientsCode :selected").val();
+                if (valueName != $("#clientsCompany").val() && valueCode != $("#clientsCompany").val()) {
+                    $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetClient")',
+                    dataType: 'json',
+                    data: { id: $("#clientsCompany").val() },
+                    success: function (client) {
+                     var clients = client;
+                     $('#clientsName').select2("val", clients.IDClient);
+                     $('#clientsCode').select2("val", clients.IDClient);
+                },
+                    error: function (ex) {
+                    alert('Failed to retrieve product.' + ex);
+                }
+            });
+           }
+          }
+        return false;
+        })
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#clientsName").change(function () {
+            if ($("#clientsName").val() > 0) {
+                var valueCompany = $("#clientsCompany :selected").val();
+                var valueCode = $("#clientsCode :selected").val();
+                if (valueCompany != $("#clientsName").val() && valueCode != $("#clientsName").val()) {
+                    $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetClient")',
+                    dataType: 'json',
+                    data: { id: $("#clientsName").val() },
+                    success: function (client) {
+                     var clients = client;
+                     $('#clientsCompany').select2("val", clients.IDClient);
+                     $('#clientsCode').select2("val", clients.IDClient);
+                },
+                    error: function (ex) {
+                    alert('Failed to retrieve product.' + ex);
+                }
+            });
+           }
+          }
+        return false;
+        })
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#clientsCode").change(function () {
+            if ($("#clientsCode").val() > 0) {
+                var valueName = $("#clientsName :selected").val();
+                var valueCompany = $("#clientsCompany :selected").val();
+                if (valueName != $("#clientsCode").val() && valueCompany != $("#clientsCode").val()) {
+                    $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetClient")',
+                    dataType: 'json',
+                    data: { id: $("#clientsCode").val() },
+                    success: function (client) {
+                     var clients = client;
+                     $('#clientsCompany').select2("val", clients.IDClient);
+                     $('#clientsName').select2("val", clients.IDClient);
+                },
+                    error: function (ex) {
+                    alert('Failed to retrieve product.' + ex);
+                }
+            });
+           }
+          }
+        return false;
+        })
+    });
+</script>
+
+<script>
+    $(function () {
+        $("#selectedCredit").click(function () {
+            if ($(this).is(':checked')) {
+                $("#credit").show("fast");
+            }
+            else {
+                $("#credit").hide("fast");
+                $("#credit").val(0);
+            }
+        });
+    });
+</script>

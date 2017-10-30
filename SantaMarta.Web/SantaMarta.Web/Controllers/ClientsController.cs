@@ -1,6 +1,9 @@
 ﻿using SantaMarta.Bussines.ClientsBussines;
+using SantaMarta.Bussines.ProvidersBussines;
 using SantaMarta.Data.Models.Persons;
+using SantaMarta.Data.Store_Procedures;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -9,12 +12,25 @@ namespace SantaMarta.Web.Controllers
 {
     public class ClientsController : Controller
     {
-        ClientsB clientsB = new ClientsB();
+        private ClientsB clientsB = new ClientsB();
+        private ProvidersB providersB = new ProvidersB();
 
         // GET: Clients
         public ActionResult Index()
         {
-            return View(clientsB.GetAll().ToList());
+            List<All_Clients> clients = clientsB.GetAll().ToList();
+            List<All_Providers> providers = providersB.GetAll().ToList();
+            foreach (var y in clients)
+            {
+                foreach (var x in providers)
+                {
+                    if (y.IDPerson == x.IDPerson)
+                    {
+                        y.IsProvider = true;
+                    }
+                }
+            }
+            return View(clients);
         }
 
         // GET: Clients/Details/5
@@ -57,9 +73,9 @@ namespace SantaMarta.Web.Controllers
                 client.CellPhone = collection["CellPhone"];
                 client.Email = collection["Email"];
                 client.Address = collection["Address"];
-                client.identification = collection["Identification"];
+                client.Identification = collection["Identification"];
                 client.NameCompany = collection["NameCompany"];
-
+                client.Code = collection["Code"];
                 clientsB.Create(client);
 
                 return Json(new { success = true });
@@ -109,8 +125,9 @@ namespace SantaMarta.Web.Controllers
                     client.CellPhone = collection["CellPhone"];
                     client.Email = collection["Email"];
                     client.Address = collection["Address"];
-                    client.identification = collection["Identification"];
+                    client.Identification = collection["Identification"];
                     client.NameCompany = collection["NameCompany"];
+                    client.Code = collection["Code"];
 
                     clientsB.Update(client, id);
 

@@ -9,18 +9,12 @@ namespace SantaMarta.Web.Controllers
 {
     public class UsersController : Controller
     {
-        UsersB userB = new UsersB();
+        private UsersB userB = new UsersB();
 
         // GET: Users
         public ActionResult Index()
         {
             return View(userB.GetAll().ToList());
-        }
-
-        // GET: Users/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
         }
 
         // GET: Users/Create

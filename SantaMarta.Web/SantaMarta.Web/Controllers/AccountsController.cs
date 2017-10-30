@@ -11,7 +11,7 @@ namespace SantaMarta.Web.Controllers
 {
     public class AccountsController : Controller
     {
-        AccountsB accountB = new AccountsB();
+        private AccountsB accountB = new AccountsB();
 
         // GET: Users
         public ActionResult Index()

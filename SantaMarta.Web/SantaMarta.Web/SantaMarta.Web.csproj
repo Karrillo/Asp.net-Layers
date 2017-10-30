@@ -1032,6 +1032,8 @@
     <Content Include="Scripts\Charts\Inline.js" />
     <Content Include="Scripts\Charts\Morris-menu.js" />
     <Content Include="Scripts\Charts\Morris.js" />
+    <Content Include="Scripts\Datepicker\bootstrap-datepicker.min.css" />
+    <Content Include="Scripts\Datepicker\bootstrap-datepicker.min.js" />
     <Content Include="Scripts\Daterangepicker\daterangepicker.min.css" />
     <Content Include="Scripts\Daterangepicker\index.js" />
     <Content Include="Scripts\Daterangepicker\jquery-3.2.1.min.js" />
@@ -1072,6 +1074,7 @@
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
+    <Content Include="Scripts\jquery-1.7.2.min.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.js" />
@@ -1087,14 +1090,21 @@
     <Content Include="Scripts\Mailbox\Inbox-menu.js" />
     <Content Include="Scripts\Mailbox\Inbox.js" />
     <Content Include="Scripts\Mailbox\Read-menu.js" />
+    <Content Include="Scripts\Mark\jquery.mask.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\Select2\select2.css" />
+    <Content Include="Scripts\Select2\select2.js" />
+    <Content Include="Scripts\Select2\select2.min.js" />
     <Content Include="Scripts\Shared\_Layout.js" />
     <Content Include="Scripts\Tables\Data-menu.js" />
     <Content Include="Scripts\Tables\Data.js" />
     <Content Include="Scripts\Tables\Simple-menu.js" />
+    <Content Include="Scripts\Toastr\toastr.css" />
+    <Content Include="Scripts\Toastr\toastr.min.css" />
+    <Content Include="Scripts\Toastr\toastr.min.js" />
     <Content Include="Scripts\Tree\tree.css" />
     <Content Include="Scripts\Tree\tree.js" />
     <Content Include="Scripts\Widgets\Widgets-menu.js" />
@@ -1167,6 +1177,7 @@
     <Content Include="Views\Sales\Delete.cshtml" />
     <Content Include="Views\Sales\Assets.cshtml" />
     <Content Include="Views\Sales\Details.cshtml" />
+    <Content Include="Scripts\Toastr\toastr.js.map" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

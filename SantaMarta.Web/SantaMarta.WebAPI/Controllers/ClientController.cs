@@ -48,6 +48,24 @@ namespace SantaMarta.WebAPI.Controllers
             return Ok(clients);
         }
 
+        [HttpGet]
+        [ActionName("GetName")]
+        public IHttpActionResult GetName(String name)
+        {
+            IList<All_Clients> clients = null;
+
+            ClientsB clientB = new ClientsB();
+
+            clients = clientB.GetByName(name);
+
+            if (clients == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(clients);
+        }
+
         // POST: api/Client
         [HttpPost]
         public IHttpActionResult Post(Persons persons)

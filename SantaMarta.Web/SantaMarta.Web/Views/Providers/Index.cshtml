@@ -9,7 +9,6 @@
 @if (Session["users"] == null)
 {
     Response.Redirect("~/Login/Index");
-
 }
 
 @*Boton ingresar nuevo*@
@@ -49,17 +48,20 @@
                             <td>@Html.DisplayFor(modelItem => item.Name)</td>
                             <td>@Html.DisplayFor(modelItem => item.CellPhone)</td>
                             <td>@Html.DisplayFor(modelItem => item.Email)</td>
-                                <td>
-                                    @if (Session["Type"] != null)
-                                    {
-                                        @*Boton Editar*@
-                                        <a class="btn btn-primary glyphicon glyphicon-edit" data-target="#modal-editar" data-toggle="modal" href="@Url.Action("Edit", "Providers", new { id = item.IDPerson })"></a>
-                                        @*Boton Borrar*@
-                                        <a class="btn btn-danger glyphicon glyphicon-trash" data-target="#modal-editar" data-toggle="modal" href="@Url.Action("Delete", "Providers", new { id = item.IDPerson })"></a>
-                                    }
-                                    <a class="btn btn-info glyphicon glyphicon-file" data-target="#modal-details" data-toggle="modal" href="@Url.Action("Details", "Providers", new { id = item.IDPerson })"></a>
-                                    <a class="btn btn-warning glyphicon glyphicon-plus" data-target="#modal-details" data-toggle="modal" href="@Url.Action("CreatePC", "Providers", new { id = item.IDProvider })"></a>
-                                </td>
+                            <td>
+                                @if (Session["Type"] != null)
+                                {
+                                    @*Boton Editar*@
+                                    <a class="btn btn-primary glyphicon glyphicon-edit" data-target="#modal-editar" data-toggle="modal" href="@Url.Action("Edit", "Providers", new { id = item.IDPerson })"></a>
+                                    @*Boton Borrar*@
+                                    <a class="btn btn-danger glyphicon glyphicon-trash" data-target="#modal-delete" data-toggle="modal" href="@Url.Action("Delete", "Providers", new { id = item.IDPerson })"></a>
+                                }
+                                <a class="btn btn-info glyphicon glyphicon-file" data-target="#modal-details" data-toggle="modal" href="@Url.Action("Details", "Providers", new { id = item.IDPerson })"></a>
+                                @if (item.IsClient == false)
+                                {
+                                    <a class="btn btn-warning glyphicon glyphicon-plus" data-target="#modal-createPC" data-toggle="modal" href="@Url.Action("CreatePC", "Providers", new { id = item.IDProvider })"></a>
+                                }
+                            </td>
                         </tr>
                     }
                 </tbody>
@@ -106,12 +108,13 @@
     </div>
 </div>
 @*modal 5*@
-<div class="modal fade" tabindex="-1" role="dialog" id="modal-createpc" aria-labelledby="myModalLabel">
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-createPC" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
         </div>
     </div>
 </div>
+
 @section Scripts {
     @Scripts.Render("~/AdminPacket/plugins/datatables/js")
     @Scripts.Render("~/scripts/Tables/Data")
@@ -122,7 +125,6 @@
         });
     </script>
 }
-
 <script>
     function closeModalCreate(data) {
         if (data.success) {
@@ -148,17 +150,9 @@
     }
 </script>
 <script>
-    function closeModalDelete(data) {
-        if (data.success) {
-            $('#modal-details').modal('hide');
-            window.location.href = "/Providers/Index";
-        }
-    }
-</script>
-<script>
     function closeModalCreatePC(data) {
         if (data.success) {
-            $('#modal-createpc').modal('hide');
+            $('#modal-createPC').modal('hide');
             window.location.href = "/Providers/Index";
         }
     }

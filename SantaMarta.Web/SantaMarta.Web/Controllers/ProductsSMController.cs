@@ -9,7 +9,7 @@ namespace SantaMarta.Web.Controllers
 {
     public class ProductsSMController : Controller
     {
-        ProductsB productsB = new ProductsB();
+        private ProductsB productsB = new ProductsB();
 
         // GET: ProductsSM
         public ActionResult Index()
@@ -54,6 +54,7 @@ namespace SantaMarta.Web.Controllers
                 product.Name = collection["Name"];
                 product.Price = Decimal.Parse(collection["Price"]);
                 product.Description = collection["Description"];
+                product.Tax = Decimal.Parse(collection["Tax"]);
 
                 productsB.Create(product);
 
@@ -100,6 +101,7 @@ namespace SantaMarta.Web.Controllers
                     product.Name = collection["Name"];
                     product.Price = Decimal.Parse(collection["Price"]);
                     product.Description = collection["Description"];
+                    product.Tax = Decimal.Parse(collection["Tax"]);
 
                     productsB.Update(product, id);
                 }

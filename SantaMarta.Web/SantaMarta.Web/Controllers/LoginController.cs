@@ -6,7 +6,7 @@ namespace SantaMarta.Web.Controllers
     public class LoginController : Controller
     {
 
-        UsersB userB = new UsersB();
+        private UsersB userB = new UsersB();
 
         // GET: Login
         public ActionResult Index()

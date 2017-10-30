@@ -9,12 +9,12 @@ namespace SantaMarta.Bussines.DetailsBussines
     {
         private DetailAccess detailAccess = new DetailAccess();
 
-        public int Create(Int64 id)
+        public Int64 Create(Int64 id)
         {
             return detailAccess.Create(id);
         }
 
-        public bool Delete(int id)
+        public int Delete(Int64 id)
         {
             return detailAccess.Delete(id);
         }
@@ -24,12 +24,12 @@ namespace SantaMarta.Bussines.DetailsBussines
             return detailAccess.GetAll();
         }
 
-        public Details GetById(int id)
+        public Details GetById(Int64 id)
         {
             return detailAccess.GetById(id);
         }
 
-        public bool Update(Details input)
+        public int Update(Details input)
         {
             return detailAccess.Update(input);
         }

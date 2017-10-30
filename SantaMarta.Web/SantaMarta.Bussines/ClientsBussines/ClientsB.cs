@@ -1,6 +1,7 @@
 ﻿using SantaMarta.Data.Models.Persons;
 using SantaMarta.Data.Store_Procedures;
 using SantaMarta.DataAccess.ClientAccess;
+using System;
 using System.Collections.Generic;
 
 namespace SantaMarta.Bussines.ClientsBussines
@@ -35,6 +36,11 @@ namespace SantaMarta.Bussines.ClientsBussines
         public int Update(Persons input, int id)
         {
             return clientAccess.Update(input, id);
+        }
+
+        public List<All_Clients> GetByName(String name)
+        {
+            return clientAccess.GetByName(name);
         }
     }
 }

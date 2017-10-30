@@ -6,10 +6,10 @@ namespace SantaMarta.Bussines.DetailsBussines
 {
     public interface IDetailsB
     {
-        int Create(Int64 id);
-        bool Update(Details input);
-        bool Delete(int id);
-        Details GetById(int id);
+        Int64 Create(Int64 id);
+        int Update(Details input);
+        int Delete(Int64 id);
+        Details GetById(Int64 id);
         List<Details> GetAll();
     }
 }

@@ -14,24 +14,24 @@ namespace SantaMarta.DataAccess.DetailAccess
             return null;
         }
 
-        public Details GetById(int id)
+        public Details GetById(Int64 id)
         {
             return null;
         }
 
-        public bool Update(Details details)
+        public int Update(Details details)
         {
-            return true;
+            return 0;
         }
 
-        public int Create(Int64 id)
+        public Int64 Create(Int64 id)
         {
             return db.Insert_Detail(id);
         }
 
-        public bool Delete(int id)
+        public int Delete(Int64 id)
         {
-            return true;
+            return 0;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using SantaMarta.Data.Models.Purchases;
 using SantaMarta.DataAccess.PurchaseAccess;
+using System;
 using System.Collections.Generic;
 
 namespace SantaMarta.Bussines.PurchasesBussines
@@ -7,12 +8,12 @@ namespace SantaMarta.Bussines.PurchasesBussines
     public class PurchasesB : IPurchasesB
     {
         private PurchaseAccess purchaseAccess = new PurchaseAccess();
-        public bool Create(Purchases input)
+        public int Create(Purchases input)
         {
             return purchaseAccess.Create(input);
         }
 
-        public bool Delete(int id)
+        public int Delete(Int64 id)
         {
             return purchaseAccess.Delete(id);
         }
@@ -22,12 +23,12 @@ namespace SantaMarta.Bussines.PurchasesBussines
             return purchaseAccess.GetAll();
         }
 
-        public Purchases GetById(int id)
+        public List<Purchases> GetById(Int64 id)
         {
             return purchaseAccess.GetById(id);
         }
 
-        public bool Update(Purchases input)
+        public int Update(Purchases input)
         {
             return purchaseAccess.Update(input);
         }

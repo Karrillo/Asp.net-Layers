@@ -1,10 +1,14 @@
 ﻿@model IEnumerable<SantaMarta.Data.Store_Procedures.All_Clients>
+
 @{
     ViewBag.Title = "Clientes";
 }
 @section Menu {
     @Scripts.Render("~/scripts/Tables/Data/menu")
 }
+
+<link href="~/Scripts/Toastr/toastr.min.css" rel="stylesheet" />
+
 @Styles.Render("~/AdminPacket/plugins/datatables/css")
 @if (Session["users"] == null)
 {
@@ -31,6 +35,7 @@
             <table id="example1" class="table table-bordered table-striped">
                 <thead>
                     <tr>
+                        <th>Codigo</th>
                         <th>Primer Apellido</th>
                         <th>Segundo Apellido</th>
                         <th>Nombre(s)</th>
@@ -44,6 +49,7 @@
                     @foreach (var item in Model)
                 {
                         <tr>
+                            <td>@Html.DisplayFor(modelItem => item.Code)</td>
                             <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
                             <td>@Html.DisplayFor(modelItem => item.SecondName)</td>
                             <td>@Html.DisplayFor(modelItem => item.Name)</td>
@@ -55,20 +61,20 @@
                                     @*Boton Editar*@
                                     <a class="btn btn-primary glyphicon glyphicon-edit" data-target="#modal-editar" data-toggle="modal" href="@Url.Action("Edit", "Clients", new { id = item.IDPerson })"></a>
                                     @*Boton Borrar*@
-                                    <a class="btn btn-danger glyphicon glyphicon-trash" data-target="#modal-editar" data-toggle="modal" href="@Url.Action("Delete", "Clients", new { id = item.IDPerson })"></a>
+                                    <a class="btn btn-danger glyphicon glyphicon-trash" data-target="#modal-delete" data-toggle="modal" href="@Url.Action("Delete", "Clients", new { id = item.IDPerson })"></a>
                                 }
                                 <a class="btn btn-info glyphicon glyphicon-file" data-target="#modal-details" data-toggle="modal" href="@Url.Action("Details", "Clients", new { id = item.IDPerson })"></a>
-                                @if (true)
+                                @if (item.IsProvider == false)
                                 {
-
+                                    <a class="btn btn-warning glyphicon glyphicon-plus" data-target="#modal-createCP" data-toggle="modal" href="@Url.Action("CreateCP", "Clients", new { id = item.IDClient })"></a>
                                 }
-                                <a class="btn btn-warning glyphicon glyphicon-plus" data-target="#modal-details" data-toggle="modal" href="@Url.Action("CreateCP", "Clients", new { id = item.IDClient })"></a>
                             </td>
                         </tr>
                     }
                 </tbody>
                 <tfoot>
                     <tr>
+                        <th>Codigo</th>
                         <th>Primer Apellido</th>
                         <th>Segundo Apellido</th>
                         <th>Nombre(s)</th>
@@ -81,7 +87,6 @@
         </div>
     </div>
 }
-
 @*modal*@
 <div class="modal fade" tabindex="-1" role="dialog" id="modal-crear" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -111,60 +116,58 @@
     </div>
 </div>
 @*modal 5*@
-<div class="modal fade" tabindex="-1" role="dialog" id="modal-createcp" aria-labelledby="myModalLabel">
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-createCP" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
         </div>
     </div>
 </div>
+
 @section Scripts {
     @Scripts.Render("~/AdminPacket/plugins/datatables/js")
     @Scripts.Render("~/scripts/Tables/Data")
+
     <script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/Toastr/toastr.min.js"></script>
     <script>
         $('body').on('hidden.bs.modal', '.modal', function () {
             $(this).removeData('bs.modal');
         });
     </script>
 }
+<script>
+        function closeModalCreate(data) {
+            if (data.success) {
+                $('#modal-crear').modal('hide');
+                window.location.href = "/Clients/Index";
+                //toastr.success('Creado el cliente correctamente');
+            }
+        }
+</script>
 
 <script>
-    function closeModalCreate(data) {
-        if (data.success) {
-            $('#modal-crear').modal('hide');
-            window.location.href = "/Clients/Index";
+        function closeModalEdit(data) {
+            if (data.success) {
+                $('#modal-editar').modal('hide');
+                window.location.href = "/Clients/Index";
+            }
         }
-    }
 </script>
+
 <script>
-    function closeModalEdit(data) {
-        if (data.success) {
-            $('#modal-editar').modal('hide');
-            window.location.href = "/Clients/Index";
+        function closeModalDelete(data) {
+            if (data.success) {
+                $('#modal-delete').modal('hide');
+                window.location.href = "/Clients/Index";
+            }
         }
-    }
 </script>
+
 <script>
-    function closeModalDelete(data) {
-        if (data.success) {
-            $('#modal-delete').modal('hide');
-            window.location.href = "/Clients/Index";
+        function closeModalCreateCP(data) {
+            if (data.success) {
+                $('#modal-createCP').modal('hide');
+                window.location.href = "/Clients/Index";
+            }
         }
-    }
-</script>
-<script>
-    function closeModalDelete(data) {
-        if (data.success) {
-            $('#modal-details').modal('hide');
-            window.location.href = "/Clients/Index";
-        }
-    }
-</script>
-<script>
-    function closeModalCreateCP(data) {
-        if (data.success) {
-            $('#modal-createcp').modal('hide');
-            window.location.href = "/Clients/Index";
-        }
-    }
 </script>

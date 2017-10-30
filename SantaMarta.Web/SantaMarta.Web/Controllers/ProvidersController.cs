@@ -1,5 +1,7 @@
-﻿using SantaMarta.Bussines.ProvidersBussines;
+﻿using SantaMarta.Bussines.ClientsBussines;
+using SantaMarta.Bussines.ProvidersBussines;
 using SantaMarta.Data.Models.Persons;
+using SantaMarta.Data.Store_Procedures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +13,25 @@ namespace SantaMarta.Web.Controllers
 {
     public class ProvidersController : Controller
     {
-        ProvidersB providersB = new ProvidersB();
+        private ProvidersB providersB = new ProvidersB();
+        private ClientsB clientsB = new ClientsB();
 
         // GET: Clients
         public ActionResult Index()
         {
-            return View(providersB.GetAll().ToList());
+            List<All_Clients> clients = clientsB.GetAll().ToList();
+            List<All_Providers> providers = providersB.GetAll().ToList();
+            foreach (var y in providers)
+            {
+                foreach (var x in clients)
+                {
+                    if (y.IDPerson == x.IDPerson)
+                    {
+                        y.IsClient = true;
+                    }
+                }
+            }
+            return View(providers);
         }
 
         // GET: Clients/Details/5
@@ -59,8 +74,9 @@ namespace SantaMarta.Web.Controllers
                 provider.CellPhone = collection["CellPhone"];
                 provider.Email = collection["Email"];
                 provider.Address = collection["Address"];
-                provider.identification = collection["Identification"];
+                provider.Identification = collection["Identification"];
                 provider.NameCompany = collection["NameCompany"];
+                provider.Code = collection["Code"];
 
                 providersB.Create(provider);
 
@@ -111,8 +127,9 @@ namespace SantaMarta.Web.Controllers
                     provider.CellPhone = collection["CellPhone"];
                     provider.Email = collection["Email"];
                     provider.Address = collection["Address"];
-                    provider.identification = collection["Identification"];
+                    provider.Identification = collection["Identification"];
                     provider.NameCompany = collection["NameCompany"];
+                    provider.Code = collection["Code"];
 
                     providersB.Update(provider, id);
 

@@ -64,11 +64,11 @@ namespace SantaMarta.WebAPI.Controllers
         [HttpGet]
         public IHttpActionResult GetInvoicesDetails(Int64 id)
         {
-            IList<View_Invoice_Details> invoice = null;
+            View_Invoice_Details invoice = null;
 
             InvoicesB invoiceB = new InvoicesB();
 
-            invoice = invoiceB.GetAllDetails(id);
+            invoice = invoiceB.GetById(id);
 
             if (invoice == null)
             {
@@ -82,11 +82,11 @@ namespace SantaMarta.WebAPI.Controllers
         [HttpGet]
         public IHttpActionResult GetSumInvoicesSale(Int64 id)
         {
-            Decimal invoice;
+            Decimal? invoice;
 
             InvoicesB invoiceB = new InvoicesB();
 
-            invoice = invoiceB.GetSumInvoicesSale(id);
+            invoice = invoiceB.GetSumInvoices(id);
 
             return Ok(invoice);
         }
@@ -95,11 +95,9 @@ namespace SantaMarta.WebAPI.Controllers
         [HttpGet]
         public IHttpActionResult GetSalesProduct(Int64 id)
         {
-            Views_Sales_Purchase_Product invoice = null;
-
             InvoicesB invoiceB = new InvoicesB();
 
-            invoice = invoiceB.GetSalesProduct(id);
+            var invoice = invoiceB.GetSalesProduct(id);
 
             if (invoice == null)
             {

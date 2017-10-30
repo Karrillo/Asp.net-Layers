@@ -10,45 +10,39 @@ namespace SantaMarta.DataAccess.InvoiceAccess
     {
         ContextDb db = new ContextDb();
 
-        public List<Invoices> GetAll()
-        {
-            return null;
-        }
         public List<Views_Invoices> GetAllSales()
         {
             return db.Views_Invoices_All_Sales();
         }
-
-        public List<View_Invoice_Details> GetAllDetails(Int64 IDInvoice)
+        public List<Views_Invoices> GetAllPurchases()
         {
-            return db.View_Invoice_Details(IDInvoice);
+            return db.Views_Invoices_All_Purchase();
         }
-
-        public Decimal GetSumInvoicesSale(Int64 id)
+        public Decimal? GetSumInvoices(Int64 id)
         {
-            return db.Sum_Invoices_Sale(id);
+            return db.Sum_Invoices(id);
         }
-
-        public Views_Sales_Purchase_Product GetSalesProduct(Int64 id)
+        public List<Views_Sales_Purchase_Product> GetSalesProduct(Int64 id)
         {
             return db.Views_Sales_Product(id);
         }
-
-        public Invoices GetById(int id)
+        public List<Views_Sales_Purchase_Product> GetPurchasesProduct(Int64 id)
         {
-            return null;
+            return db.Views_Purchase_Product(id);
+        }
+        public View_Invoice_Details GetById(Int64 id)
+        {
+            return db.View_Invoice_Details(id);
         }
         public int Update(Invoices user)
         {
             return 0;
         }
-
         public int Create(Invoices invoices)
         {
             return db.Insert_Invoice(invoices);
         }
-
-        public int Delete(int id)
+        public int Delete(Int64 id)
         {
             return 0;
         }

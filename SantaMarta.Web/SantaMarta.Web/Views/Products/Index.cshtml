@@ -7,21 +7,24 @@
 }
 @Styles.Render("~/AdminPacket/plugins/datatables/css")
 @Styles.Render("~/AdminPacket/plugins/select2/css")
+@Styles.Render("~/AdminPacket/dist/css")
+
 @if (Session["users"] == null)
-    {
-        Response.Redirect("~/Login/Index");
-    }
-@*Boton ingresar nuevo*@
+{
+    Response.Redirect("~/Login/Index");
+}
+
 <div class="box-header">
-    <a class="btn btn-success btn-lg pull-right" data-target="#modal-crear" data-toggle="modal" href="/Products/Create">
+    <a class="btn btn-success btn-lg pull-right" data-target="#modal-crear" data-toggle="modal" href="@Url.Action("Create", "Products", new { id = Session["IDProvider"] })">
         <span class="glyphicon glyphicon-plus"></span> Nuevo Producto
     </a>
 </div>
+
 @using (Html.BeginForm("Index", "Products", FormMethod.Get, new { id = "Form" }))
 {
     <div class="form-group">
         <label>Selecionar:</label>
-        @Html.DropDownList("id", null, "Seleccionar un proveedor", new { @class = "form-control select2", id = "drop" })
+        @Html.DropDownList("id", null, "Seleccionar un Proveedor", new { @class = "form-control select2", id = "drop" })
     </div>
 }
 @*Table*@
@@ -51,10 +54,10 @@
                             <td>
                                 @if (Session["Type"] != null)
                                 {
-                                    <a class="btn btn-primary glyphicon glyphicon-edit" data-target="#modal-editar" data-toggle="modal" href="@Url.Action("Edit", "ProductsSM", new { id = item.IDProduct })"></a>
-                                    <a class="btn btn-danger glyphicon glyphicon-trash" data-target="#modal-editar" data-toggle="modal" href="@Url.Action("Delete", "ProductsSM", new { id = item.IDProduct })"></a>
+                                    <a class="btn btn-primary glyphicon glyphicon-edit" data-target="#modal-editar" data-toggle="modal" href="@Url.Action("Edit", "Products", new { id = item.IDProduct })"></a>
+                                    <a class="btn btn-danger glyphicon glyphicon-trash" data-target="#modal-editar" data-toggle="modal" href="@Url.Action("Delete", "Products", new { id = item.IDProduct })"></a>
                                 }
-                                <a class="btn btn-info glyphicon glyphicon-file" data-target="#modal-details" data-toggle="modal" href="@Url.Action("Details", "ProductsSM", new { id = item.IDProduct })"></a>
+                                <a class="btn btn-info glyphicon glyphicon-file" data-target="#modal-details" data-toggle="modal" href="@Url.Action("Details", "Products", new { id = item.IDProduct })"></a>
                             </td>
                         </tr>
                     }
@@ -71,7 +74,6 @@
         </table>
     </div>
 </div>
-
 @*modal*@
 <div class="modal fade" tabindex="-1" role="dialog" id="modal-crear" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -104,19 +106,21 @@
     @Scripts.Render("~/AdminPacket/plugins/datatables/js")
     @Scripts.Render("~/scripts/Tables/Data")
     @Scripts.Render("~/AdminPacket/plugins/select2/js")
+    @Scripts.Render("~/Scripts/Forms/Advanced")
     <script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
+
     <script>
         $('body').on('hidden.bs.modal', '.modal', function () {
             $(this).removeData('bs.modal');
         });
     </script>
+
     <script>
         $("#drop").change(function () {
             $('#Form').submit();
         })
     </script>
 }
-
 <script>
         function closeModalCreate(data) {
             if (data.success) {
@@ -129,7 +133,6 @@
         function closeModalEdit(data) {
             if (data.success) {
                 $('#modal-editar').modal('hide');
-                window.location.href = "/Products/Index";
             }
         }
 </script>
@@ -137,14 +140,6 @@
         function closeModalDelete(data) {
             if (data.success) {
                 $('#modal-delete').modal('hide');
-                window.location.href = "/Products/Index";
-            }
-        }
-</script>
-<script>
-        function closeModalDelete(data) {
-            if (data.success) {
-                $('#modal-details').modal('hide');
                 window.location.href = "/Products/Index";
             }
         }

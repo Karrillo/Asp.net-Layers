@@ -19,7 +19,7 @@
         OnSuccess = "closeModalCreate",
         InsertionMode = InsertionMode.Replace
     },
-                        new { @class = "form-horizontal", role = "form", id = "frmCrear" }))
+         new { @class = "form-horizontal", role = "form", id = "frmCrear" }))
     {
 
         @Html.AntiForgeryToken()
@@ -35,3 +35,6 @@
         </div>
     }
 </div>
+
+<script src="~/scripts/jquery.validate.min.js"></script>
+<script src="~/scripts/jquery.validate.unobtrusive.min.js"></script>

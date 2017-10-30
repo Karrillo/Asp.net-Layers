@@ -19,6 +19,12 @@ namespace SantaMarta.WebAPI
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            config.Routes.MapHttpRoute(
+                name: "GetName",
+                routeTemplate: "api/{controller}/{action}/{name}",
+                defaults: new { name = RouteParameter.Optional }
+            );
         }
     }
 }

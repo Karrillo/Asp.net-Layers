@@ -16,7 +16,7 @@ namespace SantaMarta.WebAPI.Controllers
         [HttpPost]
         public IHttpActionResult Post(Int64 id)
         {
-            int clients;
+            Int64 clients;
 
             DetailsB detailsB = new DetailsB();
 

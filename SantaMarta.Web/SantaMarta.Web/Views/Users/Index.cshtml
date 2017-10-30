@@ -46,8 +46,7 @@
                             <td>@Html.DisplayFor(modelItem => item.Type)</td>
                             <td>
                                 <a class="btn btn-primary glyphicon glyphicon-edit" data-target="#modal-editar" data-toggle="modal" href="@Url.Action("Edit", "Users", new { id = item.IDUser })"></a>
-                                <a class="btn btn-danger glyphicon glyphicon-trash" data-target="#modal-editar" data-toggle="modal" href="@Url.Action("Delete", "Users", new { id = item.IDUser })"></a>
-                                <a class="btn btn-info glyphicon glyphicon-file" data-target="#modal-details" data-toggle="modal" href="@Url.Action("Details", "Users", new { id = item.IDUser })"></a>
+                                <a class="btn btn-danger glyphicon glyphicon-trash" data-target="#modal-delete" data-toggle="modal" href="@Url.Action("Delete", "Users", new { id = item.IDUser })"></a>
                             </td>
                         </tr>
                     }
@@ -102,7 +101,6 @@
         });
     </script>
 }
-
 <script>
     function closeModalCreate(data) {
         if (data.success) {
@@ -123,14 +121,6 @@
     function closeModalDelete(data) {
         if (data.success) {
             $('#modal-delete').modal('hide');
-            window.location.href = "/Users/Index";
-        }
-    }
-</script>
-<script>
-    function closeModalDelete(data) {
-        if (data.success) {
-            $('#modal-details').modal('hide');
             window.location.href = "/Users/Index";
         }
     }

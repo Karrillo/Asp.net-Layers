@@ -9,11 +9,11 @@ namespace SantaMarta.Web.Controllers
 {
     public class ProductsController : Controller
     {
-        ProductsProvidersB productsProvidersB = new ProductsProvidersB();
+        private ProductsProvidersB productsProvidersB = new ProductsProvidersB();
 
-        // GET: ProductsSM
         public ActionResult Index(String id)
         {
+
             if (id != null && id != "")
             {
                 Session["IDProvider"] = id;
@@ -35,7 +35,6 @@ namespace SantaMarta.Web.Controllers
             }
         }
 
-        // GET: ProductsSM/Details/5
         public ActionResult Details(int id)
         {
             if (id == 0)
@@ -53,16 +52,14 @@ namespace SantaMarta.Web.Controllers
             return PartialView(product);
         }
 
-        // GET: ProductsSM/Create
-        public ActionResult Create()
+        public ActionResult Create(int? id)
         {
             return PartialView();
         }
 
-        // POST: ProductsSM/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(int id, FormCollection collection)
+        public ActionResult Create(FormCollection collection, int id)
         {
             try
             {
@@ -72,6 +69,7 @@ namespace SantaMarta.Web.Controllers
                 product.Name = collection["Name"];
                 product.Price = Decimal.Parse(collection["Price"]);
                 product.Description = collection["Description"];
+                product.Tax = Decimal.Parse(collection["Tax"]);
                 product.IdProvider = Convert.ToInt32(id);
 
                 productsProvidersB.Create(product);
@@ -86,7 +84,6 @@ namespace SantaMarta.Web.Controllers
             }
         }
 
-        // GET: ProductsSM/Edit/5
         public ActionResult Edit(int id)
         {
             if (id == 0)
@@ -104,7 +101,6 @@ namespace SantaMarta.Web.Controllers
             return PartialView(product);
         }
 
-        // POST: ProductsSM/Edit/5
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
         {
@@ -119,6 +115,7 @@ namespace SantaMarta.Web.Controllers
                     product.Name = collection["Name"];
                     product.Price = Decimal.Parse(collection["Price"]);
                     product.Description = collection["Description"];
+                    product.Tax = Decimal.Parse(collection["Tax"]);
 
                     productsProvidersB.Update(product, id);
                 }
@@ -131,7 +128,6 @@ namespace SantaMarta.Web.Controllers
             }
         }
 
-        // GET: ProductsSM/Delete/5
         public ActionResult Delete(int id)
         {
             return PartialView();
