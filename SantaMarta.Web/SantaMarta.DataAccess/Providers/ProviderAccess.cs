@@ -9,7 +9,12 @@ namespace SantaMarta.DataAccess.ProviderAccess
 {
     public class ProviderAccess
     {
-        ContextDb db = new ContextDb();
+        private ContextDb db;
+
+        public ProviderAccess()
+        {
+            db = new ContextDb();
+        }
 
         public List<All_Providers> GetAll()
         {

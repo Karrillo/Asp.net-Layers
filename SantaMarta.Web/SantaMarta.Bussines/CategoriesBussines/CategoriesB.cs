@@ -1,5 +1,6 @@
 ﻿using SantaMarta.Data.Models.Categories;
 using SantaMarta.DataAccess.CategoryAccess;
+using System;
 using System.Collections.Generic;
 
 namespace SantaMarta.Bussines.CategoriesBussines
@@ -16,6 +17,11 @@ namespace SantaMarta.Bussines.CategoriesBussines
         public int Delete(int id)
         {
             return categoryAccess.Delete(id);
+        }
+
+        public String CheckName(string name)
+        {
+            return categoryAccess.CheckName(name);
         }
 
         public List<Categories> GetAll()

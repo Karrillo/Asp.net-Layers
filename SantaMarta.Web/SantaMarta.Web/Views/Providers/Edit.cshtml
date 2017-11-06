@@ -21,7 +21,7 @@
         InsertionMode = InsertionMode.Replace
 
     },
-                        new { @class = "form-horizontal", role = "form", id = "frmEdit" }))
+                                new { @class = "form-horizontal", role = "form", id = "frmEdit" }))
     {
 
         @Html.AntiForgeryToken()
@@ -29,12 +29,12 @@
         //textbox
         <div class="box-body">
             Codigo:
-            @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Codigo" } })
-            @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Codigo", id = "code" } })
+            @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger", id = "codeValidation" })
             <br>
             Identicacion:
-            @Html.EditorFor(model => model.Identification, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Identificacion" } })
-            @Html.ValidationMessageFor(model => model.Identification, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.Identification, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "identificacion", id = "identification" } })
+            @Html.ValidationMessageFor(model => model.Identification, "", new { @class = "text-danger", id = "identificacionValidation" })
             <br>
             Nombre(s):
             @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Nombre" } })
@@ -84,3 +84,52 @@
 </div>
 <script src="~/scripts/jquery.validate.min.js"></script>
 <script src="~/scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+        document.getElementById("code").addEventListener("change", myFunction);
+        function myFunction() {
+            var valueCode = $("#code").val();
+            if (valueCode) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetCode")',
+                    dataType: 'json',
+                    data: { code: valueCode},
+                    success: function (product) {
+                        $("#codeValidation").text("El codigo ya esta registrado: " + valueCode).show();
+                        $("#code").val("");
+                        $("#code").focus();
+                            return false;
+                    },
+                    error: function (ex) {
+                        return true;
+                    }
+                });
+            }
+        }
+</script>
+
+
+<script>
+        document.getElementById("identification").addEventListener("change", myFunction);
+        function myFunction() {
+            var valueCode = $("#identification").val();
+            if (valueCode) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetIdentification")',
+                    dataType: 'json',
+                    data: { identification: valueCode},
+                    success: function (product) {
+                        $("#identificationValidation").text("La identificacion ya esta registrado: " + valueCode).show();
+                        $("#identification").val("");
+                        $("#identification").focus();
+                            return false;
+                    },
+                    error: function (ex) {
+                        return true;
+                    }
+                });
+            }
+        }
+</script>

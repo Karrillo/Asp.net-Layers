@@ -58,12 +58,13 @@
     <Compile Include="Store Procedures\All_Clients.cs" />
     <Compile Include="Store Procedures\All_Providers.cs" />
     <Compile Include="Store Procedures\AssetsLiabilitiesDetails.cs" />
+    <Compile Include="Store Procedures\InvoicesTable.cs" />
     <Compile Include="Store Procedures\List_Providers.cs" />
     <Compile Include="Store Procedures\Sum_Account_Category.cs" />
     <Compile Include="Store Procedures\Sum_AssetLiability.cs" />
     <Compile Include="Store Procedures\Views_Invoices.cs" />
-    <Compile Include="Store Procedures\Views_Sales_Purchase_Product.cs" />
-    <Compile Include="Store Procedures\View_Invoice_Details.cs" />
+    <Compile Include="Store Procedures\Views_Invoinces_Details.cs" />
+    <Compile Include="Store Procedures\Views_Invoinces_Products.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

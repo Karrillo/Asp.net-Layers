@@ -9,7 +9,12 @@ namespace SantaMarta.DataAccess.ProductsProviders
 {
     public class ProductsProvidersAccess
     {
-        ContextDb db = new ContextDb();
+        private ContextDb db;
+
+        public ProductsProvidersAccess()
+        {
+            db = new ContextDb();
+        }
 
         public List<Products> GetAll(Int64 id)
         {

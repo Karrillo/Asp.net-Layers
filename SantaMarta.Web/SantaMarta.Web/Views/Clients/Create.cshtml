@@ -28,11 +28,11 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         //textbox
         <div class="box-body">
-            @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Codigo" } })
-            @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Codigo", id="code" } })
+            @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger", id = "codeValidation" })
             <br>
-            @Html.EditorFor(model => model.Identification, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Identificacion" } })
-            @Html.ValidationMessageFor(model => model.Identification, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.Identification, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "identificacion", id= "identification" } })
+            @Html.ValidationMessageFor(model => model.Identification, "", new { @class = "text-danger", id = "identificacionValidation" })
             <br>
             @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Nombre" } })
             @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
@@ -85,4 +85,54 @@
         $('#cellPhone').mask('0000-0000');
         $('#phone').mask('0000-0000');
     });
+</script>
+
+
+<script>
+        document.getElementById("code").addEventListener("change", myFunction);
+        function myFunction() {
+            var valueCode = $("#code").val();
+            if (valueCode) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetCode")',
+                    dataType: 'json',
+                    data: { code: valueCode},
+                    success: function (product) {
+                        $("#codeValidation").text("El codigo ya esta registrado: " + valueCode).show();
+                        $("#code").val("");
+                        $("#code").focus();
+                            return false;
+                    },
+                    error: function (ex) {
+                        return true;
+                    }
+                });
+            }
+        }
+</script>
+
+
+<script>
+        document.getElementById("identification").addEventListener("change", myFunction);
+        function myFunction() {
+            var valueCode = $("#identification").val();
+            if (valueCode) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetIdentification")',
+                    dataType: 'json',
+                    data: { identification: valueCode},
+                    success: function (product) {
+                        $("#identificationValidation").text("La identificacion ya esta registrado: " + valueCode).show();
+                        $("#identification").val("");
+                        $("#identification").focus();
+                            return false;
+                    },
+                    error: function (ex) {
+                        return true;
+                    }
+                });
+            }
+        }
 </script>

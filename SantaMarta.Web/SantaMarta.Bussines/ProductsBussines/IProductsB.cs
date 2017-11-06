@@ -1,4 +1,5 @@
 ﻿using SantaMarta.Data.Models.Products;
+using System;
 using System.Collections.Generic;
 
 namespace SantaMarta.Bussines.ProductsBussines
@@ -10,5 +11,7 @@ namespace SantaMarta.Bussines.ProductsBussines
         int Delete(int id);
         Products GetById(int id);
         List<Products> GetAll();
+        String CheckName(string code);
+
     }
 }

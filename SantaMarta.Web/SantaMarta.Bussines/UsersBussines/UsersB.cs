@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using SantaMarta.Data.Models.Users;
 using SantaMarta.DataAccess.UserAccess;
+using System;
 
 namespace SantaMarta.Bussines.UsersBussines
 {
@@ -12,6 +13,11 @@ namespace SantaMarta.Bussines.UsersBussines
         public Users Check(string nickname, string password)
         {
             return userAccess.Check(nickname, password);
+        }
+
+        public String CheckNickname(string nickname)
+        {
+            return userAccess.CheckNickname(nickname);
         }
 
         public int Create(Users input)

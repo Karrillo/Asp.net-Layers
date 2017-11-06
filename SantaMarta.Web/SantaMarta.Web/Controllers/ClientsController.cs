@@ -1,4 +1,5 @@
 ﻿using SantaMarta.Bussines.ClientsBussines;
+using SantaMarta.Bussines.PersonsBussines;
 using SantaMarta.Bussines.ProvidersBussines;
 using SantaMarta.Data.Models.Persons;
 using SantaMarta.Data.Store_Procedures;
@@ -12,8 +13,16 @@ namespace SantaMarta.Web.Controllers
 {
     public class ClientsController : Controller
     {
-        private ClientsB clientsB = new ClientsB();
-        private ProvidersB providersB = new ProvidersB();
+        private ClientsB clientsB;
+        private ProvidersB providersB;
+        private PersonsB personsB;
+
+        public ClientsController()
+        {
+            clientsB = new ClientsB();
+            providersB = new ProvidersB();
+            personsB = new PersonsB();
+        }
 
         // GET: Clients
         public ActionResult Index()
@@ -80,7 +89,7 @@ namespace SantaMarta.Web.Controllers
 
                 return Json(new { success = true });
             }
-            catch(InvalidCastException e)
+            catch (InvalidCastException e)
             {
                 Console.WriteLine("IOException source: {0}", e.Source);
 
@@ -180,6 +189,18 @@ namespace SantaMarta.Web.Controllers
             {
                 return PartialView();
             }
+        }
+
+        public JsonResult GetCode(string code)
+        {
+            String codePersons = personsB.CheckCode(code);
+            return Json(codePersons, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetIdentification(string identification)
+        {
+            String identificationPersons = personsB.CheckIdentification(identification);
+            return Json(identificationPersons, JsonRequestBehavior.AllowGet);
         }
     }
 }

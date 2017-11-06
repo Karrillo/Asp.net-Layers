@@ -8,12 +8,13 @@ namespace SantaMarta.Bussines.AssetsLiabilitiesBussines
     public interface IAssetsLiabilitiesB
     {
         int Create(AssetsLiabilities input);
+        int CreateCredit(AssetsLiabilities input);
         int Update(AssetsLiabilities input);
         int Delete(int id);
         AssetsLiabilities GetById(int id);
         List<AssetsLiabilities> GetAll();
         List<AssetsLiabilities> GetAllDate(String dateStart, String dateEnd);
         Decimal? TotalSum(String dateStart, String dateEnd, Boolean type);
-
+        List<AssetsLiabilities> GetByIdInvoinces(Int64 id);
     }
 }

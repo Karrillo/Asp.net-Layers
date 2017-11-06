@@ -1,5 +1,6 @@
 ﻿using SantaMarta.Data.Models.Products;
 using SantaMarta.DataAccess.ProductAccess;
+using System;
 using System.Collections.Generic;
 
 namespace SantaMarta.Bussines.ProductsBussines
@@ -10,6 +11,11 @@ namespace SantaMarta.Bussines.ProductsBussines
         public int Create(Products input)
         {
             return productAccess.Create(input);
+        }
+
+        public String CheckName(string code)
+        {
+            return productAccess.CheckName(code);
         }
 
         public int Delete(int id)

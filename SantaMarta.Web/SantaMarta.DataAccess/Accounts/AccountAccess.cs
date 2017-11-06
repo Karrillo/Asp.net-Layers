@@ -2,17 +2,29 @@
 using System.Collections.Generic;
 using SantaMarta.Data.Models.Accounts;
 using System.Linq;
+using System;
 
 namespace SantaMarta.DataAccess.AccountAccess
 {
     public class AccountAccess
     {
-        ContextDb db = new ContextDb();
+        private ContextDb db;
+
+        public AccountAccess()
+        {
+            db = new ContextDb();
+        }
 
         public List<Accounts> GetAll()
         {
             List<Accounts> accounts = db.List_Accounts().ToList();
             return accounts;
+        }
+
+        public String CheckName(string name)
+        {
+            String account = db.Check_NameAccount(name);
+            return account;
         }
 
         public Accounts GetById(int id)

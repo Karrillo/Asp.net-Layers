@@ -2,16 +2,28 @@
 using SantaMarta.Data.Models.Categories;
 using SantaMarta.DataAccess.Entity;
 using System.Linq;
+using System;
 
 namespace SantaMarta.DataAccess.CategoryAccess
 {
     public class CategoryAccess
     {
-        ContextDb db = new ContextDb();
+        private ContextDb db;
+
+        public CategoryAccess()
+        {
+            db = new ContextDb();
+        }
 
         public List<Categories> GetAll()
         {
             List<Categories> categories = db.View_Categories().ToList();
+            return categories;
+        }
+
+        public String CheckName(string name)
+        {
+            String categories = db.Check_NameCategory(name);
             return categories;
         }
 

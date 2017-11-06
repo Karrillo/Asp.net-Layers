@@ -8,11 +8,22 @@ namespace SantaMarta.DataAccess.SubCategoryAccess
 {
     public class SubCategoryAccess
     {
-        ContextDb db = new ContextDb();
+        private ContextDb db;
+
+        public SubCategoryAccess()
+        {
+            db = new ContextDb();
+        }
 
         public List<SubCategories> GetAll()
         {
             List<SubCategories> subCategories = db.View_SubCategories().ToList();
+            return subCategories;
+        }
+
+        public String CheckName(string name, int id)
+        {
+            String subCategories = db.Check_NameSubCategory(name, id);
             return subCategories;
         }
 

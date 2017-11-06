@@ -10,8 +10,14 @@ namespace SantaMarta.Web.Controllers
 {
     public class CategoriesController : Controller
     {
-        private CategoriesB categoriesB = new CategoriesB();
-        private SubCategoriesB subCategoriesB = new SubCategoriesB();
+        private CategoriesB categoriesB;
+        private SubCategoriesB subCategoriesB;
+
+        public CategoriesController()
+        {
+            categoriesB = new CategoriesB();
+            subCategoriesB = new SubCategoriesB();
+        }
 
         // GET: Categories
         public ActionResult Index()
@@ -119,6 +125,12 @@ namespace SantaMarta.Web.Controllers
             {
                 return PartialView();
             }
+        }
+
+        public JsonResult GetName(string name)
+        {
+            String nameCategory = categoriesB.CheckName(name);
+            return Json(nameCategory, JsonRequestBehavior.AllowGet);
         }
     }
 }

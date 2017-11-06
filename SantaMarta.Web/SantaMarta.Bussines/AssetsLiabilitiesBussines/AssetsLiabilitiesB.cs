@@ -14,6 +14,10 @@ namespace SantaMarta.Bussines.AssetsLiabilitiesBussines
         {
             return assetsLiabilityAccess.Create(input);
         }
+        public int CreateCredit(AssetsLiabilities input)
+        {
+            return assetsLiabilityAccess.CreateCredit(input);
+        }
         public Decimal? TotalSum(String dateStart, String dateEnd, Boolean type)
         {
             return assetsLiabilityAccess.TotalSum(dateStart, dateEnd, type);
@@ -37,6 +41,10 @@ namespace SantaMarta.Bussines.AssetsLiabilitiesBussines
         public int Update(AssetsLiabilities input)
         {
             return assetsLiabilityAccess.Update(input);
+        }
+        public List<AssetsLiabilities> GetByIdInvoinces(Int64 id)
+        {
+            return assetsLiabilityAccess.GetByIdInvoinces(id);
         }
     }
 }

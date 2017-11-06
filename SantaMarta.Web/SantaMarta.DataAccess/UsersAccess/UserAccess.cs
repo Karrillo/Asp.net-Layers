@@ -8,7 +8,13 @@ namespace SantaMarta.DataAccess.UserAccess
 {
     public class UserAccess
     {
-        ContextDb db = new ContextDb();
+        private ContextDb db;
+
+        public UserAccess()
+        {
+            db = new ContextDb();
+        }
+
         public Users Check(string nickname, string password)
         {
             Users user = db.Check_Users(nickname, password);
@@ -16,6 +22,12 @@ namespace SantaMarta.DataAccess.UserAccess
             {
                 return Decrypt(user);
             }
+            return user;
+        }
+
+        public String CheckNickname(string nickname)
+        {
+            String user = db.Check_Nickname(nickname);
             return user;
         }
 

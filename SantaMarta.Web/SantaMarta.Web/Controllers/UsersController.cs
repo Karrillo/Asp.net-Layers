@@ -9,7 +9,12 @@ namespace SantaMarta.Web.Controllers
 {
     public class UsersController : Controller
     {
-        private UsersB userB = new UsersB();
+        private UsersB userB;
+
+        public UsersController()
+        {
+            userB = new UsersB();
+        }
 
         // GET: Users
         public ActionResult Index()
@@ -34,7 +39,7 @@ namespace SantaMarta.Web.Controllers
                 return Json(new { success = true });
             }
 
-            return PartialView(users);      
+            return PartialView(users);
         }
 
         // GET: Users/Edit/5
@@ -87,6 +92,12 @@ namespace SantaMarta.Web.Controllers
             {
                 return PartialView();
             }
+        }
+
+        public JsonResult GetName(string name)
+        {
+            String nickName = userB.CheckNickname(name);
+            return Json(nickName, JsonRequestBehavior.AllowGet);
         }
     }
 }

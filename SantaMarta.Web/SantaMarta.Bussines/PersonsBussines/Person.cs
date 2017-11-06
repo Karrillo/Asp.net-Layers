@@ -1,5 +1,6 @@
 ﻿using SantaMarta.Data.Models.Persons;
 using SantaMarta.DataAccess.PersonAccess;
+using System;
 using System.Collections.Generic;
 
 namespace SantaMarta.Bussines.PersonsBussines
@@ -11,6 +12,16 @@ namespace SantaMarta.Bussines.PersonsBussines
         public bool Create(Persons input)
         {
             return personAccess.Create(input);
+        }
+
+        public String CheckIdentification(string identification)
+        {
+            return personAccess.CheckIdentification(identification);
+        }
+
+        public String CheckCode(string code)
+        {
+            return personAccess.CheckCode(code);
         }
 
         public bool Delete(int id)

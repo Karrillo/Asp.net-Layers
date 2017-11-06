@@ -9,11 +9,16 @@ namespace SantaMarta.DataAccess.ClientAccess
 {
     public class ClientAccess
     {
-        ContextDb db = new ContextDb();
+        private ContextDb db;
+
+        public ClientAccess()
+        {
+            db = new ContextDb();
+        }
 
         public List<All_Clients> GetAll()
         {
-            List <All_Clients> clients = db.All_Clients_Active().ToList();
+            List<All_Clients> clients = db.All_Clients_Active().ToList();
             return clients;
         }
 

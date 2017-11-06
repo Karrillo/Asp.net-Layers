@@ -8,11 +8,22 @@ namespace SantaMarta.DataAccess.ProductAccess
 {
     public class ProductAccess
     {
-        ContextDb db = new ContextDb();
+        private ContextDb db;
+
+        public ProductAccess()
+        {
+            db = new ContextDb();
+        }
 
         public List<Products> GetAll()
         {
             List<Products> products = db.List_Products_SM().ToList();
+            return products;
+        }
+
+        public String CheckName(string code)
+        {
+            String products = db.Check_CodeProduct(code);
             return products;
         }
 

@@ -33,7 +33,7 @@ namespace SantaMarta.Data.Models.AssetsLiabilities
         public Int64? IdInvoice { get; set; }
 
         [Required(ErrorMessage = "Cuenta requerida")]
-        public Int64? IdAccount { get; set; }
+        public Int64 IdAccount { get; set; }
 
         [Required(ErrorMessage = "Sub-Categoria requerida")]
         public Int64? IdSubCategory { get; set; }

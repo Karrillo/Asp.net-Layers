@@ -9,7 +9,12 @@ namespace SantaMarta.Web.Controllers
 {
     public class ProductsSMController : Controller
     {
-        private ProductsB productsB = new ProductsB();
+        private ProductsB productsB;
+
+        public ProductsSMController()
+        {
+            productsB = new ProductsB();
+        }
 
         // GET: ProductsSM
         public ActionResult Index()
@@ -133,6 +138,12 @@ namespace SantaMarta.Web.Controllers
             {
                 return PartialView();
             }
+        }
+
+        public JsonResult GetProduct(string name)
+        {
+            String product = productsB.CheckName(name);
+            return Json(product, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using SantaMarta.Data.Models.Persons;
+using System;
 using System.Collections.Generic;
 
 namespace SantaMarta.Bussines.PersonsBussines
@@ -10,5 +11,7 @@ namespace SantaMarta.Bussines.PersonsBussines
         bool Delete(int id);
         Persons GetById(int id);
         List<Persons> GetAll();
+        String CheckIdentification(string identification);
+        String CheckCode(string code);
     }
 }

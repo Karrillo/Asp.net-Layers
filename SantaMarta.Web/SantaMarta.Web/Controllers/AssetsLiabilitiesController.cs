@@ -21,11 +21,20 @@ namespace SantaMarta.Web.Controllers
     public class AssetsLiabilitiesController : Controller
     {
 
-        private AssetsLiabilitiesB assetsLiabilitiesB = new AssetsLiabilitiesB();
-        private CategoriesB categoriesB = new CategoriesB();
-        private SubCategoriesB subCategoriesB = new SubCategoriesB();
-        private AccountsB accountB = new AccountsB();
-        private UsersB userB = new UsersB();
+        private AssetsLiabilitiesB assetsLiabilitiesB;
+        private CategoriesB categoriesB;
+        private SubCategoriesB subCategoriesB;
+        private AccountsB accountB;
+        private UsersB userB;
+
+        public AssetsLiabilitiesController()
+        {
+            assetsLiabilitiesB = new AssetsLiabilitiesB();
+            categoriesB = new CategoriesB();
+            subCategoriesB = new SubCategoriesB();
+            accountB = new AccountsB();
+            userB = new UsersB();
+        }
 
         // GET: AssetsLiabilities
         public ActionResult Index(String value_from_start_date, String value_from_end_date)
@@ -136,8 +145,8 @@ namespace SantaMarta.Web.Controllers
                 assetLiability.Description = collection["Description"];
                 assetLiability.Name = collection["Name"];
                 assetLiability.IdUser = user.IDUser;
-                assetLiability.IdAccount = Convert.ToInt64(collection["account"]);
-                assetLiability.IdSubCategory = Convert.ToInt64(collection["subCategory"]);
+                assetLiability.IdAccount = Convert.ToInt64(collection["IdAccount"]);
+                assetLiability.IdSubCategory = Convert.ToInt64(collection["IdSubCategory"]);
 
                 assetsLiabilitiesB.Create(assetLiability);
                 return Json(new { success = true });

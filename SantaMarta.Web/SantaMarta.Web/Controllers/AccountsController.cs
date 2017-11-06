@@ -11,7 +11,12 @@ namespace SantaMarta.Web.Controllers
 {
     public class AccountsController : Controller
     {
-        private AccountsB accountB = new AccountsB();
+        private AccountsB accountB;
+
+        public AccountsController()
+        {
+            accountB = new AccountsB();
+        }
 
         // GET: Users
         public ActionResult Index()
@@ -111,6 +116,12 @@ namespace SantaMarta.Web.Controllers
             {
                 return PartialView();
             }
+        }
+
+        public JsonResult GetName(string name)
+        {
+            String nameAccount = accountB.CheckName(name);
+            return Json(nameAccount, JsonRequestBehavior.AllowGet);
         }
     }
 }

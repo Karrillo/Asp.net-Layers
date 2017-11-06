@@ -17,6 +17,11 @@ namespace SantaMarta.Bussines.AccountsBussines
             return accountAccess.Create(input);
         }
 
+        public String CheckName(string name)
+        {
+            return accountAccess.CheckName(name);
+        }
+
         public int Delete(int id)
         {
             return accountAccess.Delete(id);

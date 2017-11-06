@@ -23,7 +23,6 @@ namespace SantaMarta.Data.Models.Products
         public Boolean State { get; set; }
 
         [RegularExpression(@"^[,.A-Za-z0-9 ]*$", ErrorMessage = "Caracteres especiales no son permitidos")]
-        [DataType(DataType.Text)]
         [StringLength(50, MinimumLength = 1, ErrorMessage = "El numero de caracteres debe ser menor a 50")]
         public String Description { get; set; }
 

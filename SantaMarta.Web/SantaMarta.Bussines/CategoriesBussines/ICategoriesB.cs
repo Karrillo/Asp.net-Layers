@@ -1,4 +1,5 @@
 ﻿using SantaMarta.Data.Models.Categories;
+using System;
 using System.Collections.Generic;
 
 namespace SantaMarta.Bussines.CategoriesBussines
@@ -10,5 +11,6 @@ namespace SantaMarta.Bussines.CategoriesBussines
         int Delete(int id);
         Categories GetById(int id);
         List<Categories> GetAll();
+        String CheckName(string name);
     }
 }

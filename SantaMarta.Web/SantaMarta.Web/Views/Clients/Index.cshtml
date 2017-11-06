@@ -59,11 +59,11 @@
                                 @if (Session["Type"] != null)
                                 {
                                     @*Boton Editar*@
-                                    <a class="btn btn-primary glyphicon glyphicon-edit" data-target="#modal-editar" data-toggle="modal" href="@Url.Action("Edit", "Clients", new { id = item.IDPerson })"></a>
+                                    <a class="btn btn-primary glyphicon glyphicon-edit" data-target="#modal-editar" data-toggle="modal" href="@Url.Action("Edit", "Clients", new { id = item.IDClient })"></a>
                                     @*Boton Borrar*@
-                                    <a class="btn btn-danger glyphicon glyphicon-trash" data-target="#modal-delete" data-toggle="modal" href="@Url.Action("Delete", "Clients", new { id = item.IDPerson })"></a>
+                                    <a class="btn btn-danger glyphicon glyphicon-trash" data-target="#modal-delete" data-toggle="modal" href="@Url.Action("Delete", "Clients", new { id = item.IDClient })"></a>
                                 }
-                                <a class="btn btn-info glyphicon glyphicon-file" data-target="#modal-details" data-toggle="modal" href="@Url.Action("Details", "Clients", new { id = item.IDPerson })"></a>
+                                <a class="btn btn-info glyphicon glyphicon-file" data-target="#modal-details" data-toggle="modal" href="@Url.Action("Details", "Clients", new { id = item.IDClient })"></a>
                                 @if (item.IsProvider == false)
                                 {
                                     <a class="btn btn-warning glyphicon glyphicon-plus" data-target="#modal-createCP" data-toggle="modal" href="@Url.Action("CreateCP", "Clients", new { id = item.IDClient })"></a>

@@ -1,4 +1,5 @@
-﻿using SantaMarta.Bussines.ProductsProvidersBussines;
+﻿using SantaMarta.Bussines.ProductsBussines;
+using SantaMarta.Bussines.ProductsProvidersBussines;
 using SantaMarta.Data.Models.Products;
 using System;
 using System.Linq;
@@ -9,7 +10,14 @@ namespace SantaMarta.Web.Controllers
 {
     public class ProductsController : Controller
     {
-        private ProductsProvidersB productsProvidersB = new ProductsProvidersB();
+        private ProductsProvidersB productsProvidersB;
+        private ProductsB productsB;
+
+        public ProductsController()
+        {
+            productsProvidersB = new ProductsProvidersB();
+            productsB = new ProductsB();
+        }
 
         public ActionResult Index(String id)
         {
@@ -146,6 +154,12 @@ namespace SantaMarta.Web.Controllers
             {
                 return PartialView();
             }
+        }
+
+        public JsonResult GetProduct(string name)
+        {
+            String product = productsB.CheckName(name);
+            return Json(product, JsonRequestBehavior.AllowGet);
         }
     }
 }

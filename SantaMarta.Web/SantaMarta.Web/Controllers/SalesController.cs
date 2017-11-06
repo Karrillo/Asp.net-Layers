@@ -24,21 +24,74 @@ namespace SantaMarta.Web.Controllers
 {
     public class SalesController : Controller
     {
-        private CategoriesB categoriesB = new CategoriesB();
-        private SubCategoriesB subCategoriesB = new SubCategoriesB();
-        private AccountsB accountB = new AccountsB();
-        private UsersB userB = new UsersB();
-        private SalesB saleB = new SalesB();
-        private AssetsLiabilitiesB assetsLiabilitiesB = new AssetsLiabilitiesB();
-        private ClientsB clientsB = new ClientsB();
-        private ProductsB productsB = new ProductsB();
-        private DetailsB detailsB = new DetailsB();
-        private InvoicesB invoicesB = new InvoicesB();
+        private CategoriesB categoriesB;
+        private SubCategoriesB subCategoriesB;
+        private AccountsB accountB;
+        private UsersB userB;
+        private SalesB saleB;
+        private AssetsLiabilitiesB assetsLiabilitiesB;
+        private ClientsB clientsB;
+        private ProductsB productsB;
+        private DetailsB detailsB;
+        private InvoicesB invoicesB;
+
+        public SalesController()
+        {
+            categoriesB = new CategoriesB();
+            subCategoriesB = new SubCategoriesB();
+            accountB = new AccountsB();
+            userB = new UsersB();
+            saleB = new SalesB();
+            assetsLiabilitiesB = new AssetsLiabilitiesB();
+            clientsB = new ClientsB();
+            productsB = new ProductsB();
+            detailsB = new DetailsB();
+            invoicesB = new InvoicesB();
+        }
 
         // GET: Sales
         public ActionResult Index()
         {
-            return View(invoicesB.GetAllSales().ToList());
+            List<InvoicesTable> invoicesTable = new List<InvoicesTable>();
+            List<Views_Invoices> invoices = invoicesB.GetAllSales().ToList();
+
+            DateTime date = DateTime.Now;
+            Int16 state = 0;
+
+            foreach (var item in invoices)
+            {
+                state = 0;
+
+                if (item.LimitDate < date && item.Total != item.Rode)
+                {
+                    state = 0;
+                }
+                else if (item.Total == item.Rode)
+                {
+                    state = 1;
+                }
+                else if (item.Total != item.Rode && item.LimitDate > date)
+                {
+                    state = 2;
+                }
+
+                if (item.Rode == null)
+                {
+                    item.Rode = 0;
+                }
+
+                invoicesTable.Add(new InvoicesTable()
+                {
+                    IDInvoice = item.IDInvoice,
+                    Name = item.SecondName + " " + item.FirstName + " " + item.Name,
+                    NameCompany = item.NameCompany,
+                    Code = item.Code,
+                    Date = item.CurrentDate.ToShortDateString(),
+                    Rode = item.Total - item.Rode ?? 0,
+                    Type = state
+                });
+            }
+            return View(invoicesTable);
         }
 
         // GET: Sales/Details/5
@@ -48,15 +101,20 @@ namespace SantaMarta.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
-            var sale = invoicesB.GetById(id);
-
-            if (sale == null)
+            Views_Invoinces_Details sales = invoicesB.GetById(id);
+            sales.Date = sales.CurrentDate.ToShortDateString();
+            if (sales == null)
             {
                 return HttpNotFound();
             }
-
-            return PartialView(sale);
+            sales.Products = saleB.GetById(sales.IdDetail).ToList();
+            sales.AssetsLiabilities = assetsLiabilitiesB.GetByIdInvoinces(id).ToList();
+            foreach (var item in sales.AssetsLiabilities)
+            {
+                sales.Payments = sales.Payments + item.Rode;
+            }
+            sales.Residue = sales.Total - sales.Payments;
+            return PartialView(sales);
         }
 
         public JsonResult GetProduct(string id)
@@ -76,7 +134,6 @@ namespace SantaMarta.Web.Controllers
         {
             try
             {
-
                 var clients = clientsB.GetAll().ToList();
                 ViewData["clientsCode"] = new SelectList(clients, "IdClient", "Code");
                 ViewData["clientsCompany"] = new SelectList(clients, "IdClient", "NameCompany");
@@ -164,7 +221,7 @@ namespace SantaMarta.Web.Controllers
             }
         }
 
-        public ActionResult Assets(int id)
+        public ActionResult Assets(int id, string name, decimal rode)
         {
             ViewData["category"] = new SelectList(categoriesB.GetAll(), "IdCategory", "Name");
             ViewData["account"] = new SelectList(accountB.GetAll(), "IdAccount", "Name");
@@ -174,7 +231,7 @@ namespace SantaMarta.Web.Controllers
         // POST: Sales/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Assets(int id, FormCollection collection)
+        public ActionResult Assets(int id, string name, decimal rode, FormCollection collection)
         {
             var user = (Users)Session["users"];
             try
@@ -186,10 +243,13 @@ namespace SantaMarta.Web.Controllers
                 assetLiability.Rode = Decimal.Parse(collection["Rode"]);
                 assetLiability.Description = collection["Description"];
                 assetLiability.IdUser = user.IDUser;
-                assetLiability.IdAccount = Convert.ToInt64(collection["account"]);
-                assetLiability.IdSubCategory = Convert.ToInt64(collection["subCategory"]);
+                assetLiability.IdAccount = Convert.ToInt64(collection["IdAccount"]);
+                assetLiability.IdSubCategory = Convert.ToInt64(collection["IdSubCategory"]);
+                assetLiability.Name = name;
+                assetLiability.IdInvoice = id;
 
-                assetsLiabilitiesB.Create(assetLiability);
+
+                assetsLiabilitiesB.CreateCredit(assetLiability);
                 return Json(new { success = true });
             }
             catch (Exception ex)

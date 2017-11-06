@@ -1,4 +1,5 @@
 ﻿using SantaMarta.Bussines.ClientsBussines;
+using SantaMarta.Bussines.PersonsBussines;
 using SantaMarta.Bussines.ProvidersBussines;
 using SantaMarta.Data.Models.Persons;
 using SantaMarta.Data.Store_Procedures;
@@ -6,15 +7,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 
 namespace SantaMarta.Web.Controllers
 {
     public class ProvidersController : Controller
     {
-        private ProvidersB providersB = new ProvidersB();
-        private ClientsB clientsB = new ClientsB();
+        private ProvidersB providersB;
+        private ClientsB clientsB;
+        private PersonsB personsB;
+
+        public ProvidersController()
+        {
+            providersB = new ProvidersB();
+            clientsB = new ClientsB();
+            personsB = new PersonsB();
+        }
 
         // GET: Clients
         public ActionResult Index()
@@ -182,6 +190,18 @@ namespace SantaMarta.Web.Controllers
             {
                 return PartialView();
             }
+        }
+
+        public JsonResult GetCode(string code)
+        {
+            String codePersons = personsB.CheckCode(code);
+            return Json(codePersons, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetIdentification(string identification)
+        {
+            String identificationPersons = personsB.CheckIdentification(identification);
+            return Json(identificationPersons, JsonRequestBehavior.AllowGet);
         }
     }
 }

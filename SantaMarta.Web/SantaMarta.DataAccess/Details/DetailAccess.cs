@@ -7,7 +7,12 @@ namespace SantaMarta.DataAccess.DetailAccess
 {
     public class DetailAccess
     {
-        ContextDb db = new ContextDb();
+        private ContextDb db;
+
+        public DetailAccess()
+        {
+            db = new ContextDb();
+        }
 
         public List<Details> GetAll()
         {

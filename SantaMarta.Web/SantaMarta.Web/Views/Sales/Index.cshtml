@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SantaMarta.Data.Store_Procedures.Views_Invoices>
+﻿@model IEnumerable<SantaMarta.Data.Store_Procedures.InvoicesTable>
 
 @{
     ViewBag.Title = "Ventas";
@@ -34,10 +34,9 @@
                     <tr>
                         <th>Fecha</th>
                         <th>N°Factura</th>
-                        <th>Primer Apellido</th>
-                        <th>Segundo Apellido</th>
                         <th>Nombre</th>
-                        <th>Total</th>
+                        <th>Compañía</th>
+                        <th>Saldo</th>
                         <th>Estados</th>
                         <th>Acciones</th>
                     </tr>
@@ -46,36 +45,42 @@
                     @foreach (var item in Model)
                 {
                         <tr>
-                            <td>@Html.DisplayFor(modelItem => item.CurrentDate)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Date)</td>
                             <td>@Html.DisplayFor(modelItem => item.Code)</td>
-                            <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
-                            <td>@Html.DisplayFor(modelItem => item.SecondName)</td>
                             <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Total)</td>
-                            <td>@Html.DisplayFor(modelItem => item.LimitDate)</td>
+                            <td>@Html.DisplayFor(modelItem => item.NameCompany)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Rode)</td>
+                            @if (item.Type == 0)
+                            {
+                                <td><span class="label label-danger">Vencida</span></td>
+                            }
+                            else if (item.Type == 1)
+                            {
+                                <td><span class="label label-success">Cancelada</span></td>
+                            }
+                            else if (item.Type == 2)
+                            {
+                                <td><span class="label label-warning">Pendiente</span></td>
+                            }
+                            @*<td>@Html.DisplayFor(modelItem => item.Rode)</td>*@
                             <td>
                                 @if (Session["Type"] != null)
                                 {
                                     <a class="btn btn-danger glyphicon glyphicon-remove-sign" data-target="#modal-delete" data-toggle="modal" href="@Url.Action("Delete", "Sales", new { id = item.IDInvoice })"></a>
                                 }
-                                <a class="btn btn-info glyphicon glyphicon-file" data-target="#modal-details" data-toggle="modal" href="@Url.Action("Details", "Sales", new { id = item.IDInvoice })"></a>
-                                <a class="btn btn-warning glyphicon glyphicon-piggy-bank" data-target="#modal-assets" data-toggle="modal" href="@Url.Action("Assets", "Sales", new { id = item.IDInvoice })"></a>
+                                <a class="btn btn-info glyphicon glyphicon-file" data-target="#modal-details" data-toggle="modal" href="@Url.Action("Details", "Sales", new { id = item.IDInvoice})"></a>
+                                <a class="btn btn-warning glyphicon glyphicon-piggy-bank" data-target="#modal-assets" data-toggle="modal" href="@Url.Action("Assets", "Sales", new { id = item.IDInvoice, item.Name, item.Rode})"></a>
                             </td>
                         </tr>
                     }
-
-                    @*<tr>
-                            <td><span class="label label-success">Cancelada</span></td>
-                        </tr>*@
                 </tbody>
                 <tfoot>
                     <tr>
                         <th>Fecha</th>
                         <th>N°Factura</th>
-                        <th>Primer Apellido</th>
-                        <th>Segundo Apellido</th>
                         <th>Nombre</th>
-                        <th>Total</th>
+                        <th>Compañía</th>
+                        <th>Saldo</th>
                         <th>Estados</th>
                         <th>Acciones</th>
                     </tr>

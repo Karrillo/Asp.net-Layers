@@ -9,7 +9,12 @@ namespace SantaMarta.DataAccess.AssetLiabilityAccess
 {
     public class AssetsLiabilityAccess
     {
-        ContextDb db = new ContextDb();
+        private ContextDb db;
+
+        public AssetsLiabilityAccess()
+        {
+            db = new ContextDb();
+        }
 
         public List<AssetsLiabilities> GetAll()
         {
@@ -32,10 +37,16 @@ namespace SantaMarta.DataAccess.AssetLiabilityAccess
             return db.Insert_AssetLiability(assetsLiabilities);
         }
 
+        public int CreateCredit(AssetsLiabilities assetsLiabilities)
+        {
+            return db.Insert_AssetLiability_Credit(assetsLiabilities);
+        }
+
         public int Delete(int id)
         {
             return db.Delete_AssetLiability(id);
         }
+
         public Decimal? TotalSum(string dateStart, string dateEnd, bool type)
         {
             Decimal? total = db.Date_Sum_AssetLiability(dateStart, dateEnd, type);
@@ -45,9 +56,15 @@ namespace SantaMarta.DataAccess.AssetLiabilityAccess
             }
             return total;
         }
+
         public List<AssetsLiabilities> GetAllDate(String dateStart, String dateEnd)
         {
             return db.Date_AssetLiability(dateStart, dateEnd);
+        }
+
+        public List<AssetsLiabilities> GetByIdInvoinces(Int64 id)
+        {
+            return db.View_Invoice_AssetLiability(id);
         }
     }
 }

@@ -7,7 +7,12 @@ namespace SantaMarta.DataAccess.PurchaseAccess
 {
     public class PurchaseAccess
     {
-        ContextDb db = new ContextDb();
+        private ContextDb db;
+
+        public PurchaseAccess()
+        {
+            db = new ContextDb();
+        }
 
         public List<Purchases> GetAll()
         {

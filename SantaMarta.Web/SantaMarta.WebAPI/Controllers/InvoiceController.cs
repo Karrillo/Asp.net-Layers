@@ -42,6 +42,7 @@ namespace SantaMarta.WebAPI.Controllers
 
             return Ok();
         }
+
         [Route("api/Invoice/GetInvoicesAllSales")]
         [HttpGet]
         public IHttpActionResult GetInvoicesAllSales()
@@ -64,7 +65,7 @@ namespace SantaMarta.WebAPI.Controllers
         [HttpGet]
         public IHttpActionResult GetInvoicesDetails(Int64 id)
         {
-            View_Invoice_Details invoice = null;
+            Views_Invoinces_Details invoice = null;
 
             InvoicesB invoiceB = new InvoicesB();
 
@@ -78,34 +79,6 @@ namespace SantaMarta.WebAPI.Controllers
             return Ok(invoice);
         }
 
-        [Route("api/Invoice/GetSumInvoicesSale")]
-        [HttpGet]
-        public IHttpActionResult GetSumInvoicesSale(Int64 id)
-        {
-            Decimal? invoice;
-
-            InvoicesB invoiceB = new InvoicesB();
-
-            invoice = invoiceB.GetSumInvoices(id);
-
-            return Ok(invoice);
-        }
-
-        [Route("api/Invoice/GetSalesProduct")]
-        [HttpGet]
-        public IHttpActionResult GetSalesProduct(Int64 id)
-        {
-            InvoicesB invoiceB = new InvoicesB();
-
-            var invoice = invoiceB.GetSalesProduct(id);
-
-            if (invoice == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(invoice);
-        }
         // PUT: api/Invoice/5
         public void Put(int id, [FromBody]string value)
         {

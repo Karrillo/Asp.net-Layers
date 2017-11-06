@@ -1,5 +1,6 @@
 ﻿using SantaMarta.Data.Models.SubCategories;
 using SantaMarta.DataAccess.SubCategoryAccess;
+using System;
 using System.Collections.Generic;
 
 namespace SantaMarta.Bussines.SubCategoriesBussines
@@ -11,6 +12,11 @@ namespace SantaMarta.Bussines.SubCategoriesBussines
         public int Create(SubCategories input)
         {
             return subCategoryAccess.Create(input);
+        }
+
+        public String CheckName(string name, int id)
+        {
+            return subCategoryAccess.CheckName(name, id);
         }
 
         public int Delete(int id)

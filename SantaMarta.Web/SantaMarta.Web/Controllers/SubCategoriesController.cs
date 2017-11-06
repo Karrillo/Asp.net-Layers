@@ -8,7 +8,12 @@ namespace SantaMarta.Web.Controllers
 {
     public class SubCategoriesController : Controller
     {
-        private SubCategoriesB subCategoriesB = new SubCategoriesB();
+        private SubCategoriesB subCategoriesB;
+
+        public SubCategoriesController()
+        {
+            subCategoriesB = new SubCategoriesB();
+        }
 
         // GET: SubCategories
         public ActionResult Index()
@@ -23,7 +28,7 @@ namespace SantaMarta.Web.Controllers
         }
 
         // GET: SubCategories/Create
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
             return PartialView();
         }
@@ -115,6 +120,12 @@ namespace SantaMarta.Web.Controllers
             {
                 return PartialView();
             }
+        }
+
+        public JsonResult GetName(string name, int id)
+        {
+            String nameSubCategory = subCategoriesB.CheckName(name, id);
+            return Json(nameSubCategory, JsonRequestBehavior.AllowGet);
         }
     }
 }
