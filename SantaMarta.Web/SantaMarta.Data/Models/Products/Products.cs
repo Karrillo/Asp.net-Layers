@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SantaMarta.Data.Models.Products
 {
@@ -16,7 +17,6 @@ namespace SantaMarta.Data.Models.Products
 
         [RegularExpression(@"^[A-Za-z0-9]*$", ErrorMessage = "Caracteres especiales no son permitidos")]
         [Required(ErrorMessage = "El Codigo es requerido")]
-        [DataType(DataType.Text)]
         [StringLength(20, MinimumLength = 1, ErrorMessage = "El numero de caracteres debe ser menor a 20")]
         public String Code { get; set; }
 
@@ -24,13 +24,17 @@ namespace SantaMarta.Data.Models.Products
 
         [RegularExpression(@"^[,.A-Za-z0-9 ]*$", ErrorMessage = "Caracteres especiales no son permitidos")]
         [StringLength(50, MinimumLength = 1, ErrorMessage = "El numero de caracteres debe ser menor a 50")]
+        [DataType(DataType.MultilineText)]
         public String Description { get; set; }
 
         [Required(ErrorMessage = "El precio es requerido")]
         public Decimal Price { get; set; }
 
-        public Decimal Tax { get; set; }
+        public Decimal? Tax { get; set; }
 
         public Int64 IdProvider { get; set; }
+
+        [NotMapped]
+        public int ConfirmStatus { get; set; }
     }
 }

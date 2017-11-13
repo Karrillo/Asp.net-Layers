@@ -17,45 +17,140 @@ namespace SantaMarta.DataAccess.UserAccess
 
         public Users Check(string nickname, string password)
         {
-            Users user = db.Check_Users(nickname, password);
-            if (user != null)
+            Users user = new Users();
+            try
             {
-                return Decrypt(user);
+                user = db.Check_Users(nickname, password);
+                if (user != null)
+                {
+                    user = Decrypt(user);
+                }
+                else
+                {
+                    user = new Users();
+                }
+                user.ConfirmStatus = 200;
+                return user;
             }
-            return user;
-        }
-
-        public String CheckNickname(string nickname)
-        {
-            String user = db.Check_Nickname(nickname);
-            return user;
+            catch (Exception)
+            {
+                user.ConfirmStatus = 500;
+                return user;
+            }
         }
 
         public List<Users> GetAll()
         {
-            List<Users> users = db.List_Users().ToList();
-            return users;
+            List<Users> users = new List<Users>();
+
+            try
+            {
+                users = db.List_Users().ToList();
+                return users;
+            }
+            catch (Exception)
+            {
+                return users;
+            }
         }
 
-        public Users GetById(int id)
+        public List<Users> GetAllDelete()
         {
-            Users user = db.View_Users(id);
-            return Decrypt(user);
+            List<Users> users = new List<Users>();
+
+            try
+            {
+                users = db.List_Users_Deleted().ToList();
+                return users;
+            }
+            catch (Exception)
+            {
+                return users;
+            }
+        }
+
+        public Users GetById(Int64 id)
+        {
+            Users user = new Users();
+
+            try
+            {
+                user = Decrypt(db.View_Users(id));
+                return user;
+            }
+            catch (Exception)
+            {
+                return user;
+            }
         }
 
         public int Update(Users user)
         {
-            return db.Update_User(Encrypt(user));
+            try
+            {
+                String nickName = db.Check_Nickname(user.Nickname);
+
+                if (nickName == null || nickName == GetById(user.IDUser).Nickname)
+                {
+                    db.Update_User(Encrypt(user));
+                    return 200;
+                }
+                else
+                {
+                    return 400;
+                }
+            }
+            catch (Exception)
+            {
+
+                return 500;
+            }
         }
 
         public int Create(Users user)
         {
-            return db.Insert_User(Encrypt(user));
+            try
+            {
+                if (db.Check_Nickname(user.Nickname) == null)
+                {
+                    db.Insert_User(Encrypt(user));
+                    return 200;
+                }
+                else
+                {
+                    return 400;
+                }
+            }
+            catch (Exception)
+            {
+                return 500;
+            }
         }
 
         public int Delete(int id)
         {
-            return db.Delete_User(id);
+            try
+            {
+                db.Delete_User(id);
+                return 200;
+            }
+            catch (Exception)
+            {
+                return 500;
+            }
+        }
+
+        public int Restore(int id)
+        {
+            try
+            {
+                db.Restore_User(id);
+                return 200;
+            }
+            catch (Exception)
+            {
+                return 500;
+            }
         }
 
         private Users Encrypt(Users user)

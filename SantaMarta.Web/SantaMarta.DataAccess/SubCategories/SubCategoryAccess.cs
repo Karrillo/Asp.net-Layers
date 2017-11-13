@@ -1,4 +1,5 @@
 ﻿using SantaMarta.Data.Models.SubCategories;
+using SantaMarta.Data.Store_Procedures;
 using SantaMarta.DataAccess.Entity;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,12 @@ namespace SantaMarta.DataAccess.SubCategoryAccess
         public List<SubCategories> GetAll()
         {
             List<SubCategories> subCategories = db.View_SubCategories().ToList();
+            return subCategories;
+        }
+
+        public List<View_SubCategories_Deleted> GetAllDelete()
+        {
+            List<View_SubCategories_Deleted> subCategories = db.View_SubCategories_Deleted().ToList();
             return subCategories;
         }
 
@@ -56,6 +63,11 @@ namespace SantaMarta.DataAccess.SubCategoryAccess
         public int Delete(int id)
         {
             return db.Delete_SubCategory(id);
+        }
+
+        public int Restore(int id)
+        {
+            return db.Restore_SubCategory(id);
         }
     }
 }

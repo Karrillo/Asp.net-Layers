@@ -3,6 +3,8 @@
     ViewBag.Title = "Categorias";
 }
 <link href="~/Scripts/Tree/tree.css" rel="stylesheet" />
+<link href="~/Scripts/Toastr/toastr.min.css" rel="stylesheet" />
+
 @if (Session["users"] == null)
 {
     Response.Redirect("~/Login/Index");
@@ -114,29 +116,35 @@
 
 @section Scripts {
     <script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/Toastr/toastr.min.js"></script>
+
     <script>
         $('body').on('hidden.bs.modal', '.modal', function () {
             $(this).removeData('bs.modal');
         });
+    </script>
 
-        //$("#tree").find('ul > li > ul > li').hide()
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if ('@TempData["message"]' == "Add") {
+                toastr.success('La categoria ha sido agregado correctamente', 'Agregado');
+        } else if ('@TempData["message"]' == "Update"){
+                toastr.success('La categoria ha sido modificado correctamente', 'Modificado');
+        } else if ('@TempData["message"]' == "Delete"){
+                toastr.success('La categoria ha sido eliminado correctamente', 'Eliminado');
+        }
+    });
     </script>
 }
-
-@*<script>
-        $(document).ready(function () {
-            $("#ZA").click(function () {
-                alert($("#ZA").val());
-                $("#tree").find('ul > li > li').show()
-            });
-        });
-</script>*@
 
 <script>
         function closeModalCreateCategory(data) {
             if (data.success) {
                 $('#modal-createCategory').modal('hide');
                 window.location.href = "/Categories/Index";
+            } else {
+                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                $('.modal-content').html(data);
             }
         }
 </script>
@@ -145,6 +153,9 @@
             if (data.success) {
                 $('#modal-editarCategory').modal('hide');
                 window.location.href = "/Categories/Index";
+            } else {
+                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                $('.modal-content').html(data);
             }
         }
 </script>
@@ -153,6 +164,8 @@
             if (data.success) {
                 $('#modal-deleteCategory').modal('hide');
                 window.location.href = "/Categories/Index";
+            } else {
+                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
             }
         }
 </script>
@@ -161,6 +174,9 @@
             if (data.success) {
                 $('#modal-createSubCategory').modal('hide');
                 window.location.href = "/Categories/Index";
+            } else {
+                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                $('.modal-content').html(data);
             }
         }
 </script>
@@ -169,6 +185,9 @@
             if (data.success) {
                 $('#modal-editarSubCategory').modal('hide');
                 window.location.href = "/Categories/Index";
+            } else {
+                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                $('.modal-content').html(data);
             }
         }
 </script>
@@ -177,6 +196,8 @@
             if (data.success) {
                 $('#modal-deleteSubCategory').modal('hide');
                 window.location.href = "/Categories/Index";
+            } else {
+                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
             }
         }
 </script>

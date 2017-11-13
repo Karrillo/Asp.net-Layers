@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    @*CSS*@
+
     @Styles.Render("~/AdminPacket/plugins/font-awesome/css")
     @Styles.Render("~/AdminPacket/plugins/ionicons/css")
     @Styles.Render("~/AdminPacket/bootstrap/css")
     @Styles.Render("~/AdminPacket/dist/css")
     <link href="~/AdminPacket/dist/css/skins/skin-green.min.css" rel="stylesheet" />
+
     @*HEAD*@
 </head>
 <body class="hold-transition skin-green sidebar-mini">
@@ -61,38 +62,64 @@
                                                     <h4>Cuentas</h4>
                                                 </a>
                                             </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                }
+
+                @if (Session["Type"] != null)
+                {
+                    <div class="navbar-custom-menu">
+                        <ul class="nav navbar-nav">
+                            <li class="dropdown messages-menu">
+                                <a href="#" data-toggle="dropdown">
+                                    <i class="fa fa-database"></i>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="header" style="font-weight: bold;">Restauracion de Datos</li>
+                                    <li>
+                                        <ul class="menu">                                          
                                             <li>
-                                                <a href=@Url.Action("", "")>
-                                                    <div class="pull-left fa fa-credit-card" style="font-size:20px; color:dimgrey;"></div>
-                                                    <h4>Restaurar Datos</h4>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href=@Url.Action("", "")>
+                                                <a href=@Url.Action("Index2", "Clients")>
                                                     <div class="pull-left fa fa-credit-card" style="font-size:20px; color:dimgrey;"></div>
                                                     <h4>Restaurar Clientes</h4>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href=@Url.Action("", "")>
+                                                <a href=@Url.Action("Index2", "Providers")>
                                                     <div class="pull-left fa fa-credit-card" style="font-size:20px; color:dimgrey;"></div>
                                                     <h4>Restaurar Proveedores</h4>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href=@Url.Action("", "")>
+                                                <a href=@Url.Action("Index2", "Users")>
                                                     <div class="pull-left fa fa-credit-card" style="font-size:20px; color:dimgrey;"></div>
-                                                    <h4>Restaurar Movimientos</h4>
+                                                    <h4>Restaurar Usuarios</h4>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href=@Url.Action("", "")>
+                                                <a href=@Url.Action("Index2", "Accounts")>
                                                     <div class="pull-left fa fa-credit-card" style="font-size:20px; color:dimgrey;"></div>
-                                                    <h4>Restaurar Facturas</h4>
+                                                    <h4>Restaurar Cuentas</h4>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href=@Url.Action("", "")>
+                                                <a href=@Url.Action("Index2", "Categories")>
+                                                    <div class="pull-left fa fa-credit-card" style="font-size:20px; color:dimgrey;"></div>
+                                                    <h4>Restaurar Categorias</h4>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=@Url.Action("Index2", "SubCategories")>
+                                                    <div class="pull-left fa fa-credit-card" style="font-size:20px; color:dimgrey;"></div>
+                                                    <h4>Restaurar Sub-Categorias</h4>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=@Url.Action("Index2", "Products")>
                                                     <div class="pull-left fa fa-credit-card" style="font-size:20px; color:dimgrey;"></div>
                                                     <h4>Restaurar Productos</h4>
                                                 </a>

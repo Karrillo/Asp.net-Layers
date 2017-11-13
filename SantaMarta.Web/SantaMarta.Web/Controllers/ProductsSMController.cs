@@ -1,6 +1,5 @@
 ﻿using SantaMarta.Bussines.ProductsBussines;
 using SantaMarta.Data.Models.Products;
-using System;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -30,14 +29,7 @@ namespace SantaMarta.Web.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var product = productsB.GetById(id);
-
-            if (product == null)
-            {
-                return HttpNotFound();
-            }
-
-            return PartialView(product);
+            return PartialView(productsB.GetById(id));
         }
 
         // GET: ProductsSM/Create
@@ -49,28 +41,21 @@ namespace SantaMarta.Web.Controllers
         // POST: ProductsSM/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Products products)
         {
-            try
+            int status = productsB.Create(products);
+
+            if (status == 200)
             {
-                Products product = new Products();
-
-                product.Code = collection["Code"];
-                product.Name = collection["Name"];
-                product.Price = Decimal.Parse(collection["Price"]);
-                product.Description = collection["Description"];
-                product.Tax = Decimal.Parse(collection["Tax"]);
-
-                productsB.Create(product);
-
+                TempData["message"] = "Add";
                 return Json(new { success = true });
             }
-            catch (InvalidCastException e)
+            else if (status == 400)
             {
-                Console.WriteLine("IOException source: {0}", e.Source);
-
-                return PartialView(collection);
+                ModelState.AddModelError("Code", "El codigo se esta usando actualmente");
+                return View(products);
             }
+            return View(products);
         }
 
         // GET: ProductsSM/Edit/5
@@ -81,42 +66,26 @@ namespace SantaMarta.Web.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var product = productsB.GetById(id);
-
-            if (product == null)
-            {
-                return HttpNotFound();
-            }
-
-            return PartialView(product);
+            return PartialView(productsB.GetById(id));
         }
 
         // POST: ProductsSM/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, Products products)
         {
-            try
+            int status = productsB.Update(products, id);
+
+            if (status == 200)
             {
-                if (ModelState.IsValid)
-                {
-
-                    Products product = new Products();
-
-                    product.Code = collection["Code"];
-                    product.Name = collection["Name"];
-                    product.Price = Decimal.Parse(collection["Price"]);
-                    product.Description = collection["Description"];
-                    product.Tax = Decimal.Parse(collection["Tax"]);
-
-                    productsB.Update(product, id);
-                }
-
+                TempData["message"] = "Update";
                 return Json(new { success = true });
             }
-            catch
+            else if (status == 400)
             {
-                return PartialView(collection);
+                ModelState.AddModelError("Code", "El codigo se esta usando actualmente");
+                return View(products);
             }
+            return View(products);
         }
 
         // GET: ProductsSM/Delete/5
@@ -129,21 +98,14 @@ namespace SantaMarta.Web.Controllers
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
-            try
+            int status = productsB.Delete(id);
+
+            if (status == 200)
             {
-                productsB.Delete(id);
+                TempData["message"] = "Delete";
                 return Json(new { success = true });
             }
-            catch
-            {
-                return PartialView();
-            }
-        }
-
-        public JsonResult GetProduct(string name)
-        {
-            String product = productsB.CheckName(name);
-            return Json(product, JsonRequestBehavior.AllowGet);
+            return PartialView();
         }
     }
 }

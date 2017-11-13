@@ -14,16 +14,6 @@ namespace SantaMarta.Bussines.PersonsBussines
             return personAccess.Create(input);
         }
 
-        public String CheckIdentification(string identification)
-        {
-            return personAccess.CheckIdentification(identification);
-        }
-
-        public String CheckCode(string code)
-        {
-            return personAccess.CheckCode(code);
-        }
-
         public bool Delete(int id)
         {
             return personAccess.Delete(id);

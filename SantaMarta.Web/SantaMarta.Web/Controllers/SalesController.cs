@@ -101,19 +101,24 @@ namespace SantaMarta.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Views_Invoinces_Details sales = invoicesB.GetById(id);
+
             sales.Date = sales.CurrentDate.ToShortDateString();
-            if (sales == null)
-            {
-                return HttpNotFound();
-            }
             sales.Products = saleB.GetById(sales.IdDetail).ToList();
             sales.AssetsLiabilities = assetsLiabilitiesB.GetByIdInvoinces(id).ToList();
-            foreach (var item in sales.AssetsLiabilities)
+
+            if (sales.Products != null)
             {
-                sales.Payments = sales.Payments + item.Rode;
+                foreach (var item in sales.AssetsLiabilities)
+                {
+                    sales.Payments = sales.Payments + item.Rode;
+                }
+
+                sales.Residue = sales.Total - sales.Payments;
+                return PartialView(sales);
             }
-            sales.Residue = sales.Total - sales.Payments;
+
             return PartialView(sales);
         }
 
@@ -132,71 +137,68 @@ namespace SantaMarta.Web.Controllers
         // GET: Sales/Create
         public ActionResult Create()
         {
-            try
-            {
-                var clients = clientsB.GetAll().ToList();
-                ViewData["clientsCode"] = new SelectList(clients, "IdClient", "Code");
-                ViewData["clientsCompany"] = new SelectList(clients, "IdClient", "NameCompany");
-                var name = clients.Select(u => new { IdClient = u.IDClient, Name = u.Name + " " + u.FirstName + " " + u.SecondName });
-                ViewData["clientsName"] = new SelectList(name, "IDClient", "Name");
+            var clients = clientsB.GetAll().ToList();
+            ViewData["clientsCode"] = new SelectList(clients, "IdClient", "Code");
+            ViewData["clientsCompany"] = new SelectList(clients, "IdClient", "NameCompany");
+            var name = clients.Select(u => new { IdClient = u.IDClient, Name = u.Name + " " + u.FirstName + " " + u.SecondName });
+            ViewData["clientsName"] = new SelectList(name, "IDClient", "Name");
 
-                var products = productsB.GetAll().ToList();
-                ViewData["productsName"] = new SelectList(products, "IdProduct", "Name");
-                ViewData["productsCode"] = new SelectList(products, "IdProduct", "Code");
+            var products = productsB.GetAll().ToList();
+            ViewData["productsName"] = new SelectList(products, "IdProduct", "Name");
+            ViewData["productsCode"] = new SelectList(products, "IdProduct", "Code");
 
-                return View();
-            }
-            catch (Exception)
-            {
-                return PartialView();
-            }
+            return View();
         }
 
         // POST: Sales/Create
         [HttpPost]
         public ActionResult Create(string idClient, string discount, string total, string currentDate, string code, string limitDate, List<Sales> sale)
         {
+            var idUser = (Users)Session["users"];
 
-            try
+            Int64 details = detailsB.Create(idUser.IDUser);
+
+            foreach (var items in sale)
             {
-                var idUser = (Users)Session["users"];
-                Int64 details = detailsB.Create(idUser.IDUser);
-
-                foreach (var items in sale)
+                if (items.IdProduct != null)
                 {
-                    if (items.IdProduct != null)
-                    {
-                        Sales sales = new Sales();
-                        sales.IdProduct = items.IdProduct;
-                        sales.Quantity = items.Quantity;
-                        sales.Total = items.Total;
-                        sales.IdDetails = details;
-                        saleB.Create(sales);
-                    }
+                    Sales sales = new Sales();
+                    sales.IdProduct = items.IdProduct;
+                    sales.Quantity = items.Quantity;
+                    sales.Total = items.Total;
+                    sales.IdDetails = details;
+                    saleB.Create(sales);
                 }
-
-                Invoices invoices = new Invoices();
-                invoices.IdDetail = details;
-                DateTime date = DateTime.Today;
-                if (limitDate != "0")
-                {
-                    invoices.LimitDate = date.AddDays(Convert.ToInt32(limitDate));
-                }
-                invoices.Total = Convert.ToDecimal(total);
-                if (discount != "")
-                {
-                    invoices.Discount = Convert.ToDecimal(discount);
-                }
-                invoices.Code = code;
-                invoices.IdClient = Convert.ToInt64(idClient);
-                invoices.IdProvider = 1;
-                invoicesB.Create(invoices);
-
-                return RedirectToAction("Index");
             }
-            catch
+
+            Invoices invoices = new Invoices();
+            invoices.IdDetail = details;
+            DateTime date = DateTime.Today;
+
+            if (limitDate != "0")
             {
-                return PartialView();
+                invoices.LimitDate = date.AddDays(Convert.ToInt32(limitDate));
+            }
+
+            invoices.Total = Convert.ToDecimal(total);
+
+            if (discount != "")
+            {
+                invoices.Discount = Convert.ToDecimal(discount);
+            }
+
+            invoices.Code = code;
+            invoices.IdClient = Convert.ToInt64(idClient);
+            invoices.IdProvider = 1;
+            int status = invoicesB.Create(invoices);
+
+            if (status == 200)
+            {
+                return Json(new { success = true });
+            }
+            else
+            {
+                return View();
             }
         }
 
@@ -225,40 +227,43 @@ namespace SantaMarta.Web.Controllers
         {
             ViewData["category"] = new SelectList(categoriesB.GetAll(), "IdCategory", "Name");
             ViewData["account"] = new SelectList(accountB.GetAll(), "IdAccount", "Name");
+
             return PartialView();
         }
 
         // POST: Sales/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Assets(int id, string name, decimal rode, FormCollection collection)
+        public ActionResult Assets(int id, AssetsLiabilities assetLiability)
         {
             var user = (Users)Session["users"];
-            try
+            assetLiability.IdUser = user.IDUser;
+            assetLiability.IdInvoice = id;
+            assetLiability.Type = true;
+
+            int status = assetsLiabilitiesB.CreateCredit(assetLiability);
+
+            if (status == 200)
             {
-                AssetsLiabilities assetLiability = new AssetsLiabilities();
-
-                assetLiability.CurrentDate = DateTime.Parse(collection["CurrentDate"]);
-                assetLiability.Code = collection["Code"];
-                assetLiability.Rode = Decimal.Parse(collection["Rode"]);
-                assetLiability.Description = collection["Description"];
-                assetLiability.IdUser = user.IDUser;
-                assetLiability.IdAccount = Convert.ToInt64(collection["IdAccount"]);
-                assetLiability.IdSubCategory = Convert.ToInt64(collection["IdSubCategory"]);
-                assetLiability.Name = name;
-                assetLiability.IdInvoice = id;
-
-
-                assetsLiabilitiesB.CreateCredit(assetLiability);
                 return Json(new { success = true });
             }
-            catch (Exception ex)
+            else if (status == 400)
             {
-                return View("Error", new HandleErrorInfo(ex, "AssetsLiabilities", "Create"));
+                ModelState.AddModelError("Rode", "Sobre pasa el monto de credito a cancelar");
+                ViewData["category"] = new SelectList(categoriesB.GetAll(), "IdCategory", "Name");
+                ViewData["account"] = new SelectList(accountB.GetAll(), "IdAccount", "Name");
+                return View(assetLiability);
             }
+            return View(assetLiability);
         }
 
         public JsonResult GetSubCategories(string id)
+        {
+            var subCategories = subCategoriesB.GetByIdAll(int.Parse(id));
+            return Json(new SelectList(subCategories, "IDSubCategory", "Name"), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetPayment(string id)
         {
             var subCategories = subCategoriesB.GetByIdAll(int.Parse(id));
             return Json(new SelectList(subCategories, "IDSubCategory", "Name"), JsonRequestBehavior.AllowGet);

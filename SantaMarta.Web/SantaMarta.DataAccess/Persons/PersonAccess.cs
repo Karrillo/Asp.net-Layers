@@ -21,14 +21,12 @@ namespace SantaMarta.DataAccess.PersonAccess
 
         public String CheckIdentification(string identification)
         {
-            String persons = db.Check_Identification(identification);
-            return persons;
+            return null;
         }
 
         public String CheckCode(string code)
         {
-            String persons = db.Check_CodePersons(code);
-            return persons;
+            return null;
         }
 
         public Persons GetById(int id)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SantaMarta.Data.Models.AssetsLiabilities
 {
@@ -39,5 +40,8 @@ namespace SantaMarta.Data.Models.AssetsLiabilities
         public Int64? IdSubCategory { get; set; }
 
         public Int64? IdUser { get; set; }
+
+        [NotMapped]
+        public int ConfirmStatus { get; set; }
     }
 }

@@ -30,8 +30,9 @@ namespace SantaMarta.Web.Controllers
             {
                 Session["IDProvider"] = null;
             }
+            var providers = productsProvidersB.GetAllProviders().ToList();
 
-            ViewBag.id = new SelectList(productsProvidersB.GetAllProviders().ToList(), "IDProvider", "NameCompany");
+            ViewBag.id = new SelectList(providers, "IDProvider", "NameCompany");
 
             try
             {
@@ -43,6 +44,11 @@ namespace SantaMarta.Web.Controllers
             }
         }
 
+        public ActionResult Index2()
+        {
+            return View(productsB.GetAllDelete().ToList());
+        }
+
         public ActionResult Details(int id)
         {
             if (id == 0)
@@ -50,14 +56,7 @@ namespace SantaMarta.Web.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var product = productsProvidersB.GetById(id);
-
-            if (product == null)
-            {
-                return HttpNotFound();
-            }
-
-            return PartialView(product);
+            return PartialView(productsProvidersB.GetById(id));
         }
 
         public ActionResult Create(int? id)
@@ -67,29 +66,21 @@ namespace SantaMarta.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(FormCollection collection, int id)
+        public ActionResult Create(Products products, int id)
         {
-            try
+            int status = productsProvidersB.Create(products);
+
+            if (status == 200)
             {
-                Products product = new Products();
-
-                product.Code = collection["Code"];
-                product.Name = collection["Name"];
-                product.Price = Decimal.Parse(collection["Price"]);
-                product.Description = collection["Description"];
-                product.Tax = Decimal.Parse(collection["Tax"]);
-                product.IdProvider = Convert.ToInt32(id);
-
-                productsProvidersB.Create(product);
-
+                TempData["message"] = "Add";
                 return Json(new { success = true });
             }
-            catch (InvalidCastException e)
+            else if (status == 400)
             {
-                Console.WriteLine("IOException source: {0}", e.Source);
-
-                return PartialView(collection);
+                ModelState.AddModelError("Code", "El codigo se esta usando actualmente");
+                return View(products);
             }
+            return View(products);
         }
 
         public ActionResult Edit(int id)
@@ -99,41 +90,25 @@ namespace SantaMarta.Web.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var product = productsProvidersB.GetById(id);
-
-            if (product == null)
-            {
-                return HttpNotFound();
-            }
-
-            return PartialView(product);
+            return PartialView(productsProvidersB.GetById(id));
         }
 
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, Products products)
         {
-            try
+            int status = productsProvidersB.Update(products, id);
+
+            if (status == 200)
             {
-                if (ModelState.IsValid)
-                {
-
-                    Products product = new Products();
-
-                    product.Code = collection["Code"];
-                    product.Name = collection["Name"];
-                    product.Price = Decimal.Parse(collection["Price"]);
-                    product.Description = collection["Description"];
-                    product.Tax = Decimal.Parse(collection["Tax"]);
-
-                    productsProvidersB.Update(product, id);
-                }
-
+                TempData["message"] = "Update";
                 return Json(new { success = true });
             }
-            catch
+            else if (status == 400)
             {
-                return PartialView(collection);
+                ModelState.AddModelError("Code", "El codigo se esta usando actualmente");
+                return View(products);
             }
+            return View(products);
         }
 
         public ActionResult Delete(int id)
@@ -145,21 +120,33 @@ namespace SantaMarta.Web.Controllers
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
-            try
+            int status = productsProvidersB.Delete(id);
+
+            if (status == 200)
             {
-                productsProvidersB.Delete(id);
+                TempData["message"] = "Delete";
                 return Json(new { success = true });
             }
-            catch
-            {
-                return PartialView();
-            }
+            return PartialView();
         }
 
-        public JsonResult GetProduct(string name)
+        public ActionResult Restore(int id)
         {
-            String product = productsB.CheckName(name);
-            return Json(product, JsonRequestBehavior.AllowGet);
+            return PartialView();
+        }
+
+        // POST: ProductsSM/Delete/5
+        [HttpPost]
+        public ActionResult Restore(int id, FormCollection collection)
+        {
+            int status = productsB.Restore(id);
+
+            if (status == 200)
+            {
+                TempData["message"] = "Add";
+                return Json(new { success = true });
+            }
+            return PartialView();
         }
     }
 }

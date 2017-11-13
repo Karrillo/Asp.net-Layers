@@ -1,10 +1,6 @@
 ﻿using SantaMarta.Data.Models.Accounts;
 using SantaMarta.DataAccess.AccountAccess;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SantaMarta.Bussines.AccountsBussines
 {
@@ -17,19 +13,24 @@ namespace SantaMarta.Bussines.AccountsBussines
             return accountAccess.Create(input);
         }
 
-        public String CheckName(string name)
-        {
-            return accountAccess.CheckName(name);
-        }
-
         public int Delete(int id)
         {
             return accountAccess.Delete(id);
         }
 
+        public int Restore(int id)
+        {
+            return accountAccess.Restore(id);
+        }
+
         public List<Accounts> GetAll()
         {
             return accountAccess.GetAll();
+        }
+
+        public List<Accounts> GetAllDelete()
+        {
+            return accountAccess.GetAllDelete();
         }
 
         public Accounts GetById(int id)

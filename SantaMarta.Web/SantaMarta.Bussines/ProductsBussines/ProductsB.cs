@@ -1,4 +1,5 @@
 ﻿using SantaMarta.Data.Models.Products;
+using SantaMarta.Data.Store_Procedures;
 using SantaMarta.DataAccess.ProductAccess;
 using System;
 using System.Collections.Generic;
@@ -13,19 +14,24 @@ namespace SantaMarta.Bussines.ProductsBussines
             return productAccess.Create(input);
         }
 
-        public String CheckName(string code)
-        {
-            return productAccess.CheckName(code);
-        }
-
         public int Delete(int id)
         {
             return productAccess.Delete(id);
         }
 
+        public int Restore(int id)
+        {
+            return productAccess.Restore(id);
+        }
+
         public List<Products> GetAll()
         {
             return productAccess.GetAll();
+        }
+
+        public List<List_Products_Deleted> GetAllDelete()
+        {
+            return productAccess.GetAllDelete();
         }
 
         public Products GetById(int id)

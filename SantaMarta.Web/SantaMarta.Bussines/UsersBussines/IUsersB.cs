@@ -7,11 +7,12 @@ namespace SantaMarta.Bussines.UsersBussines
     public interface IUsersB
     {
         Users Check(string nickname, string password);
-        String CheckNickname(string nickname);
         int Create(Users input);
         int Update(Users input);
         int Delete(int id);
+        int Restore(int id);
         Users GetById(int id);
         List<Users> GetAll();
+        List<Users> GetAllDelete();
     }
 }

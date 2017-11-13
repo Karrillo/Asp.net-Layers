@@ -1178,6 +1178,20 @@
     <Content Include="Views\Sales\Assets.cshtml" />
     <Content Include="Views\Sales\Details.cshtml" />
     <Content Include="Scripts\Toastr\toastr.js.map" />
+    <Content Include="Views\Users\Index2.cshtml" />
+    <Content Include="Views\Users\Restore.cshtml" />
+    <Content Include="Views\Accounts\Index2.cshtml" />
+    <Content Include="Views\Accounts\Restore.cshtml" />
+    <Content Include="Views\Clients\Index2.cshtml" />
+    <Content Include="Views\Clients\Restore.cshtml" />
+    <Content Include="Views\Providers\Index2.cshtml" />
+    <Content Include="Views\Providers\Restore.cshtml" />
+    <Content Include="Views\Categories\Index2.cshtml" />
+    <Content Include="Views\Categories\Restore.cshtml" />
+    <Content Include="Views\Products\Index2.cshtml" />
+    <Content Include="Views\Products\Restore.cshtml" />
+    <Content Include="Views\SubCategories\Index2.cshtml" />
+    <Content Include="Views\SubCategories\Restore.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

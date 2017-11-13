@@ -3,7 +3,8 @@
     Layout = null;
     ViewBag.Title = "Create";
 }
-@*modal*@
+<script src="~/Scripts/Mark/jquery.mask.min.js"></script>
+
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
@@ -46,13 +47,13 @@
             <br>
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-mobile-phone"></i></span>
-                @Html.EditorFor(model => model.CellPhone, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Celular" } })
+                @Html.EditorFor(model => model.CellPhone, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Celular", id = "cellPhone" } })
             </div>
             @Html.ValidationMessageFor(model => model.CellPhone, "", new { @class = "text-danger" })
             <br>
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-phone"></i></span>
-                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Telefono" } })
+                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Telefono", id = "phone" } })
             </div>
             @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
             <br>
@@ -78,50 +79,8 @@
 <script src="~/scripts/jquery.validate.unobtrusive.min.js"></script>
 
 <script>
-        document.getElementById("code").addEventListener("change", myFunction);
-        function myFunction() {
-            var valueCode = $("#code").val();
-            if (valueCode) {
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("GetCode")',
-                    dataType: 'json',
-                    data: { code: valueCode},
-                    success: function (product) {
-                        $("#codeValidation").text("El codigo ya esta registrado: " + valueCode).show();
-                        $("#code").val("");
-                        $("#code").focus();
-                            return false;
-                    },
-                    error: function (ex) {
-                        return true;
-                    }
-                });
-            }
-        }
-</script>
-
-
-<script>
-        document.getElementById("identification").addEventListener("change", myFunction);
-        function myFunction() {
-            var valueCode = $("#identification").val();
-            if (valueCode) {
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("GetIdentification")',
-                    dataType: 'json',
-                    data: { identification: valueCode},
-                    success: function (product) {
-                        $("#identificationValidation").text("La identificacion ya esta registrado: " + valueCode).show();
-                        $("#identification").val("");
-                        $("#identification").focus();
-                            return false;
-                    },
-                    error: function (ex) {
-                        return true;
-                    }
-                });
-            }
-        }
+    $(document).ready(function () {
+        $('#cellPhone').mask('0000-0000');
+        $('#phone').mask('0000-0000');
+    });
 </script>

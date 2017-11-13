@@ -29,6 +29,7 @@ namespace SantaMarta.Web.Controllers
         {
             List<All_Clients> clients = clientsB.GetAll().ToList();
             List<All_Providers> providers = providersB.GetAll().ToList();
+
             foreach (var y in clients)
             {
                 foreach (var x in providers)
@@ -42,6 +43,11 @@ namespace SantaMarta.Web.Controllers
             return View(clients);
         }
 
+        public ActionResult Index2()
+        {
+            return View(clientsB.GetAllDelete().ToList());
+        }
+
         // GET: Clients/Details/5
         public ActionResult Details(int id)
         {
@@ -50,14 +56,7 @@ namespace SantaMarta.Web.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var client = clientsB.GetById(id);
-
-            if (client == null)
-            {
-                return HttpNotFound();
-            }
-
-            return PartialView(client);
+            return PartialView(clientsB.GetById(id));
         }
 
         // GET: Clients/Create
@@ -69,32 +68,26 @@ namespace SantaMarta.Web.Controllers
         // POST: Clients/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Persons clients)
         {
-            try
+            int status = clientsB.Create(clients);
+
+            if (status == 200)
             {
-                Persons client = new Persons();
-
-                client.Name = collection["Name"];
-                client.FirstName = collection["FirstName"];
-                client.SecondName = collection["SecondName"];
-                client.Phone = collection["Phone"];
-                client.CellPhone = collection["CellPhone"];
-                client.Email = collection["Email"];
-                client.Address = collection["Address"];
-                client.Identification = collection["Identification"];
-                client.NameCompany = collection["NameCompany"];
-                client.Code = collection["Code"];
-                clientsB.Create(client);
-
+                TempData["message"] = "Add";
                 return Json(new { success = true });
             }
-            catch (InvalidCastException e)
+            else if (status == 400)
             {
-                Console.WriteLine("IOException source: {0}", e.Source);
-
-                return PartialView(collection);
+                ModelState.AddModelError("Code", "El codigo se esta usando actualmente");
+                return View(clients);
             }
+            else if (status == 401)
+            {
+                ModelState.AddModelError("Identification", "La identificacion se esta usando actualmente");
+                return View(clients);
+            }
+            return View(clients);
         }
 
         // GET: Clients/Edit/5
@@ -105,49 +98,45 @@ namespace SantaMarta.Web.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var client = clientsB.GetById(id);
-
-            if (client == null)
-            {
-                return HttpNotFound();
-            }
-
-            return PartialView(client);
+            return PartialView(clientsB.GetById(id));
         }
 
         // POST: Clients/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(All_Clients clients, int id)
         {
-            try
+            Persons client = new Persons();
+
+            client.Code = clients.Code;
+            client.Identification = clients.Identification;
+            client.Name = clients.Name;
+            client.FirstName = clients.FirstName;
+            client.SecondName = clients.SecondName;
+            client.NameCompany = clients.NameCompany;
+            client.CellPhone = clients.CellPhone;
+            client.Phone = clients.Phone;
+            client.Email = clients.Email;
+            client.Address = clients.Address;
+
+            int status = clientsB.Update(client, id);
+
+            if (status == 200)
             {
-                if (ModelState.IsValid)
-                {
-
-                    Persons client = new Persons();
-
-                    client.Name = collection["Name"];
-                    client.FirstName = collection["FirstName"];
-                    client.SecondName = collection["SecondName"];
-                    client.Phone = collection["Phone"];
-                    client.CellPhone = collection["CellPhone"];
-                    client.Email = collection["Email"];
-                    client.Address = collection["Address"];
-                    client.Identification = collection["Identification"];
-                    client.NameCompany = collection["NameCompany"];
-                    client.Code = collection["Code"];
-
-                    clientsB.Update(client, id);
-
-                }
-
+                TempData["message"] = "Update";
                 return Json(new { success = true });
             }
-            catch
+            else if (status == 400)
             {
-                return PartialView(collection);
+                ModelState.AddModelError("Code", "El codigo se esta usando actualmente");
+                return View(clients);
             }
+            else if (status == 401)
+            {
+                ModelState.AddModelError("Identification", "La identificacion se esta usando actualmente");
+                return View(clients);
+            }
+            return View(clients);
         }
 
         // GET: Clients/Delete/5
@@ -160,15 +149,33 @@ namespace SantaMarta.Web.Controllers
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
-            try
+            int status = clientsB.Delete(id);
+
+            if (status == 200)
             {
-                clientsB.Delete(id);
+                TempData["message"] = "Delete";
                 return Json(new { success = true });
             }
-            catch
+            return PartialView();
+        }
+
+        public ActionResult Restore(int id)
+        {
+            return PartialView();
+        }
+
+        // POST: Clients/Delete/5
+        [HttpPost]
+        public ActionResult Restore(int id, FormCollection collection)
+        {
+            int status = clientsB.Restore(id);
+
+            if (status == 200)
             {
-                return PartialView();
+                TempData["message"] = "Add";
+                return Json(new { success = true });
             }
+            return PartialView();
         }
 
         public ActionResult CreateCP(int id)
@@ -180,27 +187,14 @@ namespace SantaMarta.Web.Controllers
         [HttpPost]
         public ActionResult CreateCP(int id, FormCollection collection)
         {
-            try
+            int status = clientsB.CreateCP(id);
+
+            if (status == 200)
             {
-                clientsB.CreateCP(id);
+                TempData["message"] = "Add";
                 return Json(new { success = true });
             }
-            catch
-            {
-                return PartialView();
-            }
-        }
-
-        public JsonResult GetCode(string code)
-        {
-            String codePersons = personsB.CheckCode(code);
-            return Json(codePersons, JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult GetIdentification(string identification)
-        {
-            String identificationPersons = personsB.CheckIdentification(identification);
-            return Json(identificationPersons, JsonRequestBehavior.AllowGet);
+            return PartialView();
         }
     }
 }

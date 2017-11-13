@@ -2,6 +2,7 @@
 using SantaMarta.Data.Models.Products;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SantaMarta.Data.Store_Procedures
 {
@@ -27,5 +28,7 @@ namespace SantaMarta.Data.Store_Procedures
         public List<Views_Invoinces_Products> Products { get; set; }
         public List<AssetsLiabilities> AssetsLiabilities { get; set; }
 
+        [NotMapped]
+        public int ConfirmStatus { get; set; }
     }
 }

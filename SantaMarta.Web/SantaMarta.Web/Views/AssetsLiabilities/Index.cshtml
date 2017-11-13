@@ -7,6 +7,7 @@
 }
 @Styles.Render("~/AdminPacket/plugins/datatables/css")
 <link href="~/Scripts/Daterangepicker/daterangepicker.min.css" rel="stylesheet" />
+<link href="~/Scripts/Toastr/toastr.min.css" rel="stylesheet" />
 
 @if (Session["users"] == null)
 {
@@ -183,32 +184,47 @@
     <script src="~/Scripts/Daterangepicker/daterangepicker.min.js"></script>
     <script src="~/Scripts/Daterangepicker/index.js"></script>
     <script src="~/Scripts/Mark/jquery.mask.min.js"></script>
+    <script src="~/Scripts/Toastr/toastr.min.js"></script>
 
     <script>
         $('body').on('hidden.bs.modal', '.modal', function () {
             $(this).removeData('bs.modal');
         });
     </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if ('@TempData["message"]' == "Add") {
+            toastr.success('El movimiento ha sido agregado correctamente', 'Agregado');
+        } else if ('@TempData["message"]' == "Delete"){
+                toastr.success('El movimiento ha sido eliminado correctamente', 'Eliminado');
+        }
+    });
+    </script>
 }
 <script>
-    $(document).ready(function () {
-        $('#value_from_start_date').mask('0000/00/00');
-        $('#value_from_end_date').mask('0000/00/00');
-    });
+        $(document).ready(function () {
+            $('#value_from_start_date').mask('0000/00/00');
+            $('#value_from_end_date').mask('0000/00/00');
+        });
 </script>
 <script>
-    function closeModalCreate(data) {
-        if (data.success) {
-            $('#modal-crear').modal('hide');
-            window.location.href = "/AssetsLiabilities/Index";
+        function closeModalCreate(data) {
+            if (data.success) {
+                $('#modal-crear').modal('hide');
+                window.location.href = "/AssetsLiabilities/Index";
+            } else {
+                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+            }
         }
-    }
 </script>
 <script>
-    function closeModalDelete(data) {
-        if (data.success) {
-            $('#modal-delete').modal('hide');
-            window.location.href = "/AssetsLiabilities/Index";
+        function closeModalDelete(data) {
+            if (data.success) {
+                $('#modal-delete').modal('hide');
+                window.location.href = "/AssetsLiabilities/Index";
+            } else {
+                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+            }
         }
-    }
 </script>

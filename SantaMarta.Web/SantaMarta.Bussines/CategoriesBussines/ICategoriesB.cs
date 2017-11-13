@@ -9,8 +9,9 @@ namespace SantaMarta.Bussines.CategoriesBussines
         int Create(Categories input);
         int Update(Categories input);
         int Delete(int id);
+        int Restore(int id);
         Categories GetById(int id);
         List<Categories> GetAll();
-        String CheckName(string name);
+        List<Categories> GetAllDelete();
     }
 }

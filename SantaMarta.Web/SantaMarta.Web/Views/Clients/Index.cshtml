@@ -129,10 +129,23 @@
 
     <script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/Scripts/Toastr/toastr.min.js"></script>
+
     <script>
         $('body').on('hidden.bs.modal', '.modal', function () {
             $(this).removeData('bs.modal');
         });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if ('@TempData["message"]' == "Add") {
+            toastr.success('El cliente ha sido agregado correctamente', 'Agregado');
+        } else if ('@TempData["message"]' == "Update"){
+                toastr.success('El cliente ha sido modificado correctamente', 'Modificado');
+        } else if ('@TempData["message"]' == "Delete"){
+                toastr.success('El cliente ha sido eliminado correctamente', 'Eliminado');
+        }
+    });
     </script>
 }
 <script>
@@ -140,7 +153,9 @@
             if (data.success) {
                 $('#modal-crear').modal('hide');
                 window.location.href = "/Clients/Index";
-                //toastr.success('Creado el cliente correctamente');
+            } else {
+                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                $('.modal-content').html(data);
             }
         }
 </script>
@@ -150,6 +165,9 @@
             if (data.success) {
                 $('#modal-editar').modal('hide');
                 window.location.href = "/Clients/Index";
+            } else {
+                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                $('.modal-content').html(data);
             }
         }
 </script>
@@ -159,6 +177,8 @@
             if (data.success) {
                 $('#modal-delete').modal('hide');
                 window.location.href = "/Clients/Index";
+            } else {
+                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
             }
         }
 </script>
@@ -168,6 +188,8 @@
             if (data.success) {
                 $('#modal-createCP').modal('hide');
                 window.location.href = "/Clients/Index";
+            } else {
+                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
             }
         }
 </script>

@@ -31,12 +31,28 @@ namespace SantaMarta.DataAccess.PurchaseAccess
 
         public int Create(Purchases purchase)
         {
-            return db.Insert_Purchase(purchase);
+            try
+            {
+                db.Insert_Purchase(purchase);
+                return 200;
+            }
+            catch (Exception)
+            {
+                return 500;
+            }
         }
 
         public int Delete(Int64 id)
         {
-            return 0;
+            try
+            {
+                db.Delete_Purchase(id);
+                return 200;
+            }
+            catch (Exception)
+            {
+                return 500;
+            }
         }
     }
 }

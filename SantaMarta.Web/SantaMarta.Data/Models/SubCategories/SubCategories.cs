@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SantaMarta.Data.Models.SubCategories
 {
@@ -14,6 +15,9 @@ namespace SantaMarta.Data.Models.SubCategories
         [StringLength(50, MinimumLength = 1, ErrorMessage = "El numero de caracteres debe ser menor a 50")]
         public String Name { get; set; }
 
-        public Int64? IdCategory { get; set; }
+        public Int64 IdCategory { get; set; }
+
+        [NotMapped]
+        public int ConfirmStatus { get; set; }
     }
 }

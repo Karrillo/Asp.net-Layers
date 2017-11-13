@@ -212,9 +212,8 @@
                     async: false,
                     contentType: 'application/json;charset=UTF-8',
                     dataType: 'json',
-                    success: function (response) {
-                        alertify.alert(response);
-                        valid = response.valid;
+                    success: function (success) {
+                        window.location.href = "/Sales/Index";
                     },
                     error: function (error) {
                         alertify.alert(error);
@@ -260,6 +259,9 @@
             cadena = cadena + "<td>" + $("#txt_quantity").val() + "</td>";
 
             var tax = parseFloat($("#txt_tax").val());
+            if (isNaN(tax)) {
+                tax = 0;
+            }
             var price = parseFloat($("#txt_price").val());
             var total = ((price * tax) / 100);
             var subPrice = total + price;

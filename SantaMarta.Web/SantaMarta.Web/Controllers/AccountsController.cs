@@ -24,6 +24,11 @@ namespace SantaMarta.Web.Controllers
             return View(accountB.GetAll().ToList());
         }
 
+        public ActionResult Index2()
+        {
+            return View(accountB.GetAllDelete().ToList());
+        }
+
         // GET: Users/Details/5
         public ActionResult Details(int id)
         {
@@ -39,24 +44,21 @@ namespace SantaMarta.Web.Controllers
         // POST: Users/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Accounts accounts)
         {
-            try
+            int status = accountB.Create(accounts);
+
+            if (status == 200)
             {
-                // TODO: Add insert logic here
-                Accounts account = new Accounts();
-                account.Name = collection["Name"];
-
-                accountB.Create(account);
-
+                TempData["message"] = "Add";
                 return Json(new { success = true });
             }
-            catch (InvalidCastException e)
+            else if (status == 400)
             {
-                Console.WriteLine("IOException source: {0}", e.Source);
-
-                return PartialView(collection);
+                ModelState.AddModelError("Name", "El nombre se esta usando actualmente");
+                return View(accounts);
             }
+            return View(accounts);
         }
 
         // GET: Users/Edit/5
@@ -67,34 +69,27 @@ namespace SantaMarta.Web.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var users = accountB.GetById(id);
-
-            if (users == null)
-            {
-                return HttpNotFound();
-            }
-            return PartialView(users);
+            return PartialView(accountB.GetById(id));
         }
 
         // POST: Users/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(Accounts account)
         {
-            try
+            int status = accountB.Update(account);
+
+            if (status == 200)
             {
-                Accounts account = new Accounts();
-                account.Name = collection["Name"];
-                account.IDAccount = id;
-
-                accountB.Update(account);
-
+                TempData["message"] = "Update";
                 return Json(new { success = true });
             }
-            catch
+            else if (status == 400)
             {
-                return PartialView(collection);
+                ModelState.AddModelError("Name", "El nombre se esta usando actualmente");
+                return View(account);
             }
+            return View(account);
         }
 
         // GET: Users/Delete/5
@@ -107,21 +102,33 @@ namespace SantaMarta.Web.Controllers
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
-            try
+            int status = accountB.Delete(id);
+
+            if (status == 200)
             {
-                accountB.Delete(id);
+                TempData["message"] = "Delete";
                 return Json(new { success = true });
             }
-            catch
-            {
-                return PartialView();
-            }
+            return PartialView();
         }
 
-        public JsonResult GetName(string name)
+        public ActionResult Restore(int id)
         {
-            String nameAccount = accountB.CheckName(name);
-            return Json(nameAccount, JsonRequestBehavior.AllowGet);
+            return PartialView();
+        }
+
+        // POST: Users/Delete/5
+        [HttpPost]
+        public ActionResult Restore(int id, FormCollection collection)
+        {
+            int status = accountB.Restore(id);
+
+            if (status == 200)
+            {
+                TempData["message"] = "Add";
+                return Json(new { success = true });
+            }
+            return PartialView();
         }
     }
 }

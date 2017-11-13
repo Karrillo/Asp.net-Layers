@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SantaMarta.Data.Models.Users
 {
@@ -23,5 +24,8 @@ namespace SantaMarta.Data.Models.Users
         public Boolean Type { get; set; }
 
         public Boolean State { get; set; }
+
+        [NotMapped]
+        public int ConfirmStatus { get; set; }
     }
 }

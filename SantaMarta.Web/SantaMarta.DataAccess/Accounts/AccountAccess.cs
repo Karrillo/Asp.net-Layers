@@ -17,34 +17,111 @@ namespace SantaMarta.DataAccess.AccountAccess
 
         public List<Accounts> GetAll()
         {
-            List<Accounts> accounts = db.List_Accounts().ToList();
-            return accounts;
+            List<Accounts> accounts = new List<Accounts>();
+            try
+            {
+                accounts = db.List_Accounts().ToList();
+                return accounts;
+            }
+            catch (Exception)
+            {
+                return accounts;
+            }
         }
 
-        public String CheckName(string name)
+        public List<Accounts> GetAllDelete()
         {
-            String account = db.Check_NameAccount(name);
-            return account;
+            List<Accounts> accounts = new List<Accounts>();
+            try
+            {
+                accounts = db.List_Accounts_Deleted().ToList();
+                return accounts;
+            }
+            catch (Exception)
+            {
+                return accounts;
+            }
         }
 
-        public Accounts GetById(int id)
+        public Accounts GetById(Int64 id)
         {
-            return db.View_Accounts(id);
+            Accounts accounts = new Accounts();
+            try
+            {
+                return db.View_Accounts(id);
+            }
+            catch (Exception)
+            {
+                return accounts;
+            }
         }
 
-        public int Update(Accounts user)
+        public int Update(Accounts accounts)
         {
-            return db.Update_Account(user);
+            try
+            {
+                String name = db.Check_NameAccount(accounts.Name);
+
+                if (name == null || name == GetById(accounts.IDAccount).Name)
+                {
+                    db.Update_Account(accounts);
+                    return 200;
+                }
+                else
+                {
+                    return 400;
+                }
+            }
+            catch (Exception)
+            {
+                return 500;
+            }
         }
 
-        public int Create(Accounts user)
+        public int Create(Accounts accounts)
         {
-            return db.Insert_Account(user);
+            try
+            {
+                if (db.Check_NameAccount(accounts.Name) == null)
+                {
+                    db.Insert_Account(accounts);
+                    return 200;
+                }
+                else
+                {
+                    return 400;
+                }
+            }
+            catch (Exception)
+            {
+                return 500;
+            }
         }
 
         public int Delete(int id)
         {
-            return db.Delete_Account(id);
+            try
+            {
+                db.Delete_Account(id);
+                return 200;
+            }
+            catch (Exception)
+            {
+                return 500;
+            }
+        }
+
+        public int Restore(int id)
+        {
+            try
+            {
+                db.Restore_Account(id);
+                return 200;
+            }
+            catch (Exception)
+            {
+                return 500;
+            }
         }
     }
 }

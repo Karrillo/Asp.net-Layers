@@ -45,7 +45,7 @@
             if (valueCode) {
                 $.ajax({
                     type: 'POST',
-                    url: '@Url.Action("GetName")',
+                    url: '@Url.Action("GetName", "SubCategories")',
                     dataType: 'json',
                     data: { name: valueCode},
                     success: function (product) {

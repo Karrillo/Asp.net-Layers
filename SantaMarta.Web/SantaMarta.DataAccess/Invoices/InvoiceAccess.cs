@@ -3,6 +3,7 @@ using SantaMarta.Data.Models.Invoices;
 using SantaMarta.DataAccess.Entity;
 using SantaMarta.Data.Store_Procedures;
 using System;
+using System.Linq;
 
 namespace SantaMarta.DataAccess.InvoiceAccess
 {
@@ -17,27 +18,74 @@ namespace SantaMarta.DataAccess.InvoiceAccess
 
         public List<Views_Invoices> GetAllSales()
         {
-            return db.Views_Invoices_All_Sales();
+            List<Views_Invoices> invoice = new List<Views_Invoices>();
+            try
+            {
+                invoice = db.Views_Invoices_All_Sales();
+                return invoice;
+            }
+            catch (Exception)
+            {
+                return invoice;
+            }
         }
+
         public List<Views_Invoices> GetAllPurchases()
         {
-            return db.Views_Invoices_All_Purchase();
+            List<Views_Invoices> invoice = new List<Views_Invoices>();
+            try
+            {
+                invoice = db.Views_Invoices_All_Purchase();
+                return invoice;
+            }
+            catch (Exception)
+            {
+                return invoice;
+            }
         }
+
         public Views_Invoinces_Details GetById(Int64 id)
         {
-            return db.View_Invoice_Clients(id);
+            Views_Invoinces_Details invoice = new Views_Invoinces_Details();
+            try
+            {
+                return db.View_Invoice_Clients(id);
+            }
+            catch (Exception)
+            {
+                return invoice;
+            }
         }
+
         public int Update(Invoices user)
         {
             return 0;
         }
+
         public int Create(Invoices invoices)
         {
-            return db.Insert_Invoice(invoices);
+            try
+            {
+                db.Insert_Invoice(invoices);
+                return 200;
+            }
+            catch (Exception)
+            {
+                return 500;
+            }
         }
+
         public int Delete(Int64 id)
         {
-            return 0;
+            try
+            {
+                //db.delete(id);
+                return 200;
+            }
+            catch (Exception)
+            {
+                return 500;
+            }
         }
     }
 }

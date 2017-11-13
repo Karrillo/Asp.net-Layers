@@ -7,11 +7,12 @@
     @Scripts.Render("~/scripts/Tables/Data/menu")
 }
 @Styles.Render("~/AdminPacket/plugins/datatables/css")
+<link href="~/Scripts/Toastr/toastr.min.css" rel="stylesheet" />
+<link href="~/Scripts/Toastr/toastr.min.css" rel="stylesheet" />
 
 @if (Session["users"] == null)
 {
     Response.Redirect("~/Login/Index");
-
 }
 
 <div class="box-header">
@@ -69,7 +70,10 @@
                                     <a class="btn btn-danger glyphicon glyphicon-remove-sign" data-target="#modal-delete" data-toggle="modal" href="@Url.Action("Delete", "Sales", new { id = item.IDInvoice })"></a>
                                 }
                                 <a class="btn btn-info glyphicon glyphicon-file" data-target="#modal-details" data-toggle="modal" href="@Url.Action("Details", "Sales", new { id = item.IDInvoice})"></a>
-                                <a class="btn btn-warning glyphicon glyphicon-piggy-bank" data-target="#modal-assets" data-toggle="modal" href="@Url.Action("Assets", "Sales", new { id = item.IDInvoice, item.Name, item.Rode})"></a>
+                                @if (item.Type != 1)
+                                {
+                                    <a class="btn btn-warning glyphicon glyphicon-piggy-bank" data-target="#modal-assets" data-toggle="modal" href="@Url.Action("Assets", "Sales", new { id = item.IDInvoice, item.Name, item.Rode})"></a>
+                                }
                             </td>
                         </tr>
                     }
@@ -116,36 +120,45 @@
     @Scripts.Render("~/AdminPacket/plugins/datatables/js")
     @Scripts.Render("~/scripts/Tables/Data")
     <script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/Toastr/toastr.min.js"></script>
+
     <script>
         $('body').on('hidden.bs.modal', '.modal', function () {
             $(this).removeData('bs.modal');
         });
     </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if ('@TempData["message"]' == "Add") {
+            toastr.success('El movimiento ha sido agregado correctamente', 'Agregado');
+        } else if ('@TempData["message"]' == "Delete"){
+                toastr.success('El movimiento ha sido eliminado correctamente', 'Eliminado');
+        }
+    });
+    </script>
 }
 
 <script>
-    function closeModalDelete(data) {
-        if (data.success) {
-            $('#modal-delete').modal('hide');
-            window.location.href = "/Sales/Index";
+        function closeModalDelete(data) {
+            if (data.success) {
+                $('#modal-delete').modal('hide');
+                window.location.href = "/Sales/Index";
+            } else {
+                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                $('.modal-content').html(data);
+            }
         }
-    }
 </script>
 
 <script>
-    function closeModalDetails(data) {
-        if (data.success) {
-            $('#modal-Details').modal('hide');
-            window.location.href = "/Sales/Index";
+        function closeModalAssets(data) {
+            if (data.success) {
+                $('#modal-assets').modal('hide');
+                window.location.href = "/Sales/Index";
+            } else {
+                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                $('.modal-content').html(data);
+            }
         }
-    }
-</script>
-
-<script>
-    function closeModalAssets(data) {
-        if (data.success) {
-            $('#modal-assets').modal('hide');
-            window.location.href = "/Sales/Index";
-        }
-    }
 </script>

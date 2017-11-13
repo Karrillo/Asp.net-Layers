@@ -8,6 +8,8 @@
 @Styles.Render("~/AdminPacket/plugins/datatables/css")
 @Styles.Render("~/AdminPacket/plugins/select2/css")
 @Styles.Render("~/AdminPacket/dist/css")
+<link href="~/Scripts/Toastr/toastr.min.css" rel="stylesheet" />
+
 
 @if (Session["users"] == null)
 {
@@ -108,6 +110,7 @@
     @Scripts.Render("~/AdminPacket/plugins/select2/js")
     @Scripts.Render("~/Scripts/Forms/Advanced")
     <script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/Toastr/toastr.min.js"></script>
 
     <script>
         $('body').on('hidden.bs.modal', '.modal', function () {
@@ -120,12 +123,27 @@
             $('#Form').submit();
         })
     </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if ('@TempData["message"]' == "Add") {
+            toastr.success('El usuario ha sido agregado correctamente', 'Agregado');
+        } else if ('@TempData["message"]' == "Update"){
+                toastr.success('El usuario ha sido modificado correctamente', 'Modificado');
+        } else if ('@TempData["message"]' == "Delete"){
+                toastr.success('El usuario ha sido eliminado correctamente', 'Eliminado');
+        }
+    });
+    </script>
 }
 <script>
         function closeModalCreate(data) {
             if (data.success) {
                 $('#modal-crear').modal('hide');
                 window.location.href = "/Products/Index";
+            } else {
+                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                $('.modal-content').html(data);
             }
         }
 </script>
@@ -133,6 +151,9 @@
         function closeModalEdit(data) {
             if (data.success) {
                 $('#modal-editar').modal('hide');
+            } else {
+                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                $('.modal-content').html(data);
             }
         }
 </script>
@@ -141,6 +162,8 @@
             if (data.success) {
                 $('#modal-delete').modal('hide');
                 window.location.href = "/Products/Index";
+            } else {
+                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
             }
         }
 </script>

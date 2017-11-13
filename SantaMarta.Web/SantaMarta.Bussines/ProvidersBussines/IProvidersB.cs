@@ -10,7 +10,9 @@ namespace SantaMarta.Bussines.ProvidersBussines
         int Create(Persons input);
         int Update(Persons input, int id);
         int Delete(int id);
+        int Restore(int id);
         All_Providers GetById(int id);
         List<All_Providers> GetAll();
+        List<All_Providers> GetAllDelete();
     }
 }

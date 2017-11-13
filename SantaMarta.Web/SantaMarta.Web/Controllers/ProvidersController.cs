@@ -3,7 +3,6 @@ using SantaMarta.Bussines.PersonsBussines;
 using SantaMarta.Bussines.ProvidersBussines;
 using SantaMarta.Data.Models.Persons;
 using SantaMarta.Data.Store_Procedures;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -29,6 +28,7 @@ namespace SantaMarta.Web.Controllers
         {
             List<All_Clients> clients = clientsB.GetAll().ToList();
             List<All_Providers> providers = providersB.GetAll().ToList();
+
             foreach (var y in providers)
             {
                 foreach (var x in clients)
@@ -42,6 +42,11 @@ namespace SantaMarta.Web.Controllers
             return View(providers);
         }
 
+        public ActionResult Index2()
+        {
+            return View(providersB.GetAllDelete().ToList());
+        }
+
         // GET: Clients/Details/5
         public ActionResult Details(int id)
         {
@@ -50,14 +55,7 @@ namespace SantaMarta.Web.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var provider = providersB.GetById(id);
-
-            if (provider == null)
-            {
-                return HttpNotFound();
-            }
-
-            return PartialView(provider);
+            return PartialView(providersB.GetById(id));
         }
 
         // GET: Clients/Create
@@ -69,33 +67,26 @@ namespace SantaMarta.Web.Controllers
         // POST: Clients/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Persons providers)
         {
-            try
+            int status = providersB.Create(providers);
+
+            if (status == 200)
             {
-                Persons provider = new Persons();
-
-                provider.Name = collection["Name"];
-                provider.FirstName = collection["FirstName"];
-                provider.SecondName = collection["SecondName"];
-                provider.Phone = collection["Phone"];
-                provider.CellPhone = collection["CellPhone"];
-                provider.Email = collection["Email"];
-                provider.Address = collection["Address"];
-                provider.Identification = collection["Identification"];
-                provider.NameCompany = collection["NameCompany"];
-                provider.Code = collection["Code"];
-
-                providersB.Create(provider);
-
+                TempData["message"] = "Add";
                 return Json(new { success = true });
             }
-            catch (InvalidCastException e)
+            else if (status == 400)
             {
-                Console.WriteLine("IOException source: {0}", e.Source);
-
-                return PartialView(collection);
+                ModelState.AddModelError("Code", "El codigo se esta usando actualmente");
+                return View(providers);
             }
+            else if (status == 401)
+            {
+                ModelState.AddModelError("Identification", "La identificacion se esta usando actualmente");
+                return View(providers);
+            }
+            return View(providers);
         }
 
         // GET: Clients/Edit/5
@@ -106,49 +97,64 @@ namespace SantaMarta.Web.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var provider = providersB.GetById(id);
-
-            if (provider == null)
-            {
-                return HttpNotFound();
-            }
-
-            return PartialView(provider);
+            return PartialView(providersB.GetById(id));
         }
 
         // POST: Clients/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, All_Providers providers)
         {
-            try
+            Persons provider = new Persons();
+
+            provider.Code = providers.Code;
+            provider.Identification = providers.Identification;
+            provider.Name = providers.Name;
+            provider.FirstName = providers.FirstName;
+            provider.SecondName = providers.SecondName;
+            provider.NameCompany = providers.NameCompany;
+            provider.CellPhone = providers.CellPhone;
+            provider.Phone = providers.Phone;
+            provider.Email = providers.Email;
+            provider.Address = providers.Address;
+
+            int status = providersB.Update(provider, id);
+
+            if (status == 200)
             {
-                if (ModelState.IsValid)
-                {
-
-                    Persons provider = new Persons();
-
-                    provider.Name = collection["Name"];
-                    provider.FirstName = collection["FirstName"];
-                    provider.SecondName = collection["SecondName"];
-                    provider.Phone = collection["Phone"];
-                    provider.CellPhone = collection["CellPhone"];
-                    provider.Email = collection["Email"];
-                    provider.Address = collection["Address"];
-                    provider.Identification = collection["Identification"];
-                    provider.NameCompany = collection["NameCompany"];
-                    provider.Code = collection["Code"];
-
-                    providersB.Update(provider, id);
-
-                }
-
+                TempData["message"] = "Update";
                 return Json(new { success = true });
             }
-            catch
+            else if (status == 400)
             {
-                return PartialView(collection);
+                ModelState.AddModelError("Code", "El codigo se esta usando actualmente");
+                return View(providers);
             }
+            else if (status == 401)
+            {
+                ModelState.AddModelError("Identification", "La identificacion se esta usando actualmente");
+                return View(providers);
+            }
+            return View(providers);
+        }
+
+        public ActionResult Restore(int id)
+        {
+            return PartialView();
+        }
+
+        // POST: Clients/Delete/5
+        [HttpPost]
+        public ActionResult Restore(int id, FormCollection collection)
+        {
+            int status = providersB.Restore(id);
+
+            if (status == 200)
+            {
+                TempData["message"] = "Delete";
+                return Json(new { success = true });
+            }
+            return PartialView();
         }
 
         // GET: Clients/Delete/5
@@ -161,15 +167,14 @@ namespace SantaMarta.Web.Controllers
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
-            try
+            int status = providersB.Delete(id);
+
+            if (status == 200)
             {
-                providersB.Delete(id);
+                TempData["message"] = "Delete";
                 return Json(new { success = true });
             }
-            catch
-            {
-                return PartialView();
-            }
+            return PartialView();
         }
 
         public ActionResult CreatePC(int id)
@@ -181,27 +186,14 @@ namespace SantaMarta.Web.Controllers
         [HttpPost]
         public ActionResult CreatePC(int id, FormCollection collection)
         {
-            try
+            int status = providersB.CreatePC(id);
+
+            if (status == 200)
             {
-                providersB.CreatePC(id);
+                TempData["message"] = "Add";
                 return Json(new { success = true });
             }
-            catch
-            {
-                return PartialView();
-            }
-        }
-
-        public JsonResult GetCode(string code)
-        {
-            String codePersons = personsB.CheckCode(code);
-            return Json(codePersons, JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult GetIdentification(string identification)
-        {
-            String identificationPersons = personsB.CheckIdentification(identification);
-            return Json(identificationPersons, JsonRequestBehavior.AllowGet);
+            return PartialView();
         }
     }
 }

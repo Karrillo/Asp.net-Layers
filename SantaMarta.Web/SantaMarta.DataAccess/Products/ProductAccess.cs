@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using SantaMarta.Data.Models.Products;
 using System.Linq;
 using System;
+using SantaMarta.Data.Store_Procedures;
 
 namespace SantaMarta.DataAccess.ProductAccess
 {
@@ -17,34 +18,111 @@ namespace SantaMarta.DataAccess.ProductAccess
 
         public List<Products> GetAll()
         {
-            List<Products> products = db.List_Products_SM().ToList();
-            return products;
+            List<Products> products = new List<Products>();
+            try
+            {
+                products = db.List_Products_SM().ToList();
+                return products;
+            }
+            catch (Exception)
+            {
+                return products;
+            }
         }
 
-        public String CheckName(string code)
+        public List<List_Products_Deleted> GetAllDelete()
         {
-            String products = db.Check_CodeProduct(code);
-            return products;
+            List<List_Products_Deleted> products = new List<List_Products_Deleted>();
+            try
+            {
+                products = db.List_Products_Deleted().ToList();
+                return products;
+            }
+            catch (Exception)
+            {
+                return products;
+            }
         }
 
-        public Products GetById(int id)
+        public Products GetById(Int64 id)
         {
-            return db.View_Product(id);
+            Products products = new Products();
+            try
+            {
+                return db.View_Product(id);
+            }
+            catch (Exception)
+            {
+                return products;
+            }
         }
 
         public int Update(Products products, Int64 id)
         {
-            return db.Update_Product(products, id);
+            try
+            {
+                String code = db.Check_CodeProduct(products.Code);
+
+                if (code == null || code == GetById(id).Code)
+                {
+                    db.Update_Product(products, id);
+                    return 200;
+                }
+                else
+                {
+                    return 400;
+                }
+            }
+            catch (Exception)
+            {
+                return 500;
+            }
         }
 
         public int Create(Products products)
         {
-            return db.Insert_Product_SM(products);
+            try
+            {
+                if (db.Check_CodeProduct(products.Code) == null)
+                {
+                    db.Insert_Product_SM(products);
+                    return 200;
+                }
+                else
+                {
+                    return 400;
+                }
+            }
+            catch (Exception)
+            {
+                return 500;
+            }
         }
 
         public int Delete(int id)
         {
-            return db.Delete_Product(id);
+            try
+            {
+                db.Delete_Product(id);
+                return 200;
+            }
+            catch (Exception)
+            {
+                return 500;
+            }
+        }
+
+        public int Restore(int id)
+        {
+            try
+            {
+                db.Restore_Product(id);
+                return 200;
+            }
+            catch (Exception)
+            {
+                return 500;
+            }
         }
     }
 }

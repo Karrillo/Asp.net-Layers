@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,5 +15,8 @@ namespace SantaMarta.Data.Store_Procedures
         public Decimal Tax { get; set; }
         public Int32 Quantity { get; set; }
         public Decimal Total { get; set; }
+
+        [NotMapped]
+        public int ConfirmStatus { get; set; }
     }
 }

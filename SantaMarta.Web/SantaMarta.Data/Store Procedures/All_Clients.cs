@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -71,6 +72,10 @@ namespace SantaMarta.Data.Store_Procedures
         [StringLength(30, MinimumLength = 1, ErrorMessage = "El numero de caracteres debe ser menor a 30")]
         public String Code { get; set; }
 
+        [NotMapped]
         public Boolean IsProvider { get; set; }
+
+        [NotMapped]
+        public int ConfirmStatus { get; set; }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using SantaMarta.Data.Models.Products;
-using System;
+using SantaMarta.Data.Store_Procedures;
 using System.Collections.Generic;
 
 namespace SantaMarta.Bussines.ProductsBussines
@@ -9,9 +9,9 @@ namespace SantaMarta.Bussines.ProductsBussines
         int Create(Products input);
         int Update(Products input, int id);
         int Delete(int id);
+        int Restore(int id);
         Products GetById(int id);
         List<Products> GetAll();
-        String CheckName(string code);
-
+        List<List_Products_Deleted> GetAllDelete();
     }
 }

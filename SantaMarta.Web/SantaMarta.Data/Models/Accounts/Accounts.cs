@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SantaMarta.Data.Models.Accounts
 {
@@ -13,5 +14,8 @@ namespace SantaMarta.Data.Models.Accounts
         [DataType(DataType.Text)]
         [StringLength(30, MinimumLength = 1, ErrorMessage = "El numero de caracteres debe ser menor a 30")]
         public String Name { get; set; }
+
+        [NotMapped]
+        public int ConfirmStatus { get; set; }
     }
 }
