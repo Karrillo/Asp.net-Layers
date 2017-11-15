@@ -1,0 +1,93 @@
+﻿@model IEnumerable<SantaMarta.Data.Models.Accounts.Accounts>
+@{
+    ViewBag.Title = "Restaurar Cuentas";
+}
+@section Menu {
+    @Scripts.Render("~/scripts/Tables/Data/menu")
+}
+@Styles.Render("~/AdminPacket/plugins/datatables/css")
+<link href="~/Scripts/Toastr/toastr.min.css" rel="stylesheet" />
+
+@if (Session["Type"] == null)
+{
+    Response.Redirect("~/Login/Index");
+}
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+
+    <div class="box">
+        <div class="box-header">
+            <h3 class="box-title">Lista de Cuentas</h3>
+        </div>
+        <div class="box-body">
+            <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Cuenta</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @*lista de clientes*@
+                    @foreach (var item in Model)
+                {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                <a class="btn btn-success glyphicon glyphicon-plus" data-target="#modal-restore" data-toggle="modal" href="@Url.Action("Restore", "Accounts", new { id = item.IDAccount })"></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Cuenta</th>
+                        <th>Acciones</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+}
+@*modal*@
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-restore" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/AdminPacket/plugins/datatables/js")
+    @Scripts.Render("~/scripts/Tables/Data")
+    <script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/Toastr/toastr.min.js"></script>
+
+    <script>
+        $('body').on('hidden.bs.modal', '.modal', function () {
+            $(this).removeData('bs.modal');
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if ('@TempData["message"]' == "Add") {
+            toastr.success('La cuenta ha sido agregado correctamente', 'Agregado');
+        } else if ('@TempData["message"]' == "Error"){
+                toastr.warning('Hubo un error en la base de datos', 'Atencion');
+        }
+    });
+    </script>
+}
+<script>
+        function closeModalRestore(data) {
+            if (data.success) {
+                $('#modal-restore').modal('hide');
+                window.location.href = "/Accounts/Index2";
+            } else {
+                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+            }
+        }
+</script>

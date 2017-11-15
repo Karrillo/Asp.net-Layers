@@ -9,38 +9,168 @@ namespace SantaMarta.DataAccess.ClientAccess
 {
     public class ClientAccess
     {
-        ContextDb db = new ContextDb();
+        private ContextDb db;
+
+        public ClientAccess()
+        {
+            db = new ContextDb();
+        }
 
         public List<All_Clients> GetAll()
         {
-            List <All_Clients> clients = db.All_Clients_Active().ToList();
-            return clients;
+            List<All_Clients> clients = new List<All_Clients>();
+
+            try
+            {
+                clients = db.All_Clients_Active().ToList();
+                return clients;
+            }
+            catch (Exception)
+            {
+                return clients;
+            }
         }
 
-        public All_Clients GetById(int id)
+        public List<All_Clients> GetAllDelete()
         {
-            return db.View_Client(id);
+            List<All_Clients> clients = new List<All_Clients>();
+
+            try
+            {
+                clients = db.All_Clients_Deleted().ToList();
+                return clients;
+            }
+            catch (Exception)
+            {
+                return clients;
+            }
         }
+
+        public All_Clients GetById(Int64 id)
+        {
+            All_Clients clients = new All_Clients();
+            try
+            {
+                return db.View_Client(id);
+            }
+            catch (Exception)
+            {
+                return clients;
+            }
+        }
+
         public List<All_Clients> GetByName(String name)
         {
-            return db.Seach_Client_Word(name);
+            List<All_Clients> clients = new List<All_Clients>();
+
+            try
+            {
+                clients = db.Seach_Client_Word(name);
+                return clients;
+            }
+            catch (Exception)
+            {
+                return clients;
+            }
         }
+
         public int Update(Persons personClient, Int64 id)
         {
-            return db.update_Client(personClient, id);
+            try
+            {
+                String code = db.Check_CodePersons(personClient.Code);
+                String identification = db.Check_Identification(personClient.Identification);
+
+                All_Clients client = GetById(id);
+
+                if (code == null || code == client.Code)
+                {
+                    if (identification == null || identification == client.Identification)
+                    {
+                        db.update_Client(personClient, client.IDPerson);
+                        return 200;
+                    }
+                    else
+                    {
+                        return 401;
+                    }
+                }
+                else
+                {
+                    return 400;
+                }
+            }
+            catch (Exception)
+            {
+
+                return 500;
+            }
         }
+
         public int CreateCP(int id)
         {
-            return db.Insert_Client_Provider(id);
+            try
+            {
+                db.Insert_Client_Provider(id);
+                return 200;
+            }
+            catch (Exception)
+            {
+                return 500;
+            }
         }
+
         public int Create(Persons personClient)
         {
-            return db.Insert_Client(personClient);
+            try
+            {
+                if (db.Check_CodePersons(personClient.Code) == null)
+                {
+                    if (db.Check_Identification(personClient.Identification) == null)
+                    {
+                        db.Insert_Client(personClient);
+                        return 200;
+                    }
+                    else
+                    {
+                        return 401;
+                    }
+                }
+                else
+                {
+                    return 400;
+                }
+            }
+            catch (Exception)
+            {
+                return 500;
+            }
         }
 
         public int Delete(int id)
         {
-            return db.Delete_Client(id);
+            try
+            {
+                db.Delete_Client(id);
+                return 200;
+            }
+            catch (Exception)
+            {
+                return 500;
+            }
+        }
+
+        public int Restore(int id)
+        {
+            try
+            {
+                db.Restore_Client(id);
+                return 200;
+            }
+            catch (Exception)
+            {
+                return 500;
+            }
         }
     }
 }

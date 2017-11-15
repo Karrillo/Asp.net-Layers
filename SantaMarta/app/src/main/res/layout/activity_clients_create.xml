@@ -29,9 +29,9 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
+            android:inputType="datetime"
             android:ems="10"
-            android:id="@+id/txt_Name" />
+            android:id="@+id/txt_name" />
 
         <TextView
             android:text="Primer Apellido:"
@@ -83,12 +83,11 @@
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/txt_phone" />
-
         <TextView
-            android:id="@+id/txtv_cellPhone"
+            android:text="Celular:"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Celular:" />
+            android:id="@+id/txtv_cellPhone" />
 
         <EditText
             android:layout_width="match_parent"
@@ -131,12 +130,5 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/btn_back" />
-        <LinearLayout
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:layout_width="0px"
-            android:layout_height="0px" >
-            <requestFocus />
-        </LinearLayout>
     </LinearLayout>
 </ScrollView>

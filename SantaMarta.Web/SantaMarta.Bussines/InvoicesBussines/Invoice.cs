@@ -14,17 +14,12 @@ namespace SantaMarta.Bussines.InvoicesBussines
             return invoiceAccess.Create(input);
         }
 
-        public int Delete(int id)
+        public int Delete(Int64 id)
         {
             return invoiceAccess.Delete(id);
         }
 
-        public List<Invoices> GetAll()
-        {
-            return invoiceAccess.GetAll();
-        }
-
-        public Invoices GetById(int id)
+        public Views_Invoinces_Details GetById(Int64 id)
         {
             return invoiceAccess.GetById(id);
         }
@@ -39,19 +34,9 @@ namespace SantaMarta.Bussines.InvoicesBussines
             return invoiceAccess.GetAllSales();
         }
 
-        public List<View_Invoice_Details> GetAllDetails(Int64 id)
+        public List<Views_Invoices> GetAllPurchases()
         {
-            return invoiceAccess.GetAllDetails(id);
-        }
-
-        public Decimal GetSumInvoicesSale(Int64 id)
-        {
-            return invoiceAccess.GetSumInvoicesSale(id);
-        }
-
-        public Views_Sales_Purchase_Product GetSalesProduct(Int64 id)
-        {
-            return invoiceAccess.GetSalesProduct(id);
+            return invoiceAccess.GetAllPurchases();
         }
     }
 }

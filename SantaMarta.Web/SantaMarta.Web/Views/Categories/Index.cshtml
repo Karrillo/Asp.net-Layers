@@ -1,10 +1,9 @@
 ﻿@model IList<SantaMarta.Data.Models.Categories.Categories>
-
 @{
     ViewBag.Title = "Categorias";
 }
-
 <link href="~/Scripts/Tree/tree.css" rel="stylesheet" />
+<link href="~/Scripts/Toastr/toastr.min.css" rel="stylesheet" />
 
 @if (Session["users"] == null)
 {
@@ -16,7 +15,6 @@
     <div class="panel panel-default">
         <div class="panel-heading">Lista de Categorias</div>
         <div class="panel-body">
-
             @using (Html.BeginForm())
             {
                 var categories = ViewBag.Categories;
@@ -26,12 +24,12 @@
                         <span class="glyphicon glyphicon-plus"></span> Nueva Categoria
                     </a>
                 </div>
-                <div class="tree">
+                <div class="tree" id="tree">
                     @for (int i = 0; i < categories.Count; i++)
                     {
                         <ul>
                             <li>
-                                <a href="#">
+                                <a href="#" id=ZA>
                                     <label for=@i>
                                         <strong>Categorias:</strong>
                                         @categories[i].Name
@@ -40,7 +38,7 @@
                                 <a class="btn btn-success glyphicon glyphicon-plus" data-target="#modal-createSubCategory" data-toggle="modal" href="@Url.Action("Create", "SubCategories", new { id = categories[i].IDCategory})"></a>
                                 <a class="btn btn-primary glyphicon glyphicon-pencil" data-target="#modal-editCategory" data-toggle="modal" href="@Url.Action("Edit", "Categories", new { id = categories[i].IDCategory})"></a>
                                 <a class="btn btn-danger glyphicon glyphicon-minus" data-target="#modal-deleteCategory" data-toggle="modal" href="@Url.Action("Delete", "Categories", new { id = categories[i].IDCategory})"></a>
-                                <ul>
+                                <ul id="treeSubCategories">
                                     @for (int j = 0; j < subCategories.Count; j++)
                                     {
                                         if (categories[i].IDCategory == subCategories[j].IdCategory)
@@ -67,7 +65,6 @@
         </div>
     </div>
 </div>
-
 @*modal*@
 <div class="modal fade" tabindex="-1" role="dialog" id="modal-createCategory" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -111,62 +108,96 @@
     </div>
 </div>
 
-<script src="~/Scripts/Tree/tree.js"></script>
+<script>
+
+</script>
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
 
 @section Scripts {
     <script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/Toastr/toastr.min.js"></script>
+
     <script>
         $('body').on('hidden.bs.modal', '.modal', function () {
             $(this).removeData('bs.modal');
         });
     </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if ('@TempData["message"]' == "Add") {
+                toastr.success('La categoria ha sido agregado correctamente', 'Agregado');
+        } else if ('@TempData["message"]' == "Update"){
+                toastr.success('La categoria ha sido modificado correctamente', 'Modificado');
+        } else if ('@TempData["message"]' == "Delete"){
+                toastr.success('La categoria ha sido eliminado correctamente', 'Eliminado');
+        }
+    });
+    </script>
 }
 
 <script>
-    function closeModalCreateCategory(data) {
-        if (data.success) {
-            $('#modal-createCategory').modal('hide');
-            window.location.href = "/Categories/Index";
+        function closeModalCreateCategory(data) {
+            if (data.success) {
+                $('#modal-createCategory').modal('hide');
+                window.location.href = "/Categories/Index";
+            } else {
+                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                $('.modal-content').html(data);
+            }
         }
-    }
 </script>
 <script>
-    function closeModalEditCategory(data) {
-        if (data.success) {
-            $('#modal-editarCategory').modal('hide');
-            window.location.href = "/Categories/Index";
+        function closeModalEditCategory(data) {
+            if (data.success) {
+                $('#modal-editarCategory').modal('hide');
+                window.location.href = "/Categories/Index";
+            } else {
+                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                $('.modal-content').html(data);
+            }
         }
-    }
 </script>
 <script>
-    function closeModalDeleteCategory(data) {
-        if (data.success) {
-            $('#modal-deleteCategory').modal('hide');
-            window.location.href = "/Categories/Index";
+        function closeModalDeleteCategory(data) {
+            if (data.success) {
+                $('#modal-deleteCategory').modal('hide');
+                window.location.href = "/Categories/Index";
+            } else {
+                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+            }
         }
-    }
 </script>
 <script>
-    function closeModalCreateSubCategory(data) {
-        if (data.success) {
-            $('#modal-createSubCategory').modal('hide');
-            window.location.href = "/Categories/Index";
+        function closeModalCreateSubCategory(data) {
+            if (data.success) {
+                $('#modal-createSubCategory').modal('hide');
+                window.location.href = "/Categories/Index";
+            } else {
+                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                $('.modal-content').html(data);
+            }
         }
-    }
 </script>
 <script>
-    function closeModalEditSubCategory(data) {
-        if (data.success) {
-            $('#modal-editarSubCategory').modal('hide');
-            window.location.href = "/Categories/Index";
+        function closeModalEditSubCategory(data) {
+            if (data.success) {
+                $('#modal-editarSubCategory').modal('hide');
+                window.location.href = "/Categories/Index";
+            } else {
+                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                $('.modal-content').html(data);
+            }
         }
-    }
 </script>
 <script>
-    function closeModalDeleteSubCategory(data) {
-        if (data.success) {
-            $('#modal-deleteSubCategory').modal('hide');
-            window.location.href = "/Categories/Index";
+        function closeModalDeleteSubCategory(data) {
+            if (data.success) {
+                $('#modal-deleteSubCategory').modal('hide');
+                window.location.href = "/Categories/Index";
+            } else {
+                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+            }
         }
-    }
 </script>

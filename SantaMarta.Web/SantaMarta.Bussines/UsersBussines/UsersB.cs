@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using SantaMarta.Data.Models.Users;
 using SantaMarta.DataAccess.UserAccess;
+using System;
 
 namespace SantaMarta.Bussines.UsersBussines
 {
@@ -24,9 +25,19 @@ namespace SantaMarta.Bussines.UsersBussines
             return userAccess.Delete(id);
         }
 
+        public int Restore(int id)
+        {
+            return userAccess.Restore(id);
+        }
+
         public List<Users> GetAll()
         {
             return userAccess.GetAll();
+        }
+
+        public List<Users> GetAllDelete()
+        {
+            return userAccess.GetAllDelete();
         }
 
         public Users GetById(int id)

@@ -22,9 +22,19 @@ namespace SantaMarta.Bussines.ProvidersBussines
             return providerAccess.Delete(id);
         }
 
+        public int Restore(int id)
+        {
+            return providerAccess.Restore(id);
+        }
+
         public List<All_Providers> GetAll()
         {
             return providerAccess.GetAll();
+        }
+
+        public List<All_Providers> GetAllDelete()
+        {
+            return providerAccess.GetAllDelete();
         }
 
         public All_Providers GetById(int id)

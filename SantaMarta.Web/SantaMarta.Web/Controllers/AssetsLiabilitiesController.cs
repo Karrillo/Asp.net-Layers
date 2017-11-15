@@ -10,6 +10,7 @@ using SantaMarta.Data.Models.AssetsLiabilities;
 using SantaMarta.Data.Models.Users;
 using SantaMarta.Data.Store_Procedures;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -21,11 +22,20 @@ namespace SantaMarta.Web.Controllers
     public class AssetsLiabilitiesController : Controller
     {
 
-        AssetsLiabilitiesB assetsLiabilitiesB = new AssetsLiabilitiesB();
-        CategoriesB categoriesB = new CategoriesB();
-        SubCategoriesB subCategoriesB = new SubCategoriesB();
-        AccountsB accountB = new AccountsB();
-        UsersB userB = new UsersB();
+        private AssetsLiabilitiesB assetsLiabilitiesB;
+        private CategoriesB categoriesB;
+        private SubCategoriesB subCategoriesB;
+        private AccountsB accountB;
+        private UsersB userB;
+
+        public AssetsLiabilitiesController()
+        {
+            assetsLiabilitiesB = new AssetsLiabilitiesB();
+            categoriesB = new CategoriesB();
+            subCategoriesB = new SubCategoriesB();
+            accountB = new AccountsB();
+            userB = new UsersB();
+        }
 
         // GET: AssetsLiabilities
         public ActionResult Index(String value_from_start_date, String value_from_end_date)
@@ -39,24 +49,25 @@ namespace SantaMarta.Web.Controllers
                 ViewBag.liabilities = assetsLiabilitiesB.TotalSum(value_from_start_date, value_from_end_date, false);
                 ViewBag.Fecha = value_from_start_date + " Hasta " + value_from_end_date;
                 tableInformation(ViewBag.assets, ViewBag.liabilities);
-                return View(assetsLiabilitiesB.GetAllDate(value_from_start_date, value_from_end_date));
+
+                return View(assetsLiabilitiesB.GetAllDate(value_from_start_date, value_from_end_date).ToList());
             }
             else
             {
-                ViewBag.assets = assetsLiabilitiesB.TotalSum(DateTime.Today.ToString("MM-dd-yyyy"), DateTime.Today.ToString("MM-dd-yyyy"), true);
-                ViewBag.liabilities = assetsLiabilitiesB.TotalSum(DateTime.Today.ToString("MM-dd-yyyy"), DateTime.Today.ToString("MM-dd-yyyy"), false);
-                ViewBag.Fecha = DateTime.Today.ToString("MM-dd-yyyy");
+                ViewBag.assets = assetsLiabilitiesB.TotalSum(DateTime.Today.ToString("yyyy-MM-dd"), DateTime.Today.ToString("yyyy-MM-dd"), true);
+                ViewBag.liabilities = assetsLiabilitiesB.TotalSum(DateTime.Today.ToString("yyyy-MM-dd"), DateTime.Today.ToString("yyyy-MM-dd"), false);
+                ViewBag.Fecha = DateTime.Today.ToString("yyyy-MM-dd");
                 tableInformation(ViewBag.assets, ViewBag.liabilities);
-                return View(assetsLiabilitiesB.GetAllDate(DateTime.Today.ToString("MM-dd-yyyy"), DateTime.Today.ToString("MM-dd-yyyy")).ToList());
+
+                return View(assetsLiabilitiesB.GetAllDate(DateTime.Today.ToString("yyyy-MM-dd"), DateTime.Today.ToString("yyyy-MM-dd")).ToList());
             }
         }
 
-        private void tableInformation(decimal assets, decimal liabilities)
+        private void tableInformation(Decimal? assets, Decimal? liabilities)
         {
             if (ViewBag.assets == 0)
             {
                 ViewBag.Total = (-ViewBag.liabilities);
-
             }
             else if (ViewBag.liabilities == 0)
             {
@@ -78,12 +89,9 @@ namespace SantaMarta.Web.Controllers
 
             var assetsLiabilities = assetsLiabilitiesB.GetById(id);
 
-            if (assetsLiabilities == null)
-            {
-                return HttpNotFound();
-            }
 
             AssetsLiabilitiesDetails assetsLiabilitiesDetails = new AssetsLiabilitiesDetails();
+
             assetsLiabilitiesDetails.NameCategory = subCategoriesB.GetByIdName((int)assetsLiabilities.IdSubCategory);
             assetsLiabilitiesDetails.NameSubCategory = subCategoriesB.GetById((int)assetsLiabilities.IdSubCategory).Name;
             assetsLiabilitiesDetails.NameUser = userB.GetById((int)assetsLiabilities.IdUser).Nickname;
@@ -93,11 +101,13 @@ namespace SantaMarta.Web.Controllers
             assetsLiabilitiesDetails.CurrentDate = assetsLiabilities.CurrentDate;
             assetsLiabilitiesDetails.Description = assetsLiabilities.Description;
             assetsLiabilitiesDetails.Rode = assetsLiabilities.Rode;
+
             if (assetsLiabilities.Type == true)
             {
                 assetsLiabilitiesDetails.Type = "Ingreso";
             }
-            else {
+            else
+            {
                 assetsLiabilitiesDetails.Type = "Egreso";
             }
 
@@ -121,53 +131,19 @@ namespace SantaMarta.Web.Controllers
         // POST: AssetsLiabilities/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(AssetsLiabilities assetLiability)
         {
             var user = (Users)Session["users"];
-            try
+            assetLiability.IdUser = user.IDUser;
+
+            int status = assetsLiabilitiesB.Create(assetLiability);
+
+            if (status == 200)
             {
-                AssetsLiabilities assetLiability = new AssetsLiabilities();
-
-                assetLiability.CurrentDate = DateTime.Parse(collection["CurrentDate"]);
-                assetLiability.Code = Convert.ToInt64(collection["Code"]);
-                assetLiability.Rode = Decimal.Parse(collection["Rode"]);
-                assetLiability.Type = Boolean.Parse(collection["Type"]);
-                assetLiability.Description = collection["Description"];
-                assetLiability.Name = collection["Name"];
-                assetLiability.IdUser = user.IDUser;
-                assetLiability.IdAccount = Convert.ToInt64(collection["account"]);
-                assetLiability.IdSubCategory = Convert.ToInt64(collection["subCategory"]);
-
-                assetsLiabilitiesB.Create(assetLiability);
+                TempData["message"] = "Add";
                 return Json(new { success = true });
             }
-            catch(Exception ex)
-            {
-                return View("Error", new HandleErrorInfo(ex, "AssetsLiabilities", "Create"));
-                //return PartialView();
-            }
-        }
-
-        // GET: AssetsLiabilities/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: AssetsLiabilities/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            return View(assetLiability);
         }
 
         // GET: AssetsLiabilities/Delete/5
@@ -180,15 +156,14 @@ namespace SantaMarta.Web.Controllers
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
-            try
+            int status = assetsLiabilitiesB.Delete(id);
+
+            if (status == 200)
             {
-                assetsLiabilitiesB.Delete(id);
+                TempData["message"] = "Delete";
                 return Json(new { success = true });
             }
-            catch
-            {
-                return PartialView();
-            }
+            return PartialView();
         }
 
         public void createPdf()
@@ -210,18 +185,21 @@ namespace SantaMarta.Web.Controllers
 
                 foreach (var item in assetsLiabilitiesB.GetAllDate(startDate.ToString(), endDate.ToString()))
                 {
-                    graphics.DrawString(item.CurrentDate.ToString("MM/dd/yy"), font, XBrushes.Black, 35, position);
-                    graphics.DrawString(item.Code.ToString(), font, XBrushes.Black, 130, position);
-                    graphics.DrawString(item.Name.ToString(), font, XBrushes.Black, 240, position);
-                    if (item.Type == false)
+                    if (item.State == true)
                     {
-                        graphics.DrawString(item.Rode.ToString(), font, XBrushes.Red, 500, position);
+                        graphics.DrawString(item.CurrentDate.ToString("yyyy-MM-dd"), font, XBrushes.Black, 35, position);
+                        graphics.DrawString(item.Code.ToString(), font, XBrushes.Black, 130, position);
+                        graphics.DrawString(item.Name.ToString(), font, XBrushes.Black, 240, position);
+                        if (item.Type == false)
+                        {
+                            graphics.DrawString(item.Rode.ToString(), font, XBrushes.Red, 500, position);
+                        }
+                        else
+                        {
+                            graphics.DrawString(item.Rode.ToString(), font, XBrushes.Green, 418, position);
+                        }
+                        position = position + 15;
                     }
-                    else
-                    {
-                        graphics.DrawString(item.Rode.ToString(), font, XBrushes.Green, 418, position);
-                    }
-                    position = position + 15;
                 }
 
                 var assets = assetsLiabilitiesB.TotalSum(startDate.ToString(), endDate.ToString(), true);
@@ -253,23 +231,26 @@ namespace SantaMarta.Web.Controllers
             }
             else
             {
-                String fechaActual = DateTime.Today.ToString("dd-MM-yyyy");
+                String fechaActual = DateTime.Today.ToString("yyyy-MM-dd");
                 graphics.DrawString(fechaActual, font, XBrushes.Black, 500, 60);
 
                 foreach (var item in assetsLiabilitiesB.GetAllDate(fechaActual, fechaActual))
                 {
-                    graphics.DrawString(item.CurrentDate.ToString("MM/dd/yy"), font, XBrushes.Black, 35, position);
-                    graphics.DrawString(item.Code.ToString(), font, XBrushes.Black, 130, position);
-                    graphics.DrawString(item.Name.ToString(), font, XBrushes.Black, 240, position);
-                    if (item.Type == false)
+                    if (item.State == true)
                     {
-                        graphics.DrawString(item.Rode.ToString(), font, XBrushes.Red, 500, position);
+                        graphics.DrawString(item.CurrentDate.ToString("yyyy-MM-dd"), font, XBrushes.Black, 35, position);
+                        graphics.DrawString(item.Code.ToString(), font, XBrushes.Black, 130, position);
+                        graphics.DrawString(item.Name.ToString(), font, XBrushes.Black, 240, position);
+                        if (item.Type == false)
+                        {
+                            graphics.DrawString(item.Rode.ToString(), font, XBrushes.Red, 500, position);
+                        }
+                        else
+                        {
+                            graphics.DrawString(item.Rode.ToString(), font, XBrushes.Green, 418, position);
+                        }
+                        position = position + 15;
                     }
-                    else
-                    {
-                        graphics.DrawString(item.Rode.ToString(), font, XBrushes.Green, 418, position);
-                    }
-                    position = position + 15;
                 }
 
                 var assets = assetsLiabilitiesB.TotalSum(fechaActual, fechaActual, true);
@@ -309,7 +290,7 @@ namespace SantaMarta.Web.Controllers
             Response.Buffer = true;
             Response.Cache.SetCacheability(HttpCacheability.NoCache);
 
-            Response.AddHeader("content-disposition", "attachment; filename = Reporte_" + DateTime.Now.ToString("MM/dd/yy") + ".pdf");
+            Response.AddHeader("content-disposition", "attachment; filename = Reporte_" + DateTime.Now.ToString("yyyy-MM-dd") + ".pdf");
             Response.ContentType = "application/pdf";
 
             Response.BinaryWrite(bytes);

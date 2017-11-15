@@ -12,22 +12,21 @@ namespace SantaMarta.WebAPI.Controllers
     [Authorize]
     public class DetailController : ApiController
     {
-        // POST: api/Detail
-        [HttpPost]
-        public IHttpActionResult Post(Int64 id)
+        // GET: api/Detail/5
+        public IHttpActionResult Get(Int64 id)
         {
-            int clients;
+            Int64 detail;
 
             DetailsB detailsB = new DetailsB();
 
-            clients = detailsB.Create(id);
+            detail = detailsB.Create(id);
 
-            if (clients != -1)
+            if (detail == -1)
             {
-                return BadRequest();
+                return Ok(false);
             }
 
-            return Ok();
+            return Ok(detail);
         }
     }
 }

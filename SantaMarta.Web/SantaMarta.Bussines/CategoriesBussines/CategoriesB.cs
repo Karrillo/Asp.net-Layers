@@ -18,10 +18,20 @@ namespace SantaMarta.Bussines.CategoriesBussines
             return categoryAccess.Delete(id);
         }
 
+        public int Restore(int id)
+        {
+            return categoryAccess.Restore(id);
+        }
+
         public List<Categories> GetAll()
         {
             return categoryAccess.GetAll();
         }
+        public List<Categories> GetAllDelete()
+        {
+            return categoryAccess.GetAllDelete();
+        }
+
 
         public Categories GetById(int id)
         {

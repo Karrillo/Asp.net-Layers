@@ -44,7 +44,6 @@ public class MenuActivity extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                MainActivity.token="";
                 finish();
             }
         });

@@ -1,75 +1,202 @@
-﻿using SantaMarta.Bussines.AssetsLiabilitiesBussines;
+﻿using SantaMarta.Bussines.AccountsBussines;
+using SantaMarta.Bussines.AssetsLiabilitiesBussines;
+using SantaMarta.Bussines.CategoriesBussines;
 using SantaMarta.Bussines.ClientsBussines;
 using SantaMarta.Bussines.DetailsBussines;
+using SantaMarta.Bussines.InvoicesBussines;
 using SantaMarta.Bussines.ProductsBussines;
 using SantaMarta.Bussines.SalesBussines;
+using SantaMarta.Bussines.SubCategoriesBussines;
+using SantaMarta.Bussines.UsersBussines;
+using SantaMarta.Data.Models.AssetsLiabilities;
+using SantaMarta.Data.Models.Invoices;
+using SantaMarta.Data.Models.Products;
+using SantaMarta.Data.Models.Sales;
+using SantaMarta.Data.Models.Users;
+using SantaMarta.Data.Store_Procedures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Net;
 using System.Web.Mvc;
 
 namespace SantaMarta.Web.Controllers
 {
     public class SalesController : Controller
     {
-        SalesB saleB = new SalesB();
-        AssetsLiabilitiesB assetsLiabilitiesB = new AssetsLiabilitiesB();
-        ClientsB clientsB = new ClientsB();
-        ProductsB productsB = new ProductsB();
-        DetailsB details = new DetailsB();
+        private CategoriesB categoriesB;
+        private SubCategoriesB subCategoriesB;
+        private AccountsB accountB;
+        private UsersB userB;
+        private SalesB saleB;
+        private AssetsLiabilitiesB assetsLiabilitiesB;
+        private ClientsB clientsB;
+        private ProductsB productsB;
+        private DetailsB detailsB;
+        private InvoicesB invoicesB;
+
+        public SalesController()
+        {
+            categoriesB = new CategoriesB();
+            subCategoriesB = new SubCategoriesB();
+            accountB = new AccountsB();
+            userB = new UsersB();
+            saleB = new SalesB();
+            assetsLiabilitiesB = new AssetsLiabilitiesB();
+            clientsB = new ClientsB();
+            productsB = new ProductsB();
+            detailsB = new DetailsB();
+            invoicesB = new InvoicesB();
+        }
 
         // GET: Sales
         public ActionResult Index()
         {
-            return View();
+            List<InvoicesTable> invoicesTable = new List<InvoicesTable>();
+            List<Views_Invoices> invoices = invoicesB.GetAllSales().ToList();
+
+            DateTime date = DateTime.Now;
+            Int16 state = 0;
+
+            foreach (var item in invoices)
+            {
+                state = 0;
+
+                if (item.LimitDate < date && item.Total != item.Rode)
+                {
+                    state = 0;
+                }
+                else if (item.Total == item.Rode)
+                {
+                    state = 1;
+                }
+                else if (item.Total != item.Rode && item.LimitDate > date)
+                {
+                    state = 2;
+                }
+
+                if (item.Rode == null)
+                {
+                    item.Rode = 0;
+                }
+
+                invoicesTable.Add(new InvoicesTable()
+                {
+                    IDInvoice = item.IDInvoice,
+                    Name = item.SecondName + " " + item.FirstName + " " + item.Name,
+                    NameCompany = item.NameCompany,
+                    Code = item.Code,
+                    Date = item.CurrentDate.ToShortDateString(),
+                    Rode = item.Total - item.Rode ?? 0,
+                    Type = state
+                });
+            }
+            return View(invoicesTable);
         }
 
         // GET: Sales/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            if (id == 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Views_Invoinces_Details sales = invoicesB.GetById(id);
+
+            sales.Date = sales.CurrentDate.ToShortDateString();
+            sales.Products = saleB.GetById(sales.IdDetail).ToList();
+            sales.AssetsLiabilities = assetsLiabilitiesB.GetByIdInvoinces(id).ToList();
+
+            if (sales.Products != null)
+            {
+                foreach (var item in sales.AssetsLiabilities)
+                {
+                    sales.Payments = sales.Payments + item.Rode;
+                }
+
+                sales.Residue = sales.Total - sales.Payments;
+                return PartialView(sales);
+            }
+
+            return PartialView(sales);
+        }
+
+        public JsonResult GetProduct(string id)
+        {
+            Products product = productsB.GetById(int.Parse(id));
+            return Json(product, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetClient(string id)
+        {
+            All_Clients client = clientsB.GetById(Convert.ToInt32(id));
+            return Json(client, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Sales/Create
         public ActionResult Create()
         {
+            var clients = clientsB.GetAll().ToList();
+            ViewData["clientsCode"] = new SelectList(clients, "IdClient", "Code");
+            ViewData["clientsCompany"] = new SelectList(clients, "IdClient", "NameCompany");
+            var name = clients.Select(u => new { IdClient = u.IDClient, Name = u.Name + " " + u.FirstName + " " + u.SecondName });
+            ViewData["clientsName"] = new SelectList(name, "IDClient", "Name");
+
+            var products = productsB.GetAll().ToList();
+            ViewData["productsName"] = new SelectList(products, "IdProduct", "Name");
+            ViewData["productsCode"] = new SelectList(products, "IdProduct", "Code");
+
             return View();
         }
 
         // POST: Sales/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(string idClient, string discount, string total, string currentDate, string code, string limitDate, List<Sales> sale)
         {
-            try
+            var idUser = (Users)Session["users"];
+
+            Int64 details = detailsB.Create(idUser.IDUser);
+
+            foreach (var items in sale)
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                if (items.IdProduct != null)
+                {
+                    Sales sales = new Sales();
+                    sales.IdProduct = items.IdProduct;
+                    sales.Quantity = items.Quantity;
+                    sales.Total = items.Total;
+                    sales.IdDetails = details;
+                    saleB.Create(sales);
+                }
             }
-            catch
+
+            Invoices invoices = new Invoices();
+            invoices.IdDetail = details;
+            DateTime date = DateTime.Today;
+
+            if (limitDate != "0")
             {
-                return View();
+                invoices.LimitDate = date.AddDays(Convert.ToInt32(limitDate));
             }
-        }
 
-        // GET: Sales/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
+            invoices.Total = Convert.ToDecimal(total);
 
-        // POST: Sales/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
+            if (discount != "")
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
+                invoices.Discount = Convert.ToDecimal(discount);
             }
-            catch
+
+            invoices.Code = code;
+            invoices.IdClient = Convert.ToInt64(idClient);
+            invoices.IdProvider = 1;
+            int status = invoicesB.Create(invoices);
+
+            if (status == 200)
+            {
+                return Json(new { success = true });
+            }
+            else
             {
                 return View();
             }
@@ -78,7 +205,7 @@ namespace SantaMarta.Web.Controllers
         // GET: Sales/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            return PartialView();
         }
 
         // POST: Sales/Delete/5
@@ -87,35 +214,59 @@ namespace SantaMarta.Web.Controllers
         {
             try
             {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
+                invoicesB.Delete(id);
+                return Json(new { success = true });
             }
             catch
             {
-                return View();
+                return PartialView();
             }
         }
 
-        public ActionResult Assets(int id)
+        public ActionResult Assets(int id, string name, decimal rode)
         {
-            return View();
+            ViewData["category"] = new SelectList(categoriesB.GetAll(), "IdCategory", "Name");
+            ViewData["account"] = new SelectList(accountB.GetAll(), "IdAccount", "Name");
+
+            return PartialView();
         }
 
         // POST: Sales/Delete/5
         [HttpPost]
-        public ActionResult Assets(int id, FormCollection collection)
+        [ValidateAntiForgeryToken]
+        public ActionResult Assets(int id, AssetsLiabilities assetLiability)
         {
-            try
-            {
-                // TODO: Add delete logic here
+            var user = (Users)Session["users"];
+            assetLiability.IdUser = user.IDUser;
+            assetLiability.IdInvoice = id;
+            assetLiability.Type = true;
 
-                return RedirectToAction("Index");
-            }
-            catch
+            int status = assetsLiabilitiesB.CreateCredit(assetLiability);
+
+            if (status == 200)
             {
-                return View();
+                return Json(new { success = true });
             }
+            else if (status == 400)
+            {
+                ModelState.AddModelError("Rode", "Sobre pasa el monto de credito a cancelar");
+                ViewData["category"] = new SelectList(categoriesB.GetAll(), "IdCategory", "Name");
+                ViewData["account"] = new SelectList(accountB.GetAll(), "IdAccount", "Name");
+                return View(assetLiability);
+            }
+            return View(assetLiability);
+        }
+
+        public JsonResult GetSubCategories(string id)
+        {
+            var subCategories = subCategoriesB.GetByIdAll(int.Parse(id));
+            return Json(new SelectList(subCategories, "IDSubCategory", "Name"), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetPayment(string id)
+        {
+            var subCategories = subCategoriesB.GetByIdAll(int.Parse(id));
+            return Json(new SelectList(subCategories, "IDSubCategory", "Name"), JsonRequestBehavior.AllowGet);
         }
     }
 }

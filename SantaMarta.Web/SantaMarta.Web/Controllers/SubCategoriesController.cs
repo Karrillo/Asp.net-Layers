@@ -1,6 +1,7 @@
 ﻿using SantaMarta.Bussines.SubCategoriesBussines;
 using SantaMarta.Data.Models.SubCategories;
 using System;
+using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 
@@ -8,11 +9,22 @@ namespace SantaMarta.Web.Controllers
 {
     public class SubCategoriesController : Controller
     {
-        SubCategoriesB subCategoriesB = new SubCategoriesB();
+        private SubCategoriesB subCategoriesB;
+
+        public SubCategoriesController()
+        {
+            subCategoriesB = new SubCategoriesB();
+        }
+
         // GET: SubCategories
         public ActionResult Index()
         {
             return View();
+        }
+
+        public ActionResult Index2()
+        {
+            return View(subCategoriesB.GetAllDelete().ToList());
         }
 
         // GET: SubCategories/Details/5
@@ -22,7 +34,7 @@ namespace SantaMarta.Web.Controllers
         }
 
         // GET: SubCategories/Create
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
             return PartialView();
         }
@@ -114,6 +126,25 @@ namespace SantaMarta.Web.Controllers
             {
                 return PartialView();
             }
+        }
+
+        public ActionResult Restore(int id)
+        {
+            return PartialView();
+        }
+
+        // POST: SubCategories/Delete/5
+        [HttpPost]
+        public ActionResult Restore(int id, FormCollection collection)
+        {
+            int status = subCategoriesB.Restore(id);
+
+            if (status == 200)
+            {
+                TempData["message"] = "Add";
+                return Json(new { success = true });
+            }
+            return PartialView();
         }
     }
 }

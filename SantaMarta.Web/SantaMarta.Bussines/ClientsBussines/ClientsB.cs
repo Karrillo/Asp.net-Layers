@@ -23,9 +23,19 @@ namespace SantaMarta.Bussines.ClientsBussines
             return clientAccess.Delete(id);
         }
 
+        public int Restore(int id)
+        {
+            return clientAccess.Restore(id);
+        }
+
         public List<All_Clients> GetAll()
         {
             return clientAccess.GetAll();
+        }
+
+        public List<All_Clients> GetAllDelete()
+        {
+            return clientAccess.GetAllDelete();
         }
 
         public All_Clients GetById(int id)

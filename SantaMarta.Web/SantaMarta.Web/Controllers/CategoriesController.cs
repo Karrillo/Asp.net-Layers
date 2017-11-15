@@ -1,7 +1,6 @@
 ﻿using SantaMarta.Bussines.CategoriesBussines;
 using SantaMarta.Bussines.SubCategoriesBussines;
 using SantaMarta.Data.Models.Categories;
-using System;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -10,8 +9,14 @@ namespace SantaMarta.Web.Controllers
 {
     public class CategoriesController : Controller
     {
-        CategoriesB categoriesB = new CategoriesB();
-        SubCategoriesB subCategoriesB = new SubCategoriesB();
+        private CategoriesB categoriesB;
+        private SubCategoriesB subCategoriesB;
+
+        public CategoriesController()
+        {
+            categoriesB = new CategoriesB();
+            subCategoriesB = new SubCategoriesB();
+        }
 
         // GET: Categories
         public ActionResult Index()
@@ -21,10 +26,9 @@ namespace SantaMarta.Web.Controllers
             return View();
         }
 
-        // GET: Categories/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Index2()
         {
-            return View();
+            return View(categoriesB.GetAllDelete().ToList());
         }
 
         // GET: Categories/Create
@@ -35,24 +39,21 @@ namespace SantaMarta.Web.Controllers
 
         // POST: Categories/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Categories categories)
         {
-            try
+            int status = categoriesB.Create(categories);
+
+            if (status == 200)
             {
-                Categories category = new Categories();
-
-                category.Name = collection["Name"];
-
-                categoriesB.Create(category);
-
+                TempData["message"] = "Add";
                 return Json(new { success = true });
             }
-            catch (InvalidCastException e)
+            else if (status == 400)
             {
-                Console.WriteLine("IOException source: {0}", e.Source);
-
-                return PartialView(collection);
+                ModelState.AddModelError("Name", "El nombre se esta usando actualmente");
+                return View(categories);
             }
+            return View(categories);
         }
 
         // GET: Categories/Edit/5
@@ -63,40 +64,26 @@ namespace SantaMarta.Web.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var category = categoriesB.GetById(id);
-
-            if (category == null)
-            {
-                return HttpNotFound();
-            }
-
-            return PartialView(category);
+            return PartialView(categoriesB.GetById(id));
         }
 
         // POST: Categories/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(Categories categories)
         {
-            try
+            int status = categoriesB.Update(categories);
+
+            if (status == 200)
             {
-                if (ModelState.IsValid)
-                {
-
-                    Categories category = new Categories();
-
-                    category.Name = collection["Name"];
-                    category.IDCategory = id;
-
-                    categoriesB.Update(category);
-
-                }
-
+                TempData["message"] = "Update";
                 return Json(new { success = true });
             }
-            catch
+            else if (status == 400)
             {
-                return PartialView(collection);
+                ModelState.AddModelError("Name", "El nombre se esta usando actualmente");
+                return View(categories);
             }
+            return View(categories);
         }
 
         // GET: Categories/Delete/5
@@ -109,16 +96,33 @@ namespace SantaMarta.Web.Controllers
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
-            try
+            int status = categoriesB.Delete(id);
+
+            if (status == 200)
             {
-                // TODO: Add delete logic here
-                categoriesB.Delete(id);
+                TempData["message"] = "Delete";
                 return Json(new { success = true });
             }
-            catch
+            return PartialView();
+        }
+
+        public ActionResult Restore(int id)
+        {
+            return PartialView();
+        }
+
+        // POST: Categories/Delete/5
+        [HttpPost]
+        public ActionResult Restore(int id, FormCollection collection)
+        {
+            int status = categoriesB.Restore(id);
+
+            if (status == 200)
             {
-                return PartialView();
+                TempData["message"] = "Add";
+                return Json(new { success = true });
             }
+            return PartialView();
         }
     }
 }

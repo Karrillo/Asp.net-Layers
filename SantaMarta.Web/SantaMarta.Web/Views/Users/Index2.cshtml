@@ -1,0 +1,95 @@
+﻿@model IEnumerable<SantaMarta.Data.Models.Users.Users>
+@{
+    ViewBag.Title = "Restaurar Usuarios";
+}
+@section Menu {
+    @Scripts.Render("~/scripts/Tables/Data/menu")
+}
+@Styles.Render("~/AdminPacket/plugins/datatables/css")
+<link href="~/Scripts/Toastr/toastr.min.css" rel="stylesheet" />
+@if (Session["Type"] == null)
+{
+    Response.Redirect("~/Login/Index");
+}
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+
+    <div class="box">
+        <div class="box-header">
+            <h3 class="box-title">Lista de Usuarios</h3>
+        </div>
+        <div class="box-body">
+            <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Contraseña</th>
+                        <th>Privilegios</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.Nickname)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Password)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Type)</td>
+                            <td>
+                                <a class="btn btn-success glyphicon glyphicon-plus" data-target="#modal-restore" data-toggle="modal" href="@Url.Action("Restore", "Users", new { id = item.IDUser })"></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Contraseña</th>
+                        <th>Privilegios</th>
+                        <th>Acciones</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+}
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-restore" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/AdminPacket/plugins/datatables/js")
+    @Scripts.Render("~/scripts/Tables/Data")
+    <script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/Toastr/toastr.min.js"></script>
+
+    <script>
+        $('body').on('hidden.bs.modal', '.modal', function () {
+            $(this).removeData('bs.modal');
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if ('@TempData["message"]' == "Add") {
+            toastr.success('El usuario ha sido restaurado correctamente', 'Agregado');
+        }
+    });
+    </script>
+}
+<script>
+        function closeModalRestore(data) {
+            if (data.success) {
+                $('#modal-restore').modal('hide');
+                window.location.href = "/Users/Index2";
+            } else {
+                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+            }
+        }
+</script>

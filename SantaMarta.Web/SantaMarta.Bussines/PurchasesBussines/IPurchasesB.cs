@@ -1,14 +1,15 @@
 ﻿using SantaMarta.Data.Models.Purchases;
+using System;
 using System.Collections.Generic;
 
 namespace SantaMarta.Bussines.PurchasesBussines
 {
     public interface IPurchasesB
     {
-        bool Create(Purchases input);
-        bool Update(Purchases input);
-        bool Delete(int id);
-        Purchases GetById(int id);
+        int Create(Purchases input);
+        int Update(Purchases input);
+        int Delete(Int64 id);
+        List<Purchases> GetById(Int64 id);
         List<Purchases> GetAll();
     }
 }

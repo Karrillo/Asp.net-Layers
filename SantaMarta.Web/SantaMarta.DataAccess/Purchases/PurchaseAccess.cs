@@ -1,36 +1,58 @@
 ﻿using System.Collections.Generic;
 using SantaMarta.Data.Models.Purchases;
 using SantaMarta.DataAccess.Entity;
+using System;
 
 namespace SantaMarta.DataAccess.PurchaseAccess
 {
     public class PurchaseAccess
     {
-        ContextDb db = new ContextDb();
+        private ContextDb db;
+
+        public PurchaseAccess()
+        {
+            db = new ContextDb();
+        }
 
         public List<Purchases> GetAll()
         {
             return null;
         }
 
-        public Purchases GetById(int id)
+        public List<Purchases> GetById(Int64 id)
         {
             return null;
         }
 
-        public bool Update(Purchases user)
+        public int Update(Purchases user)
         {
-            return true;
+            return 0;
         }
 
-        public bool Create(Purchases user)
+        public int Create(Purchases purchase)
         {
-            return true;
+            try
+            {
+                db.Insert_Purchase(purchase);
+                return 200;
+            }
+            catch (Exception)
+            {
+                return 500;
+            }
         }
 
-        public bool Delete(int id)
+        public int Delete(Int64 id)
         {
-            return true;
+            try
+            {
+                db.Delete_Purchase(id);
+                return 200;
+            }
+            catch (Exception)
+            {
+                return 500;
+            }
         }
     }
 }

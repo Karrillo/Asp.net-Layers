@@ -4,8 +4,10 @@
     Layout = null;
     ViewBag.Title = "Create";
 }
-@Styles.Render("~/AdminPacket/plugins/datepicker/css")
+
+@Styles.Render("~/AdminPacket/bootstrap/css")
 @Styles.Render("~/AdminPacket/plugins/icheck/css")
+<link href="~/Scripts/Datepicker/bootstrap-datepicker.min.css" rel="stylesheet" />
 
 @*modal*@
 <div class="modal-header">
@@ -25,14 +27,13 @@
         OnSuccess = "closeModalCreate",
         InsertionMode = InsertionMode.Replace
     },
-                                                                 new { @class = "form-horizontal", role = "form", id = "frmCrear" }))
+                                                 new { @class = "form-horizontal", role = "form", id = "frmCrear" }))
     {
 
         @Html.AntiForgeryToken()
-        //textbox
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="box-body">
-            @Html.TextBoxFor(model => model.CurrentDate, new { @class = "form-control", id = "datepicker", placeholder = "Fecha: MM/DD/YYYY" })
+            @Html.TextBoxFor(model => model.CurrentDate, new { @class = "form-control", id = "datepicker", placeholder = "Fecha: YYYY/MM/DD", @readonly = "readonly", @Value = @DateTime.Now.ToString("yyyy/MM/dd") })
             @Html.ValidationMessageFor(model => model.CurrentDate, "", new { @class = "text-danger" })
             <br>
             @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Nº Documento" } })
@@ -48,40 +49,60 @@
             <br>
             @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
             <br>
-            @Html.EditorFor(model => model.Rode, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Monto" } })
+            @Html.EditorFor(model => model.Rode, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Monto", id = "rode" } })
             @Html.ValidationMessageFor(model => model.Rode, "", new { @class = "text-danger" })
             <br>
             @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Descripcion" } })
             @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
             <br>
-            @Html.DropDownList("account", ViewData["accounts"] as List<SelectListItem>, "Seleccionar Cuenta", htmlAttributes: new { @class = "form-control" })
+            @Html.DropDownListFor(model => model.IdAccount, (SelectList)ViewBag.account, "Selecionar Cuenta", new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.IdAccount, "", new { @class = "text-danger" })
             <br>
-            @Html.DropDownList("category", ViewData["categories"] as List<SelectListItem>, "Selecionar Categoria", htmlAttributes: new { @class = "form-control" })
+            @Html.DropDownList("category", null, "Selecionar Categoria", new { @class = "form-control" })
             <br>
-            @Html.DropDownList("subCategory", new SelectList(string.Empty, "IDSubCategory", "Name"), "Selecionar Sub-Categoria", htmlAttributes: new { @class = "form-control" })
+            @Html.DropDownListFor(model => model.IdSubCategory, new SelectList(string.Empty, "IDSubCategory", "Name"), "Selecionar Sub-Categoria", new { @class = "form-control", id = "subCategory" })
             @Html.ValidationMessageFor(model => model.IdSubCategory, "", new { @class = "text-danger" })
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
             <input id="btnCreate" type="submit" value="Guardar" class="btn btn-success" />
         </div>
     }
-</div>
 
-@Scripts.Render("~/AdminPacket/plugins/datepicker/js")
-@Scripts.Render("~/AdminPacket/plugins/icheck/js")
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
 
-<script type="text/javascript">
+    <script src="~/scripts/jquery.validate.min.js"></script>
+    <script src="~/scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    <script src="~/Scripts/Mark/jquery.mask.min.js"></script>
+    <script src="~/Scripts/Daterangepicker/moment.min.js"></script>
+    <script src="~/Scripts/Datepicker/bootstrap-datepicker.min.js"></script>
+
+    @Scripts.Render("~/AdminPacket/dist/js")
+    @Scripts.Render("~/AdminPacket/bootstrap/js")
+    @Scripts.Render("~/AdminPacket/plugins/icheck/js")
+
+
+    <script>
+        $(document).ready(function () {
+            $('#datepicker').mask('0000/00/00');
+            $('#rode').mask('000000000000000.00', { reverse: true });
+        });
+    </script>
+
+
+    <script type="text/javascript">
     $(document).ready(function () {
         $("#category").change(function () {
-            $("#subCategory").empty();
+            if ($("#category").val() > 0) {
+    $("#subCategory").empty();
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("GetSubCategories")',
                 dataType: 'json',
                 data: { id: $("#category").val() },
                 success: function (subCategories) {
+                    $("#subCategory").append('<option value ="">Selecionar Sub- Categoria</option>');
                     $.each(subCategories, function (i, value) {
                         $("#subCategory").append('<option value ="' + value.Value + '">' + value.Text  + '</option>');
                     });
@@ -91,22 +112,30 @@
                 }
             });
             return false;
+            }
+            $("#subCategory").empty();
+
+            $("#subCategory").prepend("<option>Selecionar Sub-Categoria</option>");
         })
     });
-</script>
+    </script>
 
-<script>
-    $(document).ready(function () {
-        $('input').iCheck({
-            radioClass: 'iradio_flat'
+    <script>
+        $(document).ready(function () {
+            $('input').iCheck({
+                radioClass: 'iradio_flat'
+            });
         });
-    });
-</script>
+    </script>
 
-<script>
-    $(document).ready(function () {
-        $('input').iCheck({
-            radioClass: 'iradio_flat-green'
+    <script>
+        $(document).ready(function () {
+            $("#datepicker").datepicker({
+                format: 'yyyy/mm/dd',
+                autoclose: true,
+                todayBtn: 'linked',
+                calendarWeeks: true,
+                todayHighlight: true
+            })
         });
-    });
-</script>
+    </script>

@@ -2,23 +2,25 @@
 @{
     ViewBag.Title = "Productos Santa Marta";
 }
+
+@if (Session["users"] == null)
+{
+    Response.Redirect("~/Login/Index");
+}
+
 @section Menu {
     @Scripts.Render("~/scripts/Tables/Data/menu")
 }
 @Styles.Render("~/AdminPacket/plugins/datatables/css")
-@if (Session["users"] == null)
-{
-    Response.Redirect("~/Login/Index");
 
-}
+<link href="~/Scripts/Toastr/toastr.min.css" rel="stylesheet" />
 
-@*Boton ingresar nuevo*@
 <div class="box-header">
     <a class="btn btn-success btn-lg pull-right" data-target="#modal-crear" data-toggle="modal" href="/ProductsSM/Create">
         <span class="glyphicon glyphicon-plus"></span> Nuevo Producto
     </a>
 </div>
-@*Table*@
+
 @using (Html.BeginForm())
 {
     @Html.ValidationSummary(true)
@@ -38,7 +40,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @*lista de clientes*@
                     @foreach (var item in Model)
                 {
                         <tr>
@@ -48,9 +49,7 @@
                             <td>
                                 @if (Session["Type"] != null)
                                 {
-                                    @*Boton Editar*@
                                     <a class="btn btn-primary glyphicon glyphicon-edit" data-target="#modal-editar" data-toggle="modal" href="@Url.Action("Edit", "ProductsSM", new { id = item.IDProduct })"></a>
-                                    @*Boton Borrar*@
                                     <a class="btn btn-danger glyphicon glyphicon-trash" data-target="#modal-editar" data-toggle="modal" href="@Url.Action("Delete", "ProductsSM", new { id = item.IDProduct })"></a>
                                 }
                                 <a class="btn btn-info glyphicon glyphicon-file" data-target="#modal-details" data-toggle="modal" href="@Url.Action("Details", "ProductsSM", new { id = item.IDProduct })"></a>
@@ -98,45 +97,66 @@
         </div>
     </div>
 </div>
+
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
+
 @section Scripts {
     @Scripts.Render("~/AdminPacket/plugins/datatables/js")
     @Scripts.Render("~/scripts/Tables/Data")
-    <script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/Toastr/toastr.min.js"></script>
+
     <script>
         $('body').on('hidden.bs.modal', '.modal', function () {
             $(this).removeData('bs.modal');
         });
     </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if ('@TempData["message"]' == "Add") {
+            toastr.success('El usuario ha sido agregado correctamente', 'Agregado');
+        } else if ('@TempData["message"]' == "Update"){
+                toastr.success('El usuario ha sido modificado correctamente', 'Modificado');
+        } else if ('@TempData["message"]' == "Delete"){
+                toastr.success('El usuario ha sido eliminado correctamente', 'Eliminado');
+        }
+    });
+    </script>
 }
+
 <script>
-    function closeModalCreate(data) {
-        if (data.success) {
-            $('#modal-crear').modal('hide');
-            window.location.href = "/ProductsSM/Index";
+        function closeModalCreate(data) {
+            if (data.success) {
+                $('#modal-crear').modal('hide');
+                window.location.href = "/ProductsSM/Index";
+            } else {
+                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                $('.modal-content').html(data);
+            }
         }
-    }
 </script>
+
 <script>
-    function closeModalEdit(data) {
-        if (data.success) {
-            $('#modal-editar').modal('hide');
-            window.location.href = "/ProductsSM/Index";
+        function closeModalEdit(data) {
+            if (data.success) {
+                $('#modal-editar').modal('hide');
+                window.location.href = "/ProductsSM/Index";
+            } else {
+                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                $('.modal-content').html(data);
+            }
         }
-    }
 </script>
+
 <script>
-    function closeModalDelete(data) {
-        if (data.success) {
-            $('#modal-delete').modal('hide');
-            window.location.href = "/ProductsSM/Index";
+        function closeModalDelete(data) {
+            if (data.success) {
+                $('#modal-delete').modal('hide');
+                window.location.href = "/ProductsSM/Index";
+            } else {
+                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+            }
         }
-    }
-</script>
-<script>
-    function closeModalDelete(data) {
-        if (data.success) {
-            $('#modal-details').modal('hide');
-            window.location.href = "/ProductsSM/Index";
-        }
-    }
 </script>

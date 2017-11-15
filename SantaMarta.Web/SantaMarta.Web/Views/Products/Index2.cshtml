@@ -1,0 +1,111 @@
+﻿@model IEnumerable<SantaMarta.Data.Store_Procedures.List_Products_Deleted>
+@{
+    ViewBag.Title = "Restaurar Productos";
+}
+
+@if (Session["users"] == null)
+{
+    Response.Redirect("~/Login/Index");
+}
+
+@section Menu {
+    @Scripts.Render("~/scripts/Tables/Data/menu")
+}
+@Styles.Render("~/AdminPacket/plugins/datatables/css")
+
+<link href="~/Scripts/Toastr/toastr.min.css" rel="stylesheet" />
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+
+    <div class="box">
+        <div class="box-header">
+            <h3 class="box-title">Lista de Productos de Santa Marta</h3>
+        </div>
+        <div class="box-body">
+            <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Codigo Producto</th>
+                        <th>Nombre Producto</th>
+                        <th>Precio</th>
+                        <th>Codigo Proveedor</th>
+                        <th>Nombre de Compañía</th>
+                        <th>Nombre de Proveedor</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.Code)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Price)</td>
+                            <td>@Html.DisplayFor(modelItem => item.CodeProvider)</td>
+                            <td>@Html.DisplayFor(modelItem => item.NameCompany)</td>
+                            <td>@Html.DisplayFor(modelItem => item.FullName)</td>
+                            <td>
+                                <a class="btn btn-success glyphicon glyphicon-plus" data-target="#modal-restore" data-toggle="modal" href="@Url.Action("Restore", "Products", new { id = item.IdProduct})"></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Codigo Producto</th>
+                        <th>Nombre Producto</th>
+                        <th>Precio</th>
+                        <th>Codigo Proveedor</th>
+                        <th>Nombre de Compañía</th>
+                        <th>Nombre de Proveedor</th>
+                        <th>Acciones</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+}
+@*modal*@
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-restore" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+@section Scripts {
+    @Scripts.Render("~/AdminPacket/plugins/datatables/js")
+    @Scripts.Render("~/scripts/Tables/Data")
+    <script src="~/Scripts/Toastr/toastr.min.js"></script>
+
+    <script>
+        $('body').on('hidden.bs.modal', '.modal', function () {
+            $(this).removeData('bs.modal');
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if ('@TempData["message"]' == "Add") {
+            toastr.success('El producto ha sido agregado correctamente', 'Agregado');
+        }
+    });
+    </script>
+}
+
+<script>
+        function closeModalRestore(data) {
+            if (data.success) {
+                $('#modal-restore').modal('hide');
+                window.location.href = "/Products/Index2";
+            } else {
+                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+            }
+        }
+</script>

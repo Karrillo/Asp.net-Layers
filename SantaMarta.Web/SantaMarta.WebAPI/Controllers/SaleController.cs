@@ -22,12 +22,18 @@ namespace SantaMarta.WebAPI.Controllers
 
             sale = salesB.Create(sales);
 
-            if (sale != -1)
+            switch (sale)
             {
-                return BadRequest();
+                case 200:
+                    return Ok(200);
+                    break;
+                case 500:
+                    return Ok(500);
+                    break;
+                default:
+                    return Ok(false);
+                    break;
             }
-
-            return Ok();
         }
         // DELETE: api/Sale/5
         public IHttpActionResult Delete(int id)
@@ -38,12 +44,18 @@ namespace SantaMarta.WebAPI.Controllers
 
             sale = salesB.Delete(id);
 
-            if (sale != -1)
+            switch (sale)
             {
-                return BadRequest();
+                case 200:
+                    return Ok(200);
+                    break;
+                case 500:
+                    return Ok(500);
+                    break;
+                default:
+                    return Ok(false);
+                    break;
             }
-
-            return Ok();
         }
     }
 }

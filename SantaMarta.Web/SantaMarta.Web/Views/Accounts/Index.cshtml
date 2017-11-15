@@ -6,6 +6,8 @@
     @Scripts.Render("~/scripts/Tables/Data/menu")
 }
 @Styles.Render("~/AdminPacket/plugins/datatables/css")
+<link href="~/Scripts/Toastr/toastr.min.css" rel="stylesheet" />
+
 @if (Session["Type"] == null)
 {
     Response.Redirect("~/Login/Index");
@@ -81,39 +83,58 @@
         </div>
     </div>
 </div>
-
 @section Scripts {
     @Scripts.Render("~/AdminPacket/plugins/datatables/js")
     @Scripts.Render("~/scripts/Tables/Data")
     <script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/Toastr/toastr.min.js"></script>
+
     <script>
         $('body').on('hidden.bs.modal', '.modal', function () {
             $(this).removeData('bs.modal');
         });
     </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if ('@TempData["message"]' == "Add") {
+            toastr.success('La cuenta ha sido agregado correctamente', 'Agregado');
+        } else if ('@TempData["message"]' == "Update"){
+                toastr.success('La cuenta ha sido modificado correctamente', 'Modificado');
+        } else if ('@TempData["message"]' == "Delete"){
+                toastr.success('La cuenta ha sido eliminado correctamente', 'Eliminado');
+        }
+    });
+    </script>
 }
-
 <script>
-    function closeModalCreate(data) {
-        if (data.success) {
-            $('#modal-crear').modal('hide');
-            window.location.href = "/Accounts/Index";
+        function closeModalCreate(data) {
+            if (data.success) {
+                $('#modal-crear').modal('hide');
+                window.location.href = "/Accounts/Index";
+            } else {
+                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                $('.modal-content').html(data);
+            }
         }
-    }
 </script>
 <script>
-    function closeModalEdit(data) {
-        if (data.success) {
-            $('#modal-editar').modal('hide');
-            window.location.href = "/Accounts/Index";
+        function closeModalEdit(data) {
+            if (data.success) {
+                $('#modal-editar').modal('hide');
+                window.location.href = "/Accounts/Index";
+            } else {
+                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                $('.modal-content').html(data);
+            }
         }
-    }
 </script>
 <script>
-    function closeModalDelete(data) {
-        if (data.success) {
-            $('#modal-delete').modal('hide');
-            window.location.href = "/Accounts/Index";
+        function closeModalDelete(data) {
+            if (data.success) {
+                $('#modal-delete').modal('hide');
+                window.location.href = "/Accounts/Index";
+            } else {
+                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+            }
         }
-    }
 </script>

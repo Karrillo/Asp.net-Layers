@@ -1,21 +1,17 @@
 ﻿@{
     ViewBag.Title = "Home";
 }
-
 @section Menu {
     @Scripts.Render("~/Scripts/Charts/ChartsJs/menu")
 }
 @Scripts.Render("~/AdminPacket/plugins/jquery/js")
-
 @if (Session["users"] == null)
 {
     Response.Redirect("~/Login/Index");
 
 }
-
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-
-@*<div class="row">
+<div class="row">
     <div class="col-md-12">
         <div class="box box-info">
             <div class="box-header with-border">
@@ -54,9 +50,7 @@
             </div>
         </div>
     </div>
-
     <div class="col-md-6">
-
         <div class="box box-info">
             <div class="box-header with-border">
                 <h3 class="box-title">Categorias</h3>
@@ -74,10 +68,8 @@
             </div>
         </div>
     </div>
-
 </div>
 <div class="control-sidebar-bg"></div>
-
 
 <style>
     #chart_display {
@@ -116,9 +108,9 @@
                 // Instantiate and draw our chart, passing in some options
                 var chart = new google.visualization.PieChart(document.getElementById('Categoria'));
                 chart.draw(data,
-                      {
-                          title: "Movimientos segun la categoria",//title of the pie chart
-                      });
+                    {
+                        title: "Movimientos segun la categoria",//title of the pie chart
+                    });
             },
             // ajax error display
             error: function () {
@@ -127,7 +119,6 @@
         });
     });
 </script>
-
 <script>
     var chartData;
     $(document).ready(function () {
@@ -148,9 +139,9 @@
                 }
                 var chart = new google.visualization.PieChart(document.getElementById('Cuenta'));
                 chart.draw(data,
-                      {
-                          title: "Movimientos segun la cuenta",
-                      });
+                    {
+                        title: "Movimientos segun la cuenta",
+                    });
             },
             error: function () {
                 alert("Error loading data! Please try again.");
@@ -158,12 +149,11 @@
         });
     });
 </script>
-
 <script>
     var chartData;
     $(document).ready(function () {
         $.ajax({
-            url: "/Home/getActivoPasivo",
+            url: "/Home/getAssetsLiabilities",
             data: "{}",
             dataType: "json",
             type: "POST",
@@ -180,13 +170,13 @@
                 }
                 var chart = new google.visualization.AreaChart(document.getElementById('ActivoPasivo'));
                 chart.draw(data,
-                      {
-                          title: "Movimientos de Ingresos y Egresos",
-                      });
+                    {
+                        title: "Movimientos de Ingresos y Egresos",
+                    });
             },
             error: function () {
                 alert("Error loading data! Please try again.");
             }
         });
-    });*@
+    });
 </script>

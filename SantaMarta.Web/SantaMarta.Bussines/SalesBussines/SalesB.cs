@@ -1,5 +1,9 @@
-﻿using SantaMarta.Data.Models.Sales;
+﻿using SantaMarta.Data.Models.AssetsLiabilities;
+using SantaMarta.Data.Models.Products;
+using SantaMarta.Data.Models.Sales;
+using SantaMarta.Data.Store_Procedures;
 using SantaMarta.DataAccess.SaleAccess;
+using System;
 using System.Collections.Generic;
 
 namespace SantaMarta.Bussines.SalesBussines
@@ -13,7 +17,7 @@ namespace SantaMarta.Bussines.SalesBussines
             return saleAccess.Create(input);
         }
 
-        public int Delete(int id)
+        public int Delete(Int64 id)
         {
             return saleAccess.Delete(id);
         }
@@ -23,12 +27,12 @@ namespace SantaMarta.Bussines.SalesBussines
             return saleAccess.GetAll();
         }
 
-        public Sales GetById(int id)
+        public List<Views_Invoinces_Products> GetById(Int64 id)
         {
             return saleAccess.GetById(id);
         }
-
-        public bool Update(Sales input)
+        
+        public int Update(Sales input)
         {
             return saleAccess.Update(input);
         }

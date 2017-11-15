@@ -1,5 +1,7 @@
 ﻿using SantaMarta.Data.Models.SubCategories;
+using SantaMarta.Data.Store_Procedures;
 using SantaMarta.DataAccess.SubCategoryAccess;
+using System;
 using System.Collections.Generic;
 
 namespace SantaMarta.Bussines.SubCategoriesBussines
@@ -18,10 +20,21 @@ namespace SantaMarta.Bussines.SubCategoriesBussines
             return subCategoryAccess.Delete(id);
         }
 
+        public int Restore(int id)
+        {
+            return subCategoryAccess.Restore(id);
+        }
+
         public List<SubCategories> GetAll()
         {
             return subCategoryAccess.GetAll();
         }
+
+        public List<View_SubCategories_Deleted> GetAllDelete()
+        {
+            return subCategoryAccess.GetAllDelete();
+        }
+
         public List<SubCategories> GetByIdAll(int id)
         {
             return subCategoryAccess.GetByIdAll(id);

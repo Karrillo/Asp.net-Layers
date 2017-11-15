@@ -4,6 +4,8 @@
     ViewBag.Title = "Edit";
 }
 @*modal*@
+<script src="~/Scripts/Mark/jquery.mask.min.js"></script>
+
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
@@ -19,7 +21,7 @@
         OnSuccess = "closeModalEdit",
         InsertionMode = InsertionMode.Replace
     },
-                new { @class = "form-horizontal", role = "form", id = "frmEdit" }))
+                        new { @class = "form-horizontal", role = "form", id = "frmEdit" }))
     {
 
         @Html.AntiForgeryToken()
@@ -27,16 +29,20 @@
         //textbox
         <div class="box-body">
             Codigo:
-            @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Codigo" } })
-            @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Codigo", id = "code" } })
+            @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger", id = "codeValidation" })
             <br>
             Nombre:
             @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Nombre" } })
             @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
             <br>
             Precio:
-            @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Precio" } })
+            @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Precio", id = "price" } })
             @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+            <br>
+            Impuesto:
+            @Html.EditorFor(model => model.Tax, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Impuesto", id = "tax" } })
+            @Html.ValidationMessageFor(model => model.Tax, "", new { @class = "text-danger" })
             <br>
             Descripcion:
             @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Descripcion" } })
@@ -51,3 +57,34 @@
 </div>
 <script src="~/scripts/jquery.validate.min.js"></script>
 <script src="~/scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#price').mask('000,000,000,000,000.00', { reverse: true });
+        $('#tax').mask('000,000,000,000,000.00', { reverse: true });
+    });
+</script>
+
+<script>
+        document.getElementById("code").addEventListener("change", myFunction);
+        function myFunction() {
+               var valueCode = $("#code").val();
+            if (valueCode) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetProduct")',
+                    dataType: 'json',
+                    data: { name: valueCode},
+                    success: function (product) {
+                        $("#codeValidation").text("El codigo ya esta registrado: " + valueCode).show();
+                        $("#code").val("");
+                        $("#code").focus();
+                            return false;
+                    },
+                    error: function (ex) {
+                        return true;
+                    }
+                });
+            }
+        }
+</script>

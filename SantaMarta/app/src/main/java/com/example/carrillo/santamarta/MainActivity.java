@@ -1,20 +1,17 @@
 package com.example.carrillo.santamarta;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     private EditText nick, password;
     private Button insert;
-    public static String token;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,24 +20,13 @@ public class MainActivity extends AppCompatActivity {
         nick = (EditText)findViewById(R.id.txt_nick);
         password = (EditText) findViewById(R.id.txt_password);
         insert = (Button) findViewById(R.id.btn_login);
-        final Contextdb contextdb = new Contextdb();
+
 
         insert.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                if(nick.getText().toString().equals("") || password.getText().toString().equals("")){
-                    Toast.makeText(getApplicationContext(), "Ingrese el usuario y la contraseña", Toast.LENGTH_LONG).show();
-                }else {
-                    String response = contextdb.getCheck(nick.getText().toString(),password.getText().toString());
-                    if(response !="0") {
-                        token= contextdb.getToken();
-                        password.setText("");
-                        Intent menu = new Intent(MainActivity.this, MenuActivity.class);
-                        startActivity(menu);
-                    }else {
-                        Toast.makeText(getApplicationContext(), "Usuario o contraseña incorrectos", Toast.LENGTH_LONG).show();
-                    }
-                }
+                Intent menu = new Intent(MainActivity.this, MenuActivity.class);
+                startActivity(menu);
             }
         });
     }

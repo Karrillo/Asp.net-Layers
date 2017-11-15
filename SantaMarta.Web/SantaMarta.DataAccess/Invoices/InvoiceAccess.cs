@@ -3,41 +3,60 @@ using SantaMarta.Data.Models.Invoices;
 using SantaMarta.DataAccess.Entity;
 using SantaMarta.Data.Store_Procedures;
 using System;
+using System.Linq;
 
 namespace SantaMarta.DataAccess.InvoiceAccess
 {
     public class InvoiceAccess
     {
-        ContextDb db = new ContextDb();
+        private ContextDb db;
 
-        public List<Invoices> GetAll()
+        public InvoiceAccess()
         {
-            return null;
+            db = new ContextDb();
         }
+
         public List<Views_Invoices> GetAllSales()
         {
-            return db.Views_Invoices_All_Sales();
+            List<Views_Invoices> invoice = new List<Views_Invoices>();
+            try
+            {
+                invoice = db.Views_Invoices_All_Sales();
+                return invoice;
+            }
+            catch (Exception)
+            {
+                return invoice;
+            }
         }
 
-        public List<View_Invoice_Details> GetAllDetails(Int64 IDInvoice)
+        public List<Views_Invoices> GetAllPurchases()
         {
-            return db.View_Invoice_Details(IDInvoice);
+            List<Views_Invoices> invoice = new List<Views_Invoices>();
+            try
+            {
+                invoice = db.Views_Invoices_All_Purchase();
+                return invoice;
+            }
+            catch (Exception)
+            {
+                return invoice;
+            }
         }
 
-        public Decimal GetSumInvoicesSale(Int64 id)
+        public Views_Invoinces_Details GetById(Int64 id)
         {
-            return db.Sum_Invoices_Sale(id);
+            Views_Invoinces_Details invoice = new Views_Invoinces_Details();
+            try
+            {
+                return db.View_Invoice_Clients(id);
+            }
+            catch (Exception)
+            {
+                return invoice;
+            }
         }
 
-        public Views_Sales_Purchase_Product GetSalesProduct(Int64 id)
-        {
-            return db.Views_Sales_Product(id);
-        }
-
-        public Invoices GetById(int id)
-        {
-            return null;
-        }
         public int Update(Invoices user)
         {
             return 0;
@@ -45,12 +64,28 @@ namespace SantaMarta.DataAccess.InvoiceAccess
 
         public int Create(Invoices invoices)
         {
-            return db.Insert_Invoice(invoices);
+            try
+            {
+                db.Insert_Invoice(invoices);
+                return 200;
+            }
+            catch (Exception)
+            {
+                return 500;
+            }
         }
 
-        public int Delete(int id)
+        public int Delete(Int64 id)
         {
-            return 0;
+            try
+            {
+                //db.delete(id);
+                return 200;
+            }
+            catch (Exception)
+            {
+                return 500;
+            }
         }
     }
 }

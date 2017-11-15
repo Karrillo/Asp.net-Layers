@@ -4,6 +4,8 @@
     ViewBag.Title = "Edit";
 }
 @*modal*@
+<script src="~/Scripts/Mark/jquery.mask.min.js"></script>
+
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
@@ -21,16 +23,19 @@
         InsertionMode = InsertionMode.Replace
 
     },
-                new { @class = "form-horizontal", role = "form", id = "frmEdit" }))
+                                new { @class = "form-horizontal", role = "form", id = "frmEdit" }))
     {
 
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        //textbox
         <div class="box-body">
+            Codigo:
+            @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Codigo", id = "code" } })
+            @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger", id = "codeValidation" })
+            <br>
             Identicacion:
-            @Html.EditorFor(model => model.identification, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Identificacion" } })
-            @Html.ValidationMessageFor(model => model.identification, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.Identification, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "identificacion", id = "identification" } })
+            @Html.ValidationMessageFor(model => model.Identification, "", new { @class = "text-danger", id = "identificacionValidation" })
             <br>
             Nombre(s):
             @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Nombre" } })
@@ -50,13 +55,13 @@
             <br>
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-mobile-phone"></i></span>
-                @Html.EditorFor(model => model.CellPhone, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Celular" } })
+                @Html.EditorFor(model => model.CellPhone, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Celular", id = "cellPhone" } })
             </div>
             @Html.ValidationMessageFor(model => model.CellPhone, "", new { @class = "text-danger" })
             <br>
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-phone"></i></span>
-                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Telefono" } })
+                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Telefono", id = "phone" } })
             </div>
             @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
             <br>
@@ -78,5 +83,13 @@
         </div>
     }
 </div>
+
 <script src="~/scripts/jquery.validate.min.js"></script>
 <script src="~/scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#cellPhone').mask('0000-0000');
+        $('#phone').mask('0000-0000');
+    });
+</script>

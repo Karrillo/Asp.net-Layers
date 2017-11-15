@@ -7,31 +7,43 @@ namespace SantaMarta.DataAccess.DetailAccess
 {
     public class DetailAccess
     {
-        ContextDb db = new ContextDb();
+        private ContextDb db;
+
+        public DetailAccess()
+        {
+            db = new ContextDb();
+        }
 
         public List<Details> GetAll()
         {
             return null;
         }
 
-        public Details GetById(int id)
+        public Details GetById(Int64 id)
         {
             return null;
         }
 
-        public bool Update(Details details)
+        public int Update(Details details)
         {
-            return true;
+            return 0;
         }
 
-        public int Create(Int64 id)
+        public Int64 Create(Int64 id)
         {
-            return db.Insert_Detail(id);
+            try
+            {
+                return db.Insert_Detail(id);
+            }
+            catch (Exception)
+            {
+                return -1;
+            }
         }
 
-        public bool Delete(int id)
+        public int Delete(Int64 id)
         {
-            return true;
+            return 0;
         }
     }
 }

@@ -1,37 +1,69 @@
 ﻿using SantaMarta.DataAccess.Entity;
 using System.Collections.Generic;
 using SantaMarta.Data.Models.Sales;
-
+using System;
+using SantaMarta.Data.Store_Procedures;
+using System.Linq;
 
 namespace SantaMarta.DataAccess.SaleAccess
 {
     public class SaleAccess
     {
-        ContextDb db = new ContextDb();
+        private ContextDb db;
+
+        public SaleAccess() {
+            db = new ContextDb();
+        }
 
         public List<Sales> GetAll()
         {
             return null;
         }
 
-        public Sales GetById(int id)
+        public List<Views_Invoinces_Products> GetById(Int64 id)
         {
-            return null;
+            List<Views_Invoinces_Products> products = new List<Views_Invoinces_Products>();
+
+            try
+            {
+                products = db.Views_Invoice_Product(id).ToList();
+                return products;
+            }
+            catch (Exception)
+            {
+                return products;
+            }
         }
 
-        public bool Update(Sales user)
+        public int Update(Sales user)
         {
-            return true;
+            return 0;
         }
 
         public int Create(Sales sales)
         {
-            return db.Insert_Sale(sales);
+            try
+            {
+                db.Insert_Sale(sales);
+                return 200;
+            }
+            catch (Exception)
+            {
+                return 500;
+            }
         }
 
-        public int Delete(int id)
+        public int Delete(Int64 id)
         {
-            return db.Delete_Sale(id);
+            try
+            {
+                db.Delete_Sale(id);
+                return 200;
+            }
+            catch (Exception)
+            {
+                return 500;
+            }
         }
     }
 }

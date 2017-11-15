@@ -6,7 +6,12 @@ namespace SantaMarta.Web.Controllers
     public class LoginController : Controller
     {
 
-        UsersB userB = new UsersB();
+        private UsersB userB;
+
+        public LoginController()
+        {
+            userB = new UsersB();
+        }
 
         // GET: Login
         public ActionResult Index()
@@ -19,24 +24,33 @@ namespace SantaMarta.Web.Controllers
         public ActionResult Index(string nickname, string password)
         {
             var userLogin = userB.Check(nickname, password);
-            if (userLogin != null)
+
+            if (userLogin.ConfirmStatus == 200)
             {
-                Session["users"] = userLogin;
-                if (userLogin.Type == true)
+                if (userLogin.Nickname != null)
                 {
-                    Session["type"] = userLogin.Type;
+                    Session["users"] = userLogin;
+                    if (userLogin.Type == true)
+                    {
+                        Session["type"] = userLogin.Type;
+                    }
+                    else
+                    {
+                        Session["type"] = null;
+                    }
+                    return RedirectToAction("index", "home");
                 }
                 else
                 {
-                    Session["type"] = null;
+                    ModelState.AddModelError("", "Error en el username o password");
                 }
-                return RedirectToAction("index", "home");
+                return View();
             }
             else
             {
-                ModelState.AddModelError("", "Error en el username o password");
+                TempData["message"] = "Error";
+                return View();
             }
-            return View();
         }
 
         public void Logout()

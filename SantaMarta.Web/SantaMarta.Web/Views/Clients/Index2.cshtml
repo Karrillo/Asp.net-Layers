@@ -1,0 +1,117 @@
+﻿@model IEnumerable<SantaMarta.Data.Store_Procedures.All_Clients>
+
+@{
+    ViewBag.Title = "Restaurar Clientes";
+}
+@section Menu {
+    @Scripts.Render("~/scripts/Tables/Data/menu")
+}
+<link href="~/Scripts/Toastr/toastr.min.css" rel="stylesheet" />
+
+@Styles.Render("~/AdminPacket/plugins/datatables/css")
+@if (Session["users"] == null)
+{
+    Response.Redirect("~/Login/Index");
+}
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+
+    <div class="box">
+        <div class="box-header">
+            <h3 class="box-title">Lista de Clientes</h3>
+        </div>
+        <div class="box-body">
+            <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Codigo</th>
+                        <th>Primer Apellido</th>
+                        <th>Segundo Apellido</th>
+                        <th>Nombre(s)</th>
+                        <th>Celular</th>
+                        <th>Correo</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @*lista de clientes*@
+                    @foreach (var item in Model)
+                {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.Code)</td>
+                            <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.SecondName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                            <td>@Html.DisplayFor(modelItem => item.CellPhone)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                            <td>
+                                <a class="btn btn-info glyphicon glyphicon-file" data-target="#modal-details" data-toggle="modal" href="@Url.Action("Details", "Clients", new { id = item.IDClient })"></a>
+                                <a class="btn btn-success glyphicon glyphicon-plus" data-target="#modal-restore" data-toggle="modal" href="@Url.Action("Restore", "Clients", new { id = item.IDClient })"></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Codigo</th>
+                        <th>Primer Apellido</th>
+                        <th>Segundo Apellido</th>
+                        <th>Nombre(s)</th>
+                        <th>Celular</th>
+                        <th>Correo</th>
+                        <th>Acciones</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+}
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-restore" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-details" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/AdminPacket/plugins/datatables/js")
+    @Scripts.Render("~/scripts/Tables/Data")
+
+    <script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/Toastr/toastr.min.js"></script>
+
+    <script>
+        $('body').on('hidden.bs.modal', '.modal', function () {
+            $(this).removeData('bs.modal');
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if ('@TempData["message"]' == "Add") {
+            toastr.success('El cliente ha sido agregado correctamente', 'Agregado');
+        }
+    });
+    </script>
+}
+<script>
+        function closeModalRestore(data) {
+            if (data.success) {
+                $('#modal-restore').modal('hide');
+                window.location.href = "/Clients/Index2";
+            } else {
+                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+            }
+        }
+</script>

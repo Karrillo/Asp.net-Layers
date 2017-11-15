@@ -16,18 +16,18 @@ namespace SantaMarta.WebAPI.Controllers
         [Authorize]
         public IHttpActionResult Get()
         {
-            IList<Users> students = null;
+            IList<Users> user = null;
 
             UsersB userB = new UsersB();
 
-            students = userB.GetAll();
+            user = userB.GetAll();
 
-            if (students == null)
+            if (user == null)
             {
-                return NotFound();
+                return Ok(false);
             }
 
-            return Ok(students);
+            return Ok(user);
         }
 
         // GET: api/User/5
@@ -42,7 +42,7 @@ namespace SantaMarta.WebAPI.Controllers
 
             if (user == null)
             {
-                return NotFound();
+                return Ok(false);
             }
 
             return Ok(user);
@@ -56,14 +56,29 @@ namespace SantaMarta.WebAPI.Controllers
 
             UsersB userB = new UsersB();
 
+            users = Encrypt(users);
+
             userCheck = userB.Check(users.Nickname,users.Password);
 
-            //if (userCheck == null)
-            //{
-            //    return NotFound();
-            //}
-
-            return Ok(userCheck);
+            switch (userCheck.ConfirmStatus)
+            {
+                case 200:
+                    return Ok(userCheck);
+                    break;
+                case 500:
+                    return Ok(500);
+                    break;
+                default:
+                    return Ok(false);
+                    break;
+            }
+        }
+        private Users Encrypt(Users user)
+        {
+            string pass = user.Password;
+            byte[] encrypted = System.Text.Encoding.Unicode.GetBytes(pass);
+            user.Password = Convert.ToBase64String(encrypted);
+            return user;
         }
     }
 }

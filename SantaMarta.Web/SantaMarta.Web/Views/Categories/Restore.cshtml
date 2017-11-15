@@ -1,0 +1,32 @@
+﻿@model SantaMarta.Data.Models.Categories.Categories
+@{
+    Layout = null;
+    ViewBag.Title = "Restore";
+}
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title" id="myModalLabel">Restaurar Categoria</h4>
+</div>
+<div class="modal-body">
+    @using (Ajax.BeginForm("Restore", "Categories", null, new AjaxOptions
+    {
+        Url = Url.Action("Restore", "Categories"),
+        UpdateTargetId = "modal-content",
+        OnSuccess = "closeModalRestore",
+        InsertionMode = InsertionMode.Replace
+    },
+         new { @class = "form-horizontal", role = "form", id = "frmRestore" }))
+    {
+
+        @Html.AntiForgeryToken()
+        <div class="box-body">
+            <p>Estas seguro de restaurar esta categoria?</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            <input id="btnCreate" type="submit" value="Restaurar" class="btn btn-success" />
+        </div>
+    }
+</div>
