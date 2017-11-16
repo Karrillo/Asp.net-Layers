@@ -1,8 +1,406 @@
 package com.example.carrillo.santamarta;
 
+import android.content.SharedPreferences;
+import android.os.StrictMode;
+import android.util.Log;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import static android.content.Context.MODE_PRIVATE;
+
 /**
  * Created by Carrillo on 10/4/2017.
  */
 
 public class Contextdb {
+
+    public String getCheck(String nickname, String password) {
+        String sql = "http://192.168.2.4:49161/api/User";
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        URL url = null;
+        HttpURLConnection conn;
+
+        try {
+            Map<String, Object> params = new LinkedHashMap<>();
+            params.put("nickname", nickname);
+            params.put("password", password);
+
+            StringBuilder postData = new StringBuilder();
+            for (Map.Entry<String, Object> param : params.entrySet()) {
+                if (postData.length() != 0) postData.append('&');
+                postData.append(URLEncoder.encode(param.getKey(), "UTF-8"));
+                postData.append('=');
+                postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
+            }
+            byte[] postDataBytes = postData.toString().getBytes("UTF-8");
+
+            url = new URL(sql);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+
+            conn.setDoOutput(true);
+            conn.getOutputStream().write(postDataBytes);
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+            String inputLine;
+
+            StringBuffer response = new StringBuffer();
+
+            String json = "";
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+
+            json = response.toString();
+
+            if (!json.equals("500")) {
+                JSONObject jsonArr = null;
+
+                jsonArr = new JSONObject(json);
+
+                return jsonArr.optString("IDUser");
+            } else {
+                return "0";
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+    public String getToken() {
+        String sql = "http://192.168.2.4:49161/token";
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        URL url = null;
+        HttpURLConnection conn;
+
+        try {
+            Map<String, Object> params = new LinkedHashMap<>();
+            params.put("grant_type", "password");
+
+
+            StringBuilder postData = new StringBuilder();
+            for (Map.Entry<String, Object> param : params.entrySet()) {
+                if (postData.length() != 0) postData.append('&');
+                postData.append(URLEncoder.encode(param.getKey(), "UTF-8"));
+                postData.append('=');
+                postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
+            }
+            byte[] postDataBytes = postData.toString().getBytes("UTF-8");
+
+            url = new URL(sql);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+
+            conn.setDoOutput(true);
+            conn.getOutputStream().write(postDataBytes);
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+            String inputLine;
+
+            StringBuffer response = new StringBuffer();
+
+            String json = "";
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+
+            json = response.toString();
+
+            JSONObject jsonArr = null;
+
+            jsonArr = new JSONObject(json);
+            String token = "";
+
+            token = jsonArr.optString("access_token");
+
+            return token;
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+    public List<Client> getAllClients(String token) {
+        String sql = "http://192.168.2.4:49161/api/Client";
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        URL url = null;
+        HttpURLConnection conn;
+
+        try {
+            url = new URL(sql);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Authorization", "Bearer " + token);
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+            String inputLine;
+
+            StringBuffer response = new StringBuffer();
+
+            String json = "";
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+
+            json = response.toString();
+
+            JSONArray jsonArr = null;
+            jsonArr = new JSONArray(json);
+            List<Client> listClients = new ArrayList<Client>();
+            for (int i = 0; i < jsonArr.length(); i++) {
+                JSONObject jsonObject = jsonArr.getJSONObject(i);
+                if(!jsonObject.optString("NameCompany").equals("null")){
+                    listClients.add(new Client(Integer.parseInt(jsonObject.optString("IDClient")),jsonObject.optString("Name"),jsonObject.optString("FirstName"),
+                            jsonObject.optString("SecondName"),jsonObject.optString("Email"),jsonObject.optString("Phone"),jsonObject.optString("CellPhone")
+                            ,jsonObject.optString("Address"),jsonObject.optString("Identification"),jsonObject.optString("NameCompany"),jsonObject.optString("Code")));
+                }else {
+                    listClients.add(new Client(Integer.parseInt(jsonObject.optString("IDClient")),jsonObject.optString("Name"),jsonObject.optString("FirstName"),
+                            jsonObject.optString("SecondName"),jsonObject.optString("Email"),jsonObject.optString("Phone"),jsonObject.optString("CellPhone")
+                            ,jsonObject.optString("Address"),jsonObject.optString("Identification"),jsonObject.optString("N/D"),jsonObject.optString("Code")));
+                }
+            }
+
+            return listClients;
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public String insertClients(Client client, String token) {
+        String sql = "http://192.168.2.4:49161/api/Client";
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        URL url = null;
+        HttpURLConnection conn;
+
+        try {
+            Map<String, Object> params = new LinkedHashMap<>();
+            params.put("Name", client.getName());
+            params.put("FirstName", client.getFirstName());
+            params.put("SecondName", client.getSecondName());
+            params.put("Email", client.getEmail());
+            params.put("Phone", client.getPhone());
+            params.put("CellPhone", client.getCellPhone());
+            params.put("Address", client.getAddress());
+            params.put("Identification", client.getIdentification());
+            params.put("NameCompany", client.getNameCompany());
+            params.put("Code", client.getCode());
+
+            StringBuilder postData = new StringBuilder();
+            for (Map.Entry<String, Object> param : params.entrySet()) {
+                if (postData.length() != 0) postData.append('&');
+                postData.append(URLEncoder.encode(param.getKey(), "UTF-8"));
+                postData.append('=');
+                postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
+            }
+            byte[] postDataBytes = postData.toString().getBytes("UTF-8");
+
+            url = new URL(sql);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            conn.setRequestProperty("Authorization", "Bearer " + token);
+
+            conn.setDoOutput(true);
+            conn.getOutputStream().write(postDataBytes);
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+            String inputLine;
+
+            StringBuffer response = new StringBuffer();
+
+            String json = "";
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+
+            json = response.toString();
+
+            if(json.toString().equals("200")){
+                return "200";
+            }else if (json.toString().equals("400")){
+                return "400";
+            }else if (json.toString().equals("401")){
+                return "401";
+            }else {
+                return "500";
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return "false";
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "false";
+        }
+    }
+
+    public List<Client> searchClients(String token, String name) {
+        String sql = "http://192.168.2.4:49161/api/Client/GetName/"+name;
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        URL url = null;
+        HttpURLConnection conn;
+
+        try {
+            url = new URL(sql);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Authorization", "Bearer " + token);
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+            String inputLine;
+
+            StringBuffer response = new StringBuffer();
+
+            String json = "";
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+
+            List<Client> listClients = new ArrayList<Client>();
+            json = response.toString();
+            if(!json.toString().equals("false")) {
+                if (json.toString().equals("[]")) {
+                    return listClients;
+                } else {
+                    JSONArray jsonArr = null;
+                    jsonArr = new JSONArray(json);
+
+                    for (int i = 0; i < jsonArr.length(); i++) {
+                        JSONObject jsonObject = jsonArr.getJSONObject(i);
+                        if (!jsonObject.optString("NameCompany").equals("null")) {
+                            listClients.add(new Client(Integer.parseInt(jsonObject.optString("IDClient")), jsonObject.optString("Name"), jsonObject.optString("FirstName"),
+                                    jsonObject.optString("SecondName"), jsonObject.optString("Email"), jsonObject.optString("Phone"), jsonObject.optString("CellPhone")
+                                    , jsonObject.optString("Address"), jsonObject.optString("Identification"), jsonObject.optString("NameCompany"), jsonObject.optString("Code")));
+                        } else {
+                            listClients.add(new Client(Integer.parseInt(jsonObject.optString("IDClient")), jsonObject.optString("Name"), jsonObject.optString("FirstName"),
+                                    jsonObject.optString("SecondName"), jsonObject.optString("Email"), jsonObject.optString("Phone"), jsonObject.optString("CellPhone")
+                                    , jsonObject.optString("Address"), jsonObject.optString("Identification"), jsonObject.optString("N/D"), jsonObject.optString("Code")));
+                        }
+                    }
+                    return listClients;
+                }
+            }
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public List<Invoice> getAllInvoices(String token) {
+        String sql = "http://192.168.2.4:49161/api/Invoice/GetInvoicesAllSales";
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        URL url = null;
+        HttpURLConnection conn;
+
+        try {
+            url = new URL(sql);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Authorization", "Bearer " + token);
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+            String inputLine;
+
+            StringBuffer response = new StringBuffer();
+
+            String json = "";
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+
+            json = response.toString();
+
+            JSONArray jsonArr = null;
+            jsonArr = new JSONArray(json);
+            List<Invoice> listInvoices = new ArrayList<Invoice>();
+            for (int i = 0; i < jsonArr.length(); i++) {
+                JSONObject jsonObject = jsonArr.getJSONObject(i);
+                listInvoices.add(new Invoice(Integer.parseInt(jsonObject.optString("IDInvoice")),jsonObject.optString("LimitDate"),jsonObject.optString("Code"),
+                        0.0,Double.parseDouble(jsonObject.optString("Total")),jsonObject.optString("State"),0,
+                        0,0,jsonObject.optString("Name")+ " " + jsonObject.optString("FirstName") + " " + jsonObject.optString("SecondName"), jsonObject.optString("NameCompany")));
+            }
+
+            return listInvoices;
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

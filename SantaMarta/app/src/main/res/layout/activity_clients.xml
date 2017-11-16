@@ -3,6 +3,13 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_width="0px"
+        android:layout_height="0px" >
+        <requestFocus />
+    </LinearLayout>
+    <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -11,31 +18,35 @@
         android:id="@+id/linearV_primera"
         android:weightSum="1">
 
-        <TextView
-            android:text="Busqueda de Clientes:"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/Agent"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
-
         <LinearLayout
-            android:orientation="horizontal"
+            android:id="@+id/linearH_segunda"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/linearH_segunda">
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/Agent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:text="Buscar:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textSize="30sp" />
 
             <EditText
+                android:id="@+id/txt_search"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"
+                android:layout_weight="1"
                 android:ems="10"
-                android:id="@+id/txt_search"
-                android:layout_weight="1" />
+                android:inputType="textPersonName" />
 
             <ImageButton
+                android:id="@+id/btn_add"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/btn_search" />
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@android:drawable/ic_input_add" />
 
         </LinearLayout>
 

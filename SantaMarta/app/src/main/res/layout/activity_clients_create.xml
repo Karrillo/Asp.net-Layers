@@ -21,6 +21,19 @@
             android:id="@+id/txt_identification" />
 
         <TextView
+            android:text="Codigo:"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtv_code" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/txt_code" />
+
+        <TextView
             android:text="Nombre:"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -29,9 +42,9 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="datetime"
+            android:inputType="textPersonName"
             android:ems="10"
-            android:id="@+id/txt_name" />
+            android:id="@+id/txt_Name" />
 
         <TextView
             android:text="Primer Apellido:"
@@ -80,19 +93,20 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
+            android:inputType="phone"
             android:ems="10"
             android:id="@+id/txt_phone" />
+
         <TextView
-            android:text="Celular:"
+            android:id="@+id/txtv_cellPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/txtv_cellPhone" />
+            android:text="Celular:" />
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
+            android:inputType="phone"
             android:ems="10"
             android:id="@+id/txt_cellPhone" />
         <TextView
@@ -104,7 +118,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
+            android:inputType="textEmailAddress"
             android:ems="10"
             android:id="@+id/txt_email" />
         <TextView
@@ -116,7 +130,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
+            android:inputType="textMultiLine"
             android:ems="10"
             android:id="@+id/txt_address" />
         <Button
@@ -130,5 +144,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/btn_back" />
+        <LinearLayout
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_width="0px"
+            android:layout_height="0px" >
+            <requestFocus />
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>
