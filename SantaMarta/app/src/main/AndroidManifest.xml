@@ -28,5 +28,7 @@
         <activity android:name=".InsertInvoiceActivity"></activity>
         <activity android:name=".DeviceListActivity"></activity>
         <activity android:name=".MainPrintActivity"></activity>
+        <activity android:name=".InvoiceClients"></activity>
+        <activity android:name=".InvoiceProducts"></activity>
     </application>
 </manifest>

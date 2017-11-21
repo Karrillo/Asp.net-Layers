@@ -9,19 +9,20 @@
         android:layout_height="0px" >
         <requestFocus />
     </LinearLayout>
+
     <LinearLayout
-        android:orientation="vertical"
+        android:id="@+id/linearV_primera"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/linearV_primera"
+        android:orientation="vertical"
         android:weightSum="1">
 
         <LinearLayout
             android:id="@+id/linearH_segunda"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:orientation="horizontal">
 
             <TextView
@@ -42,11 +43,10 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 android:textSize="18sp" />
 
-            <ImageButton
-                android:id="@+id/btn_add"
-                android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/btn_client"
+                android:layout_width="59dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.03"
                 android:background="@android:drawable/ic_input_add" />
 
         </LinearLayout>
@@ -69,7 +69,7 @@
             android:orientation="horizontal">
 
             <ListView
-                android:id="@+id/list_clients"
+                android:id="@+id/list_invoices"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
@@ -112,12 +112,12 @@
             android:orientation="vertical">
 
             <SeekBar
-                android:id="@+id/seekBar"
+                android:id="@+id/sb_credit"
                 style="@style/Widget.AppCompat.SeekBar.Discrete"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.27"
-                android:max="4"
+                android:max="3"
                 android:progress="0" />
 
         </LinearLayout>
@@ -191,7 +191,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <Button

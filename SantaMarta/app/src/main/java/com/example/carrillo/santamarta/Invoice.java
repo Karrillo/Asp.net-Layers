@@ -5,21 +5,22 @@ package com.example.carrillo.santamarta;
  */
 
 public class Invoice {
-    public int IDInvoice;
+    public long IDInvoice;
     public String LimitDate;
     public String Code;
-    public double Discount;
+    public int Discount;
     public double Total;
     public String State;
     public int IdClient;
     public int IdProvider;
-    public int IdDetail;
+    public long IdDetail;
     public String Name;
     public String NameCompany;
+
     public Invoice() {
     }
 
-    public Invoice(int IDInvoice, String limitDate, String code, double discount, double total, String state, int idClient, int idProvider, int idDetail, String name, String nameCompany) {
+    public Invoice(long IDInvoice, String limitDate, String code, int discount, double total, String state, int idClient, int idProvider, long idDetail, String name, String nameCompany) {
         this.IDInvoice = IDInvoice;
         LimitDate = limitDate;
         Code = code;
@@ -33,11 +34,11 @@ public class Invoice {
         NameCompany = nameCompany;
     }
 
-    public int getIDInvoice() {
+    public long getIDInvoice() {
         return IDInvoice;
     }
 
-    public void setIDInvoice(int IDInvoice) {
+    public void setIDInvoice(long IDInvoice) {
         this.IDInvoice = IDInvoice;
     }
 
@@ -57,11 +58,11 @@ public class Invoice {
         Code = code;
     }
 
-    public double getDiscount() {
+    public int getDiscount() {
         return Discount;
     }
 
-    public void setDiscount(double discount) {
+    public void setDiscount(int discount) {
         Discount = discount;
     }
 
@@ -97,11 +98,11 @@ public class Invoice {
         IdProvider = idProvider;
     }
 
-    public int getIdDetail() {
+    public long getIdDetail() {
         return IdDetail;
     }
 
-    public void setIdDetail(int idDetail) {
+    public void setIdDetail(long idDetail) {
         IdDetail = idDetail;
     }
 

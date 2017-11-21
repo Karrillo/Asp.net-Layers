@@ -29,7 +29,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class Contextdb {
 
     public String getCheck(String nickname, String password) {
-        String sql = "http://192.168.2.4:49161/api/User";
+        String sql = "http://192.168.2.2:49161/api/User";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -84,19 +84,19 @@ public class Contextdb {
             }
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            return null;
+            return "false";
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
+            return "false";
         } catch (JSONException e) {
             e.printStackTrace();
-            return null;
+            return "false";
         }
 
     }
 
     public String getToken() {
-        String sql = "http://192.168.2.4:49161/token";
+        String sql = "http://192.168.2.2:49161/token";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -162,7 +162,7 @@ public class Contextdb {
     }
 
     public List<Client> getAllClients(String token) {
-        String sql = "http://192.168.2.4:49161/api/Client";
+        String sql = "http://192.168.2.2:49161/api/Client";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -220,7 +220,7 @@ public class Contextdb {
     }
 
     public String insertClients(Client client, String token) {
-        String sql = "http://192.168.2.4:49161/api/Client";
+        String sql = "http://192.168.2.2:49161/api/Client";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -292,7 +292,7 @@ public class Contextdb {
     }
 
     public List<Client> searchClients(String token, String name) {
-        String sql = "http://192.168.2.4:49161/api/Client/GetName/"+name;
+        String sql = "http://192.168.2.2:49161/api/Client/GetName/"+name;
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -353,7 +353,7 @@ public class Contextdb {
         return null;
     }
     public List<Invoice> getAllInvoices(String token) {
-        String sql = "http://192.168.2.4:49161/api/Invoice/GetInvoicesAllSales";
+        String sql = "http://192.168.2.2:49161/api/Invoice/GetInvoicesAllSales";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -386,8 +386,8 @@ public class Contextdb {
             List<Invoice> listInvoices = new ArrayList<Invoice>();
             for (int i = 0; i < jsonArr.length(); i++) {
                 JSONObject jsonObject = jsonArr.getJSONObject(i);
-                listInvoices.add(new Invoice(Integer.parseInt(jsonObject.optString("IDInvoice")),jsonObject.optString("LimitDate"),jsonObject.optString("Code"),
-                        0.0,Double.parseDouble(jsonObject.optString("Total")),jsonObject.optString("State"),0,
+                listInvoices.add(new Invoice(Long.parseLong(jsonObject.optString("IDInvoice")),jsonObject.optString("LimitDate"),jsonObject.optString("Code"),
+                        0,Double.parseDouble(jsonObject.optString("Total")),jsonObject.optString("State"),0,
                         0,0,jsonObject.optString("Name")+ " " + jsonObject.optString("FirstName") + " " + jsonObject.optString("SecondName"), jsonObject.optString("NameCompany")));
             }
 
@@ -401,6 +401,226 @@ public class Contextdb {
         } catch (JSONException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+    public List<Product> getAllProducts(String token) {
+        String sql = "http://192.168.2.2:49161/api/Product";
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        URL url = null;
+        HttpURLConnection conn;
+
+        try {
+            url = new URL(sql);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Authorization", "Bearer " + token);
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+            String inputLine;
+
+            StringBuffer response = new StringBuffer();
+
+            String json = "";
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+
+            json = response.toString();
+
+            JSONArray jsonArr = null;
+            jsonArr = new JSONArray(json);
+            List<Product> listProducts = new ArrayList<Product>();
+            for (int i = 0; i < jsonArr.length(); i++) {
+                JSONObject jsonObject = jsonArr.getJSONObject(i);
+                listProducts.add(new Product(Integer.parseInt(jsonObject.optString("IDProduct")),jsonObject.optString("Name"),jsonObject.optString("Code"),
+                        jsonObject.optString("State"),jsonObject.optString("Description"),Double.parseDouble(jsonObject.optString("Price")),Double.parseDouble(jsonObject.optString("Tax")),
+                        Integer.parseInt(jsonObject.optString("IdProvider")),0,0.0));
+            }
+
+            return listProducts;
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public String getDetail(String id, String token) {
+        String sql = "http://192.168.2.2:49161/api/Detail/"+id;
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        URL url = null;
+        HttpURLConnection conn;
+
+        try {
+            url = new URL(sql);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Authorization", "Bearer " + token);
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+            String inputLine;
+
+            StringBuffer response = new StringBuffer();
+
+            String json = "";
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+
+            json = response.toString();
+
+            if (!json.equals("false")) {
+                return json;
+            } else {
+                return "false";
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return "false";
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "false";
+        }
+    }
+    public String insertInvoices(String LimitDate, String Code, int Discount, Double Total, Boolean State, int IdClient, int IdProvider, long IdDetail, String token) {
+        String sql = "http://192.168.2.2:49161/api/Invoice";
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        URL url = null;
+        HttpURLConnection conn;
+
+        try {
+            Map<String, Object> params = new LinkedHashMap<>();
+            params.put("LimitDate", LimitDate);
+            params.put("Code", Code);
+            params.put("Discount", Discount);
+            params.put("Total", Total);
+            params.put("State", State);
+            params.put("IdClient", IdClient);
+            params.put("IdProvider", IdProvider);
+            params.put("IdDetail", IdDetail);
+
+            StringBuilder postData = new StringBuilder();
+            for (Map.Entry<String, Object> param : params.entrySet()) {
+                if (postData.length() != 0) postData.append('&');
+                postData.append(URLEncoder.encode(param.getKey(), "UTF-8"));
+                postData.append('=');
+                postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
+            }
+            byte[] postDataBytes = postData.toString().getBytes("UTF-8");
+
+            url = new URL(sql);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            conn.setRequestProperty("Authorization", "Bearer " + token);
+
+            conn.setDoOutput(true);
+            conn.getOutputStream().write(postDataBytes);
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+            String inputLine;
+
+            StringBuffer response = new StringBuffer();
+
+            String json = "";
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+
+            json = response.toString();
+
+            if(json.toString().equals("200")){
+                return "200";
+            }else {
+                return "500";
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return "false";
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "false";
+        }
+    }
+    public String insertSales(String Code, int Quantity, Double Total, int IdProduct, long IdDetails, String token) {
+        String sql = "http://192.168.2.2:49161/api/Sale";
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        URL url = null;
+        HttpURLConnection conn;
+
+        try {
+            Map<String, Object> params = new LinkedHashMap<>();
+            params.put("Code", Code);
+            params.put("Quantity", Quantity);
+            params.put("Total", Total);
+            params.put("IdProduct", IdProduct);
+            params.put("IdDetails", IdDetails);
+
+            StringBuilder postData = new StringBuilder();
+            for (Map.Entry<String, Object> param : params.entrySet()) {
+                if (postData.length() != 0) postData.append('&');
+                postData.append(URLEncoder.encode(param.getKey(), "UTF-8"));
+                postData.append('=');
+                postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
+            }
+            byte[] postDataBytes = postData.toString().getBytes("UTF-8");
+
+            url = new URL(sql);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            conn.setRequestProperty("Authorization", "Bearer " + token);
+
+            conn.setDoOutput(true);
+            conn.getOutputStream().write(postDataBytes);
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+            String inputLine;
+
+            StringBuffer response = new StringBuffer();
+
+            String json = "";
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+
+            json = response.toString();
+
+            if(json.toString().equals("200")){
+                return "200";
+            }else {
+                return "500";
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return "false";
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "false";
         }
     }
 }

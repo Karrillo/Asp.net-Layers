@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText nick, password;
     private Button insert;
     public static String token;
+    public static String idUSer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
                     String response = contextdb.getCheck(nick.getText().toString(),password.getText().toString());
                     if(!response.toString().equals("0") && !response.toString().equals("false")) {
                         token= contextdb.getToken();
+                        idUSer = response;
                         password.setText("");
                         Intent menu = new Intent(MainActivity.this, MenuActivity.class);
                         startActivity(menu);
