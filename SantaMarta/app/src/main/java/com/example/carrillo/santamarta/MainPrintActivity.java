@@ -7,6 +7,10 @@ package com.example.carrillo.santamarta;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -15,6 +19,7 @@ import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,18 +34,19 @@ public class MainPrintActivity extends Activity implements Runnable {
     protected static final String TAG = "TAG";
     private static final int REQUEST_CONNECT_DEVICE = 1;
     private static final int REQUEST_ENABLE_BT = 2;
-    Button mScan, mPrint, mDisc;
-    BluetoothAdapter mBluetoothAdapter;
-    private UUID applicationUUID = UUID
+    Button mScan, mPrint, mDisc, mBack;
+    static BluetoothAdapter mBluetoothAdapter;
+    private static UUID applicationUUID = UUID
             .fromString("00001101-0000-1000-8000-00805F9B34FB");
-    private ProgressDialog mBluetoothConnectProgressDialog;
-    private BluetoothSocket mBluetoothSocket;
-    BluetoothDevice mBluetoothDevice;
+    private static ProgressDialog mBluetoothConnectProgressDialog;
+    private static BluetoothSocket mBluetoothSocket;
+    static BluetoothDevice mBluetoothDevice;
 
     @Override
     public void onCreate(Bundle mSavedInstanceState) {
         super.onCreate(mSavedInstanceState);
         setContentView(R.layout.activity_main_print);
+        mBack = (Button) findViewById(R.id.back);
         mScan = (Button) findViewById(R.id.Scan);
         mScan.setOnClickListener(new View.OnClickListener() {
             public void onClick(View mView) {
@@ -63,45 +69,79 @@ public class MainPrintActivity extends Activity implements Runnable {
                 }
             }
         });
-
+        mBack.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View mView) {
+                Intent menu = new Intent(MainPrintActivity.this, MenuActivity.class);
+                startActivity(menu);
+            }
+        });
         mPrint = (Button) findViewById(R.id.mPrint);
         mPrint.setOnClickListener(new View.OnClickListener() {
             public void onClick(View mView) {
                 Thread t = new Thread() {
                     public void run() {
+                        String dateCredit="";
+                        Date date = new Date();
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.add(Calendar.DATE, 1);
+                        date = calendar.getTime();
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                        dateCredit = format.format(date);
                         try {
                             OutputStream os = mBluetoothSocket
                                     .getOutputStream();
                             String BILL = "";
 
-                            BILL = "                   XXXX MART    \n"
-                                    + "                   XX.AA.BB.CC.     \n " +
-                                    "                 NO 25 ABC ABCDE    \n" +
-                                    "                  XXXXX YYYYYY      \n" +
-                                    "                   MMM 590019091      \n";
+                            BILL = "     PRODUCTOS ALIMENTICIOS \n"
+                                    + "          SANTA MARTA \n" +
+                                    "        Factura de venta     \n" +
+                                    "Numero de Factura: 0001 \n" +
+                                    "Fecha: " + dateCredit.toString() +"\n" +
+                                    "Credito: si \n" +
+                                    "Fecha Limite: \n" +
+                                    ""+ dateCredit.toString() + " \n" +
+                                    "Cliente: Super el Grande \n";
                             BILL = BILL
-                                    + "-----------------------------------------------\n";
+                                    + "-------------------------------\n";
 
 
-                            BILL = BILL + String.format("%1$-10s %2$10s %3$13s %4$10s", "Item", "Qty", "Rate", "Totel");
+                            BILL = BILL + " Nombre          Codigo ";
                             BILL = BILL + "\n";
                             BILL = BILL
-                                    + "-----------------------------------------------";
-                            BILL = BILL + "\n " + String.format("%1$-10s %2$10s %3$11s %4$10s", "item-001", "5", "10", "50.00");
-                            BILL = BILL + "\n " + String.format("%1$-10s %2$10s %3$11s %4$10s", "item-002", "10", "5", "50.00");
-                            BILL = BILL + "\n " + String.format("%1$-10s %2$10s %3$11s %4$10s", "item-003", "20", "10", "200.00");
-                            BILL = BILL + "\n " + String.format("%1$-10s %2$10s %3$11s %4$10s", "item-004", "50", "10", "500.00");
+                                    + "-------------------------------\n";
+                            BILL = BILL + "\n " + "Pan Blanco      item-001 ";
+                            BILL = BILL + "\n " + "Pan Integral    item-002 ";
+                            BILL = BILL + "\n " + "Manitas         item-003 ";
+                            BILL = BILL + "\n " + "Bollos          item-004 ";
 
                             BILL = BILL
-                                    + "\n-----------------------------------------------";
+                                    + "\n-------------------------------\n";
                             BILL = BILL + "\n\n ";
 
-                            BILL = BILL + "                   Total Qty:" + "      " + "85" + "\n";
-                            BILL = BILL + "                   Total Value:" + "     " + "700.00" + "\n";
+                            BILL = BILL + "Cantidad Impuesto  Total";
+                            BILL = BILL + "\n";
+                            BILL = BILL
+                                    + "-------------------------------\n";
+                            BILL = BILL + "\n " + "  50         0     150.00";
+                            BILL = BILL + "\n " + "  20         0     75.00";
+                            BILL = BILL + "\n " + "  10         0     100.00";
+                            BILL = BILL + "\n " + "  30         0     120.00";
 
                             BILL = BILL
-                                    + "-----------------------------------------------\n";
-                            BILL = BILL + "\n\n ";
+                                    + "\n-------------------------------";
+                            BILL = BILL + "\n";
+                            BILL = BILL + "\n";
+
+                            BILL = BILL + " Descuento: " + "3" + " %" + "\n";
+                            BILL = BILL + " Total de Factura: \n";
+                            BILL = BILL + " 431.65 \n";
+
+                            BILL = BILL
+                                    + "-------------------------------\n";
+                            BILL = BILL + "\n";
+                            BILL = BILL + "\n";
+                            BILL = BILL + "\n";
+                            BILL = BILL + "\n";
                             os.write(BILL.getBytes());
                             //This is printer specific code you can comment ==== > Start
 
@@ -200,7 +240,7 @@ public class MainPrintActivity extends Activity implements Runnable {
         }
     }
 
-    private void ListPairedDevices() {
+    public static void ListPairedDevices() {
         Set<BluetoothDevice> mPairedDevices = mBluetoothAdapter
                 .getBondedDevices();
         if (mPairedDevices.size() > 0) {
@@ -259,5 +299,94 @@ public class MainPrintActivity extends Activity implements Runnable {
         buffer.flip();
         return buffer.array();
     }
+    public static void create(){
 
+    }
+    public static void printInvoice(final String client, final String numInvoice, final String dateCurent, final String dateLimit, final String credit, final List<Product> productlist,
+                                    final String discount, final String total){
+        Thread t = new Thread() {
+            public void run() {
+                Product product;
+                try {
+                    OutputStream os = mBluetoothSocket
+                            .getOutputStream();
+                    String BILL = "";
+
+                    BILL = "     PRODUCTOS ALIMENTICIOS \n"
+                            + "          SANTA MARTA \n" +
+                            "        Factura de venta     \n" +
+                            "Numero de Factura: "+numInvoice+"\n" +
+                            "Fecha: " + dateCurent +"\n" +
+                            "Credito: "+credit+"\n" +
+                            "Fecha Limite: \n" +
+                            ""+ dateLimit + " \n" +
+                            "Cliente: \n" +
+                            ""+ client + "\n";
+                    BILL = BILL
+                            + "-------------------------------\n";
+
+
+                    BILL = BILL + " Nombre          Codigo ";
+                    BILL = BILL + "\n";
+                    BILL = BILL
+                            + "-------------------------------\n";
+                    for(int x=0; x<productlist.size();x++) {
+                        product = productlist.get(x);
+                        BILL = BILL + "\n " + product.getName()+"    "+product.getCode();
+                    }
+                    BILL = BILL
+                            + "\n-------------------------------\n";
+                    BILL = BILL + "\n\n ";
+
+                    BILL = BILL + "Cantidad Impuesto  Total";
+                    BILL = BILL + "\n";
+                    BILL = BILL
+                            + "-------------------------------\n";
+                    for(int x=0; x<productlist.size();x++) {
+                        product = productlist.get(x);
+                        BILL = BILL + "\n " + product.getQuantity()+"    "+product.getTax()+"   "+product.getTotal();
+                    }
+
+                    BILL = BILL
+                            + "\n-------------------------------";
+                    BILL = BILL + "\n";
+                    BILL = BILL + "\n";
+
+                    BILL = BILL + " Descuento: " + discount + " %" + "\n";
+                    BILL = BILL + " Total de Factura: \n";
+                    BILL = BILL + " "+ total +"\n";
+
+                    BILL = BILL
+                            + "-------------------------------\n";
+                    BILL = BILL + "\n";
+                    BILL = BILL + "\n";
+                    BILL = BILL + "\n";
+                    BILL = BILL + "\n";
+                    os.write(BILL.getBytes());
+                    //This is printer specific code you can comment ==== > Start
+
+                    // Setting height
+                    int gs = 29;
+                    os.write(intToByteArray(gs));
+                    int h = 104;
+                    os.write(intToByteArray(h));
+                    int n = 162;
+                    os.write(intToByteArray(n));
+
+                    // Setting Width
+                    int gs_width = 29;
+                    os.write(intToByteArray(gs_width));
+                    int w = 119;
+                    os.write(intToByteArray(w));
+                    int n_width = 2;
+                    os.write(intToByteArray(n_width));
+
+
+                } catch (Exception e) {
+                    Log.e("MainPrintActivity", "Exe ", e);
+                }
+            }
+        };
+        t.start();
+    }
 }

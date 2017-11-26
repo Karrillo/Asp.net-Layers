@@ -29,7 +29,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class Contextdb {
 
     public String getCheck(String nickname, String password) {
-        String sql = "http://192.168.2.2:49161/api/User";
+        String sql = "http://192.168.2.4:49161/api/User";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -96,7 +96,7 @@ public class Contextdb {
     }
 
     public String getToken() {
-        String sql = "http://192.168.2.2:49161/token";
+        String sql = "http://192.168.2.4:49161/token";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -162,7 +162,7 @@ public class Contextdb {
     }
 
     public List<Client> getAllClients(String token) {
-        String sql = "http://192.168.2.2:49161/api/Client";
+        String sql = "http://192.168.2.4:49161/api/Client";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -220,7 +220,7 @@ public class Contextdb {
     }
 
     public String insertClients(Client client, String token) {
-        String sql = "http://192.168.2.2:49161/api/Client";
+        String sql = "http://192.168.2.4:49161/api/Client";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -292,7 +292,7 @@ public class Contextdb {
     }
 
     public List<Client> searchClients(String token, String name) {
-        String sql = "http://192.168.2.2:49161/api/Client/GetName/"+name;
+        String sql = "http://192.168.2.4:49161/api/Client/GetName/"+name;
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -353,7 +353,7 @@ public class Contextdb {
         return null;
     }
     public List<Invoice> getAllInvoices(String token) {
-        String sql = "http://192.168.2.2:49161/api/Invoice/GetInvoicesAllSales";
+        String sql = "http://192.168.2.4:49161/api/Invoice/GetInvoicesAllSales";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -386,9 +386,25 @@ public class Contextdb {
             List<Invoice> listInvoices = new ArrayList<Invoice>();
             for (int i = 0; i < jsonArr.length(); i++) {
                 JSONObject jsonObject = jsonArr.getJSONObject(i);
-                listInvoices.add(new Invoice(Long.parseLong(jsonObject.optString("IDInvoice")),jsonObject.optString("LimitDate"),jsonObject.optString("Code"),
-                        0,Double.parseDouble(jsonObject.optString("Total")),jsonObject.optString("State"),0,
-                        0,0,jsonObject.optString("Name")+ " " + jsonObject.optString("FirstName") + " " + jsonObject.optString("SecondName"), jsonObject.optString("NameCompany")));
+                if(jsonObject.optString("Rode")=="null"){
+                    String LimitDate = jsonObject.optString("LimitDate");
+                    String Limit[] = LimitDate.split("T");
+                    String CurrentDate = jsonObject.optString("CurrentDate");
+                    String Current[] = CurrentDate.split("T");
+                    listInvoices.add(new Invoice(Long.parseLong(jsonObject.optString("IDInvoice")), Limit[0].toString(), Current[0].toString(),
+                            jsonObject.optString("Code"), Double.parseDouble(jsonObject.optString("Total")), jsonObject.optString("State"),
+                            jsonObject.optString("Name") + " " + jsonObject.optString("FirstName") + " " + jsonObject.optString("SecondName"), jsonObject.optString("NameCompany"),
+                            0.0));
+                }else {
+                    String LimitDate = jsonObject.optString("LimitDate");
+                    String Limit[] = LimitDate.split("T");
+                    String CurrentDate = jsonObject.optString("CurrentDate");
+                    String Current[] = CurrentDate.split("T");
+                    listInvoices.add(new Invoice(Long.parseLong(jsonObject.optString("IDInvoice")), Limit[0].toString(), Current[0].toString(),
+                            jsonObject.optString("Code"), Double.parseDouble(jsonObject.optString("Total")), jsonObject.optString("State"),
+                            jsonObject.optString("Name") + " " + jsonObject.optString("FirstName") + " " + jsonObject.optString("SecondName"), jsonObject.optString("NameCompany"),
+                            Double.parseDouble(jsonObject.optString("Rode"))));
+                }
             }
 
             return listInvoices;
@@ -404,7 +420,7 @@ public class Contextdb {
         }
     }
     public List<Product> getAllProducts(String token) {
-        String sql = "http://192.168.2.2:49161/api/Product";
+        String sql = "http://192.168.2.4:49161/api/Product";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -455,7 +471,7 @@ public class Contextdb {
         }
     }
     public String getDetail(String id, String token) {
-        String sql = "http://192.168.2.2:49161/api/Detail/"+id;
+        String sql = "http://192.168.2.4:49161/api/Detail/"+id;
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -497,7 +513,7 @@ public class Contextdb {
         }
     }
     public String insertInvoices(String LimitDate, String Code, int Discount, Double Total, Boolean State, int IdClient, int IdProvider, long IdDetail, String token) {
-        String sql = "http://192.168.2.2:49161/api/Invoice";
+        String sql = "http://192.168.2.4:49161/api/Invoice";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -562,7 +578,7 @@ public class Contextdb {
         }
     }
     public String insertSales(String Code, int Quantity, Double Total, int IdProduct, long IdDetails, String token) {
-        String sql = "http://192.168.2.2:49161/api/Sale";
+        String sql = "http://192.168.2.4:49161/api/Sale";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);

@@ -1,11 +1,15 @@
 package com.example.carrillo.santamarta;
 
+import android.app.AlertDialog;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -43,6 +47,7 @@ public class InsertInvoiceActivity extends AppCompatActivity {
     private Contextdb contextdb = new Contextdb();
     private static Client clientSelect;
     private static int provider;
+    private static Print print = new Print();
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invoices_create);
@@ -60,10 +65,41 @@ public class InsertInvoiceActivity extends AppCompatActivity {
         list = (ListView) findViewById(R.id.list_invoices);
         barCredit = (SeekBar) findViewById(R.id.sb_credit);
         checkCredit = (CheckBox) findViewById(R.id.cb_credit);
+        listProducts = null;
+        clientSelect = null;
+        txtDiscont.setText("0");
+        txtTotal.setText("0");
+        txtClient.setText("No seleccionado");
         context = getBaseContext();
         barCredit.setEnabled(false);
         token = MainActivity.token;
         final Contextdb contextdb = new Contextdb();
+
+        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+                                           final int pos, long id) {
+                AlertDialog.Builder informacion = new AlertDialog.Builder(InsertInvoiceActivity.this);
+                informacion.setMessage("¿Desea eliminar este producto de la lista?");
+                informacion.setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        int position = pos;
+                        listProducts.remove(position);
+                        display_delete();
+                    }
+                });
+                informacion.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                informacion.setTitle("Productos");
+                informacion.show();
+                return true;
+            }
+        });
 
         checkCredit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
         {
@@ -162,99 +198,132 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                 if(MainActivity.idUSer.length()>0){
                     if(clientSelect.getIDClient()!=0){
                         if(listProducts.size()!=0){
-                            String dateCredit="";
-                            Date date = new Date();
-                            Calendar calendar = Calendar.getInstance();
-                            if(checkCredit.isChecked()==true){
-                                calendar.setTime(date); // Configuramos la fecha que se recibe
-                                calendar.add(Calendar.DAY_OF_YEAR, Integer.parseInt(txtCredit.getText().toString()));  // numero de días a añadir, o restar en caso de días<0
-                                date = calendar.getTime();
-                                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                                dateCredit = format.format(date);
-                                String response = contextdb.getDetail(MainActivity.idUSer,token);
-                                if(!response.toString().equals("false")){
-                                    String responseInvoice = contextdb.insertInvoices(dateCredit, "02", Integer.parseInt(txtDiscont.getText().toString()), Double.parseDouble(txtTotal.getText().toString()),
-                                            true, clientSelect.getIDClient(), provider, Long.parseLong(response),token);
-                                    if(!responseInvoice.toString().equals("500")){
-                                        Product item;
-                                        String responseSale = "";
-                                        for(int x=0;x<listProducts.size();x++){
-                                            item = listProducts.get(x);
-                                            responseSale = contextdb.insertSales(item.getCode(),item.getQuantity(),item.getTotal(),item.getIDProduct(),
-                                                    Long.parseLong(response),token);
-                                            if(responseInvoice.toString().equals("500")){
-                                                Toast.makeText(getApplicationContext(), "Error, factura mal ingresada al sistema", Toast.LENGTH_LONG).show();
-                                                break;
-                                            }
-                                            if(responseSale.equals("200")){
-                                                Toast.makeText(getApplicationContext(), "Factura de venta ingresada correctamente", Toast.LENGTH_LONG).show();
-                                                // SLEEP 2 SECONDS HERE ...
-                                                final Handler handler = new Handler();
-                                                Timer t = new Timer();
-                                                t.schedule(new TimerTask() {
-                                                    public void run() {
-                                                        handler.post(new Runnable() {
-                                                            public void run() {
-                                                                Intent menu = new Intent(InsertInvoiceActivity.this, InvoicesActivity.class);
-                                                                startActivity(menu);
-                                                                finish();
-                                                            }
-                                                        });
-                                                    }
-                                                }, 1000);
-                                                break;
-                                            }
-                                        }
-                                    }else {
-                                        Toast.makeText(getApplicationContext(), "Error, factura mal ingresada al sistema", Toast.LENGTH_LONG).show();
-                                    }
-                                }else {
-                                    Toast.makeText(getApplicationContext(), "Error al intentar ingresar la factura al sistema", Toast.LENGTH_LONG).show();
-                                }
+                            if(MainPrintActivity.mBluetoothAdapter==null){
+
                             }else {
-                                calendar.add(Calendar.DATE, 1);
-                                date = calendar.getTime();
-                                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                                dateCredit = format.format(date);
-                                String response = contextdb.getDetail(MainActivity.idUSer,token);
-                                if(!response.toString().equals("false")){
-                                    String responseInvoice = contextdb.insertInvoices(dateCredit, "02", Integer.parseInt(txtDiscont.getText().toString()), Double.parseDouble(txtTotal.getText().toString()),
-                                            true, clientSelect.getIDClient(), provider, Long.parseLong(response),token);
-                                    if(!responseInvoice.toString().equals("500")){
-                                        Product item;
-                                        String responseSale = "";
-                                        for(int x=0;x<listProducts.size();x++){
-                                            item = listProducts.get(x);
-                                            responseSale = contextdb.insertSales(item.getCode(),item.getQuantity(),item.getTotal(),item.getIDProduct(),
-                                                    Long.parseLong(response),token);
-                                            if(responseInvoice.toString().equals("500")){
-                                                Toast.makeText(getApplicationContext(), "Error, factura mal ingresada al sistema", Toast.LENGTH_LONG).show();
-                                                break;
+                                String dateCredit = "";
+                                String dateCurent = "";
+                                Date date = new Date();
+                                Calendar calendar = Calendar.getInstance();
+                                Date date_Curent = new Date();
+                                Calendar calendarCurent = Calendar.getInstance();
+                                if (checkCredit.isChecked() == true) {
+                                    calendar.setTime(date); // Configuramos la fecha que se recibe
+                                    calendar.add(Calendar.DAY_OF_YEAR, Integer.parseInt(txtCredit.getText().toString()));  // numero de días a añadir, o restar en caso de días<0
+                                    date = calendar.getTime();
+                                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                                    dateCredit = format.format(date);
+                                    print.setLimit(dateCredit);
+                                    calendarCurent.add(Calendar.DATE, 0);
+                                    date_Curent = calendarCurent.getTime();
+                                    SimpleDateFormat formatCurent = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                                    dateCurent = format.format(date_Curent);
+                                    print.setCurent(dateCurent);
+                                    print.setDiscount(txtDiscont.getText().toString());
+                                    print.setTotal(txtTotal.getText().toString());
+                                    String response = contextdb.getDetail(MainActivity.idUSer, token);
+                                    if (!response.toString().equals("false")) {
+                                        String responseInvoice = contextdb.insertInvoices(dateCredit, "02", Integer.parseInt(txtDiscont.getText().toString()), Double.parseDouble(txtTotal.getText().toString()),
+                                                true, clientSelect.getIDClient(), provider, Long.parseLong(response), token);
+                                        if (!responseInvoice.toString().equals("500")) {
+                                            Product item;
+                                            String responseSale = "";
+                                            for (int x = 0; x < listProducts.size(); x++) {
+                                                item = listProducts.get(x);
+                                                responseSale = contextdb.insertSales(item.getCode(), item.getQuantity(), item.getTotal(), item.getIDProduct(),
+                                                        Long.parseLong(response), token);
+                                                if (responseInvoice.toString().equals("500")) {
+                                                    Toast.makeText(getApplicationContext(), "Error, factura mal ingresada al sistema", Toast.LENGTH_LONG).show();
+                                                    break;
+                                                }
+                                                if (responseSale.equals("200")) {
+                                                    //if (clientSelect.getNameCompany().toString().equals("null")) {
+                                                        //MainPrintActivity.printInvoice(clientSelect.getName() + " " + clientSelect.getFirstName() + " " + clientSelect.getSecondName(),
+                                                                //"003", print.getCurent(), print.getLimit(), "Si", listProducts, print.getDiscount(), print.getTotal());
+                                                    //} else {
+                                                        //MainPrintActivity.printInvoice(clientSelect.getNameCompany(),
+                                                                //"003", print.getCurent(), print.getLimit(), "Si", listProducts, print.getDiscount(), print.getTotal());
+                                                    //}
+                                                    Toast.makeText(getApplicationContext(), "Factura de venta ingresada correctamente", Toast.LENGTH_LONG).show();
+                                                    // SLEEP 2 SECONDS HERE ...
+                                                    final Handler handler = new Handler();
+                                                    Timer t = new Timer();
+                                                    t.schedule(new TimerTask() {
+                                                        public void run() {
+                                                            handler.post(new Runnable() {
+                                                                public void run() {
+                                                                    Intent menu = new Intent(InsertInvoiceActivity.this, InvoicesActivity.class);
+                                                                    startActivity(menu);
+                                                                    finish();
+                                                                }
+                                                            });
+                                                        }
+                                                    }, 1000);
+                                                    break;
+                                                }
                                             }
-                                            if(responseSale.equals("200")){
-                                                Toast.makeText(getApplicationContext(), "Factura de venta ingresada correctamente", Toast.LENGTH_LONG).show();
-                                                // SLEEP 2 SECONDS HERE ...
-                                                final Handler handler = new Handler();
-                                                Timer t = new Timer();
-                                                t.schedule(new TimerTask() {
-                                                    public void run() {
-                                                        handler.post(new Runnable() {
-                                                            public void run() {
-                                                                Intent menu = new Intent(InsertInvoiceActivity.this, InvoicesActivity.class);
-                                                                startActivity(menu);
-                                                                finish();
-                                                            }
-                                                        });
-                                                    }
-                                                }, 1000);
-                                                break;
-                                            }
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), "Error, factura mal ingresada al sistema", Toast.LENGTH_LONG).show();
                                         }
-                                    }else {
-                                        Toast.makeText(getApplicationContext(), "Error, factura mal ingresada al sistema", Toast.LENGTH_LONG).show();
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Error al intentar ingresar la factura al sistema", Toast.LENGTH_LONG).show();
                                     }
-                                }else {
-                                    Toast.makeText(getApplicationContext(), "Error al intentar ingresar la factura al sistema", Toast.LENGTH_LONG).show();
+                                } else {
+                                    calendar.add(Calendar.DATE, 0);
+                                    date = calendar.getTime();
+                                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                                    dateCredit = format.format(date);
+                                    print.setCurent(dateCredit);
+                                    print.setLimit(dateCredit);
+                                    print.setDiscount(txtDiscont.getText().toString());
+                                    print.setTotal(txtTotal.getText().toString());
+                                    String response = contextdb.getDetail(MainActivity.idUSer, token);
+                                    if (!response.toString().equals("false")) {
+                                        String responseInvoice = contextdb.insertInvoices(dateCredit, "02", Integer.parseInt(txtDiscont.getText().toString()), Double.parseDouble(txtTotal.getText().toString()),
+                                                true, clientSelect.getIDClient(), provider, Long.parseLong(response), token);
+                                        if (!responseInvoice.toString().equals("500")) {
+                                            Product item;
+                                            String responseSale = "";
+                                            for (int x = 0; x < listProducts.size(); x++) {
+                                                item = listProducts.get(x);
+                                                responseSale = contextdb.insertSales(item.getCode(), item.getQuantity(), item.getTotal(), item.getIDProduct(),
+                                                        Long.parseLong(response), token);
+                                                if (responseInvoice.toString().equals("500")) {
+                                                    Toast.makeText(getApplicationContext(), "Error, factura mal ingresada al sistema", Toast.LENGTH_LONG).show();
+                                                    break;
+                                                }
+                                                if (responseSale.equals("200")) {
+                                                    Toast.makeText(getApplicationContext(), "Factura de venta ingresada correctamente", Toast.LENGTH_LONG).show();
+                                                    //if (clientSelect.getNameCompany().toString().equals("null")) {
+                                                        //MainPrintActivity.printInvoice(clientSelect.getName() + " " + clientSelect.getFirstName() + " " + clientSelect.getSecondName(),
+                                                                //"003", print.getCurent(), print.getLimit(), "No", listProducts, print.getDiscount(), print.getTotal());
+                                                    //} else {
+                                                        //MainPrintActivity.printInvoice(clientSelect.getNameCompany(),
+                                                                //"003", print.getCurent(), print.getLimit(), "No", listProducts, print.getDiscount(), print.getTotal());
+                                                    //}
+                                                    // SLEEP 2 SECONDS HERE ...
+                                                    final Handler handler = new Handler();
+                                                    Timer t = new Timer();
+                                                    t.schedule(new TimerTask() {
+                                                        public void run() {
+                                                            handler.post(new Runnable() {
+                                                                public void run() {
+                                                                    Intent menu = new Intent(InsertInvoiceActivity.this, InvoicesActivity.class);
+                                                                    startActivity(menu);
+                                                                    finish();
+                                                                }
+                                                            });
+                                                        }
+                                                    }, 1000);
+                                                    break;
+                                                }
+                                            }
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), "Error, factura mal ingresada al sistema", Toast.LENGTH_LONG).show();
+                                        }
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Error al intentar ingresar la factura al sistema", Toast.LENGTH_LONG).show();
+                                    }
                                 }
                             }
                         }else {
@@ -279,6 +348,13 @@ public class InsertInvoiceActivity extends AppCompatActivity {
             //se setean los datos en el listView
             list.setAdapter(adapter);
             total();
+    }
+
+    public static void display_delete() {
+        ArrayAdapter<Product> adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, listProducts);
+        //se setean los datos en el listView
+        list.setAdapter(adapter);
+        total();
     }
 
     public static void display_client(Client client){
@@ -308,4 +384,5 @@ public class InsertInvoiceActivity extends AppCompatActivity {
             txtTotal.setText("0");
         }
     }
+
 }

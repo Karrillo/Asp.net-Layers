@@ -7,31 +7,27 @@ package com.example.carrillo.santamarta;
 public class Invoice {
     public long IDInvoice;
     public String LimitDate;
+    public String CurrentDate;
     public String Code;
-    public int Discount;
     public double Total;
     public String State;
-    public int IdClient;
-    public int IdProvider;
-    public long IdDetail;
     public String Name;
     public String NameCompany;
+    public double Rode;
 
     public Invoice() {
     }
 
-    public Invoice(long IDInvoice, String limitDate, String code, int discount, double total, String state, int idClient, int idProvider, long idDetail, String name, String nameCompany) {
+    public Invoice(long IDInvoice, String limitDate, String currentDate, String code, double total, String state, String name, String nameCompany, double rode) {
         this.IDInvoice = IDInvoice;
         LimitDate = limitDate;
+        CurrentDate = currentDate;
         Code = code;
-        Discount = discount;
         Total = total;
         State = state;
-        IdClient = idClient;
-        IdProvider = idProvider;
-        IdDetail = idDetail;
         Name = name;
         NameCompany = nameCompany;
+        Rode = rode;
     }
 
     public long getIDInvoice() {
@@ -50,20 +46,20 @@ public class Invoice {
         LimitDate = limitDate;
     }
 
+    public String getCurrentDate() {
+        return CurrentDate;
+    }
+
+    public void setCurrentDate(String currentDate) {
+        CurrentDate = currentDate;
+    }
+
     public String getCode() {
         return Code;
     }
 
     public void setCode(String code) {
         Code = code;
-    }
-
-    public int getDiscount() {
-        return Discount;
-    }
-
-    public void setDiscount(int discount) {
-        Discount = discount;
     }
 
     public double getTotal() {
@@ -82,30 +78,6 @@ public class Invoice {
         State = state;
     }
 
-    public int getIdClient() {
-        return IdClient;
-    }
-
-    public void setIdClient(int idClient) {
-        IdClient = idClient;
-    }
-
-    public int getIdProvider() {
-        return IdProvider;
-    }
-
-    public void setIdProvider(int idProvider) {
-        IdProvider = idProvider;
-    }
-
-    public long getIdDetail() {
-        return IdDetail;
-    }
-
-    public void setIdDetail(long idDetail) {
-        IdDetail = idDetail;
-    }
-
     public String getName() {
         return Name;
     }
@@ -122,13 +94,23 @@ public class Invoice {
         NameCompany = nameCompany;
     }
 
+    public double getRode() {
+        return Rode;
+    }
+
+    public void setRode(double rode) {
+        Rode = rode;
+    }
+
     @Override
     public String toString() {
         return
                 "Nombre de cliente: " + Name + '\n' +
                 "Nombre de compañia: " + NameCompany + '\n' +
+                "Fecha Creación: " + CurrentDate + '\n' +
                 "Fecha limite: " + LimitDate + '\n' +
                 "Codigo: " + Code + '\n' +
+                "Abonado: " + Rode + '\n' +
                 "Total: " + Total ;
     }
 }
