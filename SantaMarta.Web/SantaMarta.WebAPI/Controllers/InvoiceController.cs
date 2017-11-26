@@ -13,18 +13,6 @@ namespace SantaMarta.WebAPI.Controllers
     [Authorize]
     public class InvoiceController : ApiController
     {
-        // GET: api/Invoice
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET: api/Invoice/5
-        public string Get(int id)
-        {
-            return "value";
-        }
-
         // POST: api/Invoice
         [HttpPost]
         public IHttpActionResult Post(Invoices invoices)
@@ -35,12 +23,18 @@ namespace SantaMarta.WebAPI.Controllers
 
             invoice = invoicesB.Create(invoices);
 
-            if (invoice != -1)
+            switch (invoice)
             {
-                return BadRequest();
+                case 200:
+                    return Ok(200);
+                    break;
+                case 500:
+                    return Ok(500);
+                    break;
+                default:
+                    return Ok(false);
+                    break;
             }
-
-            return Ok();
         }
 
         [Route("api/Invoice/GetInvoicesAllSales")]
@@ -55,9 +49,9 @@ namespace SantaMarta.WebAPI.Controllers
 
             if (invoice == null)
             {
-                return NotFound();
+                Ok(false);
             }
-
+            
             return Ok(invoice);
         }
 
@@ -73,20 +67,10 @@ namespace SantaMarta.WebAPI.Controllers
 
             if (invoice == null)
             {
-                return NotFound();
+                Ok(false);
             }
 
             return Ok(invoice);
-        }
-
-        // PUT: api/Invoice/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE: api/Invoice/5
-        public void Delete(int id)
-        {
         }
     }
 }

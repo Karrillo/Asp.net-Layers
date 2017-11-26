@@ -63,17 +63,21 @@
                             {
                                 <td><span class="label label-warning">Pendiente</span></td>
                             }
-                            @*<td>@Html.DisplayFor(modelItem => item.Rode)</td>*@
+                            else if (item.Type == 3)
+                            {
+                                <td><span class="label label-default">NULA</span></td>
+                            }
                             <td>
-                                @if (Session["Type"] != null)
+                                @if (Session["Type"] != null && item.Type != 3)
                                 {
                                     <a class="btn btn-danger glyphicon glyphicon-remove-sign" data-target="#modal-delete" data-toggle="modal" href="@Url.Action("Delete", "Sales", new { id = item.IDInvoice })"></a>
                                 }
                                 <a class="btn btn-info glyphicon glyphicon-file" data-target="#modal-details" data-toggle="modal" href="@Url.Action("Details", "Sales", new { id = item.IDInvoice})"></a>
-                                @if (item.Type != 1)
+                                @if (item.Type != 1 && item.Type != 3)
                                 {
-                                    <a class="btn btn-warning glyphicon glyphicon-piggy-bank" data-target="#modal-assets" data-toggle="modal" href="@Url.Action("Assets", "Sales", new { id = item.IDInvoice, item.Name, item.Rode})"></a>
+                                    <a class="btn btn-success glyphicon glyphicon-piggy-bank" data-target="#modal-assets" data-toggle="modal" href="@Url.Action("Assets", "Sales", new { id = item.IDInvoice, item.Name, item.Rode})"></a>
                                 }
+                                <a class="btn btn-warning glyphicon glyphicon-save" id="@item.IDInvoice" href="@Url.Action("CreatePDF", "Sales", new { id = item.IDInvoice})"></a>
                             </td>
                         </tr>
                     }
@@ -110,7 +114,7 @@
 
 <div class="modal fade" tabindex="-1" role="dialog" id="modal-assets" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
+        <div class="modal-content" id="createModal">
         </div>
     </div>
 </div>
@@ -124,16 +128,20 @@
 
     <script>
         $('body').on('hidden.bs.modal', '.modal', function () {
-            $(this).removeData('bs.modal');
+            $(this).removeData('bs.modal').find(".modal-body").html('');
         });
     </script>
 
     <script type="text/javascript">
         $(document).ready(function () {
             if ('@TempData["message"]' == "Add") {
-            toastr.success('El movimiento ha sido agregado correctamente', 'Agregado');
+            toastr.success('La factura ha sido agregada correctamente', 'Agregado');
         } else if ('@TempData["message"]' == "Delete"){
-                toastr.success('El movimiento ha sido eliminado correctamente', 'Eliminado');
+                toastr.success('Se ha anulado la factura correctamente', 'Eliminado');
+            }else if ('@TempData["message"]' == "Asset"){
+                toastr.success('El Pago ha sido aplicado correctamente', 'Agregado');
+            } else if ('@TempData["message"]' == "Exist"){
+                toastr.warning('La factura esta vinculada a un movimiento', 'Atencion');
         }
     });
     </script>
@@ -146,7 +154,6 @@
                 window.location.href = "/Sales/Index";
             } else {
                 toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
-                $('.modal-content').html(data);
             }
         }
 </script>
@@ -158,7 +165,7 @@
                 window.location.href = "/Sales/Index";
             } else {
                 toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
-                $('.modal-content').html(data);
+                $('#createModal').html(data);
             }
         }
 </script>

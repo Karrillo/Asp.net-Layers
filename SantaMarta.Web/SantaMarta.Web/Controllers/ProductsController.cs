@@ -30,18 +30,14 @@ namespace SantaMarta.Web.Controllers
             {
                 Session["IDProvider"] = null;
             }
+
             var providers = productsProvidersB.GetAllProviders().ToList();
 
             ViewBag.id = new SelectList(providers, "IDProvider", "NameCompany");
 
-            try
-            {
-                return View(productsProvidersB.GetAll(Convert.ToInt32(id)).ToList());
-            }
-            catch (Exception)
-            {
-                return View();
-            }
+
+            return View(productsProvidersB.GetAll(Convert.ToInt32(id)).ToList());
+
         }
 
         public ActionResult Index2()
@@ -68,6 +64,8 @@ namespace SantaMarta.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Products products, int id)
         {
+            products.IdProvider = id;
+
             int status = productsProvidersB.Create(products);
 
             if (status == 200)

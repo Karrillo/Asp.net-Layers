@@ -26,7 +26,7 @@ namespace SantaMarta.DataAccess.SaleAccess
 
             try
             {
-                products = db.Views_Invoice_Product(id).ToList();
+                products = db.Views_Invoice_Product_Sale(id).ToList();
                 return products;
             }
             catch (Exception)

@@ -49,7 +49,7 @@ namespace SantaMarta.DataAccess.InvoiceAccess
             Views_Invoinces_Details invoice = new Views_Invoinces_Details();
             try
             {
-                return db.View_Invoice_Clients(id);
+                return db.View_Invoice_Providers(id);
             }
             catch (Exception)
             {
@@ -79,8 +79,33 @@ namespace SantaMarta.DataAccess.InvoiceAccess
         {
             try
             {
-                //db.delete(id);
-                return 200;
+                Boolean? assetsLiabilities = db.Check_AssestLiabilities(id) ?? false;
+                if (assetsLiabilities == false)
+                {
+                    db.Delete_Invoice(id);
+                    return 200;
+                }
+                return 400;
+            }
+            catch (Exception)
+            {
+                return 500;
+            }
+        }
+
+        public Int64 GetCode()
+        {
+            try
+            {
+                String code = db.Code_Invoice();
+                Int64 number = 0;
+
+                if (code == null)
+                {
+                    return 1;
+                }
+                number = Int64.Parse(code);
+                return number + 1;
             }
             catch (Exception)
             {

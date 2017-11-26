@@ -1,4 +1,5 @@
 ﻿using SantaMarta.Data.Models.Purchases;
+using SantaMarta.Data.Store_Procedures;
 using SantaMarta.DataAccess.PurchaseAccess;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace SantaMarta.Bussines.PurchasesBussines
             return purchaseAccess.GetAll();
         }
 
-        public List<Purchases> GetById(Int64 id)
+        public List<Views_Invoinces_Products> GetById(Int64 id)
         {
             return purchaseAccess.GetById(id);
         }

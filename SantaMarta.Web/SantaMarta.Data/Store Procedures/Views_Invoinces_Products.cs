@@ -12,7 +12,7 @@ namespace SantaMarta.Data.Store_Procedures
         public String Code { get; set; }
         public String Name { get; set; }
         public Decimal Price { get; set; }
-        public Decimal Tax { get; set; }
+        public Decimal? Tax { get; set; }
         public Int32 Quantity { get; set; }
         public Decimal Total { get; set; }
 

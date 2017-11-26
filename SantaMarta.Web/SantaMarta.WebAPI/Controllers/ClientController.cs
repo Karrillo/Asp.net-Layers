@@ -25,7 +25,7 @@ namespace SantaMarta.WebAPI.Controllers
 
             if (clients == null)
             {
-                return NotFound();
+                return Ok(false);
             }
 
             return Ok(clients);
@@ -42,7 +42,7 @@ namespace SantaMarta.WebAPI.Controllers
 
             if (clients == null)
             {
-                return NotFound();
+                return Ok(false);
             }
 
             return Ok(clients);
@@ -60,7 +60,7 @@ namespace SantaMarta.WebAPI.Controllers
 
             if (clients == null)
             {
-                return NotFound();
+                return Ok(false);
             }
 
             return Ok(clients);
@@ -76,12 +76,24 @@ namespace SantaMarta.WebAPI.Controllers
 
             clients = clientB.Create(persons);
 
-            if (clients != -1)
+            switch (clients)
             {
-                return BadRequest();
+                case 200:
+                    return Ok(200);
+                    break;
+                case 401:
+                    return Ok(401);
+                    break;
+                case 400:
+                    return Ok(400);
+                    break;
+                case 500:
+                    return Ok(500);
+                    break;
+                default:
+                    return Ok(false);
+                    break;
             }
-
-            return Ok();
         }
     }
 }

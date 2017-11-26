@@ -38,5 +38,10 @@ namespace SantaMarta.Bussines.InvoicesBussines
         {
             return invoiceAccess.GetAllPurchases();
         }
+
+        public Int64 GetCode()
+        {
+            return invoiceAccess.GetCode();
+        }
     }
 }

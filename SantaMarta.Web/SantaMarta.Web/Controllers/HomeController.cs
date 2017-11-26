@@ -1,62 +1,88 @@
-﻿using System;
-using System.Collections;
+﻿using SantaMarta.Bussines.ChartsBussines;
+using SantaMarta.Data.Store_Procedures;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace SantaMarta.Web.Controllers
 {
     public class HomeController : Controller
     {
+        private ChartsB chartsB;
+
+        public HomeController()
+        {
+            chartsB = new ChartsB();
+        }
+
         public ActionResult Index()
         {
             return View();
         }
 
-        //public JsonResult SalesByYear()
-        //{
-        //    List<object> data = new List<object>();
-        //    var enumerator = ((IEnumerable)db.Suma_ActivosPasivos()).GetEnumerator();
-        //    while (enumerator.MoveNext())
-        //    {
-        //        data.Add(enumerator.Current);
-        //    }
-        //    return Json(data, JsonRequestBehavior.AllowGet);
-        //}
+        public ActionResult getSubCategories(string name)
+        {
+            var categories = chartsB.GetSubCategories(name).ToList();
+            return Json(categories, JsonRequestBehavior.AllowGet);
+        }
 
-        //public ActionResult getCategoria()
-        //{
-        //    List<object> mapdata = new List<object>();
-        //    var enumerator = ((IEnumerable)db.Suma_Categoria()).GetEnumerator();
-        //    while (enumerator.MoveNext())
-        //    {
-        //        mapdata.Add(enumerator.Current);
-        //    }
-        //    return Json(mapdata, JsonRequestBehavior.AllowGet);
-        //}
 
-        //public ActionResult getCuenta()
-        //{
-        //    List<object> mapdata = new List<object>();
-        //    var enumerator = ((IEnumerable)db.Suma_Cuenta()).GetEnumerator();
-        //    while (enumerator.MoveNext())
-        //    {
-        //        mapdata.Add(enumerator.Current);
-        //    }
-        //    return Json(mapdata, JsonRequestBehavior.AllowGet);
-        //}
+        public ActionResult getCategories()
+        {
+            var categories = chartsB.GetCategories().ToList();
+            return Json(categories, JsonRequestBehavior.AllowGet);
+        }
 
-        //public ActionResult getAssetsLiabilities()
-        //{
-        //    List<Grafico> mapdata = new List<Grafico>();
-        //    var info = db.Suma_ActivosPasivos().ToList();
-        //    foreach (var item in info)
-        //    {
-        //        mapdata.Add(new Grafico { activo = (int)item.activo, pasivo = (int)item.pasivo, Fecha = item.Fecha.ToString("dd/MM/yyyy") });
-        //    }
-        //    return Json(mapdata, JsonRequestBehavior.AllowGet);
-        //}
+        public ActionResult getAccounts()
+        {
+            List<Charts_Accounts> accounts = chartsB.GetAccount().ToList();
+            return Json(accounts, JsonRequestBehavior.AllowGet);
+        }
 
+        public ActionResult getAssetsLiabilities()
+        {
+            var assetsLiabilities = chartsB.GetAssetsLiabilities().ToList();
+            return Json(assetsLiabilities, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult getAssetsLiabilitiesFilter(string dateFilter, string dateSearch, string date)
+        {
+            if (date.Length == 4)
+            {
+                dateFilter = "months";
+                dateSearch = "years";
+            }
+            else {
+                dateFilter = "days";
+                dateSearch = "months";
+            }
+            var assetsLiabilities = chartsB.GetAssetsLiabilitiesFilter(dateFilter, dateSearch, date).ToList();
+
+            return Json(assetsLiabilities, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult getProducts()
+        {
+            var assetsLiabilities = chartsB.GetProducts().ToList();
+            return Json(assetsLiabilities, JsonRequestBehavior.AllowGet);
+        }
+      
+        public ActionResult getProductsFilter(int date)
+        {
+            var assetsLiabilities = chartsB.GetProductsFilter(date).ToList();
+            return Json(assetsLiabilities, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult getClients()
+        {
+            var assetsLiabilities = chartsB.GetClients().ToList();
+            return Json(assetsLiabilities, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult getClientsFilter(int date)
+        {
+            var assetsLiabilities = chartsB.GetClientsFilter(date).ToList();
+            return Json(assetsLiabilities, JsonRequestBehavior.AllowGet);
+        }
     }
 }

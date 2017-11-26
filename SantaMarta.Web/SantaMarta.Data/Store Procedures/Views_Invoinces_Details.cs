@@ -9,9 +9,9 @@ namespace SantaMarta.Data.Store_Procedures
     public class Views_Invoinces_Details
     {
         public Int64 IDInvoice { get; set; }
-        public DateTime LimitDate { get; set; }
+        public DateTime? LimitDate { get; set; }
         public String Code { get; set; }
-        public Decimal Discount { get; set; }
+        public Decimal? Discount { get; set; }
         public Decimal Total { get; set; }
         public Boolean State { get; set; }
         public Int64 IdProvider { get; set; }

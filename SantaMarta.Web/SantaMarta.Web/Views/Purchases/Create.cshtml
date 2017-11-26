@@ -1,0 +1,545 @@
+﻿@model SantaMarta.Data.Models.Products.Products
+
+@{
+    ViewBag.Title = "Compras";
+}
+
+@Styles.Render("~/AdminPacket/plugins/select2/css")
+@Styles.Render("~/AdminPacket/dist/css")
+<link href="~/Scripts/Datepicker/bootstrap-datepicker.min.css" rel="stylesheet" />
+
+<hr />
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-2 pull-right">
+            <label>Fecha:</label>
+            <input class="form-control" type="text" id="txt_date" value="@DateTime.Now.Year/@DateTime.Now.Month/@DateTime.Now.Day" required readonly />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-2 pull-right">
+            <label>Numero de Documento:</label>
+            <input class="form-control" type="text" name="NInvoice" id="txt_numberInvoice" placeholder="N Documento" />
+            <span id="eCode" style="color:#FF0000;"></span>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-2">
+            <label>Codigo de Proveedor:</label>
+            @Html.DropDownList("providersCode", null, "Seleccionar el producto", new { @class = "form-control select2" })
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-5">
+            <label>Nombre de Compañía:</label>
+            @Html.DropDownList("providersCompany", null, "Seleccionar el producto", new { @class = "form-control select2" })
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-5">
+            <label>Nombre del Proveedor:</label>
+            @Html.DropDownList("providersName", null, "Seleccionar el producto", new { @class = "form-control select2" })
+        </div>
+    </div>
+    <span id="eProvider" style="color:#FF0000;"></span>
+</div>
+<hr />
+<form action="javascript:fn_agregar()" ; method="post" id="frm_usu" class="form-horizontal">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-2">
+                <label>Codigo del Producto:</label>
+                @Html.DropDownList("productsCode", new SelectList(string.Empty, "IDProvider", "Code"), "Selecionar Codigo", new { @class = "form-control select2", id = "productCode" })
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-4">
+                <label>Nombre del Producto:</label>
+                @Html.DropDownList("productsName", new SelectList(string.Empty, "IDProvider", "Name"), "Selecionar Nombre", new { @class = "form-control select2", id = "productName" })
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-1">
+                <label>Cantidad:</label>
+                <input class="form-control" id="txt_quantity" type="text">
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-1">
+                <label>Impuesto:</label>
+                <input class="form-control" id="txt_tax" type="text" required readonly>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-1">
+                <label>Precio:</label>
+                <input class="form-control" id="txt_price" type="text" required readonly>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-1">
+                <input class="btn btn-primary" style="position: relative; top:23px;" type="submit" name="agregar" id="btn_product" value="Agregar" />
+            </div>
+        </div>
+        <span id="eQuantity" style="color:#FF0000;"></span>
+    </div>
+</form>
+<hr />
+
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">Productos</h3>
+    </div>
+    <div class="box-body no-padding">
+        <table id="detalle" class="table table-condensed">
+            <tbody>
+                <tr>
+                    <th>Codigo</th>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Subtotal</th>
+                    <th>Borrar</th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <span id="eRow" style="color:#FF0000;"></span>
+</div>
+<hr />
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-2 pull-left">
+            <input type="checkbox" id="selectedCredit" value="true" name="selectedCredit"> Credito
+            <select id="credit" style="display:none" class="form-control">
+                <option value="0" disabled selected>Selecciona</option>
+                <option value="8">8 Dias</option>
+                <option value="15">15 Dias</option>
+                <option value="22">22 Dias</option>
+                <option value="30">30 Dias</option>
+            </select>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-2 pull-right">
+            <label>Descuento:</label>
+            <input class="form-control" type="text" name="Discount" id="txt_discount" placeholder="Descuento" />
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-2 pull-right">
+            <label>Total:</label>
+            <input class="form-control" type="text" name="Total" id="txt_total" placeholder="Total" required readonly />
+        </div>
+    </div>
+</div>
+<hr />
+
+<input class="btn btn-success btn-lg" type="button" id="btn_finalizar" value="Emitir Venta" />
+<input class="btn btn-danger btn-lg" type="button" id="btn_txtnueva" value="Salir" />
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+@section Scripts {
+    @Scripts.Render("~/AdminPacket/plugins/select2/js")
+    @Scripts.Render("~/Scripts/Forms/Advanced")
+    <script src="~/Scripts/Mark/jquery.mask.min.js"></script>
+    <script src="~/Scripts/Daterangepicker/moment.min.js"></script>
+    <script src="~/Scripts/Datepicker/bootstrap-datepicker.min.js"></script>
+}
+<script>
+    $(document).ready(function () {
+        $('#txt_fecha').mask('0000/00/00');
+        $('#txt_quantity').mask('0000', { reverse: true });
+        $('#txt_tax').mask('000.00', { reverse: true });
+        $('#txt_price').mask('000,000,000,000,000.00', { reverse: true });
+        $('#txt_discount').mask('000.00', { reverse: true });
+        $('#txt_total').mask('000,000,000,000,000.00', { reverse: true });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#txt_date").datepicker({
+            format: 'yyyy/mm/dd',
+            autoclose: true,
+            todayBtn: 'linked',
+            calendarWeeks: true,
+            todayHighlight: true
+        })
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btn_finalizar").click(function () {
+            var code = $("#txt_numberInvoice").val();
+            var provider = $("#providersCode :selected").val();
+            var row = $('#detalle tbody tr').length;
+            if (provider == "" && row == 1 && code == "") {
+                document.getElementById("eCode").innerHTML = "* Requiere ingresar un numero de documento"
+                document.getElementById("eProvider").innerHTML = "* Requiere ingresar un proveedor"
+                document.getElementById("eRow").innerHTML = "* Requiere ingresar productos"
+            } else if (provider == "" && row == 1) {
+                document.getElementById("eCode").innerHTML = ""
+                document.getElementById("eProvider").innerHTML = "* Requiere ingresar un proveedor"
+                document.getElementById("eRow").innerHTML = "* Requiere ingresar productos"
+            } else if (provider == "" && code == "") {
+                document.getElementById("eCode").innerHTML = "* Requiere ingresar un numero de documento"
+                document.getElementById("eProvider").innerHTML = "* Requiere ingresar un proveedor"
+                document.getElementById("eRow").innerHTML = ""
+            } else if (row == 1 && code == "") {
+                document.getElementById("eCode").innerHTML = "* Requiere ingresar un numero de documento"
+                document.getElementById("eProvider").innerHTML = ""
+                document.getElementById("eRow").innerHTML = "* Requiere ingresar productos"
+            } else if (provider == "") {
+                document.getElementById("eCode").innerHTML = ""
+                document.getElementById("eRow").innerHTML = ""
+                document.getElementById("eProvider").innerHTML = ""
+                document.getElementById("eProvider").innerHTML = "* Requiere ingresar un proveedor"
+            } else if (row == 1) {
+                document.getElementById("eCode").innerHTML = ""
+                document.getElementById("eProvider").innerHTML = ""
+                document.getElementById("eProvider").innerHTML = ""
+                document.getElementById("eRow").innerHTML = "* Requiere ingresar productos"
+            } else if (code == "") {
+                document.getElementById("eCode").innerHTML = "* Requiere ingresar un numero de documento"
+                document.getElementById("eProvider").innerHTML = ""
+                document.getElementById("eProvider").innerHTML = ""
+                document.getElementById("eRow").innerHTML = ""
+            } else {
+                document.getElementById("eProvider").innerHTML = ""
+                document.getElementById("eRow").innerHTML = ""
+
+                var i = 0;
+
+                var envio = "{idProvider:'" + $("#providersCode :selected").val() +
+                    "', Discount:'" + $('#txt_discount').val() +
+                    "',Total:'" + $('#txt_total').val() +
+                    "', CurrentDate:'" + $('#txt_date').val() +
+                    "', Code:'" + $('#txt_numberInvoice').val() +
+                    "', LimitDate:'" + $('#credit :selected').val() +
+                    "',";
+
+                $("#detalle tbody tr").each(function (index) {
+                    if (i == 0) {
+                        envio += "purchases:[{IdProduct:'" + $(this).find('td').eq(0).text() +
+                            "',Quantity:'" + $(this).find('td').eq(3).text() +
+                            "',Total:'" + $(this).find('td').eq(5).text() + "'}";
+                    } else {
+                        envio += ",{IdProduct:'" + $(this).find('td').eq(0).text() +
+                            "',Quantity:'" + $(this).find('td').eq(3).text() +
+                            "',Total:'" + $(this).find('td').eq(5).text() + "'}";
+                    }
+                    i = 1;
+                });
+                envio += "]}";
+
+                var json = eval("(" + envio + ')');
+
+                $.ajax({
+                    url: "Create",
+                    data: JSON.stringify(json),
+                    type: "POST",
+                    async: false,
+                    contentType: 'application/json;charset=UTF-8',
+                    dataType: 'json',
+                    success: function (success) {
+                        window.location.href = "/Purchases/Index";
+                    },
+                    error: function (error) {
+                        alertify.alert(error);
+                    }
+                });
+            }
+        });
+
+    });
+
+    function total() {
+        var total = 0;
+        $("#detalle tbody tr").each(function (index) {
+            if (index > 0) {
+                total = total + parseFloat($(this).find('td').eq(5).text());
+            }
+            $("#txt_total").val(total.toFixed(2));
+        });
+
+    }
+
+    function fn_agregar() {
+        var quantity = $("#txt_quantity").val();
+        var product = $("#productCode :selected").val();
+
+        if (typeof product === "undefined") {
+            product = "";
+        }
+
+        if (quantity == "" && product == "") {
+            document.getElementById("eQuantity").innerHTML = "* La cantidad y el producto es requerida"
+        } else if (quantity == "" || quantity <= 0) {
+            document.getElementById("eQuantity").innerHTML = "* La cantidad de producto es requerida"
+        } else if (product == "") {
+            document.getElementById("eQuantity").innerHTML = "* El producto es requerida"
+        } else {
+            document.getElementById("eQuantity").innerHTML = ""
+
+            cadena = "<tr>"
+            cadena = cadena + "<td style='display: none;'>" + $("#productCode :selected").val() + "</td>";
+            cadena = cadena + "<td>" + $("#productCode :selected").text() + "</td>";
+            cadena = cadena + "<td>" + $("#productName :selected").text() + "</td>";
+            cadena = cadena + "<td>" + $("#txt_quantity").val() + "</td>";
+
+            var tax = parseFloat($("#txt_tax").val());
+            if (isNaN(tax)) {
+                tax = 0;
+            }
+            var price = parseFloat($("#txt_price").val());
+            var total = ((price * tax) / 100);
+            var subPrice = total + price;
+            cadena = cadena + "<td>" + subPrice.toFixed(2) + "</td>";
+
+            var y = 0;
+            var x = 0;
+            y = $("#txt_quantity").val();
+            x = subPrice;
+            var subtotal = (x * y);
+            cadena = cadena + "<td>" + subtotal.toFixed(2) + "</td>"
+            cadena = cadena + "<td><a class ='elimina'><button class='btn btn-danger' type='button'><span class='fa fa-remove'></span></button></a></td>";
+            $("#detalle tbody").append(cadena);
+            sumar(subtotal);
+            fn_dar_eliminar();
+            limpiarProveedor();
+            limpiar();
+        }
+    };
+
+    function limpiar() {
+        $('#productCode').select2("val", 0);
+        $('#productName').select2("val", 0);
+        $("#txt_tax").val("");
+        $("#txt_quantity").val("");
+        $("#txt_price").val("");
+    }
+
+    function limpiarProveedor() {
+        $("tbody tr #Code").val('');
+        $("tbody tr #Name").val('');
+        $("tbody tr #txt_quantity").val('');
+        $("tbody tr #txt_price").val('');
+    }
+
+    function limpiarDetalle() {
+        $("#detalle tbody tr").val("");
+    }
+
+    function sumar(subtotal) {
+        var total = parseFloat($("#txt_total").val());
+        if (total > 0) {
+            total += parseFloat(subtotal);
+            $("#txt_total").val(total.toFixed(2));
+        } else {
+            $("#txt_total").val(subtotal.toFixed(2));
+        }
+    }
+
+    function fn_dar_eliminar() {
+        $("a.elimina").click(function () {
+            var valor = $(this).parents("tr").find("td").eq(5).html();
+            $(this).parents("tr").fadeOut("normal", function () {
+                $(this).remove();
+                total();
+            });
+        });
+    };
+</script>
+
+<script>
+    document.getElementById("txt_discount").addEventListener("change", myFunction);
+    function myFunction() {
+        var total = 0;
+        $("#detalle tbody tr").each(function (index) {
+            if (index > 0) {
+                total = total + parseFloat($(this).find('td').eq(5).text());
+            }
+        });
+        var discount = parseFloat(this.value);
+        if (discount > 0) {
+            discount = ((total * discount) / 100);
+            total = (total - discount);
+            $("#txt_total").val(total.toFixed(2));
+        } else {
+            $("#txt_total").val(total.toFixed(2));
+        }
+    }
+</script>
+
+<script>
+        $(document).ready(function () {
+            $("#providersCode").change(function () {
+                if ($("#providersCode").val() > 0) {
+                    var valueCode = $("#providersCode :selected").val();
+                        $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("GetAllProduct")',
+                        dataType: 'json',
+                        data: { id: $("#providersCode").val() },
+                        success: function (product) {
+                            $.each(product, function (i, value) {
+                                $("#productName").append('<option value ="' + value.IDProduct + '">' + value.Name + '</option>');
+                                $("#productCode").append('<option value ="' + value.IDProduct + '">' + value.Code + '</option>');
+                            });
+                    },
+                        error: function (ex) {
+                        alert('Failed to retrieve product.' + ex);
+                    }
+                });
+              }
+            return false;
+            })
+        });
+</script>
+
+<script>
+        $(document).ready(function () {
+            $("#productCode").change(function () {
+                if ($("#productCode").val() > 0) {
+                    var valueName = $("#productName :selected").val();
+                    if (valueName != $("#productCode").val()) {
+                        $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("GetProduct")',
+                        dataType: 'json',
+                        data: { id: $("#productCode").val() },
+                        success: function (product) {
+                        var products = product;
+                        $("#txt_price").val(products.Price);
+                        $("#txt_tax").val(products.Tax);
+                        $('#productName').select2("val", products.IDProduct);
+                    },
+                        error: function (ex) {
+                        alert('Failed to retrieve product.' + ex);
+                    }
+                });
+               }
+              }
+            return false;
+            })
+        });
+</script>
+
+
+<script>
+        $(document).ready(function () {
+            $("#productName").change(function () {
+                if ($("#productName").val() > 0) {
+                    var valueCode = $("#productCode :selected").val();
+                    if (valueCode != $("#productName").val()) {
+                        $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("GetProduct")',
+                        dataType: 'json',
+                        data: { id: $("#productName").val() },
+                        success: function (product) {
+                        var products = product;
+                        $("#txt_price").val(products.Price);
+                        $("#txt_tax").val(products.Tax);
+                        $('#productCode').select2("val", products.IDProduct);
+                    },
+                        error: function (ex) {
+                        alert('Failed to retrieve product.' + ex);
+                    }
+                });
+               }
+              }
+            return false;
+            })
+        });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#providersCompany").change(function () {
+            if ($("#providersCompany").val() > 0) {
+                var valueName = $("#providersName :selected").val();
+                var valueCode = $("#providersCode :selected").val();
+                if (valueName != $("#providersCompany").val() && valueCode != $("#providersCompany").val()) {
+                    $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetProviders")',
+                    dataType: 'json',
+                    data: { id: $("#providersCompany").val() },
+                    success: function (provider) {
+                        var providers = provider;
+                        $('#providersName').select2("val", providers.IDProvider);
+                        $('#providersCode').select2("val", providers.IDProvider);
+                },
+                    error: function (ex) {
+                    alert('Failed to retrieve product.' + ex);
+                }
+            });
+           }
+          }
+        return false;
+        })
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#providersName").change(function () {
+            if ($("#providersName").val() > 0) {
+                var valueCompany = $("#providersCompany :selected").val();
+                var valueCode = $("#providersCode :selected").val();
+                if (valueCompany != $("#providersName").val() && valueCode != $("#providersName").val()) {
+                    $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetProviders")',
+                    dataType: 'json',
+                    data: { id: $("#providersName").val() },
+                    success: function (provider) {
+                        var providers = provider;
+                        $('#providersCompany').select2("val", providers.IDProvider);
+                        $('#providersCode').select2("val", providers.IDProvider);
+                },
+                    error: function (ex) {
+                    alert('Failed to retrieve product.' + ex);
+                }
+            });
+           }
+          }
+        return false;
+        })
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#providersCode").change(function () {
+            if ($("#providersCode").val() > 0) {
+                var valueName = $("#providersName :selected").val();
+                var valueCompany = $("#providersCompany :selected").val();
+                if (valueName != $("#providersCode").val() && valueCompany != $("#providersCode").val()) {
+                    $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetProviders")',
+                    dataType: 'json',
+                    data: { id: $("#providersCode").val() },
+                    success: function (provider) {
+                        var providers = provider;
+                        $('#providersCompany').select2("val", providers.IDProvider);
+                        $('#providersName').select2("val", providers.IDProvider);
+                },
+                    error: function (ex) {
+                    alert('Failed to retrieve product.' + ex);
+                }
+            });
+           }
+          }
+        return false;
+        })
+    });
+</script>
+
+<script>
+    $(function () {
+        $("#selectedCredit").click(function () {
+            if ($(this).is(':checked')) {
+                $("#credit").show("fast");
+            }
+            else {
+                $("#credit").hide("fast");
+                $("#credit").val(0);
+            }
+        });
+    });
+</script>

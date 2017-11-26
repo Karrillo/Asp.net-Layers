@@ -81,14 +81,14 @@
 @*modal*@
 <div class="modal fade" tabindex="-1" role="dialog" id="modal-crear" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
+        <div class="modal-content" id="createModal">
         </div>
     </div>
 </div>
 @*modal 2*@
 <div class="modal fade" tabindex="-1" role="dialog" id="modal-editar" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
+        <div class="modal-content" id="editModal">
         </div>
     </div>
 </div>
@@ -122,7 +122,7 @@
 
     <script>
         $('body').on('hidden.bs.modal', '.modal', function () {
-            $(this).removeData('bs.modal');
+            $(this).removeData('bs.modal').find(".modal-body").html('');
         });
     </script>
 
@@ -145,7 +145,7 @@
                 window.location.href = "/Providers/Index";
             } else {
                 toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
-                $('.modal-content').html(data);
+                $('#createModal').html(data);
             }
         }
 </script>
@@ -156,7 +156,7 @@
                 window.location.href = "/Providers/Index";
             } else {
                 toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
-                $('.modal-content').html(data);
+                $('#editModal').html(data);
             }
         }
 </script>

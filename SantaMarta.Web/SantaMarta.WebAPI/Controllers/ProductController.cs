@@ -23,7 +23,7 @@ namespace SantaMarta.WebAPI.Controllers
 
             if (product == null)
             {
-                return NotFound();
+                return Ok(false);
             }
 
             return Ok(product);
@@ -40,7 +40,7 @@ namespace SantaMarta.WebAPI.Controllers
 
             if (product == null)
             {
-                return NotFound();
+                return Ok(false);
             }
 
             return Ok(product);

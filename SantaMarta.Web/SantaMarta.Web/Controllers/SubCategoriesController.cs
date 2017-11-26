@@ -41,25 +41,22 @@ namespace SantaMarta.Web.Controllers
 
         // POST: SubCategories/Create
         [HttpPost]
-        public ActionResult Create(int id, FormCollection collection)
+        public ActionResult Create(int id, SubCategories subCategory)
         {
-            try
+            subCategory.IdCategory = id;
+            int status = subCategoriesB.Create(subCategory);
+
+            if (status == 200)
             {
-                SubCategories subCategory = new SubCategories();
-
-                subCategory.Name = collection["Name"];
-                subCategory.IdCategory = id;
-
-                subCategoriesB.Create(subCategory);
-
+                TempData["message"] = "Add";
                 return Json(new { success = true });
             }
-            catch (InvalidCastException e)
+            else if (status == 400)
             {
-                Console.WriteLine("IOException source: {0}", e.Source);
-
-                return PartialView(collection);
+                ModelState.AddModelError("Name", "El nombre se esta usando actualmente");
+                return View(subCategory);
             }
+            return View(subCategory);
         }
 
         // GET: SubCategories/Edit/5
@@ -82,28 +79,22 @@ namespace SantaMarta.Web.Controllers
 
         // POST: SubCategories/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, SubCategories subcategory)
         {
-            try
+            subcategory.IDSubCategory = id;
+            int status = subCategoriesB.Update(subcategory);
+
+            if (status == 200)
             {
-                if (ModelState.IsValid)
-                {
-
-                    SubCategories subcategory = new SubCategories();
-
-                    subcategory.Name = collection["Name"];
-                    subcategory.IDSubCategory = id;
-
-                    subCategoriesB.Update(subcategory);
-
-                }
-
+                TempData["message"] = "Update";
                 return Json(new { success = true });
             }
-            catch
+            else if (status == 400)
             {
-                return PartialView(collection);
+                ModelState.AddModelError("Name", "El nombre se esta usando actualmente");
+                return View(subcategory);
             }
+            return View(subcategory);
         }
 
         // GET: SubCategories/Delete/5
@@ -116,16 +107,14 @@ namespace SantaMarta.Web.Controllers
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
-            try
+            int status = subCategoriesB.Delete(id);
+
+            if (status == 200)
             {
-                // TODO: Add delete logic here
-                subCategoriesB.Delete(id);
+                TempData["message"] = "Delete";
                 return Json(new { success = true });
             }
-            catch
-            {
-                return PartialView();
-            }
+            return PartialView();
         }
 
         public ActionResult Restore(int id)

@@ -2,6 +2,8 @@
 using SantaMarta.Data.Models.Purchases;
 using SantaMarta.DataAccess.Entity;
 using System;
+using SantaMarta.Data.Store_Procedures;
+using System.Linq;
 
 namespace SantaMarta.DataAccess.PurchaseAccess
 {
@@ -19,9 +21,19 @@ namespace SantaMarta.DataAccess.PurchaseAccess
             return null;
         }
 
-        public List<Purchases> GetById(Int64 id)
+        public List<Views_Invoinces_Products> GetById(Int64 id)
         {
-            return null;
+            List<Views_Invoinces_Products> products = new List<Views_Invoinces_Products>();
+
+            try
+            {
+                products = db.Views_Invoice_Product_Purcase(id).ToList();
+                return products;
+            }
+            catch (Exception)
+            {
+                return products;
+            }
         }
 
         public int Update(Purchases user)

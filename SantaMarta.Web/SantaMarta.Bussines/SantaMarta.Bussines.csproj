@@ -46,6 +46,8 @@
     <Compile Include="AssetsLiabilitiesBussines\IAssetsLiabilitiesB.cs" />
     <Compile Include="CategoriesBussines\CategoriesB.cs" />
     <Compile Include="CategoriesBussines\ICategoriesB.cs" />
+    <Compile Include="ChartsBussines\ChartsB.cs" />
+    <Compile Include="ChartsBussines\IChartsB.cs" />
     <Compile Include="ClientsBussines\ClientsB.cs" />
     <Compile Include="ClientsBussines\IClientsB.cs" />
     <Compile Include="DetailsBussines\DetailsB.cs" />

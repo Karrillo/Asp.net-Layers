@@ -66,14 +66,15 @@ namespace SantaMarta.DataAccess.AssetLiabilityAccess
         {
             try
             {
-                Check_Payment payment = db.Check_Payment(assetsLiabilities.IdInvoice ?? default(int));
+                Check_Payment payment = db.Check_Payment(assetsLiabilities.IdInvoice ?? default(int), assetsLiabilities.Type);
 
-                Decimal debt = payment.Total ?? 0 - payment.Rode ?? 0;
+                Decimal debt = (payment.Total ?? 0) - (payment.Rode ?? 0);
 
                 if (assetsLiabilities.Rode <= debt)
                 {
                     db.Insert_AssetLiability_Credit(assetsLiabilities);
                     return 200;
+
                 }
                 else
                 {

@@ -20,7 +20,7 @@
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-2 pull-right">
             <label>Numero de Documento:</label>
-            <input class="form-control" type="text" name="NInvoice" id="txt_numberInvoice" placeholder="N Documento" />
+            <input class="form-control" type="text" name="NInvoice" id="txt_numberInvoice" placeholder="N Documento" required readonly />
         </div>
     </div>
     <hr />
@@ -134,6 +134,22 @@
     <script src="~/Scripts/Mark/jquery.mask.min.js"></script>
     <script src="~/Scripts/Daterangepicker/moment.min.js"></script>
     <script src="~/Scripts/Datepicker/bootstrap-datepicker.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+             $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("GetCode")',
+                    dataType: 'json',
+                    success: function (code) {
+                        $("#txt_numberInvoice").val(code);
+                },
+                    error: function (ex) {
+                    alert('Failed to retrieve product.' + ex);
+                }
+            });
+        });
+    </script>
 
 }
 <script>
@@ -307,7 +323,7 @@
             total += parseFloat(subtotal);
             $("#txt_total").val(total.toFixed(2));
         } else {
-            $("#txt_total").val(subtotal);
+            $("#txt_total").val(subtotal.toFixed(2));
         }
     }
 

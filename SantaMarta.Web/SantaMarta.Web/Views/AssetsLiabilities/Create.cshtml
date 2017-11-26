@@ -27,7 +27,7 @@
         OnSuccess = "closeModalCreate",
         InsertionMode = InsertionMode.Replace
     },
-                                                 new { @class = "form-horizontal", role = "form", id = "frmCrear" }))
+                                                                         new { @class = "form-horizontal", role = "form", id = "frmCrear" }))
     {
 
         @Html.AntiForgeryToken()
@@ -68,30 +68,31 @@
             <input id="btnCreate" type="submit" value="Guardar" class="btn btn-success" />
         </div>
     }
+</div>
 
-    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
 
-    <script src="~/scripts/jquery.validate.min.js"></script>
-    <script src="~/scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/scripts/jquery.validate.min.js"></script>
+<script src="~/scripts/jquery.validate.unobtrusive.min.js"></script>
 
-    <script src="~/Scripts/Mark/jquery.mask.min.js"></script>
-    <script src="~/Scripts/Daterangepicker/moment.min.js"></script>
-    <script src="~/Scripts/Datepicker/bootstrap-datepicker.min.js"></script>
+<script src="~/Scripts/Mark/jquery.mask.min.js"></script>
+<script src="~/Scripts/Daterangepicker/moment.min.js"></script>
+<script src="~/Scripts/Datepicker/bootstrap-datepicker.min.js"></script>
 
-    @Scripts.Render("~/AdminPacket/dist/js")
-    @Scripts.Render("~/AdminPacket/bootstrap/js")
-    @Scripts.Render("~/AdminPacket/plugins/icheck/js")
-
-
-    <script>
-        $(document).ready(function () {
-            $('#datepicker').mask('0000/00/00');
-            $('#rode').mask('000000000000000.00', { reverse: true });
-        });
-    </script>
+@Scripts.Render("~/AdminPacket/dist/js")
+@Scripts.Render("~/AdminPacket/bootstrap/js")
+@Scripts.Render("~/AdminPacket/plugins/icheck/js")
 
 
-    <script type="text/javascript">
+<script>
+    $(document).ready(function () {
+        $('#datepicker').mask('0000/00/00');
+        $('#rode').mask('000000000000000.00', { reverse: true });
+    });
+</script>
+
+
+<script type="text/javascript">
     $(document).ready(function () {
         $("#category").change(function () {
             if ($("#category").val() > 0) {
@@ -118,24 +119,24 @@
             $("#subCategory").prepend("<option>Selecionar Sub-Categoria</option>");
         })
     });
-    </script>
+</script>
 
-    <script>
-        $(document).ready(function () {
-            $('input').iCheck({
-                radioClass: 'iradio_flat'
-            });
+<script>
+    $(document).ready(function () {
+        $('input').iCheck({
+            radioClass: 'iradio_flat'
         });
-    </script>
+    });
+</script>
 
-    <script>
-        $(document).ready(function () {
-            $("#datepicker").datepicker({
-                format: 'yyyy/mm/dd',
-                autoclose: true,
-                todayBtn: 'linked',
-                calendarWeeks: true,
-                todayHighlight: true
-            })
-        });
-    </script>
+<script>
+    $(document).ready(function () {
+        $("#datepicker").datepicker({
+            format: 'yyyy/mm/dd',
+            autoclose: true,
+            todayBtn: 'linked',
+            calendarWeeks: true,
+            todayHighlight: true
+        })
+    });
+</script>

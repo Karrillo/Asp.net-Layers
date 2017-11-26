@@ -1,4 +1,5 @@
-﻿.tree li {
+﻿
+.tree li {
     margin: 0px 0;
     list-style-type: none;
     position: relative;
@@ -42,23 +43,19 @@
         -moz-border-radius: 5px;
     }
 
-/*Remove connectors before root*/
 .tree > ul > li::before, .tree > ul > li::after {
     border: 0;
 }
-/*Remove connectors after last child*/
 .tree li:last-child::before {
     height: 30px;
 }
 
-/*Time for some hover effects*/
-/*We will apply the hover effect the the lineage of the element also*/
+
 .tree li a:hover, .tree li a:hover + ul li a {
     background: #d1d1d1;
     color: #ffffff;
     border: 1px solid #00a65a;
 }
-    /*Connector styles on hover*/
     .tree li a:hover + ul li::after,
     .tree li a:hover + ul li::before,
     .tree li a:hover + ul::before,

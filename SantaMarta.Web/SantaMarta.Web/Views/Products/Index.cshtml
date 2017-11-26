@@ -16,11 +16,14 @@
     Response.Redirect("~/Login/Index");
 }
 
-<div class="box-header">
-    <a class="btn btn-success btn-lg pull-right" data-target="#modal-crear" data-toggle="modal" href="@Url.Action("Create", "Products", new { id = Session["IDProvider"] })">
-        <span class="glyphicon glyphicon-plus"></span> Nuevo Producto
-    </a>
-</div>
+@if (Session["IDProvider"] != null)
+{
+    <div class="box-header">
+        <a class="btn btn-success btn-lg pull-right" data-target="#modal-crear" data-toggle="modal" href="@Url.Action("Create", "Products", new { id = Session["IDProvider"] })">
+            <span class="glyphicon glyphicon-plus"></span> Nuevo Producto
+        </a>
+    </div>
+}
 
 @using (Html.BeginForm("Index", "Products", FormMethod.Get, new { id = "Form" }))
 {
@@ -126,6 +129,7 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
+
             if ('@TempData["message"]' == "Add") {
             toastr.success('El usuario ha sido agregado correctamente', 'Agregado');
         } else if ('@TempData["message"]' == "Update"){
@@ -151,6 +155,7 @@
         function closeModalEdit(data) {
             if (data.success) {
                 $('#modal-editar').modal('hide');
+                window.location.href = "/Products/Index";
             } else {
                 toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
                 $('.modal-content').html(data);

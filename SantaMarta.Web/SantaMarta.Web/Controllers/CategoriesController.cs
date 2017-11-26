@@ -69,8 +69,9 @@ namespace SantaMarta.Web.Controllers
 
         // POST: Categories/Edit/5
         [HttpPost]
-        public ActionResult Edit(Categories categories)
+        public ActionResult Edit(int id, Categories categories)
         {
+            categories.IDCategory = id;
             int status = categoriesB.Update(categories);
 
             if (status == 200)
