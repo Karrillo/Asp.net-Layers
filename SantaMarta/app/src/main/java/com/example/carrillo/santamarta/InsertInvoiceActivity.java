@@ -65,8 +65,7 @@ public class InsertInvoiceActivity extends AppCompatActivity {
         list = (ListView) findViewById(R.id.list_invoices);
         barCredit = (SeekBar) findViewById(R.id.sb_credit);
         checkCredit = (CheckBox) findViewById(R.id.cb_credit);
-        listProducts = null;
-        clientSelect = null;
+        listProducts.clear();
         txtDiscont.setText("0");
         txtTotal.setText("0");
         txtClient.setText("No seleccionado");
@@ -150,8 +149,8 @@ public class InsertInvoiceActivity extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent menu = new Intent(InsertInvoiceActivity.this, InvoicesActivity.class);
-                startActivity(menu);
+                //Intent menu = new Intent(InsertInvoiceActivity.this, InvoicesActivity.class);
+                //startActivity(menu);
                 finish();
             }
         });
@@ -198,7 +197,7 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                 if(MainActivity.idUSer.length()>0){
                     if(clientSelect.getIDClient()!=0){
                         if(listProducts.size()!=0){
-                            if(MainPrintActivity.mBluetoothAdapter==null){
+                            if(MainPrintActivity.mBluetoothAdapter!=null){
 
                             }else {
                                 String dateCredit = "";
@@ -209,7 +208,7 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                                 Calendar calendarCurent = Calendar.getInstance();
                                 if (checkCredit.isChecked() == true) {
                                     calendar.setTime(date); // Configuramos la fecha que se recibe
-                                    calendar.add(Calendar.DAY_OF_YEAR, Integer.parseInt(txtCredit.getText().toString()));  // numero de días a añadir, o restar en caso de días<0
+                                    calendar.add(Calendar.DAY_OF_YEAR, Integer.parseInt(txtCredit.getText().toString()));  // numero de días activity_assetsliabilities añadir, o restar en caso de días<0
                                     date = calendar.getTime();
                                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                                     dateCredit = format.format(date);
@@ -245,6 +244,7 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                                                                 //"003", print.getCurent(), print.getLimit(), "Si", listProducts, print.getDiscount(), print.getTotal());
                                                     //}
                                                     Toast.makeText(getApplicationContext(), "Factura de venta ingresada correctamente", Toast.LENGTH_LONG).show();
+                                                    InvoicesActivity.refresh();
                                                     // SLEEP 2 SECONDS HERE ...
                                                     final Handler handler = new Handler();
                                                     Timer t = new Timer();
@@ -252,8 +252,8 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                                                         public void run() {
                                                             handler.post(new Runnable() {
                                                                 public void run() {
-                                                                    Intent menu = new Intent(InsertInvoiceActivity.this, InvoicesActivity.class);
-                                                                    startActivity(menu);
+                                                                    //Intent menu = new Intent(InsertInvoiceActivity.this, InvoicesActivity.class);
+                                                                    //startActivity(menu);
                                                                     finish();
                                                                 }
                                                             });
@@ -294,6 +294,7 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                                                 }
                                                 if (responseSale.equals("200")) {
                                                     Toast.makeText(getApplicationContext(), "Factura de venta ingresada correctamente", Toast.LENGTH_LONG).show();
+                                                    InvoicesActivity.refresh();
                                                     //if (clientSelect.getNameCompany().toString().equals("null")) {
                                                         //MainPrintActivity.printInvoice(clientSelect.getName() + " " + clientSelect.getFirstName() + " " + clientSelect.getSecondName(),
                                                                 //"003", print.getCurent(), print.getLimit(), "No", listProducts, print.getDiscount(), print.getTotal());
@@ -308,8 +309,8 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                                                         public void run() {
                                                             handler.post(new Runnable() {
                                                                 public void run() {
-                                                                    Intent menu = new Intent(InsertInvoiceActivity.this, InvoicesActivity.class);
-                                                                    startActivity(menu);
+                                                                    //Intent menu = new Intent(InsertInvoiceActivity.this, InvoicesActivity.class);
+                                                                    //startActivity(menu);
                                                                     finish();
                                                                 }
                                                             });
@@ -327,13 +328,13 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                                 }
                             }
                         }else {
-                            Toast.makeText(getApplicationContext(), "Por favor ingrese una lista de productos a vender", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Por favor ingrese una lista de productos activity_assetsliabilities vender", Toast.LENGTH_LONG).show();
                         }
                     }else {
                         Toast.makeText(getApplicationContext(), "Por favor seleccione un cliente", Toast.LENGTH_LONG).show();
                     }
                 }else {
-                    Toast.makeText(getApplicationContext(), "Error de autentificacion, por favor vuelva salir y volver a loguear ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Error de autentificacion, por favor vuelva salir y volver activity_assetsliabilities loguear ", Toast.LENGTH_LONG).show();
                 }
             }
         });

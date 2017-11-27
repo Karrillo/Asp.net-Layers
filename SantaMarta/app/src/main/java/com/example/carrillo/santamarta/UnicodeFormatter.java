@@ -16,7 +16,7 @@ public class UnicodeFormatter {
     }
 
     static public String charToHex(char c) {
-        // Returns hex String representation of char c
+        // Returns hex String representation of char activity_assetsliabilities_subcategory
         byte hi = (byte) (c >>> 8);
         byte lo = (byte) (c & 0xff);
         return byteToHex(hi) + byteToHex(lo);

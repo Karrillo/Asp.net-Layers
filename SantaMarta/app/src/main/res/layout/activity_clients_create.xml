@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:mask="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
         android:orientation="vertical"
@@ -17,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789"
+            android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789QWERTYUIOPASDFGHJKLÑZXCVBNM"
             android:hint="Identificacion"
             android:ems="10"
             android:id="@+id/txt_identification" />
@@ -32,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789"
+            android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789QWERTYUIOPASDFGHJKLÑZXCVBNM"
             android:hint="Codigo"
             android:ems="10"
             android:id="@+id/txt_code" />
@@ -47,7 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:digits="qwertyuiopasdfghjklñzxcvbnm"
+            android:digits="qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNM"
             android:hint="Nombre"
             android:ems="10"
             android:id="@+id/txt_Name" />
@@ -62,7 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:digits="qwertyuiopasdfghjklñzxcvbnm"
+            android:digits="qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNM"
             android:hint="Primer Apellido"
             android:ems="10"
             android:id="@+id/txt_firstName" />
@@ -77,7 +79,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:digits="qwertyuiopasdfghjklñzxcvbnm"
+            android:digits="qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNM"
             android:hint="Segundo Apellido"
             android:ems="10"
             android:id="@+id/txt_secondName" />
@@ -92,7 +94,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:digits="qwertyuiopasdfghjklñzxcvbnm"
+            android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789QWERTYUIOPASDFGHJKLÑZXCVBNM"
             android:hint="Nombre de Empresa"
             android:ems="10"
             android:id="@+id/txt_nameCompany" />
@@ -122,7 +124,9 @@
             android:hint="Celular"
             android:inputType="phone"
             android:ems="10"
-            android:id="@+id/txt_cellPhone" />
+            android:id="@+id/txt_cellPhone"
+            mask:mask="+7(###)###-##-##"
+            mask:keep_hint="false" />
         <TextView
             android:text="Correo:"
             android:layout_width="match_parent"
@@ -133,7 +137,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
-            android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789@."
+            android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789@.QWERTYUIOPASDFGHJKLÑZXCVBNM"
             android:hint="Correo"
             android:ems="10"
             android:id="@+id/txt_email" />
@@ -148,7 +152,7 @@
             android:layout_height="wrap_content"
             android:hint="Direccion"
             android:inputType="textMultiLine"
-            android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789 "
+            android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789 QWERTYUIOPASDFGHJKLÑZXCVBNM"
             android:ems="10"
             android:id="@+id/txt_address" />
         <Button
