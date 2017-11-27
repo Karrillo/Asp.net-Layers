@@ -216,10 +216,10 @@
                             result[data[i].Name] = {};
                         }
 
-                        result[data[i].Name][data[i].Date] = data[i].Sum;
+                        result[data[i].Name][monthNames[data[i].Date]] = data[i].Sum;
 
-                        if (newCols.indexOf(data[i].Date) == -1) {
-                            newCols.push(data[i].Date);
+                        if (newCols.indexOf(monthNames[data[i].Date]) == -1) {
+                            newCols.push(monthNames[data[i].Date]);
                         }
                     }
 
@@ -345,10 +345,10 @@
                             result[data[i].Name] = {};
                         }
 
-                        result[data[i].Name][data[i].Date] = data[i].Sum;
+                        result[data[i].Name][monthNames[data[i].Date]] = data[i].Sum;
 
-                        if (newCols.indexOf(data[i].Date) == -1) {
-                            newCols.push(data[i].Date);
+                        if (newCols.indexOf(monthNames[data[i].Date]) == -1) {
+                            newCols.push(monthNames[data[i].Date]);
                         }
                     }
 

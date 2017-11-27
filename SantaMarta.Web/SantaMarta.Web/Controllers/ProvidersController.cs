@@ -3,6 +3,7 @@ using SantaMarta.Bussines.PersonsBussines;
 using SantaMarta.Bussines.ProvidersBussines;
 using SantaMarta.Data.Models.Persons;
 using SantaMarta.Data.Store_Procedures;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -26,14 +27,14 @@ namespace SantaMarta.Web.Controllers
         // GET: Clients
         public ActionResult Index()
         {
-            List<All_Clients> clients = clientsB.GetAll().ToList();
+            List<Int64> clients = clientsB.ClientsAll().ToList();
             List<All_Providers> providers = providersB.GetAll().ToList();
 
             foreach (var y in providers)
             {
                 foreach (var x in clients)
                 {
-                    if (y.IDPerson == x.IDPerson)
+                    if (y.IDPerson == x)
                     {
                         y.IsClient = true;
                     }

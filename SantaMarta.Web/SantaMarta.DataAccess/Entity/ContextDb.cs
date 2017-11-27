@@ -44,6 +44,10 @@ namespace SantaMarta.DataAccess.Entity
         }
         //clients
         #region Clients
+        public virtual List<Int64> ClientsAll()
+        {
+            return this.Database.SqlQuery<Int64>("select * from ClientsAll ()").ToList();
+        }
         public virtual String Check_Identification(string identification)
         {
             var identificationParameter = identification != null ?
@@ -193,6 +197,10 @@ namespace SantaMarta.DataAccess.Entity
         #endregion
         //porviders
         #region Providers
+        public virtual List<Int64> ProvidersAll()
+        {
+            return this.Database.SqlQuery<Int64>("select * from ProvidersAll ()").ToList();
+        }
         public virtual int Insert_Provider(Persons person)
         {
             var NameParameter = person.Name != null ?

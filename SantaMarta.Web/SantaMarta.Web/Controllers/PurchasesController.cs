@@ -197,6 +197,10 @@ namespace SantaMarta.Web.Controllers
             {
                 invoices.LimitDate = date.AddDays(Convert.ToInt32(limitDate));
             }
+            else
+            {
+                invoices.LimitDate = date;
+            }
 
             invoices.Total = Convert.ToDecimal(total);
 

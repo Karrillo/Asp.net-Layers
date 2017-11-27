@@ -16,6 +16,21 @@ namespace SantaMarta.DataAccess.ProviderAccess
             db = new ContextDb();
         }
 
+        public List<Int64> ProvidersAll()
+        {
+            List<Int64> providers = new List<Int64>();
+
+            try
+            {
+                providers = db.ProvidersAll().ToList();
+                return providers;
+            }
+            catch (Exception)
+            {
+                return providers;
+            }
+        }
+
         public List<All_Providers> GetAll()
         {
             List<All_Providers> providers = new List<All_Providers>();

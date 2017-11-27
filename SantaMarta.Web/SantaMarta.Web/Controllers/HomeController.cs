@@ -69,8 +69,12 @@ namespace SantaMarta.Web.Controllers
       
         public ActionResult getProductsFilter(int date)
         {
-            var assetsLiabilities = chartsB.GetProductsFilter(date).ToList();
-            return Json(assetsLiabilities, JsonRequestBehavior.AllowGet);
+            List<Sum_Products> products = chartsB.GetProductsFilter(date).ToList();
+            foreach (var item in products)
+            {
+                item.Date = item.Date.Replace("0", "");
+            }
+            return Json(products, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult getClients()
@@ -81,8 +85,12 @@ namespace SantaMarta.Web.Controllers
 
         public ActionResult getClientsFilter(int date)
         {
-            var assetsLiabilities = chartsB.GetClientsFilter(date).ToList();
-            return Json(assetsLiabilities, JsonRequestBehavior.AllowGet);
+            List<Charts_Clients> clients = chartsB.GetClientsFilter(date).ToList();
+            foreach (var item in clients)
+            {
+                item.Date = item.Date.Replace("0", "");
+            }
+            return Json(clients, JsonRequestBehavior.AllowGet);
         }
     }
 }

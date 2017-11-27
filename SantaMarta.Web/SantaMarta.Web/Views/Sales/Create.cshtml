@@ -6,7 +6,7 @@
 
 @Styles.Render("~/AdminPacket/plugins/select2/css")
 @Styles.Render("~/AdminPacket/dist/css")
-<link href="~/Scripts/Datepicker/bootstrap-datepicker.min.css" rel="stylesheet" />
+@*<link href="~/Scripts/Datepicker/bootstrap-datepicker.min.css" rel="stylesheet" />*@
 
 <hr />
 
@@ -132,8 +132,8 @@
     @Scripts.Render("~/AdminPacket/plugins/select2/js")
     @Scripts.Render("~/Scripts/Forms/Advanced")
     <script src="~/Scripts/Mark/jquery.mask.min.js"></script>
-    <script src="~/Scripts/Daterangepicker/moment.min.js"></script>
-    <script src="~/Scripts/Datepicker/bootstrap-datepicker.min.js"></script>
+    @*<script src="~/Scripts/Daterangepicker/moment.min.js"></script>*@
+    @*<script src="~/Scripts/Datepicker/bootstrap-datepicker.min.js"></script>*@
 
     <script>
         $(document).ready(function () {
@@ -157,13 +157,13 @@
         $('#txt_fecha').mask('0000/00/00');
         $('#txt_quantity').mask('0000', { reverse: true });
         $('#txt_tax').mask('000.00', { reverse: true });
-        $('#txt_price').mask('000,000,000,000,000.00', { reverse: true });
+        $('#txt_price').mask('00000000.00', { reverse: true });
         $('#txt_discount').mask('000.00', { reverse: true });
-        $('#txt_total').mask('000,000,000,000,000.00', { reverse: true });
+        $('#txt_total').mask('00000000.00', { reverse: true });
     });
 </script>
 
-<script>
+@*<script>
     $(document).ready(function () {
         $("#txt_date").datepicker({
             format: 'yyyy/mm/dd',
@@ -173,7 +173,7 @@
             todayHighlight: true
         })
     });
-</script>
+</script>*@
 
 <script type="text/javascript">
     $(document).ready(function () {

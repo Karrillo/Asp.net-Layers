@@ -1,5 +1,6 @@
 ﻿using SantaMarta.Data.Models.Persons;
 using SantaMarta.Data.Store_Procedures;
+using System;
 using System.Collections.Generic;
 
 namespace SantaMarta.Bussines.ProvidersBussines
@@ -14,5 +15,6 @@ namespace SantaMarta.Bussines.ProvidersBussines
         All_Providers GetById(int id);
         List<All_Providers> GetAll();
         List<All_Providers> GetAllDelete();
+        List<Int64> ProvidersAll();
     }
 }

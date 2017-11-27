@@ -29,11 +29,11 @@
         //textbox
         <div class="box-body">
             Codigo:
-            @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Codigo", id = "code" } })
+            @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Codigo", id = "code", maxlength = "20" } })
             @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger", id = "codeValidation" })
             <br>
             Nombre:
-            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Nombre" } })
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Nombre", maxlength = "20" } })
             @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
             <br>
             Precio:
@@ -45,7 +45,7 @@
             @Html.ValidationMessageFor(model => model.Tax, "", new { @class = "text-danger" })
             <br>
             Descripcion:
-            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Descripcion" } })
+            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Descripcion", maxlength = "70" } })
             @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
             <br>
         </div>@*botones*@
@@ -61,8 +61,8 @@
 
 <script>
     $(document).ready(function () {
-        $('#price').mask('000,000,000,000,000.00', { reverse: true });
-        $('#tax').mask('000,000,000,000,000.00', { reverse: true });
+        $('#price').mask('00000000.00', { reverse: true });
+        $('#tax').mask('000.00', { reverse: true });
     });
 </script>
 

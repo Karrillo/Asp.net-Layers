@@ -7,7 +7,7 @@
 
 @Styles.Render("~/AdminPacket/bootstrap/css")
 @Styles.Render("~/AdminPacket/plugins/icheck/css")
-<link href="~/Scripts/Datepicker/bootstrap-datepicker.min.css" rel="stylesheet" />
+@*<link href="~/Scripts/Datepicker/bootstrap-datepicker.min.css" rel="stylesheet" />*@
 
 @*modal*@
 <div class="modal-header">
@@ -36,10 +36,10 @@
             @Html.TextBoxFor(model => model.CurrentDate, new { @class = "form-control", id = "datepicker", placeholder = "Fecha: YYYY/MM/DD", @readonly = "readonly", @Value = @DateTime.Now.ToString("yyyy/MM/dd") })
             @Html.ValidationMessageFor(model => model.CurrentDate, "", new { @class = "text-danger" })
             <br>
-            @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Nº Documento" } })
+            @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Nº Documento", maxlength = "30" } })
             @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
             <br>
-            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Nombre" } })
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Nombre", maxlength = "30" } })
             @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
             <br>
             <p>Tipo de Transferencia</p>
@@ -52,7 +52,7 @@
             @Html.EditorFor(model => model.Rode, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Monto", id = "rode" } })
             @Html.ValidationMessageFor(model => model.Rode, "", new { @class = "text-danger" })
             <br>
-            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Descripcion" } })
+            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Descripcion", maxlength = "100" } })
             @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
             <br>
             @Html.DropDownListFor(model => model.IdAccount, (SelectList)ViewBag.account, "Selecionar Cuenta", new { @class = "form-control" })
@@ -87,7 +87,7 @@
 <script>
     $(document).ready(function () {
         $('#datepicker').mask('0000/00/00');
-        $('#rode').mask('000000000000000.00', { reverse: true });
+        $('#rode').mask('00000000.00', { reverse: true });
     });
 </script>
 
@@ -129,7 +129,7 @@
     });
 </script>
 
-<script>
+@*<script>
     $(document).ready(function () {
         $("#datepicker").datepicker({
             format: 'yyyy/mm/dd',
@@ -139,4 +139,4 @@
             todayHighlight: true
         })
     });
-</script>
+</script>*@

@@ -29,11 +29,11 @@
 
         <div class="box-body">
             Usuario:
-            @Html.EditorFor(model => model.Nickname, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Usuario", id = "name" } })
+            @Html.EditorFor(model => model.Nickname, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Usuario", id = "name", maxlength = "15" } })
             @Html.ValidationMessageFor(model => model.Nickname, "", new { @class = "text-danger", id = "nameValidation" })
             <br>
             Contraseña:
-            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Contraseña" } })
+            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Contraseña", maxlength = "10" } })
             @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
             <br>
             <div class="form-group">

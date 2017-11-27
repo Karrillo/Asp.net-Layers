@@ -31,7 +31,7 @@
 
         <div class="box-body">
             Nombre de Cuenta:
-            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Nombre de cuenta", id = "name" } })
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Nombre de cuenta", id = "name", maxlength = "30" } })
             @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger", id = "nameValidation" })
         </div>
         <div class="modal-footer">

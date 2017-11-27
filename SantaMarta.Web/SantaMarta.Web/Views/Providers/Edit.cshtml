@@ -31,27 +31,27 @@
         //textbox
         <div class="box-body">
             Codigo:
-            @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Codigo", id = "code" } })
+            @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Codigo", id = "code", maxlength = "20" } })
             @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger", id = "codeValidation" })
             <br>
             Identicacion:
-            @Html.EditorFor(model => model.Identification, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "identificacion", id = "identification" } })
+            @Html.EditorFor(model => model.Identification, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "identificacion", id = "identification", maxlength = "20" } })
             @Html.ValidationMessageFor(model => model.Identification, "", new { @class = "text-danger", id = "identificacionValidation" })
             <br>
             Nombre(s):
-            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Nombre" } })
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Nombre", maxlength = "30" } })
             @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
             <br>
             Primer Apellido:
-            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Primer Apellido" } })
+            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Primer Apellido", maxlength = "15" } })
             @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
             <br>
             Segundo Apellido:
-            @Html.EditorFor(model => model.SecondName, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Segundo Apellido" } })
+            @Html.EditorFor(model => model.SecondName, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Segundo Apellido", maxlength = "15" } })
             @Html.ValidationMessageFor(model => model.SecondName, "", new { @class = "text-danger" })
             <br>
             Nombre de Negocio:
-            @Html.EditorFor(model => model.NameCompany, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Nombre del Negocio" } })
+            @Html.EditorFor(model => model.NameCompany, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Nombre del Negocio", maxlength = "40" } })
             @Html.ValidationMessageFor(model => model.NameCompany, "", new { @class = "text-danger" })
             <br>
             <div class="input-group">
@@ -68,13 +68,13 @@
             <br>
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Correo"} })
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Correo", maxlength = "40" } })
             </div>
             @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
             <br>
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-safari"></i></span>
-                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Direccion" } })
+                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Direccion", maxlength = "70" } })
             </div>
             @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
         </div>@*botones*@

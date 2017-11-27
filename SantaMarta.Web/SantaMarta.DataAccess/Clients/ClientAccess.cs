@@ -16,6 +16,21 @@ namespace SantaMarta.DataAccess.ClientAccess
             db = new ContextDb();
         }
 
+        public List<Int64> ClientsAll()
+        {
+            List<Int64> clients = new List<Int64>();
+
+            try
+            {
+                clients = db.ClientsAll().ToList();
+                return clients;
+            }
+            catch (Exception)
+            {
+                return clients;
+            }
+        }
+
         public List<All_Clients> GetAll()
         {
             List<All_Clients> clients = new List<All_Clients>();
