@@ -23,18 +23,18 @@ public class AssetsliabilitiesCategory extends AppCompatActivity {
     private Button back;
     private String token = "";
     private Contextdb contextdb = new Contextdb();
-    private List<Client> listClients;
-    private Client client;
+    private List<Category> listCategorys;
+    private Category category;
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_invoices_clients);
+        setContentView(R.layout.activity_assetsliabilities_category);
 
-        list = (ListView) findViewById(R.id.list_clients);
+        list = (ListView) findViewById(R.id.list_categorys);
         back = (Button) findViewById(R.id.btn_back);
         token = MainActivity.token;
         final Contextdb contextdb = new Contextdb();
-        listClients = contextdb.getAllClients(token);
-        display(listClients);
+        listCategorys = contextdb.getAllCategorys(token);
+        display(listCategorys);
         back.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -46,23 +46,23 @@ public class AssetsliabilitiesCategory extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(position>=0){
-                    client = listClients.get(position);
-                    InsertInvoiceActivity.display_client(client);
+                    category = listCategorys.get(position);
+                    AssetsliabilitiesActivity.display_category(category);
                     finish();
                 }
             }
         });
     }
 
-    public void display(List<Client> clients) {
-        if (clients.size()==0) {
+    public void display(List<Category> Categorys) {
+        if (Categorys.size()==0) {
             List<String> search = new ArrayList<String>();
-            search.add("Clientes no encontrados");
+            search.add("Categorias no encontradas");
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, search);
             //se setean los datos en el listView
             list.setAdapter(adapter);
         } else{
-            ArrayAdapter<Client> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, clients);
+            ArrayAdapter<Category> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, Categorys);
             //se setean los datos en el listView
             list.setAdapter(adapter);
         }

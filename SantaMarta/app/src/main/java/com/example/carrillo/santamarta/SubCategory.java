@@ -35,6 +35,6 @@ public class SubCategory {
     @Override
     public String toString() {
         return
-                "Nombre de Subcategoria:" + Name + '\n';
+                "Nombre de Subcategoria: " + Name + '\n';
     }
 }

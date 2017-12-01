@@ -105,13 +105,13 @@
                 android:textSize="18sp" />
 
             <EditText
+                android:id="@+id/txt_total_rode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:enabled="false"
                 android:digits="qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNM"
                 android:ems="10"
-                android:id="@+id/txt_total_rode" />
+                android:enabled="false"
+                android:inputType="textPersonName" />
 
         </LinearLayout>
 
@@ -272,6 +272,7 @@
 
             <Button
                 android:id="@+id/btn_subCategory"
+                android:enabled="false"
                 android:layout_width="59dp"
                 android:layout_height="match_parent"
                 android:background="@android:drawable/ic_input_add" />

@@ -35,6 +35,6 @@ public class Account {
     @Override
     public String toString() {
         return
-                "Nombre de Cuenta:" + Name + '\n';
+                "Nombre de Cuenta: " + Name + '\n';
     }
 }

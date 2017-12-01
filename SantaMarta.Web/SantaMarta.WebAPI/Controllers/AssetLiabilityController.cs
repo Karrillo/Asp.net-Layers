@@ -31,7 +31,7 @@ namespace SantaMarta.WebAPI.Controllers
 
             AssetsLiabilitiesB assetsLiabilitiesB = new AssetsLiabilitiesB();
 
-            assetsLiabilitie = assetsLiabilitiesB.Create(assetsLiabilities);
+            assetsLiabilitie = assetsLiabilitiesB.CreateCredit(assetsLiabilities);
 
             switch (assetsLiabilitie)
             {
