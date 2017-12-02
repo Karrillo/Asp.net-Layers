@@ -1,0 +1,93 @@
+﻿@model SantaMarta.Data.Models.Mails.Mails
+@{
+    ViewBag.Title = "Correo Electronico de la Organizacion";
+}
+
+<link href="~/Scripts/Toastr/toastr.min.css" rel="stylesheet" />
+
+@if (Session["Type"] == null)
+{
+    Response.Redirect("~/Login/Index");
+}
+
+@if ((Boolean)TempData["email"] == true)
+{
+    <div>
+        <button type="button" class="btn btn-success btn-lg pull-right" data-target="#modal-crear" data-toggle="modal" href="@Url.Action("Create", "Email")">Ingresar Correo</button>
+    </div>
+}
+
+<div>
+    <div>
+        <h4> Correo Electronico: </h4>
+        @Html.DisplayFor(model => model.Email)
+        <br>
+    </div>
+</div>
+@if ((Boolean)TempData["email"] != true)
+{
+    <div>
+        <button type="button" class="btn btn-success btn-lg pull-right" data-target="#modal-editar" data-toggle="modal" href="@Url.Action("Edit", "Email")">Modificar Correo</button>
+    </div>
+}
+
+    @*modal*@
+    <div class="modal fade" tabindex="-1" role="dialog" id="modal-crear" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+    @*modal 2*@
+    <div class="modal fade" tabindex="-1" role="dialog" id="modal-editar" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+
+    <script src="~/scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/Toastr/toastr.min.js"></script>
+
+    @section Scripts {
+        <script>
+            $('body').on('hidden.bs.modal', '.modal', function () {
+                $(this).removeData('bs.modal');
+            });
+        </script>
+
+        <script type="text/javascript">
+        $(document).ready(function () {
+            if ('@TempData["message"]' == "Add") {
+            toastr.success('El correo electronico ha sido agregado correctamente', 'Agregado');
+        } else if ('@TempData["message"]' == "Update"){
+                toastr.success('El correo electronico ha sido modificado correctamente', 'Modificado');
+        }
+    });
+        </script>
+    }
+
+    <script>
+        function closeModalCreate(data) {
+            if (data.success) {
+                $('#modal-crear').modal('hide');
+                window.location.href = "/Email/Index";
+            } else {
+                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                $('.modal-content').html(data);
+            }
+        }
+    </script>
+
+    <script>
+        function closeModalEdit(data) {
+            if (data.success) {
+                $('#modal-editar').modal('hide');
+                window.location.href = "/Email/Index";
+            } else {
+                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                $('.modal-content').html(data);
+            }
+        }
+    </script>

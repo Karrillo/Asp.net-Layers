@@ -3,20 +3,11 @@
     Layout = null;
     ViewBag.Title = "Login";
 }
-<!DOCTYPE html>
-<html>
-@*HEAD*@
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Login</title>
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    @*CSS*@
-    <link href="~/AdminPacket/bootstrap/css/bootstrap.css" rel="stylesheet" />
-    <link href="~/Styles/stylesLogin.css" rel="stylesheet" />
-    <title>Santa Marta</title>
-</head>
-@*BODY*@
+
+<link href="~/AdminPacket/bootstrap/css/bootstrap.css" rel="stylesheet" />
+<link href="~/Styles/stylesLogin.css" rel="stylesheet" />
+<link href="~/Scripts/Toastr/toastr.min.css" rel="stylesheet" />
+
 <body>
     <section class="container login-form">
         <form method="post" role="login">
@@ -31,6 +22,14 @@
                 </div>
                 <a></a>
                 <button type="submit" name="go" class="btn btn-lg btn-block btn-success" />Ingresar</button>
+                @if ((bool)TempData["email"] == true)
+                {
+                    <button type="button" class="btn btn-link pull-right" id="recover" href="@Url.Action("Recover", "Login")">Olvide Contraseña</button>
+                }
+                @if ((bool)TempData["type"] != true)
+                {
+                    <button type="button" class="btn btn-link pull-left" data-target="#modal-crear" data-toggle="modal" href="@Url.Action("Create", "Login")">Registrarse</button>
+                }
                 @Html.ValidationSummary()
             </section>
         </form>
@@ -45,11 +44,60 @@
             </div>
         }
 
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <div class="modal fade" tabindex="-1" role="dialog" id="modal-crear" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                </div>
+            </div>
+        </div>
+
+        <script src="~/scripts/jquery-3.1.1.min.js"></script>
+        <script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
         <script src="~/scripts/jquery.validate.min.js"></script>
         <script src="~/scripts/jquery.validate.unobtrusive.min.js"></script>
-        <script src="~/scripts/jquery-3.1.1.min.js"></script>
         <script src="~/AdminPacket/bootstrap/js/bootstrap.min.js"></script>
+        <script src="~/Scripts/Toastr/toastr.min.js"></script>
+
+        <script>
+            $('body').on('hidden.bs.modal', '.modal', function () {
+                $(this).removeData('bs.modal');
+            });
+        </script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                if ('@TempData["message"]' == "Add") {
+                toastr.success('El usuario ha sido agregada correctamente', 'Agregado');
+                }
+    });
+        </script>
+        <script>
+            function closeModalCreate(data) {
+                if (data.success) {
+                    $('#modal-crear').modal('hide');
+                    window.location.href = "/Login/Index";
+                } else {
+                    toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                    $('.modal-content').html(data);
+                }
+            }
+        </script>
+        <script>
+            $("#recover").click(function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: '@Url.Action("Recover")',
+                    success: function () {
+
+             if ('@TempData["message"]' == "SendEmail") {
+                 toastr.success('Se ha enviado al correo registrado', 'Enviado');
+                } else if ('@TempData["message"]' == "ErrorEmail") {
+                 toastr.error('Problemas con el correo electronico', 'Atencion');
+                        }
+
+                    }
+                });
+            });
+        </script>
     </section>
 </body>
-</html>
+@*</html>*@

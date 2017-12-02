@@ -138,8 +138,13 @@ namespace SantaMarta.DataAccess.SubCategoryAccess
         {
             try
             {
-                db.Delete_SubCategory(id);
-                return 200;
+                Boolean? state = db.Check_SubCategory(id) ?? false;
+                if (state == false)
+                {
+                    db.Delete_SubCategory(id);
+                    return 200;
+                }
+                return 400;
             }
             catch (Exception)
             {

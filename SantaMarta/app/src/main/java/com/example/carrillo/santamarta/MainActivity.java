@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
                         password.setText("");
                         Intent menu = new Intent(MainActivity.this, MenuActivity.class);
                         startActivity(menu);
-                    }else if(response=="0"){
+                    }else if(response.toString().equals("0")){
                         Toast.makeText(getApplicationContext(), "Usuario o contraseña incorrectos", Toast.LENGTH_LONG).show();
                     }else {
                         Toast.makeText(getApplicationContext(), "Fallo en la conexion con el servidor", Toast.LENGTH_LONG).show();

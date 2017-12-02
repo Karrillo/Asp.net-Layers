@@ -136,10 +136,6 @@ public class InsertClientsActivity extends AppCompatActivity {
              Toast.makeText(getApplicationContext(), "Ingrese una dirección del cliente", Toast.LENGTH_LONG).show();
              return false;
          }
-         if(txtIdentification.getText().toString().equals("")){
-             Toast.makeText(getApplicationContext(), "Ingrese una identificacion del cliente", Toast.LENGTH_LONG).show();
-             return false;
-         }
          if(txtCode.getText().toString().equals("")){
              Toast.makeText(getApplicationContext(), "Ingrese el codigo del cliente", Toast.LENGTH_LONG).show();
              return false;

@@ -114,6 +114,11 @@ namespace SantaMarta.Web.Controllers
                 TempData["message"] = "Delete";
                 return Json(new { success = true });
             }
+            else if (status == 400)
+            {
+                TempData["message"] = "Exists";
+                return Json(new { success = true });
+            }
             return PartialView();
         }
 

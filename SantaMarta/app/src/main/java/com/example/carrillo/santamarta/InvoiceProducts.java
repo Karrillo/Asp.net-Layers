@@ -41,8 +41,6 @@ public class InvoiceProducts extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent menu = new Intent(InvoiceProducts.this, InsertInvoiceActivity.class);
-                startActivity(menu);
                 finish();
             }
         });
@@ -52,7 +50,7 @@ public class InvoiceProducts extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(!txtQuantity.getText().toString().equals("")){
                     if(Integer.parseInt(txtQuantity.getText().toString())<1){
-                        Toast.makeText(getApplicationContext(), "Ingrese una cantidad de producto mayor a cero", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Ingrese una cantidad de producto mayor activity_assetsliabilities cero", Toast.LENGTH_LONG).show();
                     }else {
                         product = listProducts.get(position);
                         product.setQuantity(Integer.parseInt(txtQuantity.getText().toString()));

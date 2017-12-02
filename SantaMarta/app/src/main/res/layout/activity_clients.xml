@@ -37,8 +37,9 @@
                 android:id="@+id/txt_search"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789QWERTYUIOPASDFGHJKLZXCVBNM "
+                android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789 QWERTYUIOPASDFGHJKLÑZXCVBNM"
                 android:hint="Cliente"
+                android:maxLength="60"
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="textPersonName" />

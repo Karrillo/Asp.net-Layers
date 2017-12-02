@@ -20,7 +20,9 @@ namespace SantaMarta.DataAccess.UserAccess
             Users user = new Users();
             try
             {
-                user = db.Check_Users(nickname, password);
+                user.Password = password;
+                user = Encrypt(user);
+                user = db.Check_Users(nickname, user.Password);
                 if (user != null)
                 {
                     user = Decrypt(user);
@@ -48,8 +50,9 @@ namespace SantaMarta.DataAccess.UserAccess
                 users = db.List_Users().ToList();
                 return users;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                var c = e;
                 return users;
             }
         }
@@ -131,6 +134,26 @@ namespace SantaMarta.DataAccess.UserAccess
         {
             try
             {
+                List<Users> users = db.List_Users();
+                Boolean type = (from u in users where u.IDUser == id select u.Type).FirstOrDefault();
+                if (type == true)
+                {
+                    int cont = 0;
+                    foreach (var item in users)
+                    {
+                        if (item.Type == true)
+                        {
+                            cont = cont + 1;
+                        }
+                    }
+
+                    if (cont < 1)
+                    {
+                        db.Delete_User(id);
+                        return 200;
+                    }
+                    return 400;
+                }
                 db.Delete_User(id);
                 return 200;
             }

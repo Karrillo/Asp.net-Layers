@@ -13,8 +13,6 @@
 <div class="modal-body">
     @using (Ajax.BeginForm("Delete", "Sales", null, new AjaxOptions
     {
-
-        //HttpMethod = "POST",
         Url = Url.Action("Delete", "Sales"),
         UpdateTargetId = "modal-content",
         OnSuccess = "closeModalDelete",

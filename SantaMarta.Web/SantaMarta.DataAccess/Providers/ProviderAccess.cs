@@ -79,7 +79,11 @@ namespace SantaMarta.DataAccess.ProviderAccess
             try
             {
                 String code = db.Check_CodePersons(personProvider.Code);
-                String identification = db.Check_Identification(personProvider.Identification);
+                String identification = null;
+                if (personProvider.Identification != null)
+                {
+                    identification = db.Check_Identification(personProvider.Identification);
+                }
 
                 All_Providers providers = GetById(id);
 
@@ -126,15 +130,20 @@ namespace SantaMarta.DataAccess.ProviderAccess
             {
                 if (db.Check_CodePersons(personProvider.Code) == null)
                 {
-                    if (db.Check_Identification(personProvider.Identification) == null)
+                    if (personProvider.Identification != null)
                     {
-                        db.Insert_Provider(personProvider);
-                        return 200;
+                        if (db.Check_Identification(personProvider.Identification) == null)
+                        {
+                            db.Insert_Provider(personProvider);
+                            return 200;
+                        }
+                        else
+                        {
+                            return 401;
+                        }
                     }
-                    else
-                    {
-                        return 401;
-                    }
+                    db.Insert_Provider(personProvider);
+                    return 200;
                 }
                 else
                 {

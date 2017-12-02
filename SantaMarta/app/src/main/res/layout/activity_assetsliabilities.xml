@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_width="0px"
+        android:layout_height="0px" >
+        <requestFocus />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/linearH_cuarto"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal"
+            android:layout_weight="0.01">
+
+            <TextView
+                android:id="@+id/txtv_client"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cliente:"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/txt_client"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789QWERTYUIOPASDFGHJKLÑZXCVBNM"
+                android:ems="10"
+                android:enabled="false"
+                android:inputType="textPersonName" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearH_septimo"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal"
+            android:layout_weight="0.01">
+
+            <TextView
+                android:id="@+id/txtv_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Codigo:"
+                android:textSize="18sp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789QWERTYUIOPASDFGHJKLÑZXCVBNM"
+                android:enabled="false"
+                android:ems="10"
+                android:id="@+id/txt_code" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearH_quinto"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_weight="0.01"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total:"
+                android:textSize="18sp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:enabled="false"
+                android:digits="qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNM"
+                android:ems="10"
+                android:id="@+id/txt_total" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearH_octavo"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_weight="0.01"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtv_firstName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total de Abonos:"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/txt_total_rode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:digits="qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNM"
+                android:ems="10"
+                android:enabled="false"
+                android:inputType="textPersonName" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/txtv_secondName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cantidad de Abono:"
+            android:layout_weight="0.01"
+            android:textSize="18sp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.01"
+            android:inputType="number"
+            android:hint="Cantidad"
+            android:digits="0123456789"
+            android:ems="10"
+            android:maxLength="20"
+            android:id="@+id/txt_rode" />
+
+
+
+        <LinearLayout
+            android:id="@+id/linearH_sexto"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_weight="0.01"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtv_nameCompany"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fecha:"
+                android:textSize="18sp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:enabled="false"
+                android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789QWERTYUIOPASDFGHJKLÑZXCVBNM"
+                android:ems="10"
+                android:id="@+id/txt_date" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txtv_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.01"
+            android:text="Descripcion:"
+            android:textSize="18sp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.01"
+            android:hint="Descripcion"
+            android:inputType="textMultiLine"
+            android:maxLength="100"
+            android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789 QWERTYUIOPASDFGHJKLÑZXCVBNM"
+            android:ems="10"
+            android:id="@+id/txt_description" />
+
+        <LinearLayout
+            android:id="@+id/linearH_primero"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_weight="0.01"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/Agent1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.01"
+                android:text="Cuenta:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txt_account"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.08"
+                android:text="No seleccionado"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/btn_account"
+                android:layout_width="59dp"
+                android:layout_height="match_parent"
+                android:background="@android:drawable/ic_input_add" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearH_segundo"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_weight="0.01"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/Agent2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.01"
+                android:text="Categoria:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txt_category"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.08"
+                android:text="No seleccionado"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/btn_category"
+                android:layout_width="59dp"
+                android:layout_height="match_parent"
+                android:background="@android:drawable/ic_input_add" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearH_tercero"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_weight="0.01"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/Agent3"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.01"
+                android:text="Subcategoria:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txt_subCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.08"
+                android:text="No seleccionado"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/btn_subCategory"
+                android:enabled="false"
+                android:layout_width="59dp"
+                android:layout_height="match_parent"
+                android:background="@android:drawable/ic_input_add" />
+
+        </LinearLayout>
+
+        <Button
+            android:text="Ingresar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.01"
+            android:id="@+id/btn_insert" />
+
+        <Button
+            android:text="Cancelar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.01"
+            android:id="@+id/btn_back" />
+
+    </LinearLayout>
+</LinearLayout>

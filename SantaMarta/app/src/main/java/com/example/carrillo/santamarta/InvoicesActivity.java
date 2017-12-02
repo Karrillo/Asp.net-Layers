@@ -12,17 +12,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextWatcher;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -31,7 +29,6 @@ import java.nio.ByteBuffer;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -56,13 +53,16 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
     private static BluetoothSocket mBluetoothSocket;
     BluetoothDevice mBluetoothDevice;
 
-    private ListView list;
+    private static ListView list;
     private EditText txtadd;
     private ImageButton add;
     private Button back;
-    private String token = "";
-    private Contextdb contextdb = new Contextdb();
-    private List<Invoice> listInvoices;
+    private static String token = "";
+    private static Contextdb contextdb = new Contextdb();
+    private static List<Invoice> listInvoices;
+    private static Context context;
+    private static String[] type ;
+    public static Invoice invoice;
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invoices);
@@ -71,9 +71,24 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
         add = (ImageButton) findViewById(R.id.btn_add);
         back = (Button) findViewById(R.id.btn_back);
         token = MainActivity.token;
+        context = getBaseContext();
         final Contextdb contextdb = new Contextdb();
         listInvoices = contextdb.getAllInvoices(token);
         display();
+
+        list.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(position>=0){
+                    if(type[position] =="2" || type[position] =="3"){
+                        invoice = listInvoices.get(position);
+                        Intent menu = new Intent(InvoicesActivity.this, AssetsliabilitiesActivity.class);
+                        startActivity(menu);
+                    }
+                }
+            }
+        });
+
         back.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -119,6 +134,79 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
             }
         });
 
+    }
+    public static void refresh(){
+        listInvoices = contextdb.getAllInvoices(token);
+        if (listInvoices.size()==0) {
+            List<String> search = new ArrayList<String>();
+            search.add("Facturas no encontradas");
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, search);
+            //se setean los datos en el listView
+            list.setAdapter(adapter);
+        } else{
+            final String[] color = new String[listInvoices.size()];
+            Invoice invoice;
+            String dateNow="";
+            Date date = new Date();
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.DATE, 1);
+            date = calendar.getTime();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            dateNow = format.format(date);
+
+            for(int x =0; x < listInvoices.size(); x++){
+                invoice = listInvoices.get(x);
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                try {
+                    Date date_now = formatter.parse(dateNow.toString());
+                    Date date_curent = formatter.parse(invoice.getCurrentDate().toString());
+                    Date date_limit = formatter.parse(invoice.getLimitDate().toString());
+                    if(date_curent.equals(date_limit)){
+                        color[x] = "0";
+                    }else {
+                        if(invoice.getTotal() == invoice.getRode()){
+                            color[x] = "1";
+                        }else if(date_limit.after(date_now) && invoice.getTotal() != invoice.getRode()){
+                            color[x] = "2";
+                        }else if(date_limit.before(date_now) && invoice.getTotal() != invoice.getRode()) {
+                            color[x] = "3";
+                        }
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            final ArrayAdapter arrayAdapter2 = new ArrayAdapter
+                    (context, android.R.layout.simple_list_item_1, listInvoices){
+                @Override
+                public View getView(int position, View convertView, ViewGroup parent){
+
+                    View view = super.getView(position,convertView,parent);
+                    if(color[position] == "0")
+                    {
+                        view.setBackgroundColor(Color.parseColor("#7577e7"));
+                    }
+                    else if(color[position] == "1")
+                    {
+                        view.setBackgroundColor(Color.parseColor("#7577e7"));
+                    }else if(color[position] == "2")
+                    {
+                        view.setBackgroundColor(Color.parseColor("#2bc81e"));
+                    }else if(color[position] == "3")
+                    {
+                        view.setBackgroundColor(Color.parseColor("#ec3e3e"));
+                    }
+                    return view;
+                }
+            };
+            type = color;
+// DataBind ListView with items from ArrayAdapter
+            list.setAdapter(arrayAdapter2);
+
+
+        }
     }
     public void display() {
         if (listInvoices.size()==0) {
@@ -185,7 +273,7 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                     return view;
                 }
             };
-
+            type = color;
 // DataBind ListView with items from ArrayAdapter
             list.setAdapter(arrayAdapter2);
 

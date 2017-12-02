@@ -1,12 +1,8 @@
 ﻿using SantaMarta.Bussines.ClientsBussines;
-using SantaMarta.Data.Models.Clients;
 using SantaMarta.Data.Models.Persons;
 using SantaMarta.Data.Store_Procedures;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace SantaMarta.WebAPI.Controllers
@@ -80,19 +76,14 @@ namespace SantaMarta.WebAPI.Controllers
             {
                 case 200:
                     return Ok(200);
-                    break;
                 case 401:
                     return Ok(401);
-                    break;
                 case 400:
                     return Ok(400);
-                    break;
                 case 500:
                     return Ok(500);
-                    break;
                 default:
                     return Ok(false);
-                    break;
             }
         }
     }

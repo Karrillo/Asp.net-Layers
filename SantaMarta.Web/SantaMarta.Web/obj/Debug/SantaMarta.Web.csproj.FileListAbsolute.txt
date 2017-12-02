@@ -465,3 +465,9 @@ C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.Web\bin\es\System.Web.WebPag
 C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.Web\obj\Debug\SantaMarta.Web.csprojResolveAssemblyReference.cache
 C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.Web\obj\Debug\SantaMarta.Web.dll
 C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.Web\obj\Debug\SantaMarta.Web.pdb
+C:\Users\Carrillo\Documents\GitHub\Asp.net-Layers\SantaMarta.Web\SantaMarta.Web\bin\PdfSharp.Charting.dll
+C:\Users\Carrillo\Documents\GitHub\Asp.net-Layers\SantaMarta.Web\SantaMarta.Web\bin\PdfSharp.dll
+C:\Users\Carrillo\Documents\GitHub\Asp.net-Layers\SantaMarta.Web\SantaMarta.Web\bin\PdfSharp.xml
+C:\Users\Carrillo\Documents\GitHub\Asp.net-Layers\SantaMarta.Web\SantaMarta.Web\bin\PdfSharp.Charting.xml
+C:\Users\Carrillo\Documents\GitHub\Asp.net-Layers\SantaMarta.Web\SantaMarta.Web\bin\de\PdfSharp.resources.dll
+C:\Users\Carrillo\Documents\GitHub\Asp.net-Layers\SantaMarta.Web\SantaMarta.Web\bin\de\PdfSharp.Charting.resources.dll

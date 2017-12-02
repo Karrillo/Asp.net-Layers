@@ -102,8 +102,14 @@ namespace SantaMarta.DataAccess.AccountAccess
         {
             try
             {
-                db.Delete_Account(id);
-                return 200;
+                Boolean? state = db.Check_Account(id) ?? false;
+                if (state == false)
+                {
+                    db.Delete_Account(id);
+                    return 200;
+                }
+
+                return 400;
             }
             catch (Exception)
             {

@@ -43,8 +43,6 @@ public class InvoiceClients extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent menu = new Intent(InvoiceClients.this, InsertInvoiceActivity.class);
-                startActivity(menu);
                 finish();
             }
         });

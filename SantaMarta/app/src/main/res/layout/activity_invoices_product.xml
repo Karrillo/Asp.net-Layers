@@ -39,6 +39,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Cantidad"
                 android:layout_weight="1"
+                android:maxLength="7"
                 android:ems="10"
                 android:inputType="number" />
 

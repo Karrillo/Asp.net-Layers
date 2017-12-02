@@ -3,17 +3,21 @@ using SantaMarta.Data.Models.Invoices;
 using SantaMarta.DataAccess.Entity;
 using SantaMarta.Data.Store_Procedures;
 using System;
-using System.Linq;
+using SantaMarta.DataAccess.Emails;
 
 namespace SantaMarta.DataAccess.InvoiceAccess
 {
     public class InvoiceAccess
     {
         private ContextDb db;
+        private EmailsAccess emails;
+        private ClientAccess.ClientAccess clients;
 
         public InvoiceAccess()
         {
             db = new ContextDb();
+            emails = new EmailsAccess();
+            clients = new ClientAccess.ClientAccess();
         }
 
         public List<Views_Invoices> GetAllSales()
@@ -44,12 +48,19 @@ namespace SantaMarta.DataAccess.InvoiceAccess
             }
         }
 
-        public Views_Invoinces_Details GetById(Int64 id)
+        public Views_Invoinces_Details GetById(Int64 id, Boolean type)
         {
             Views_Invoinces_Details invoice = new Views_Invoinces_Details();
             try
             {
-                return db.View_Invoice_Providers(id);
+                if (type == true)
+                {
+                    return db.View_Invoice_Clients(id);
+                }
+                else
+                {
+                    return db.View_Invoice_Providers(id);
+                }
             }
             catch (Exception)
             {
@@ -67,7 +78,12 @@ namespace SantaMarta.DataAccess.InvoiceAccess
             try
             {
                 db.Insert_Invoice(invoices);
-                return 200;
+                int state = sendEmail(invoices);
+                if (state == 200 || state == 400)
+                {
+                    return 200;
+                }
+                return 501;
             }
             catch (Exception)
             {
@@ -111,6 +127,30 @@ namespace SantaMarta.DataAccess.InvoiceAccess
             {
                 return 500;
             }
+        }
+
+        private int sendEmail(Invoices invoices)
+        {
+            All_Clients client = clients.GetById(Convert.ToInt32(invoices.IdClient));
+
+            if (client.Email != null)
+            {
+                String credit;
+
+                if (Convert.ToDateTime(invoices.LimitDate).Date == DateTime.Now.Date)
+                {
+                    credit = "contado,";
+                }
+                else
+                {
+                    credit = "credito, con fecha a cancelar el " + Convert.ToDateTime(invoices.LimitDate).ToShortDateString();
+                }
+                String subject = "Productos Alimenticios Santa Marta Factura: " + invoices.Code;
+                String body = "Factura a " + credit + " realizada el " + DateTime.Now.ToShortDateString() + " con el numero " + invoices.Code + " por un monto de ₡" + invoices.Total;
+                int state = emails.SendEmail(client.Email, subject, body);
+                return state;
+            }
+            return 400;
         }
     }
 }

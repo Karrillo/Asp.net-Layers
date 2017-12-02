@@ -8,7 +8,6 @@
 }
 @Styles.Render("~/AdminPacket/plugins/datatables/css")
 <link href="~/Scripts/Toastr/toastr.min.css" rel="stylesheet" />
-<link href="~/Scripts/Toastr/toastr.min.css" rel="stylesheet" />
 
 @if (Session["users"] == null)
 {
@@ -142,7 +141,11 @@
                 toastr.success('El Pago ha sido aplicado correctamente', 'Agregado');
             } else if ('@TempData["message"]' == "Exist"){
                 toastr.warning('La factura esta vinculada a un movimiento', 'Atencion');
-        }
+            }
+
+            if ('@TempData["message"]' == "ErrorEmail") {
+                    toastr.info('Problemas con el correo electronico', 'Atencion');
+            }
     });
     </script>
 }

@@ -103,8 +103,13 @@ namespace SantaMarta.DataAccess.CategoryAccess
         {
             try
             {
-                db.Delete_Category(id);
-                return 200;
+                Boolean? state = db.Check_Category(id) ?? false;
+                if (state == false)
+                {
+                    db.Delete_Category(id);
+                    return 200;
+                }
+                return 400;
             }
             catch (Exception)
             {

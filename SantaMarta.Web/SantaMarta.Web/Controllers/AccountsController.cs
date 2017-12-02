@@ -1,10 +1,7 @@
 ﻿using SantaMarta.Bussines.AccountsBussines;
 using SantaMarta.Data.Models.Accounts;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 
 namespace SantaMarta.Web.Controllers
@@ -107,6 +104,11 @@ namespace SantaMarta.Web.Controllers
             if (status == 200)
             {
                 TempData["message"] = "Delete";
+                return Json(new { success = true });
+            }
+            else if (status == 400)
+            {
+                TempData["message"] = "Exists";
                 return Json(new { success = true });
             }
             return PartialView();

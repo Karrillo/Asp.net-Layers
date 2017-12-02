@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:mask="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
         android:orientation="vertical"
@@ -17,8 +19,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789QWERTYUIOPASDFGHJKLZXCVBNM"
+            android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789QWERTYUIOPASDFGHJKLÑZXCVBNM"
             android:hint="Identificacion"
+            android:maxLength="20"
             android:ems="10"
             android:id="@+id/txt_identification" />
 
@@ -32,8 +35,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789QWERTYUIOPASDFGHJKLZXCVBNM"
+            android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789QWERTYUIOPASDFGHJKLÑZXCVBNM"
             android:hint="Codigo"
+            android:maxLength="20"
             android:ems="10"
             android:id="@+id/txt_code" />
 
@@ -47,8 +51,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:digits="qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
+            android:digits="qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNM "
             android:hint="Nombre"
+            android:maxLength="30"
             android:ems="10"
             android:id="@+id/txt_Name" />
 
@@ -62,8 +67,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:digits="qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
+            android:digits="qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNM "
             android:hint="Primer Apellido"
+            android:maxLength="15"
             android:ems="10"
             android:id="@+id/txt_firstName" />
 
@@ -77,8 +83,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:digits="qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
+            android:digits="qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNM "
             android:hint="Segundo Apellido"
+            android:maxLength="15"
             android:ems="10"
             android:id="@+id/txt_secondName" />
 
@@ -92,8 +99,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:digits="qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
+            android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789QWERTYUIOPASDFGHJKLÑZXCVBNM "
             android:hint="Nombre de Empresa"
+            android:maxLength="40"
             android:ems="10"
             android:id="@+id/txt_nameCompany" />
         <TextView
@@ -107,6 +115,7 @@
             android:layout_height="wrap_content"
             android:hint="Telefono"
             android:inputType="phone"
+            android:maxLength="9"
             android:ems="10"
             android:id="@+id/txt_phone" />
 
@@ -122,7 +131,10 @@
             android:hint="Celular"
             android:inputType="phone"
             android:ems="10"
-            android:id="@+id/txt_cellPhone" />
+            android:maxLength="9"
+            android:id="@+id/txt_cellPhone"
+            mask:mask="+7(###)###-##-##"
+            mask:keep_hint="false" />
         <TextView
             android:text="Correo:"
             android:layout_width="match_parent"
@@ -133,9 +145,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
-            android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789@."
+            android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789@.QWERTYUIOPASDFGHJKLÑZXCVBNM"
             android:hint="Correo"
             android:ems="10"
+            android:maxLength="40"
             android:id="@+id/txt_email" />
         <TextView
             android:text="Direccion:"
@@ -148,8 +161,9 @@
             android:layout_height="wrap_content"
             android:hint="Direccion"
             android:inputType="textMultiLine"
-            android:digits="qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM "
+            android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789 QWERTYUIOPASDFGHJKLÑZXCVBNM"
             android:ems="10"
+            android:maxLength="70"
             android:id="@+id/txt_address" />
         <Button
             android:text="Ingresar"

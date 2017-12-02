@@ -174,7 +174,7 @@
 
                 var chartData = new google.visualization.arrayToDataTable(ret);
 
-                for (var i = 1; i < ret.length; i++) {
+                for (var i = 1; i < ret.length - 1; i++) {
                     $("#clietsYears").append('<option value ="' + ret[0][i] + '">' + ret[0][i] + '</option>');
                 }
 
@@ -303,7 +303,7 @@
 
                 var chartData = new google.visualization.arrayToDataTable(ret);
 
-                for (var i = 1; i < ret.length; i++) {
+                for (var i = 1; i < ret.length - 1; i++) {
                     $("#productsYears").append('<option value ="' + ret[0][i] + '">' + ret[0][i] + '</option>');
                 }
 

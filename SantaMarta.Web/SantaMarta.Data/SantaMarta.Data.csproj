@@ -47,6 +47,7 @@
     <Compile Include="Models\Clients\Clients.cs" />
     <Compile Include="Models\Details\Details.cs" />
     <Compile Include="Models\Invoices\Invoices.cs" />
+    <Compile Include="Models\Mails\Mails.cs" />
     <Compile Include="Models\Persons\Persons.cs" />
     <Compile Include="Models\Products\Products.cs" />
     <Compile Include="Models\Providers\Providers.cs" />

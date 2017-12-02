@@ -4,6 +4,7 @@ using SantaMarta.Data.Models.Categories;
 using SantaMarta.Data.Models.Clients;
 using SantaMarta.Data.Models.Details;
 using SantaMarta.Data.Models.Invoices;
+using SantaMarta.Data.Models.Mails;
 using SantaMarta.Data.Models.Persons;
 using SantaMarta.Data.Models.Products;
 using SantaMarta.Data.Models.Providers;
@@ -37,6 +38,7 @@ namespace SantaMarta.DataAccess.Entity
         public DbSet<Products> Products { get; set; }
         public DbSet<Invoices> Invoices { get; set; }
         public DbSet<AssetsLiabilities> AssetsLiabilities { get; set; }
+        //public DbSet<Mails> Mails { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -549,6 +551,13 @@ namespace SantaMarta.DataAccess.Entity
         #endregion
         //accounts
         #region Accounts
+        public virtual Boolean? Check_Account(Int64 IdAccount)
+        {
+            var IdAccountParameter =
+                new Npgsql.NpgsqlParameter("IdAccount", IdAccount);
+
+            return this.Database.SqlQuery<Nullable<Boolean>>("select * from Check_Account (@IdAccount)", IdAccountParameter).FirstOrDefault();
+        }
         public virtual String Check_NameAccount(string name)
         {
             var nameParameter = name != null ?
@@ -608,6 +617,13 @@ namespace SantaMarta.DataAccess.Entity
         #endregion
         //categories
         #region Categories
+        public virtual Boolean? Check_Category(Int64 IdCategory)
+        {
+            var IdCategoryParameter =
+                new Npgsql.NpgsqlParameter("IdCategory", IdCategory);
+
+            return this.Database.SqlQuery<Nullable<Boolean>>("select * from Check_Category (@IdCategory)", IdCategoryParameter).FirstOrDefault();
+        }
         public virtual String Check_NameCategory(string name)
         {
             var nameParameter = name != null ?
@@ -667,6 +683,13 @@ namespace SantaMarta.DataAccess.Entity
         #endregion
         //subcategories
         #region SubCategories
+        public virtual Boolean? Check_SubCategory(Int64 IdSubCategory)
+        {
+            var IdSubCategoryParameter =
+                new Npgsql.NpgsqlParameter("IdSubCategory", IdSubCategory);
+
+            return this.Database.SqlQuery<Nullable<Boolean>>("select * from Check_SubCategory (@IdSubCategory)", IdSubCategoryParameter).FirstOrDefault();
+        }
         public virtual int Insert_SubCategory(SubCategories subcategories)
         {
             var NameParameter = subcategories.Name != null ?
@@ -1093,6 +1116,37 @@ namespace SantaMarta.DataAccess.Entity
                 new Npgsql.NpgsqlParameter("Date", Date);
 
             return this.Database.SqlQuery<Charts_Clients>("select * from Sum_Clients_Filter (@Date)", DateParameter).ToList();
+        }
+        #endregion
+        //Emails
+        #region Emails
+        public virtual int Insert_Email(Mails Email)
+        {
+            var EmailsParameter = Email.Email != null ?
+                new Npgsql.NpgsqlParameter("email", Email.Email) :
+                new Npgsql.NpgsqlParameter("email", typeof(string));
+
+            var PasswordParameter = Email.Password != null ?
+                new Npgsql.NpgsqlParameter("password", Email.Password) :
+                new Npgsql.NpgsqlParameter("password", typeof(string));
+
+            return this.Database.ExecuteSqlCommand("select * from Insert_Email (@email, @password)", EmailsParameter, PasswordParameter);
+        }
+        public virtual int Update_Email(Mails Email)
+        {
+            var EmailsParameter = Email.Email != null ?
+                new Npgsql.NpgsqlParameter("email", Email.Email) :
+                new Npgsql.NpgsqlParameter("email", typeof(string));
+
+            var PasswordParameter = Email.Password != null ?
+                new Npgsql.NpgsqlParameter("password", Email.Password) :
+                new Npgsql.NpgsqlParameter("password", typeof(string));
+
+            return this.Database.ExecuteSqlCommand("select * from Update_Email (@email, @password)", EmailsParameter, PasswordParameter);
+        }
+        public virtual Mails View_Email()
+        {
+            return this.Database.SqlQuery<Mails>("select * from View_Email ()").FirstOrDefault();
         }
         #endregion
     }

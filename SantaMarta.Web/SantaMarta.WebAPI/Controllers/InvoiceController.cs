@@ -3,9 +3,6 @@ using SantaMarta.Data.Models.Invoices;
 using SantaMarta.Data.Store_Procedures;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace SantaMarta.WebAPI.Controllers
@@ -27,13 +24,10 @@ namespace SantaMarta.WebAPI.Controllers
             {
                 case 200:
                     return Ok(200);
-                    break;
                 case 500:
                     return Ok(500);
-                    break;
                 default:
                     return Ok(false);
-                    break;
             }
         }
 
@@ -51,7 +45,7 @@ namespace SantaMarta.WebAPI.Controllers
             {
                 Ok(false);
             }
-            
+
             return Ok(invoice);
         }
 
@@ -63,7 +57,7 @@ namespace SantaMarta.WebAPI.Controllers
 
             InvoicesB invoiceB = new InvoicesB();
 
-            invoice = invoiceB.GetById(id);
+            invoice = invoiceB.GetById(id, true);
 
             if (invoice == null)
             {

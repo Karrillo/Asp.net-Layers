@@ -166,6 +166,7 @@
     <Compile Include="Controllers\AssetsLiabilitiesController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\ClientsController.cs" />
+    <Compile Include="Controllers\EmailController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
@@ -1196,6 +1197,10 @@
     <Content Include="Views\Purchases\Assets.cshtml" />
     <Content Include="Views\Purchases\Create.cshtml" />
     <Content Include="Views\Purchases\Details.cshtml" />
+    <Content Include="Views\Login\Create.cshtml" />
+    <Content Include="Views\Email\Index.cshtml" />
+    <Content Include="Views\Email\Create.cshtml" />
+    <Content Include="Views\Email\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

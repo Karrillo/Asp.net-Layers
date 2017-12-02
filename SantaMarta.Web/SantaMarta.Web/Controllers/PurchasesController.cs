@@ -111,7 +111,7 @@ namespace SantaMarta.Web.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Views_Invoinces_Details purchases = invoicesB.GetById(id);
+            Views_Invoinces_Details purchases = invoicesB.GetById(id, false);
 
             purchases.Date = purchases.CurrentDate.ToShortDateString();
             purchases.Products = purchaseB.GetById(purchases.IdDetail).ToList();
@@ -214,7 +214,7 @@ namespace SantaMarta.Web.Controllers
             invoices.IdProvider = Convert.ToInt64(idProvider); ;
             int status = invoicesB.Create(invoices);
 
-            if (status == 200)
+            if (status != 500)
             {
                 TempData["message"] = "Add";
                 return Json(new { success = true });

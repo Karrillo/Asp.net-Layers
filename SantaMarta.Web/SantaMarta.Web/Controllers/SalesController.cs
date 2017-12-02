@@ -113,7 +113,7 @@ namespace SantaMarta.Web.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Views_Invoinces_Details sales = invoicesB.GetById(id);
+            Views_Invoinces_Details sales = invoicesB.GetById(id, true);
 
             sales.Date = sales.CurrentDate.ToShortDateString();
             sales.Products = saleB.GetById(sales.IdDetail).ToList();
@@ -212,6 +212,12 @@ namespace SantaMarta.Web.Controllers
                 TempData["message"] = "Add";
                 return Json(new { success = true });
             }
+            else if (status == 501)
+            {
+                TempData["message"] = "Add";
+                TempData["message"] = "ErrorEmail";
+                return Json(new { success = true });
+            }
             else
             {
                 return View();
@@ -308,7 +314,7 @@ namespace SantaMarta.Web.Controllers
             graphics.DrawString("Productos Alimenticios Santa Marta", font, XBrushes.Black, 300, 80);
             int position = 200;
 
-            Views_Invoinces_Details sales = invoicesB.GetById(Int64.Parse(id));
+            Views_Invoinces_Details sales = invoicesB.GetById(Int64.Parse(id), true);
 
             sales.Date = sales.CurrentDate.ToShortDateString();
             sales.Products = saleB.GetById(sales.IdDetail).ToList();
@@ -394,7 +400,6 @@ namespace SantaMarta.Web.Controllers
             Response.Close();
             Response.End();
             return File(bytes, "application/pdf");
-
         }
     }
 }

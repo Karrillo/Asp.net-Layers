@@ -9,7 +9,7 @@ namespace SantaMarta.Data.Models.Products
         [Key]
         public Int64 IDProduct { get; set; }
 
-        [RegularExpression(@"^[a-zA-Z ]*$", ErrorMessage = "Caracteres no permitidas")]
+        [RegularExpression(@"^[ñÑa-zA-Z0-9 ]*$", ErrorMessage = "Caracteres no permitidas")]
         [Required(ErrorMessage = "El nombre es requerido")]
         [DataType(DataType.Text)]
         [StringLength(50, MinimumLength = 1, ErrorMessage = "El numero de caracteres debe ser menor a 50")]
@@ -22,7 +22,7 @@ namespace SantaMarta.Data.Models.Products
 
         public Boolean State { get; set; }
 
-        [RegularExpression(@"^[,.A-Za-z0-9 ]*$", ErrorMessage = "Caracteres especiales no son permitidos")]
+        [RegularExpression(@"^[,.ñÑA-Za-z0-9 ]*$", ErrorMessage = "Caracteres especiales no son permitidos")]
         [StringLength(50, MinimumLength = 1, ErrorMessage = "El numero de caracteres debe ser menor a 50")]
         [DataType(DataType.MultilineText)]
         public String Description { get; set; }

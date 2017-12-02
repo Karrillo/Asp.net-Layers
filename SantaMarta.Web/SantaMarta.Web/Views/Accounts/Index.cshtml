@@ -102,6 +102,8 @@
                 toastr.success('La cuenta ha sido modificado correctamente', 'Modificado');
         } else if ('@TempData["message"]' == "Delete"){
                 toastr.success('La cuenta ha sido eliminado correctamente', 'Eliminado');
+            } else if ('@TempData["message"]' == "Exists"){
+                toastr.warning('La cuenta esta vinculada a un movimiento', 'Atencion');
         }
     });
     </script>

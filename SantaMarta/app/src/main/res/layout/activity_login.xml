@@ -27,8 +27,9 @@
             android:id="@+id/txt_nick"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789QWERTYUIOPASDFGHJKLZXCVBNM"
+            android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789QWERTYUIOPASDFGHJKLÑZXCVBNM"
             android:layout_weight="1"
+            android:maxLength="15"
             android:hint="Nickname" />
 
         <!-- Password Label -->
@@ -36,9 +37,10 @@
             android:id="@+id/txt_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789QWERTYUIOPASDFGHJKLZXCVBNM"
+            android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789QWERTYUIOPASDFGHJKLÑZXCVBNM"
             android:layout_weight="1"
             android:hint="Password"
+            android:maxLength="50"
             android:layout_marginBottom="40dp"
             android:inputType="textPassword" />
 
