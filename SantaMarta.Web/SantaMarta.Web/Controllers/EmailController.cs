@@ -12,6 +12,7 @@ namespace SantaMarta.Web.Controllers
         {
             emailsB = new MailsB();
         }
+
         // GET: Email
         public ActionResult Index()
         {

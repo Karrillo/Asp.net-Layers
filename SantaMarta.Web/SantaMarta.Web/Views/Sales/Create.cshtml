@@ -6,7 +6,6 @@
 
 @Styles.Render("~/AdminPacket/plugins/select2/css")
 @Styles.Render("~/AdminPacket/dist/css")
-@*<link href="~/Scripts/Datepicker/bootstrap-datepicker.min.css" rel="stylesheet" />*@
 
 <hr />
 
@@ -132,9 +131,6 @@
     @Scripts.Render("~/AdminPacket/plugins/select2/js")
     @Scripts.Render("~/Scripts/Forms/Advanced")
     <script src="~/Scripts/Mark/jquery.mask.min.js"></script>
-    @*<script src="~/Scripts/Daterangepicker/moment.min.js"></script>*@
-    @*<script src="~/Scripts/Datepicker/bootstrap-datepicker.min.js"></script>*@
-
     <script>
         $(document).ready(function () {
              $.ajax({
@@ -162,18 +158,6 @@
         $('#txt_total').mask('00000000.00', { reverse: true });
     });
 </script>
-
-@*<script>
-    $(document).ready(function () {
-        $("#txt_date").datepicker({
-            format: 'yyyy/mm/dd',
-            autoclose: true,
-            todayBtn: 'linked',
-            calendarWeeks: true,
-            todayHighlight: true
-        })
-    });
-</script>*@
 
 <script type="text/javascript">
     $(document).ready(function () {

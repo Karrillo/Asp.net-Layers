@@ -43,6 +43,7 @@ namespace SantaMarta.Web.Controllers
             return View(providers);
         }
 
+        // Get: Providers deleted
         public ActionResult Index2()
         {
             return View(providersB.GetAllDelete().ToList());
@@ -139,12 +140,13 @@ namespace SantaMarta.Web.Controllers
             return View(providers);
         }
 
+        // POST: Restore
         public ActionResult Restore(int id)
         {
             return PartialView();
         }
 
-        // POST: Clients/Delete/5
+        // POST: Clients/Restore/5
         [HttpPost]
         public ActionResult Restore(int id, FormCollection collection)
         {

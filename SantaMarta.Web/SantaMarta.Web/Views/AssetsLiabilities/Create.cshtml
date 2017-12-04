@@ -7,9 +7,6 @@
 
 @Styles.Render("~/AdminPacket/bootstrap/css")
 @Styles.Render("~/AdminPacket/plugins/icheck/css")
-@*<link href="~/Scripts/Datepicker/bootstrap-datepicker.min.css" rel="stylesheet" />*@
-
-@*modal*@
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
@@ -103,7 +100,7 @@
                 dataType: 'json',
                 data: { id: $("#category").val() },
                 success: function (subCategories) {
-                    $("#subCategory").append('<option value ="">Selecionar Sub- Categoria</option>');
+                    $("#subCategory").append('<option value ="">Selecionar Sub-Categoria</option>');
                     $.each(subCategories, function (i, value) {
                         $("#subCategory").append('<option value ="' + value.Value + '">' + value.Text  + '</option>');
                     });
@@ -128,15 +125,3 @@
         });
     });
 </script>
-
-@*<script>
-    $(document).ready(function () {
-        $("#datepicker").datepicker({
-            format: 'yyyy/mm/dd',
-            autoclose: true,
-            todayBtn: 'linked',
-            calendarWeeks: true,
-            todayHighlight: true
-        })
-    });
-</script>*@

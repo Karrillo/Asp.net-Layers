@@ -3,7 +3,6 @@
     Layout = null;
     ViewBag.Title = "Delete";
 }
-@*modal*@
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
@@ -13,24 +12,22 @@
 <div class="modal-body">
     @using (Ajax.BeginForm("Delete", "SubCategories", null, new AjaxOptions
     {
-
-        //HttpMethod = "POST",
         Url = Url.Action("Delete", "SubCategories"),
         UpdateTargetId = "modal-content",
         OnSuccess = "closeModalDeleteSubCategory",
         InsertionMode = InsertionMode.Replace
 
     },
-                                          new { @class = "form-horizontal", role = "form", id = "frmDelete" }))
+                                                  new { @class = "form-horizontal", role = "form", id = "frmDelete" }))
     {
 
         @Html.AntiForgeryToken()
-        //textbox
         <div class="box-body">
             <p>Estas seguro de borrar esta sub-categoria?</p>
-        </div>@*botones*@
+        </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
             <input id="btnCreate" type="submit" value="Borrar" class="btn btn-danger" />
         </div>
     }
+</div>

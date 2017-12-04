@@ -15,6 +15,7 @@ namespace SantaMarta.DataAccess.Charts
             db = new ContextDb();
         }
 
+        //Get Accounts
         public List<Charts_Accounts> GetAccount()
         {
             List<Charts_Accounts> accounts = new List<Charts_Accounts>();
@@ -29,6 +30,7 @@ namespace SantaMarta.DataAccess.Charts
             }
         }
 
+        //Get Categories
         public List<Sum_Account_Category> GetCategories()
         {
             List<Sum_Account_Category> categories = new List<Sum_Account_Category>();
@@ -43,6 +45,7 @@ namespace SantaMarta.DataAccess.Charts
             }
         }
 
+        //Get SubCategories
         public List<Sum_Account_Category> GetSubCategories(String name)
         {
             List<Sum_Account_Category> subCategories = new List<Sum_Account_Category>();
@@ -57,6 +60,7 @@ namespace SantaMarta.DataAccess.Charts
             }
         }
 
+        //Get AssetsLiabilities
         public List<Sum_AssetLiability> GetAssetsLiabilities()
         {
             List<Sum_AssetLiability> assetsLiabilities = new List<Sum_AssetLiability>();
@@ -71,6 +75,7 @@ namespace SantaMarta.DataAccess.Charts
             }
         }
 
+        //Get AssetsLiabilities by Date
         public List<Sum_AssetLiability> GetAssetsLiabilitiesFilter(String dateFilter, String dateSearch, String date)
         {
             List<Sum_AssetLiability> assetsLiabilities = new List<Sum_AssetLiability>();
@@ -85,6 +90,7 @@ namespace SantaMarta.DataAccess.Charts
             }
         }
 
+        //Get Products
         public List<Sum_Products> GetProducts()
         {
             List<Sum_Products> products = new List<Sum_Products>();
@@ -98,7 +104,8 @@ namespace SantaMarta.DataAccess.Charts
                 return products;
             }
         }
-
+        
+        //Get Products by Date
         public List<Sum_Products> GetProductsFilter(Int32 date)
         {
             List<Sum_Products> products = new List<Sum_Products>();
@@ -113,6 +120,7 @@ namespace SantaMarta.DataAccess.Charts
             }
         }
 
+        //Get Clients
         public List<Charts_Clients> GetClients()
         {
             List<Charts_Clients> clients = new List<Charts_Clients>();
@@ -127,6 +135,7 @@ namespace SantaMarta.DataAccess.Charts
             }
         }
 
+        //Get Clients by Date
         public List<Charts_Clients> GetClientsFilter(Int32 date)
         {
             List<Charts_Clients> clients = new List<Charts_Clients>();

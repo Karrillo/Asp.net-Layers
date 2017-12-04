@@ -3,7 +3,6 @@
     Layout = null;
     ViewBag.Title = "Create";
 }
-@*modal*@
 <script src="~/Scripts/Mark/jquery.mask.min.js"></script>
 
 <div class="modal-header">
@@ -26,12 +25,10 @@
 
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        //textbox
         <div class="box-body">
             @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Codigo", id = "code", maxlength = "20" } })
             @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger", id = "codeValidation" })
             <br>
-            @*<input type="checkbox" id="selectedCredit" value="true" name="selectedCredit"> Extranjero*@
             @Html.EditorFor(model => model.Identification, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "identificacion", id = "identification", maxlength = "20" } })
             @Html.ValidationMessageFor(model => model.Identification, "", new { @class = "text-danger", id = "identificacionValidation" })
             <br>
@@ -70,7 +67,7 @@
                 @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Direccion", maxlength = "70" } })
             </div>
             @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
-        </div>@*botones*@
+        </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
             <input id="btnCreate" type="submit" value="Guardar" class="btn btn-success" />
@@ -85,22 +82,5 @@
         $(document).ready(function () {
             $('#cellPhone').mask('0000-0000');
             $('#phone').mask('0000-0000');
-            //$('#identification').mask('0-0000-0000');
         });
 </script>
-
-@*<script>
-    $(function () {
-        $("#selectedCredit").click(function () {
-            if ($(this).is(':checked')) {
-                $('#identification').val("");
-                $('#identification').mask('0000000000000000000');
-                $('#identification').unmask();
-            }
-            else {
-                $('#identification').val("");
-                $('#identification').mask('0-0000-0000');
-            }
-        });
-    });
-</script>*@

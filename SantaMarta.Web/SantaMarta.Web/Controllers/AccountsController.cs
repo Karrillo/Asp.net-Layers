@@ -21,6 +21,7 @@ namespace SantaMarta.Web.Controllers
             return View(accountB.GetAll().ToList());
         }
 
+        // GET: Users Deleted
         public ActionResult Index2()
         {
             return View(accountB.GetAllDelete().ToList());
@@ -114,6 +115,7 @@ namespace SantaMarta.Web.Controllers
             return PartialView();
         }
 
+        //POST: Restore 
         public ActionResult Restore(int id)
         {
             return PartialView();

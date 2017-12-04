@@ -12,14 +12,11 @@
 {
     Response.Redirect("~/Login/Index");
 }
-
-@*Boton ingresar nuevo*@
 <div class="box-header">
     <a class="btn btn-success btn-lg pull-right" data-target="#modal-crear" data-toggle="modal" href="/Providers/Create">
         <span class="glyphicon glyphicon-plus"></span> Nuevo Proveedor
     </a>
 </div>
-@*Table*@
 @using (Html.BeginForm())
 {
     @Html.ValidationSummary(true)

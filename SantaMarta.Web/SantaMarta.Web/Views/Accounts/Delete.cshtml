@@ -12,22 +12,19 @@
 <div class="modal-body">
     @using (Ajax.BeginForm("Delete", "Accounts", null, new AjaxOptions
     {
-
-        //HttpMethod = "POST",
         Url = Url.Action("Delete", "Accounts"),
         UpdateTargetId = "modal-content",
         OnSuccess = "closeModalDelete",
         InsertionMode = InsertionMode.Replace
 
     },
-                new { @class = "form-horizontal", role = "form", id = "frmDelete" }))
+                        new { @class = "form-horizontal", role = "form", id = "frmDelete" }))
     {
 
         @Html.AntiForgeryToken()
-        //textbox
         <div class="box-body">
             <p>Estas seguro de borrar esta cuenta?</p>
-        </div>@*botones*@
+        </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
             <input id="btnCreate" type="submit" value="Borrar" class="btn btn-danger" />

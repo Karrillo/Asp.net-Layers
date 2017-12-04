@@ -16,6 +16,7 @@ namespace SantaMarta.DataAccess.SubCategoryAccess
             db = new ContextDb();
         }
 
+        //Get All SubCategories
         public List<SubCategories> GetAll()
         {
             List<SubCategories> subCategories = new List<SubCategories>();
@@ -30,6 +31,7 @@ namespace SantaMarta.DataAccess.SubCategoryAccess
             }
         }
 
+        //Get All SubCategories Deleted
         public List<View_SubCategories_Deleted> GetAllDelete()
         {
             List<View_SubCategories_Deleted> subCategories = new List<View_SubCategories_Deleted>();
@@ -44,12 +46,14 @@ namespace SantaMarta.DataAccess.SubCategoryAccess
             }
         }
 
+        //Check Name SubCategories
         public String CheckName(string name, int id)
         {
             String subCategories = db.Check_NameSubCategory(name, id);
             return subCategories;
         }
 
+        //Get all SubCategories by id
         public List<SubCategories> GetByIdAll(int id)
         {
             List<SubCategories> subCategories = new List<SubCategories>();
@@ -64,6 +68,7 @@ namespace SantaMarta.DataAccess.SubCategoryAccess
             }
         }
 
+        //Get SubCategories
         public SubCategories GetById(Int64 id)
         {
             SubCategories subCategories = new SubCategories();
@@ -77,6 +82,7 @@ namespace SantaMarta.DataAccess.SubCategoryAccess
             }
         }
 
+        //Get SubCategories by Name
         public String GetByIdName(int id)
         {
             SubCategories subCategories = new SubCategories();
@@ -90,6 +96,7 @@ namespace SantaMarta.DataAccess.SubCategoryAccess
             }
         }
 
+        //Update SubCategories
         public int Update(SubCategories subCategory)
         {
             try
@@ -114,6 +121,7 @@ namespace SantaMarta.DataAccess.SubCategoryAccess
             }
         }
 
+        //Create SubCategories
         public int Create(SubCategories subCategory)
         {
             try
@@ -134,6 +142,7 @@ namespace SantaMarta.DataAccess.SubCategoryAccess
             }
         }
 
+        //Delete SubCategories
         public int Delete(int id)
         {
             try
@@ -152,6 +161,7 @@ namespace SantaMarta.DataAccess.SubCategoryAccess
             }
         }
 
+        //Restore SubCategories
         public int Restore(int id)
         {
             try

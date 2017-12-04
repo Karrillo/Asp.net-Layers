@@ -15,36 +15,41 @@ namespace SantaMarta.Web.Controllers
             chartsB = new ChartsB();
         }
 
+        //View 
         public ActionResult Index()
         {
             return View();
         }
 
+        // GET: SubCategories
         public ActionResult getSubCategories(string name)
         {
             var categories = chartsB.GetSubCategories(name).ToList();
             return Json(categories, JsonRequestBehavior.AllowGet);
         }
 
-
+        // GET: Categories
         public ActionResult getCategories()
         {
             var categories = chartsB.GetCategories().ToList();
             return Json(categories, JsonRequestBehavior.AllowGet);
         }
 
+        // GET: Accounts
         public ActionResult getAccounts()
         {
             List<Charts_Accounts> accounts = chartsB.GetAccount().ToList();
             return Json(accounts, JsonRequestBehavior.AllowGet);
         }
 
+        // GET: AssetsLiabilities
         public ActionResult getAssetsLiabilities()
         {
             var assetsLiabilities = chartsB.GetAssetsLiabilities().ToList();
             return Json(assetsLiabilities, JsonRequestBehavior.AllowGet);
         }
 
+        // GET: AssetsLiabilities Filter
         public ActionResult getAssetsLiabilitiesFilter(string dateFilter, string dateSearch, string date)
         {
             if (date.Length == 4)
@@ -61,12 +66,14 @@ namespace SantaMarta.Web.Controllers
             return Json(assetsLiabilities, JsonRequestBehavior.AllowGet);
         }
 
+        // GET: Products 
         public ActionResult getProducts()
         {
             var assetsLiabilities = chartsB.GetProducts().ToList();
             return Json(assetsLiabilities, JsonRequestBehavior.AllowGet);
         }
-      
+
+        // GET: Products Filter
         public ActionResult getProductsFilter(int date)
         {
             List<Sum_Products> products = chartsB.GetProductsFilter(date).ToList();
@@ -77,12 +84,14 @@ namespace SantaMarta.Web.Controllers
             return Json(products, JsonRequestBehavior.AllowGet);
         }
 
+        // GET: Clients
         public ActionResult getClients()
         {
             var assetsLiabilities = chartsB.GetClients().ToList();
             return Json(assetsLiabilities, JsonRequestBehavior.AllowGet);
         }
 
+        // GET: Clients Filter
         public ActionResult getClientsFilter(int date)
         {
             List<Charts_Clients> clients = chartsB.GetClientsFilter(date).ToList();

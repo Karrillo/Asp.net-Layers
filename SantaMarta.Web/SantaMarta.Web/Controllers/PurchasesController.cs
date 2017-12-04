@@ -131,6 +131,7 @@ namespace SantaMarta.Web.Controllers
             return PartialView(purchases);
         }
 
+        // GET: Products
         public JsonResult GetAllProduct(string id)
         {
             var products = productsProvidersB.GetAll(Convert.ToInt32(id)).ToList();
@@ -138,18 +139,21 @@ namespace SantaMarta.Web.Controllers
             //return Json(new SelectList(products, "IDProduct", "Name", "Code"), JsonRequestBehavior.AllowGet);
         }
 
+        // GET: Products
         public JsonResult GetProduct(string id)
         {
             Products product = productsB.GetById(int.Parse(id));
             return Json(product, JsonRequestBehavior.AllowGet);
         }
 
+        // GET: Providers
         public JsonResult GetProviders(string id)
         {
             All_Providers providers = providerB.GetById(Convert.ToInt32(id));
             return Json(providers, JsonRequestBehavior.AllowGet);
         }
 
+        // GET: SubCategories
         public JsonResult GetSubCategories(string id)
         {
             var subCategories = subCategoriesB.GetByIdAll(int.Parse(id));
@@ -250,6 +254,7 @@ namespace SantaMarta.Web.Controllers
             return PartialView();
         }
 
+        // POST: AssetsLiabilities View
         public ActionResult Assets(int id, string name, decimal rode)
         {
             ViewData["category"] = new SelectList(categoriesB.GetAll(), "IdCategory", "Name");

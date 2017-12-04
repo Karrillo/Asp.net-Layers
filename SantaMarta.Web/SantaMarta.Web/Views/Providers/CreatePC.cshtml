@@ -3,7 +3,6 @@
     Layout = null;
     ViewBag.Title = "Delete";
 }
-@*modal*@
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
@@ -13,8 +12,6 @@
 <div class="modal-body">
     @using (Ajax.BeginForm("CreatePC", "Providers", null, new AjaxOptions
     {
-
-        //HttpMethod = "POST",
         Url = Url.Action("CreatePC", "Providers"),
         UpdateTargetId = "modal-content",
         OnSuccess = "closeModalCreatePC",
@@ -23,12 +20,10 @@
     },
                                                                       new { @class = "form-horizontal", role = "form", id = "frmDelete" }))
     {
-
         @Html.AntiForgeryToken()
-        //textbox
         <div class="box-body">
             <p>Estas seguro que desea que este proveedor sea cliente?</p>
-        </div>@*botones*@
+        </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
             <input id="btnCreate" type="submit" value="Guardar" class="btn btn-success" />

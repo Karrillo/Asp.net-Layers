@@ -21,6 +21,7 @@ namespace SantaMarta.Web.Controllers
             return View(userB.GetAll().ToList());
         }
 
+        // GET: Users Deleted
         public ActionResult Index2()
         {
             return View(userB.GetAllDelete().ToList());

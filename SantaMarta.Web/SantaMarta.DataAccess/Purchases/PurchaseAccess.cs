@@ -21,6 +21,7 @@ namespace SantaMarta.DataAccess.PurchaseAccess
             return null;
         }
 
+        //Get Purchases by Invoices
         public List<Views_Invoinces_Products> GetById(Int64 id)
         {
             List<Views_Invoinces_Products> products = new List<Views_Invoinces_Products>();
@@ -41,6 +42,7 @@ namespace SantaMarta.DataAccess.PurchaseAccess
             return 0;
         }
 
+        //Create Purchases
         public int Create(Purchases purchase)
         {
             try
@@ -54,6 +56,7 @@ namespace SantaMarta.DataAccess.PurchaseAccess
             }
         }
 
+        //Delete Purchases
         public int Delete(Int64 id)
         {
             try

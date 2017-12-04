@@ -133,12 +133,14 @@ namespace SantaMarta.Web.Controllers
             return PartialView(sales);
         }
 
+        // GET: Products
         public JsonResult GetProduct(string id)
         {
             Products product = productsB.GetById(int.Parse(id));
             return Json(product, JsonRequestBehavior.AllowGet);
         }
 
+        // GET: Clients
         public JsonResult GetClient(string id)
         {
             All_Clients client = clientsB.GetById(Convert.ToInt32(id));
@@ -249,6 +251,7 @@ namespace SantaMarta.Web.Controllers
             return PartialView();
         }
 
+        // POST: AssetsLiabilities View
         public ActionResult Assets(int id, string name, decimal rode)
         {
             ViewData["category"] = new SelectList(categoriesB.GetAll(), "IdCategory", "Name");
@@ -284,24 +287,28 @@ namespace SantaMarta.Web.Controllers
             return View(assetLiability);
         }
 
+        // GET: Client Code
         public JsonResult GetCode(string id)
         {
             var code = invoicesB.GetCode();
             return Json(code, JsonRequestBehavior.AllowGet);
         }
 
+        // GET: SubCategories
         public JsonResult GetSubCategories(string id)
         {
             var subCategories = subCategoriesB.GetByIdAll(int.Parse(id));
             return Json(new SelectList(subCategories, "IDSubCategory", "Name"), JsonRequestBehavior.AllowGet);
         }
 
+        // GET: categories
         public JsonResult GetPayment(string id)
         {
             var subCategories = subCategoriesB.GetByIdAll(int.Parse(id));
             return Json(new SelectList(subCategories, "IDSubCategory", "Name"), JsonRequestBehavior.AllowGet);
         }
 
+        //Create PDF 
         [HttpGet]
         public FileResult CreatePDF(string id)
         {

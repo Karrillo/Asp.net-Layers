@@ -88,13 +88,13 @@ namespace SantaMarta.Web.Controllers
             return View(products);
         }
 
-        // GET: ProductsSM/Delete/5
+        // GET: ProductsSM/Delete/?
         public ActionResult Delete(int id)
         {
             return PartialView();
         }
 
-        // POST: ProductsSM/Delete/5
+        // POST: ProductsSM/Delete/?
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {

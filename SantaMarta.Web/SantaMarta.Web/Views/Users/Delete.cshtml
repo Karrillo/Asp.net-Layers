@@ -12,8 +12,6 @@
 <div class="modal-body">
     @using (Ajax.BeginForm("Delete", "Users", null, new AjaxOptions
     {
-
-        //HttpMethod = "POST",
         Url = Url.Action("Delete", "Users"),
         UpdateTargetId = "modal-content",
         OnSuccess = "closeModalDelete",
@@ -24,10 +22,9 @@
     {
 
         @Html.AntiForgeryToken()
-        //textbox
         <div class="box-body">
             <p>Estas seguro de borrar este usuario?</p>
-        </div>@*botones*@
+        </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
             <input id="btnCreate" type="submit" value="Borrar" class="btn btn-danger" />

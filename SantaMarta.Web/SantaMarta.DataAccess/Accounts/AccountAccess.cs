@@ -15,6 +15,7 @@ namespace SantaMarta.DataAccess.AccountAccess
             db = new ContextDb();
         }
 
+        //Get All Acconts
         public List<Accounts> GetAll()
         {
             List<Accounts> accounts = new List<Accounts>();
@@ -29,6 +30,7 @@ namespace SantaMarta.DataAccess.AccountAccess
             }
         }
 
+        //Get All Account Deleted
         public List<Accounts> GetAllDelete()
         {
             List<Accounts> accounts = new List<Accounts>();
@@ -43,6 +45,7 @@ namespace SantaMarta.DataAccess.AccountAccess
             }
         }
 
+        //Get Account 
         public Accounts GetById(Int64 id)
         {
             Accounts accounts = new Accounts();
@@ -56,6 +59,7 @@ namespace SantaMarta.DataAccess.AccountAccess
             }
         }
 
+        //Update Account
         public int Update(Accounts accounts)
         {
             try
@@ -78,6 +82,7 @@ namespace SantaMarta.DataAccess.AccountAccess
             }
         }
 
+        //Create Account
         public int Create(Accounts accounts)
         {
             try
@@ -98,6 +103,7 @@ namespace SantaMarta.DataAccess.AccountAccess
             }
         }
 
+        //Delete Account
         public int Delete(int id)
         {
             try
@@ -117,6 +123,7 @@ namespace SantaMarta.DataAccess.AccountAccess
             }
         }
 
+        //restore Account
         public int Restore(int id)
         {
             try

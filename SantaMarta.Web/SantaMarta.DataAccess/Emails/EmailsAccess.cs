@@ -14,6 +14,7 @@ namespace SantaMarta.DataAccess.Emails
             db = new ContextDb();
         }
 
+        //Create Email
         public int Create(Mails emails)
         {
             try
@@ -28,6 +29,7 @@ namespace SantaMarta.DataAccess.Emails
             }
         }
 
+        //Update Email
         public int Update(Mails emails)
         {
             try
@@ -42,6 +44,7 @@ namespace SantaMarta.DataAccess.Emails
             }
         }
 
+        //Get Email
         public Mails Get()
         {
             Mails emails = new Mails();
@@ -63,6 +66,8 @@ namespace SantaMarta.DataAccess.Emails
                 return emails;
             }
         }
+
+        //Send Email
         public int SendEmail(String toEmail, String subJect, String body)
         {
             Mails email = db.View_Email();
@@ -98,6 +103,8 @@ namespace SantaMarta.DataAccess.Emails
             }
             return 400;
         }
+
+        //Encrypt passwords
         private String Encrypt(String password)
         {
             byte[] encrypted = System.Text.Encoding.Unicode.GetBytes(password);
@@ -105,6 +112,7 @@ namespace SantaMarta.DataAccess.Emails
             return passEncrypt;
         }
 
+        //Decrypt passwords
         private String Decrypt(String password)
         {
             byte[] decrypted = Convert.FromBase64String(password);

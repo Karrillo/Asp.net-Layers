@@ -4,7 +4,6 @@ using SantaMarta.Data.Models.Mails;
 using SantaMarta.Data.Models.Users;
 using System;
 using System.Collections.Generic;
-using System.Web.Helpers;
 using System.Web.Mvc;
 
 namespace SantaMarta.Web.Controllers
@@ -28,6 +27,7 @@ namespace SantaMarta.Web.Controllers
             return View();
         }
 
+        //View
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Index(string nickname, string password)
@@ -64,6 +64,7 @@ namespace SantaMarta.Web.Controllers
             }
         }
 
+        //Check Users
         private void Check()
         {
             List<Users> users = userB.GetAll();
@@ -93,12 +94,14 @@ namespace SantaMarta.Web.Controllers
             }
         }
 
+        //Close Session
         public void Logout()
         {
             Session.Abandon();
             Response.Redirect("~/Login/Index");
         }
 
+        //POST: Create
         public ActionResult Create()
         {
             return PartialView();
@@ -125,6 +128,7 @@ namespace SantaMarta.Web.Controllers
             return View(users);
         }
 
+        // Get Email with Users Admin
         public void Recover()
         {
             Mails email = mailB.Get();

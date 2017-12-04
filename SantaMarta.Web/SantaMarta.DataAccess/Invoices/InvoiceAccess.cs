@@ -20,6 +20,7 @@ namespace SantaMarta.DataAccess.InvoiceAccess
             clients = new ClientAccess.ClientAccess();
         }
 
+        //Get All Sales Invoices
         public List<Views_Invoices> GetAllSales()
         {
             List<Views_Invoices> invoice = new List<Views_Invoices>();
@@ -34,6 +35,7 @@ namespace SantaMarta.DataAccess.InvoiceAccess
             }
         }
 
+        //Get All Purchases Invoices
         public List<Views_Invoices> GetAllPurchases()
         {
             List<Views_Invoices> invoice = new List<Views_Invoices>();
@@ -48,6 +50,7 @@ namespace SantaMarta.DataAccess.InvoiceAccess
             }
         }
 
+        //Get Invoices
         public Views_Invoinces_Details GetById(Int64 id, Boolean type)
         {
             Views_Invoinces_Details invoice = new Views_Invoinces_Details();
@@ -73,6 +76,7 @@ namespace SantaMarta.DataAccess.InvoiceAccess
             return 0;
         }
 
+        //Create Invoices
         public int Create(Invoices invoices)
         {
             try
@@ -91,6 +95,7 @@ namespace SantaMarta.DataAccess.InvoiceAccess
             }
         }
 
+        //Delete Invoices
         public int Delete(Int64 id)
         {
             try
@@ -109,6 +114,7 @@ namespace SantaMarta.DataAccess.InvoiceAccess
             }
         }
 
+        //Get Last Code Inovoices
         public Int64 GetCode()
         {
             try
@@ -129,6 +135,7 @@ namespace SantaMarta.DataAccess.InvoiceAccess
             }
         }
 
+        //Send Email Invoices
         private int sendEmail(Invoices invoices)
         {
             All_Clients client = clients.GetById(Convert.ToInt32(invoices.IdClient));

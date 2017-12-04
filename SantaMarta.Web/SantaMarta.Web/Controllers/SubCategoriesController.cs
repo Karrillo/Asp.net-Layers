@@ -22,6 +22,7 @@ namespace SantaMarta.Web.Controllers
             return View();
         }
 
+        // GET: SubCategories Deleted
         public ActionResult Index2()
         {
             return View(subCategoriesB.GetAllDelete().ToList());
@@ -122,12 +123,13 @@ namespace SantaMarta.Web.Controllers
             return PartialView();
         }
 
+        // View Restore
         public ActionResult Restore(int id)
         {
             return PartialView();
         }
 
-        // POST: SubCategories/Delete/5
+        // POST: SubCategories/Restore/5
         [HttpPost]
         public ActionResult Restore(int id, FormCollection collection)
         {

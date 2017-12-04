@@ -72,6 +72,7 @@ namespace SantaMarta.Web.Controllers
             }
         }
 
+        // GET: information on ViewBag
         private void tableInformation(Decimal? assets, Decimal? liabilities)
         {
             if (ViewBag.assets == 0)
@@ -175,6 +176,7 @@ namespace SantaMarta.Web.Controllers
             return PartialView();
         }
 
+        //Create PDF 
         public void createPdf()
         {
             string pathToTemplate = Server.MapPath("~/App_Data/report.pdf");

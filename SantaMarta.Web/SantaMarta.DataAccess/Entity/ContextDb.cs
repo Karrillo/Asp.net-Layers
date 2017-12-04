@@ -25,6 +25,9 @@ namespace SantaMarta.DataAccess.Entity
         public ContextDb() : base(nameOrConnectionString: "PostgreSQL")
         {
         }
+
+        /**Model**/
+
         public DbSet<Users> Users { get; set; }
         public DbSet<Clients> Clients { get; set; }
         public DbSet<Providers> Providers { get; set; }
@@ -38,12 +41,14 @@ namespace SantaMarta.DataAccess.Entity
         public DbSet<Products> Products { get; set; }
         public DbSet<Invoices> Invoices { get; set; }
         public DbSet<AssetsLiabilities> AssetsLiabilities { get; set; }
-        //public DbSet<Mails> Mails { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             var instance = System.Data.Entity.SqlServer.SqlProviderServices.Instance;
         }
+
+        /**Functions on PostgresSQL**/
+
         //clients
         #region Clients
         public virtual List<Int64> ClientsAll()

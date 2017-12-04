@@ -15,13 +15,11 @@
     Response.Redirect("~/Login/Index");
 }
 
-@*Boton ingresar nuevo*@
 <div class="box-header">
     <a class="btn btn-success btn-lg pull-right" data-target="#modal-crear" data-toggle="modal" href="/Clients/Create">
         <span class="glyphicon glyphicon-plus"></span> Nuevo Cliente
     </a>
 </div>
-@*Table*@
 @using (Html.BeginForm())
 {
     @Html.ValidationSummary(true)
@@ -44,7 +42,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @*lista de clientes*@
                     @foreach (var item in Model)
                 {
                         <tr>
@@ -57,9 +54,7 @@
                             <td>
                                 @if (Session["Type"] != null)
                                 {
-                                    @*Boton Editar*@
                                     <a class="btn btn-primary glyphicon glyphicon-edit" data-target="#modal-editar" data-toggle="modal" href="@Url.Action("Edit", "Clients", new { id = item.IDClient })"></a>
-                                    @*Boton Borrar*@
                                     <a class="btn btn-danger glyphicon glyphicon-trash" data-target="#modal-delete" data-toggle="modal" href="@Url.Action("Delete", "Clients", new { id = item.IDClient })"></a>
                                 }
                                 <a class="btn btn-info glyphicon glyphicon-file" data-target="#modal-details" data-toggle="modal" href="@Url.Action("Details", "Clients", new { id = item.IDClient })"></a>
