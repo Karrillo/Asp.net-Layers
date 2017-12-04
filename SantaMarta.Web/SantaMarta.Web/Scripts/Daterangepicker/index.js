@@ -6,10 +6,13 @@
             format: dateFormat,
             separator: separator,
             applyLabel: '確認',
-            cancelLabel: '取消'
+            cancelLabel: '取消',
+            monthNames:
+            ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio",
+                "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+            daysOfWeek:
+            ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"]
         },
-        //minDate: moment().add(1, 'days'),
-        //maxDate: moment().add(359, 'days'),
         opens: "right"
     };
 
