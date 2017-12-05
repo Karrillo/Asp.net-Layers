@@ -55,14 +55,6 @@ namespace SantaMarta.DataAccess.Entity
         {
             return this.Database.SqlQuery<Int64>("select * from ClientsAll ()").ToList();
         }
-        public virtual String Check_Identification(string identification)
-        {
-            var identificationParameter = identification != null ?
-                new Npgsql.NpgsqlParameter("identification", identification) :
-                new Npgsql.NpgsqlParameter("identification", typeof(string));
-
-            return this.Database.SqlQuery<String>("select * from Check_Identification (@identification)", identificationParameter).FirstOrDefault();
-        }
         public virtual String Check_CodePersons(string code)
         {
             var codeParameter = code != null ?
@@ -97,9 +89,6 @@ namespace SantaMarta.DataAccess.Entity
             var AddressParameter =
                 new Npgsql.NpgsqlParameter("Address", person.Address);
 
-            var identificationParameter =
-                new Npgsql.NpgsqlParameter("identification", person.Identification);
-
             var NameCompanyParameter = person.NameCompany != null ?
                 new Npgsql.NpgsqlParameter("NameCompany", person.NameCompany) :
                 new Npgsql.NpgsqlParameter("NameCompany", typeof(string));
@@ -109,8 +98,8 @@ namespace SantaMarta.DataAccess.Entity
                new Npgsql.NpgsqlParameter("Code", typeof(string));
 
             return this.Database.ExecuteSqlCommand("select * from Insert_Client (@Code, @Name, @FirstName, @SecondName, @Phone, " +
-                "@CellPhone, @Email, @Address, @Identification, @NameCompany)", CodeParameter, NameParameter, FirstNameParameter,
-                SecondNameParameter, EmailParameter, PhoneParameter, CellPhoneParameter, AddressParameter, identificationParameter,
+                "@CellPhone, @Email, @Address, @NameCompany)", CodeParameter, NameParameter, FirstNameParameter,
+                SecondNameParameter, EmailParameter, PhoneParameter, CellPhoneParameter, AddressParameter,
                 NameCompanyParameter);
         }
         public virtual int update_Client(Persons person, Int64 IdPerson)
@@ -139,9 +128,6 @@ namespace SantaMarta.DataAccess.Entity
             var AddressParameter =
                 new Npgsql.NpgsqlParameter("Address", person.Address);
 
-            var identificationParameter =
-                new Npgsql.NpgsqlParameter("identification", person.Identification);
-
             var NameCompanyParameter = person.NameCompany != null ?
                 new Npgsql.NpgsqlParameter("NameCompany", person.NameCompany) :
                 new Npgsql.NpgsqlParameter("NameCompany", typeof(string));
@@ -154,8 +140,8 @@ namespace SantaMarta.DataAccess.Entity
                 new Npgsql.NpgsqlParameter("IdPerson", IdPerson);
 
             return this.Database.ExecuteSqlCommand("select * from update_Client (@Code, @Name, @FirstName, @SecondName, @Phone, " +
-                "@CellPhone, @Email, @Address, @Identification, @NameCompany, @IDPerson)", CodeParameter, NameParameter, FirstNameParameter,
-                SecondNameParameter, EmailParameter, PhoneParameter, CellPhoneParameter, AddressParameter, identificationParameter,
+                "@CellPhone, @Email, @Address, @NameCompany, @IDPerson)", CodeParameter, NameParameter, FirstNameParameter,
+                SecondNameParameter, EmailParameter, PhoneParameter, CellPhoneParameter, AddressParameter,
                 NameCompanyParameter, IdPersonParameter);
         }
         public virtual int Insert_Client_Provider(Int64 IdClient)
@@ -234,9 +220,6 @@ namespace SantaMarta.DataAccess.Entity
             var AddressParameter =
                 new Npgsql.NpgsqlParameter("Address", person.Address);
 
-            var identificationParameter =
-                new Npgsql.NpgsqlParameter("identification", person.Identification);
-
             var NameCompanyParameter = person.NameCompany != null ?
                 new Npgsql.NpgsqlParameter("NameCompany", person.NameCompany) :
                 new Npgsql.NpgsqlParameter("NameCompany", typeof(string));
@@ -246,8 +229,8 @@ namespace SantaMarta.DataAccess.Entity
               new Npgsql.NpgsqlParameter("Code", typeof(string));
 
             return this.Database.ExecuteSqlCommand("select * from Insert_Provider (@Code, @Name, @FirstName, @SecondName, @Phone, " +
-                "@CellPhone, @Email, @Address, @Identification, @NameCompany)", CodeParameter, NameParameter, FirstNameParameter,
-                SecondNameParameter, EmailParameter, PhoneParameter, CellPhoneParameter, AddressParameter, identificationParameter,
+                "@CellPhone, @Email, @Address, @NameCompany)", CodeParameter, NameParameter, FirstNameParameter,
+                SecondNameParameter, EmailParameter, PhoneParameter, CellPhoneParameter, AddressParameter,
                 NameCompanyParameter);
         }
         public virtual int Update_Provider(Persons person, Int64 IdPerson)
@@ -276,9 +259,6 @@ namespace SantaMarta.DataAccess.Entity
             var AddressParameter =
                 new Npgsql.NpgsqlParameter("Address", person.Address);
 
-            var identificationParameter =
-                new Npgsql.NpgsqlParameter("identification", person.Identification);
-
             var NameCompanyParameter = person.NameCompany != null ?
                 new Npgsql.NpgsqlParameter("NameCompany", person.NameCompany) :
                 new Npgsql.NpgsqlParameter("NameCompany", typeof(string));
@@ -291,8 +271,8 @@ namespace SantaMarta.DataAccess.Entity
                 new Npgsql.NpgsqlParameter("IdPerson", IdPerson);
 
             return this.Database.ExecuteSqlCommand("select * from Update_Provider (@Code, @Name, @FirstName, @SecondName, @Phone, " +
-                "@CellPhone, @Email, @Address, @Identification, @NameCompany, @IDPerson)", CodeParameter, NameParameter, FirstNameParameter,
-                SecondNameParameter, EmailParameter, PhoneParameter, CellPhoneParameter, AddressParameter, identificationParameter,
+                "@CellPhone, @Email, @Address, @NameCompany, @IDPerson)", CodeParameter, NameParameter, FirstNameParameter,
+                SecondNameParameter, EmailParameter, PhoneParameter, CellPhoneParameter, AddressParameter,
                 NameCompanyParameter, IdPersonParameter);
         }
         public virtual int Insert_Provider_Client(Int64 IdProvider)

@@ -83,11 +83,6 @@ namespace SantaMarta.Web.Controllers
                 ModelState.AddModelError("Code", "El codigo se esta usando actualmente");
                 return View(providers);
             }
-            else if (status == 401)
-            {
-                ModelState.AddModelError("Identification", "La identificacion se esta usando actualmente");
-                return View(providers);
-            }
             return View(providers);
         }
 
@@ -110,7 +105,6 @@ namespace SantaMarta.Web.Controllers
             Persons provider = new Persons();
 
             provider.Code = providers.Code;
-            provider.Identification = providers.Identification;
             provider.Name = providers.Name;
             provider.FirstName = providers.FirstName;
             provider.SecondName = providers.SecondName;
@@ -130,11 +124,6 @@ namespace SantaMarta.Web.Controllers
             else if (status == 400)
             {
                 ModelState.AddModelError("Code", "El codigo se esta usando actualmente");
-                return View(providers);
-            }
-            else if (status == 401)
-            {
-                ModelState.AddModelError("Identification", "La identificacion se esta usando actualmente");
                 return View(providers);
             }
             return View(providers);

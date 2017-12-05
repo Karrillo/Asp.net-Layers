@@ -100,25 +100,13 @@ namespace SantaMarta.DataAccess.ClientAccess
             try
             {
                 String code = db.Check_CodePersons(personClient.Code);
-                String identification = null;
-                if (personClient.Identification != null)
-                {
-                    identification = db.Check_Identification(personClient.Identification);
-                }
-                
+
                 All_Clients client = GetById(id);
 
                 if (code == null || code == client.Code)
                 {
-                    if (identification == null || identification == client.Identification)
-                    {
-                        db.update_Client(personClient, client.IDPerson);
-                        return 200;
-                    }
-                    else
-                    {
-                        return 401;
-                    }
+                    db.update_Client(personClient, client.IDPerson);
+                    return 200;
                 }
                 else
                 {
@@ -153,25 +141,10 @@ namespace SantaMarta.DataAccess.ClientAccess
             {
                 if (db.Check_CodePersons(personClient.Code) == null)
                 {
-                    if (personClient.Identification != null)
-                    {
-                        if (db.Check_Identification(personClient.Identification) == null)
-                        {
-                            db.Insert_Client(personClient);
-                            return 200;
-                        }
-                        else
-                        {
-                            return 401;
-                        }
-                    }
                     db.Insert_Client(personClient);
                     return 200;
                 }
-                else
-                {
-                    return 400;
-                }
+                return 400;
             }
             catch (Exception)
             {
