@@ -29,6 +29,7 @@ namespace SantaMarta.DataAccess.DetailAccess
             return 0;
         }
 
+        //Create Details
         public Int64 Create(Int64 id)
         {
             try

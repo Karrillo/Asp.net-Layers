@@ -518,6 +518,48 @@ public class Contextdb {
             return "false";
         }
     }
+    public String getCode(String token) {
+        String sql = "http://192.168.2.2:49161/api/Invoice";
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        URL url = null;
+        HttpURLConnection conn;
+
+        try {
+            url = new URL(sql);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Authorization", "Bearer " + token);
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+            String inputLine;
+
+            StringBuffer response = new StringBuffer();
+
+            String json = "";
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+
+            json = response.toString();
+
+            if (!json.equals("false")) {
+                return json;
+            } else {
+                return "false";
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return "false";
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "false";
+        }
+    }
     public String insertInvoices(String LimitDate, String Code, int Discount, Double Total, Boolean State, int IdClient, int IdProvider, long IdDetail, String token) {
         String sql = "http://192.168.2.2:49161/api/Invoice";
 

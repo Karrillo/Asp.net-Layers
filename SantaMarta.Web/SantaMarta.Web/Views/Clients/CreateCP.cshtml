@@ -3,7 +3,6 @@
         Layout = null;
         ViewBag.Title = "Delete";
     }
-    @*modal*@
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -13,8 +12,6 @@
     <div class="modal-body">
         @using (Ajax.BeginForm("CreateCP", "Clients", null, new AjaxOptions
         {
-
-            //HttpMethod = "POST",
             Url = Url.Action("CreateCP", "Clients"),
             UpdateTargetId = "modal-content",
             OnSuccess = "closeModalCreateCP",
@@ -25,10 +22,9 @@
         {
 
             @Html.AntiForgeryToken()
-            //textbox
             <div class="box-body">
                 <p>Estas seguro que desea que este cliente sea proveedor?</p>
-            </div>@*botones*@
+            </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
                 <input id="btnCreate" type="submit" value="Guardar" class="btn btn-success" />

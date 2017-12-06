@@ -13,16 +13,13 @@
 @if (Session["users"] == null)
 {
     Response.Redirect("~/Login/Index");
-
 }
 
-@*Boton ingresar nuevo*@
 <div class="box-header">
     <a class="btn btn-success btn-lg pull-right" data-target="#modal-crear" data-toggle="modal" href="/Clients/Create">
         <span class="glyphicon glyphicon-plus"></span> Nuevo Cliente
     </a>
 </div>
-@*Table*@
 @using (Html.BeginForm())
 {
     @Html.ValidationSummary(true)
@@ -45,7 +42,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @*lista de clientes*@
                     @foreach (var item in Model)
                 {
                         <tr>
@@ -58,9 +54,7 @@
                             <td>
                                 @if (Session["Type"] != null)
                                 {
-                                    @*Boton Editar*@
                                     <a class="btn btn-primary glyphicon glyphicon-edit" data-target="#modal-editar" data-toggle="modal" href="@Url.Action("Edit", "Clients", new { id = item.IDClient })"></a>
-                                    @*Boton Borrar*@
                                     <a class="btn btn-danger glyphicon glyphicon-trash" data-target="#modal-delete" data-toggle="modal" href="@Url.Action("Delete", "Clients", new { id = item.IDClient })"></a>
                                 }
                                 <a class="btn btn-info glyphicon glyphicon-file" data-target="#modal-details" data-toggle="modal" href="@Url.Action("Details", "Clients", new { id = item.IDClient })"></a>
@@ -90,14 +84,14 @@
 @*modal*@
 <div class="modal fade" tabindex="-1" role="dialog" id="modal-crear" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
+        <div class="modal-content" id="createModal">
         </div>
     </div>
 </div>
 @*modal 2*@
 <div class="modal fade" tabindex="-1" role="dialog" id="modal-editar" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
+        <div class="modal-content" id="editModal">
         </div>
     </div>
 </div>
@@ -132,7 +126,7 @@
 
     <script>
         $('body').on('hidden.bs.modal', '.modal', function () {
-            $(this).removeData('bs.modal');
+            $(this).removeData('bs.modal').find(".modal-body").html('');
         });
     </script>
 
@@ -155,19 +149,19 @@
                 window.location.href = "/Clients/Index";
             } else {
                 toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
-                $('.modal-content').html(data);
+                $('#createModal').html(data);
             }
         }
 </script>
 
 <script>
-        function closeModalEdit(data) {
-            if (data.success) {
+        function closeModalEdit(data2) {
+            if (data2.success) {
                 $('#modal-editar').modal('hide');
                 window.location.href = "/Clients/Index";
             } else {
                 toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
-                $('.modal-content').html(data);
+                $('#editModal').html(data2);
             }
         }
 </script>

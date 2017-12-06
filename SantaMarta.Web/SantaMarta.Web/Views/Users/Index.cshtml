@@ -11,14 +11,11 @@
 {
     Response.Redirect("~/Login/Index");
 }
-
-@*Boton ingresar nuevo*@
 <div class="box-header">
     <a class="btn btn-success btn-lg pull-right" data-target="#modal-crear" data-toggle="modal" href="/Users/Create">
         <span class="glyphicon glyphicon-plus"></span> Nuevo Usuario
     </a>
 </div>
-@*Table*@
 @using (Html.BeginForm())
 {
     @Html.ValidationSummary(true)
@@ -38,7 +35,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @*lista de clientes*@
                     @foreach (var item in Model)
                 {
                         <tr>
@@ -112,6 +108,8 @@
                 toastr.success('El usuario ha sido modificado correctamente', 'Modificado');
         } else if ('@TempData["message"]' == "Delete"){
                 toastr.success('El usuario ha sido eliminado correctamente', 'Eliminado');
+        }else if ('@TempData["message"]' == "Exists"){
+                toastr.warning('Debe Tener al menos un usuario administrador', 'Atencion');
         }
     });
     </script>

@@ -28,11 +28,13 @@
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
-            <ImageButton
+            <Button
                 android:id="@+id/btn_add"
                 android:layout_width="84dp"
                 android:layout_height="match_parent"
-                android:background="@android:drawable/ic_input_add" />
+                android:background="@drawable/custom_button_border"
+                android:textColor="#FFFFFF"
+                android:text="Agregar" />
 
         </LinearLayout>
 

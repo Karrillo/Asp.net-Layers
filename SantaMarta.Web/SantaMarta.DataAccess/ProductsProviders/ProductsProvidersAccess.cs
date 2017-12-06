@@ -16,6 +16,7 @@ namespace SantaMarta.DataAccess.ProductsProviders
             db = new ContextDb();
         }
 
+        //Get All Products Provideres
         public List<Products> GetAll(Int64 id)
         {
             List<Products> products = new List<Products>();
@@ -30,6 +31,7 @@ namespace SantaMarta.DataAccess.ProductsProviders
             }
         }
 
+        //Get Products Provideres
         public Products GetById(Int64 id)
         {
             Products products = new Products();
@@ -43,6 +45,7 @@ namespace SantaMarta.DataAccess.ProductsProviders
             }
         }
 
+        //Update Products Provideres
         public int Update(Products products, Int64 id)
         {
             try
@@ -65,6 +68,7 @@ namespace SantaMarta.DataAccess.ProductsProviders
             }
         }
 
+        //Create Products Provideres
         public int Create(Products products)
         {
             try
@@ -85,6 +89,7 @@ namespace SantaMarta.DataAccess.ProductsProviders
             }
         }
 
+        //Delete Products Provideres
         public int Delete(int id)
         {
             try
@@ -98,6 +103,7 @@ namespace SantaMarta.DataAccess.ProductsProviders
             }
         }
 
+        //Get All Providers Name 
         public List<List_Providers> GetAllProviders()
         {
             List<List_Providers> providers = new List<List_Providers>();

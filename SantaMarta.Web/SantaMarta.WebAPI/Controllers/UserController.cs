@@ -2,14 +2,11 @@
 using SantaMarta.Data.Models.Users;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace SantaMarta.WebAPI.Controllers
 {
-    
+
     public class UserController : ApiController
     {
         // GET: api/User
@@ -56,29 +53,17 @@ namespace SantaMarta.WebAPI.Controllers
 
             UsersB userB = new UsersB();
 
-            users = Encrypt(users);
-
             userCheck = userB.Check(users.Nickname,users.Password);
 
             switch (userCheck.ConfirmStatus)
             {
                 case 200:
                     return Ok(userCheck);
-                    break;
                 case 500:
                     return Ok(500);
-                    break;
                 default:
                     return Ok(false);
-                    break;
             }
-        }
-        private Users Encrypt(Users user)
-        {
-            string pass = user.Password;
-            byte[] encrypted = System.Text.Encoding.Unicode.GetBytes(pass);
-            user.Password = Convert.ToBase64String(encrypted);
-            return user;
         }
     }
 }

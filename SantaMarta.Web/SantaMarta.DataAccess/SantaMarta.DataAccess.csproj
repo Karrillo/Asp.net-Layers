@@ -60,8 +60,10 @@
     <Compile Include="Accounts\AccountAccess.cs" />
     <Compile Include="AssetsLiabilities\AssetLiabilityAccess.cs" />
     <Compile Include="Categories\CategoryAccess.cs" />
+    <Compile Include="Charts\ChartsAccess.cs" />
     <Compile Include="Clients\ClientAccess.cs" />
     <Compile Include="Details\DetailAccess.cs" />
+    <Compile Include="Emails\EmailsAccess.cs" />
     <Compile Include="Entity\ContextDb.cs" />
     <Compile Include="Invoices\InvoiceAccess.cs" />
     <Compile Include="Persons\PersonAccess.cs" />

@@ -27,7 +27,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <ListView
@@ -36,16 +36,23 @@
                 android:layout_height="414dp"
                 android:layout_weight="6.10" />
 
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
             <Button
                 android:id="@+id/btn_back"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.02"
+                android:layout_weight="1"
                 android:text="Salir"
                 android:background="@drawable/custom_button_border"
                 android:textColor="#FFFFFF"/>
-        </LinearLayout>
 
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

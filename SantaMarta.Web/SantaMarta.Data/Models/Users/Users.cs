@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -21,6 +22,7 @@ namespace SantaMarta.Data.Models.Users
         [StringLength(10, MinimumLength = 1, ErrorMessage = "El numero de caracteres debe ser menor a 10")]
         public String Password { get; set; }
 
+        [DisplayName("Admin")]
         public Boolean Type { get; set; }
 
         public Boolean State { get; set; }

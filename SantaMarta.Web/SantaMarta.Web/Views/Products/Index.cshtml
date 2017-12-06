@@ -16,11 +16,14 @@
     Response.Redirect("~/Login/Index");
 }
 
-<div class="box-header">
-    <a class="btn btn-success btn-lg pull-right" data-target="#modal-crear" data-toggle="modal" href="@Url.Action("Create", "Products", new { id = Session["IDProvider"] })">
-        <span class="glyphicon glyphicon-plus"></span> Nuevo Producto
-    </a>
-</div>
+@if (Session["IDProvider"] != null)
+{
+    <div class="box-header">
+        <a class="btn btn-success btn-lg pull-right" data-target="#modal-crear" data-toggle="modal" href="@Url.Action("Create", "Products", new { id = Session["IDProvider"] })">
+            <span class="glyphicon glyphicon-plus"></span> Nuevo Producto
+        </a>
+    </div>
+}
 
 @using (Html.BeginForm("Index", "Products", FormMethod.Get, new { id = "Form" }))
 {
@@ -29,7 +32,6 @@
         @Html.DropDownList("id", null, "Seleccionar un Proveedor", new { @class = "form-control select2", id = "drop" })
     </div>
 }
-@*Table*@
 <div class="box">
     <div class="box-header">
         <h3 class="box-title">Lista de Productos</h3>
@@ -126,13 +128,14 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
+
             if ('@TempData["message"]' == "Add") {
             toastr.success('El usuario ha sido agregado correctamente', 'Agregado');
         } else if ('@TempData["message"]' == "Update"){
                 toastr.success('El usuario ha sido modificado correctamente', 'Modificado');
         } else if ('@TempData["message"]' == "Delete"){
                 toastr.success('El usuario ha sido eliminado correctamente', 'Eliminado');
-        }
+            }
     });
     </script>
 }
@@ -151,6 +154,7 @@
         function closeModalEdit(data) {
             if (data.success) {
                 $('#modal-editar').modal('hide');
+                window.location.href = "/Products/Index";
             } else {
                 toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
                 $('.modal-content').html(data);

@@ -12,14 +12,11 @@
 {
     Response.Redirect("~/Login/Index");
 }
-
-@*Boton ingresar nuevo*@
 <div class="box-header">
     <a class="btn btn-success btn-lg pull-right" data-target="#modal-crear" data-toggle="modal" href="/Accounts/Create">
         <span class="glyphicon glyphicon-plus"></span> Nueva Cuenta
     </a>
 </div>
-@*Table*@
 @using (Html.BeginForm())
 {
     @Html.ValidationSummary(true)
@@ -37,7 +34,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @*lista de clientes*@
                     @foreach (var item in Model)
                 {
                         <tr>
@@ -45,7 +41,6 @@
                                 @Html.DisplayFor(modelItem => item.Name)
                             </td>
                             <td>
-                                @*Boton Editar*@
                                 <a class="btn btn-primary glyphicon glyphicon-edit" data-target="#modal-editar" data-toggle="modal" href="@Url.Action("Edit", "Accounts", new { id = item.IDAccount })"></a>
                                 <a class="btn btn-danger glyphicon glyphicon-trash" data-target="#modal-editar" data-toggle="modal" href="@Url.Action("Delete", "Accounts", new { id = item.IDAccount })"></a>
                             </td>
@@ -102,6 +97,8 @@
                 toastr.success('La cuenta ha sido modificado correctamente', 'Modificado');
         } else if ('@TempData["message"]' == "Delete"){
                 toastr.success('La cuenta ha sido eliminado correctamente', 'Eliminado');
+            } else if ('@TempData["message"]' == "Exists"){
+                toastr.warning('La cuenta esta vinculada a un movimiento', 'Atencion');
         }
     });
     </script>

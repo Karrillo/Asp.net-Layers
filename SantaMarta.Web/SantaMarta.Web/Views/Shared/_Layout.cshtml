@@ -18,7 +18,7 @@
     <div class="wrapper">
         @*HEADER*@
         <header class="main-header">
-            <a href="#" class="logo">
+            <a href=@Url.Action("Index", "Home") class="logo">
                 <span class="logo-mini"><b>S</b>.M.</span>
                 <span class="logo-lg"><b>Santa</b> Marta</span>
             </a>
@@ -41,7 +41,7 @@
                                     <i class="fa fa-gears"></i>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li class="header" style="font-weight: bold;">Configuracion Super Usuario</li>
+                                    <li class="header" style="font-weight: bold;">Configuracion Administrador</li>
                                     <li>
                                         <ul class="menu">
                                             <li>
@@ -60,6 +60,12 @@
                                                 <a href=@Url.Action("Index", "Accounts")>
                                                     <div class="pull-left fa fa-credit-card" style="font-size:20px; color:dimgrey;"></div>
                                                     <h4>Cuentas</h4>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href=@Url.Action("Index", "Email")>
+                                                    <div class="pull-left fa fa-at" style="font-size:20px; color:dimgrey;"></div>
+                                                    <h4>Correo</h4>
                                                 </a>
                                             </li>
                                         </ul>
@@ -81,7 +87,7 @@
                                 <ul class="dropdown-menu">
                                     <li class="header" style="font-weight: bold;">Restauracion de Datos</li>
                                     <li>
-                                        <ul class="menu">                                          
+                                        <ul class="menu">
                                             <li>
                                                 <a href=@Url.Action("Index2", "Clients")>
                                                     <div class="pull-left fa fa-credit-card" style="font-size:20px; color:dimgrey;"></div>
@@ -144,7 +150,7 @@
                     @*HOME*@
                     <li>
                         <a href=@Url.Action("Index", "Home")>
-                            <i class="fa fa-home"></i><span>Home</span>
+                            <i class="fa fa-home"></i><span>Inicio</span>
                         </a>
                     </li>
                     @*MOVIMIENTOS*@
@@ -228,7 +234,7 @@
                     <small>@ViewBag.SubTitle</small>
                 </h1>
                 <ol class="breadcrumb">
-                    <li><a href="#"><i class="fa fa-home"></i>@ViewBag.SubTitle</a></li>
+                    <li><a href=@Url.Action("Index", "Home")><i class="fa fa-home"></i>@ViewBag.SubTitle</a></li>
                     <li class="active">@ViewBag.Title</li>
                 </ol>
             </section>

@@ -47,6 +47,7 @@
     <Compile Include="Models\Clients\Clients.cs" />
     <Compile Include="Models\Details\Details.cs" />
     <Compile Include="Models\Invoices\Invoices.cs" />
+    <Compile Include="Models\Mails\Mails.cs" />
     <Compile Include="Models\Persons\Persons.cs" />
     <Compile Include="Models\Products\Products.cs" />
     <Compile Include="Models\Providers\Providers.cs" />
@@ -58,12 +59,15 @@
     <Compile Include="Store Procedures\All_Clients.cs" />
     <Compile Include="Store Procedures\All_Providers.cs" />
     <Compile Include="Store Procedures\AssetsLiabilitiesDetails.cs" />
+    <Compile Include="Store Procedures\Charts_Accounts.cs" />
+    <Compile Include="Store Procedures\Charts_Clients.cs" />
     <Compile Include="Store Procedures\Check_Payment.cs" />
     <Compile Include="Store Procedures\InvoicesTable.cs" />
     <Compile Include="Store Procedures\List_Products_Deleted.cs" />
     <Compile Include="Store Procedures\List_Providers.cs" />
     <Compile Include="Store Procedures\Sum_Account_Category.cs" />
     <Compile Include="Store Procedures\Sum_AssetLiability.cs" />
+    <Compile Include="Store Procedures\Sum_Products.cs" />
     <Compile Include="Store Procedures\Views_Invoices.cs" />
     <Compile Include="Store Procedures\Views_Invoinces_Details.cs" />
     <Compile Include="Store Procedures\Views_Invoinces_Products.cs" />

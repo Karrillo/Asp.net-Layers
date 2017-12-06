@@ -33,6 +33,11 @@ namespace SantaMarta.Bussines.ClientsBussines
             return clientAccess.GetAll();
         }
 
+        public List<Int64> ClientsAll()
+        {
+            return clientAccess.ClientsAll();
+        }
+
         public List<All_Clients> GetAllDelete()
         {
             return clientAccess.GetAllDelete();

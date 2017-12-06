@@ -56,7 +56,7 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
 
     private static ListView list;
     private EditText txtadd;
-    private ImageButton add;
+    private Button add;
     private Button back;
     private static String token = "";
     private static Contextdb contextdb = new Contextdb();
@@ -69,7 +69,7 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
         setContentView(R.layout.activity_invoices);
         //final ListView list = (ListView) findViewById(R.id.list_invoices);
         list = (ListView) findViewById(R.id.list_invoices);
-        add = (ImageButton) findViewById(R.id.btn_add);
+        add = (Button) findViewById(R.id.btn_add);
         back = (Button) findViewById(R.id.btn_back);
         token = MainActivity.token;
         context = getBaseContext();
@@ -428,7 +428,93 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
         buffer.flip();
         return buffer.array();
     }
-    public static void printInvoice(final String client, final String numInvoice, final String dateCurent, final String dateLimit, final String credit, final List<Product> productlist,
+    public static void printInvoice(final String client, final String numInvoice, final String dateCurent, final String credit, final List<Product> productlist,
+                                          final String discount, final String total){
+        final DecimalFormat df = new DecimalFormat("#.00");
+        Thread t = new Thread() {
+            public void run() {
+                Product product;
+                try {
+                    OutputStream os = mBluetoothSocket
+                            .getOutputStream();
+                    String BILL = "";
+
+                    BILL = "     PRODUCTOS ALIMENTICIOS \n"
+                            + "          SANTA MARTA \n" +
+                            "        Factura de venta     \n" +
+                            "Numero de Factura: "+numInvoice+"\n" +
+                            "Fecha: " + dateCurent +"\n" +
+                            "Contado: "+credit+"\n" +
+                            "Cliente: \n" +
+                            ""+ client + "\n";
+                    BILL = BILL
+                            + "-------------------------------\n";
+
+
+                    BILL = BILL + " Nombre          Codigo ";
+                    BILL = BILL + "\n";
+                    BILL = BILL
+                            + "-------------------------------\n";
+                    for(int x=0; x<productlist.size();x++) {
+                        product = productlist.get(x);
+                        BILL = BILL + "\n " + product.getName()+"    "+product.getCode();
+                    }
+                    BILL = BILL
+                            + "\n-------------------------------\n";
+                    BILL = BILL + "\n\n ";
+
+                    BILL = BILL + "Cantidad Impuesto  Total";
+                    BILL = BILL + "\n";
+                    BILL = BILL
+                            + "-------------------------------\n";
+                    for(int x=0; x<productlist.size();x++) {
+                        product = productlist.get(x);
+                        BILL = BILL + "\n " + product.getQuantity()+"    "+product.getTax()+"   "+df.format(product.getTotal());
+                    }
+
+                    BILL = BILL
+                            + "\n-------------------------------";
+                    BILL = BILL + "\n";
+                    BILL = BILL + "\n";
+
+                    BILL = BILL + " Descuento: " + discount + " %" + "\n";
+                    BILL = BILL + " Total de Factura: \n";
+                    BILL = BILL + " "+ total +"\n";
+
+                    BILL = BILL
+                            + "-------------------------------\n";
+                    BILL = BILL + "\n";
+                    BILL = BILL + "\n";
+                    BILL = BILL + "\n";
+                    BILL = BILL + "\n";
+                    os.write(BILL.getBytes());
+                    //This is printer specific code you can comment ==== > Start
+
+                    // Setting height
+                    int gs = 29;
+                    os.write(intToByteArray(gs));
+                    int h = 104;
+                    os.write(intToByteArray(h));
+                    int n = 162;
+                    os.write(intToByteArray(n));
+
+                    // Setting Width
+                    int gs_width = 29;
+                    os.write(intToByteArray(gs_width));
+                    int w = 119;
+                    os.write(intToByteArray(w));
+                    int n_width = 2;
+                    os.write(intToByteArray(n_width));
+
+
+                } catch (Exception e) {
+                    Log.e("MainPrintActivity", "Exe ", e);
+                }
+            }
+        };
+        t.start();
+    }
+    public static void printInvoiceCredit(final String client, final String numInvoice, final String dateCurent, final String dateLimit, final String credit, final List<Product> productlist,
                                     final String discount, final String total){
         final DecimalFormat df = new DecimalFormat("#.00");
         Thread t = new Thread() {
@@ -529,7 +615,7 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
 
                     BILL = "     PRODUCTOS ALIMENTICIOS \n"
                             + "          SANTA MARTA \n" +
-                            "        Factura de Abono     \n" +
+                            "        Recibo de Abono     \n" +
                             "Numero de Factura: "+numInvoice+"\n" +
                             "Fecha: " + dateCurent +"\n" +
                             "Cliente: \n" +

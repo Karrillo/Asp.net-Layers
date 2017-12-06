@@ -15,12 +15,15 @@ namespace SantaMarta.DataAccess.UserAccess
             db = new ContextDb();
         }
 
+        //Check Login Name and Password
         public Users Check(string nickname, string password)
         {
             Users user = new Users();
             try
             {
-                user = db.Check_Users(nickname, password);
+                user.Password = password;
+                user = Encrypt(user);
+                user = db.Check_Users(nickname, user.Password);
                 if (user != null)
                 {
                     user = Decrypt(user);
@@ -39,6 +42,7 @@ namespace SantaMarta.DataAccess.UserAccess
             }
         }
 
+        //Get All Users
         public List<Users> GetAll()
         {
             List<Users> users = new List<Users>();
@@ -48,12 +52,14 @@ namespace SantaMarta.DataAccess.UserAccess
                 users = db.List_Users().ToList();
                 return users;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                var c = e;
                 return users;
             }
         }
 
+        //Get All Users Deleted
         public List<Users> GetAllDelete()
         {
             List<Users> users = new List<Users>();
@@ -69,6 +75,7 @@ namespace SantaMarta.DataAccess.UserAccess
             }
         }
 
+        //Get Users
         public Users GetById(Int64 id)
         {
             Users user = new Users();
@@ -84,6 +91,7 @@ namespace SantaMarta.DataAccess.UserAccess
             }
         }
 
+        //Upddate Users
         public int Update(Users user)
         {
             try
@@ -107,6 +115,7 @@ namespace SantaMarta.DataAccess.UserAccess
             }
         }
 
+        //Create Users
         public int Create(Users user)
         {
             try
@@ -127,10 +136,31 @@ namespace SantaMarta.DataAccess.UserAccess
             }
         }
 
+        //Delete Users
         public int Delete(int id)
         {
             try
             {
+                List<Users> users = db.List_Users();
+                Boolean type = (from u in users where u.IDUser == id select u.Type).FirstOrDefault();
+                if (type == true)
+                {
+                    int cont = 0;
+                    foreach (var item in users)
+                    {
+                        if (item.Type == true)
+                        {
+                            cont = cont + 1;
+                        }
+                    }
+
+                    if (cont < 1)
+                    {
+                        db.Delete_User(id);
+                        return 200;
+                    }
+                    return 400;
+                }
                 db.Delete_User(id);
                 return 200;
             }
@@ -140,6 +170,7 @@ namespace SantaMarta.DataAccess.UserAccess
             }
         }
 
+        //Restore Users
         public int Restore(int id)
         {
             try
@@ -153,6 +184,7 @@ namespace SantaMarta.DataAccess.UserAccess
             }
         }
 
+        //Encrypt Passwords
         private Users Encrypt(Users user)
         {
             string pass = user.Password;
@@ -161,6 +193,7 @@ namespace SantaMarta.DataAccess.UserAccess
             return user;
         }
 
+        //Decrypt Passwords
         private Users Decrypt(Users user)
         {
             string pass = user.Password;

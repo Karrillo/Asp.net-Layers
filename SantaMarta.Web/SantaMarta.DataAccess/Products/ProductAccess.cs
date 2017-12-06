@@ -16,6 +16,7 @@ namespace SantaMarta.DataAccess.ProductAccess
             db = new ContextDb();
         }
 
+        //Get All Products Own
         public List<Products> GetAll()
         {
             List<Products> products = new List<Products>();
@@ -30,6 +31,7 @@ namespace SantaMarta.DataAccess.ProductAccess
             }
         }
 
+        //Get All Products Own Deleted
         public List<List_Products_Deleted> GetAllDelete()
         {
             List<List_Products_Deleted> products = new List<List_Products_Deleted>();
@@ -44,6 +46,7 @@ namespace SantaMarta.DataAccess.ProductAccess
             }
         }
 
+        //Get Products Own
         public Products GetById(Int64 id)
         {
             Products products = new Products();
@@ -57,6 +60,7 @@ namespace SantaMarta.DataAccess.ProductAccess
             }
         }
 
+        //Update Products Own
         public int Update(Products products, Int64 id)
         {
             try
@@ -79,6 +83,7 @@ namespace SantaMarta.DataAccess.ProductAccess
             }
         }
 
+        //Create Products Own
         public int Create(Products products)
         {
             try
@@ -99,6 +104,7 @@ namespace SantaMarta.DataAccess.ProductAccess
             }
         }
 
+        //Delete Products Own
         public int Delete(int id)
         {
             try
@@ -112,6 +118,7 @@ namespace SantaMarta.DataAccess.ProductAccess
             }
         }
 
+        //Restore Products Own
         public int Restore(int id)
         {
             try

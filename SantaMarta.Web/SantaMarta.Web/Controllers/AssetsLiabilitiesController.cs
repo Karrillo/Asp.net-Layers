@@ -10,7 +10,6 @@ using SantaMarta.Data.Models.AssetsLiabilities;
 using SantaMarta.Data.Models.Users;
 using SantaMarta.Data.Store_Procedures;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -40,8 +39,18 @@ namespace SantaMarta.Web.Controllers
         // GET: AssetsLiabilities
         public ActionResult Index(String value_from_start_date, String value_from_end_date)
         {
-            TempData["startDate"] = value_from_start_date;
-            TempData["endDate"] = value_from_end_date;
+
+            if (value_from_start_date == null && value_from_end_date == null)
+            {
+                Session["startDate"] = null;
+                Session["endDate"] = null;
+            }
+            else
+            {
+                Session["startDate"] = value_from_start_date;
+                Session["endDate"] = value_from_end_date;
+            }
+
 
             if (!String.IsNullOrEmpty(value_from_start_date) && !String.IsNullOrEmpty(value_from_end_date))
             {
@@ -63,6 +72,7 @@ namespace SantaMarta.Web.Controllers
             }
         }
 
+        // GET: information on ViewBag
         private void tableInformation(Decimal? assets, Decimal? liabilities)
         {
             if (ViewBag.assets == 0)
@@ -166,6 +176,7 @@ namespace SantaMarta.Web.Controllers
             return PartialView();
         }
 
+        //Create PDF 
         public void createPdf()
         {
             string pathToTemplate = Server.MapPath("~/App_Data/report.pdf");
@@ -175,9 +186,8 @@ namespace SantaMarta.Web.Controllers
             graphics.DrawString("Productos Alimenticios Santa Marta", font, XBrushes.Black, 220, 80);
             int position = 145;
 
-
-            var startDate = TempData["startDate"];
-            var endDate = TempData["endDate"];
+            var startDate = Session["startDate"];
+            var endDate = Session["endDate"];
 
             if (startDate != null && endDate != null)
             {

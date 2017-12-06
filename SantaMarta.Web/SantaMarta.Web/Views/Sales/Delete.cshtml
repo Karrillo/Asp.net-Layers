@@ -3,18 +3,15 @@
     Layout = null;
     ViewBag.Title = "Delete";
 }
-@*modal*@
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
-    <h3 class="modal-title" id="myModalLabel">Anular Movimeinto</h3>
+    <h3 class="modal-title" id="myModalLabel">Anular Factura</h3>
 </div>
 <div class="modal-body">
     @using (Ajax.BeginForm("Delete", "Sales", null, new AjaxOptions
     {
-
-        //HttpMethod = "POST",
         Url = Url.Action("Delete", "Sales"),
         UpdateTargetId = "modal-content",
         OnSuccess = "closeModalDelete",
@@ -25,10 +22,9 @@
     {
 
         @Html.AntiForgeryToken()
-        //textbox
         <div class="box-body">
             <p>Esta seguro de anular este factura?</p>
-        </div>@*botones*@
+        </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
             <input id="btnCreate" type="submit" value="Borrar" class="btn btn-danger" />

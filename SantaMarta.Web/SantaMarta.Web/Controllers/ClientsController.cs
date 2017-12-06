@@ -28,13 +28,13 @@ namespace SantaMarta.Web.Controllers
         public ActionResult Index()
         {
             List<All_Clients> clients = clientsB.GetAll().ToList();
-            List<All_Providers> providers = providersB.GetAll().ToList();
+            List<Int64> providers = providersB.ProvidersAll().ToList();
 
             foreach (var y in clients)
             {
                 foreach (var x in providers)
                 {
-                    if (y.IDPerson == x.IDPerson)
+                    if (y.IDPerson == x)
                     {
                         y.IsProvider = true;
                     }

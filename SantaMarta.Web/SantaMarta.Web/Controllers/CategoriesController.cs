@@ -26,6 +26,7 @@ namespace SantaMarta.Web.Controllers
             return View();
         }
 
+        // GET: Categories Deleted
         public ActionResult Index2()
         {
             return View(categoriesB.GetAllDelete().ToList());
@@ -69,8 +70,9 @@ namespace SantaMarta.Web.Controllers
 
         // POST: Categories/Edit/5
         [HttpPost]
-        public ActionResult Edit(Categories categories)
+        public ActionResult Edit(int id, Categories categories)
         {
+            categories.IDCategory = id;
             int status = categoriesB.Update(categories);
 
             if (status == 200)
@@ -103,9 +105,15 @@ namespace SantaMarta.Web.Controllers
                 TempData["message"] = "Delete";
                 return Json(new { success = true });
             }
+            else if (status == 400)
+            {
+                TempData["message"] = "Exists";
+                return Json(new { success = true });
+            }
             return PartialView();
         }
 
+        // POST: Restore
         public ActionResult Restore(int id)
         {
             return PartialView();

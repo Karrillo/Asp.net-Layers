@@ -3,6 +3,7 @@ using SantaMarta.Bussines.PersonsBussines;
 using SantaMarta.Bussines.ProvidersBussines;
 using SantaMarta.Data.Models.Persons;
 using SantaMarta.Data.Store_Procedures;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -26,14 +27,14 @@ namespace SantaMarta.Web.Controllers
         // GET: Clients
         public ActionResult Index()
         {
-            List<All_Clients> clients = clientsB.GetAll().ToList();
+            List<Int64> clients = clientsB.ClientsAll().ToList();
             List<All_Providers> providers = providersB.GetAll().ToList();
 
             foreach (var y in providers)
             {
                 foreach (var x in clients)
                 {
-                    if (y.IDPerson == x.IDPerson)
+                    if (y.IDPerson == x)
                     {
                         y.IsClient = true;
                     }
@@ -42,6 +43,7 @@ namespace SantaMarta.Web.Controllers
             return View(providers);
         }
 
+        // Get: Providers deleted
         public ActionResult Index2()
         {
             return View(providersB.GetAllDelete().ToList());
@@ -138,12 +140,13 @@ namespace SantaMarta.Web.Controllers
             return View(providers);
         }
 
+        // POST: Restore
         public ActionResult Restore(int id)
         {
             return PartialView();
         }
 
-        // POST: Clients/Delete/5
+        // POST: Clients/Restore/5
         [HttpPost]
         public ActionResult Restore(int id, FormCollection collection)
         {

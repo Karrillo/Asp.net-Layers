@@ -132,6 +132,8 @@
                 toastr.success('La categoria ha sido modificado correctamente', 'Modificado');
         } else if ('@TempData["message"]' == "Delete"){
                 toastr.success('La categoria ha sido eliminado correctamente', 'Eliminado');
+        }else if ('@TempData["message"]' == "Exists"){
+                toastr.warning('La categoria esta vinculada a un movimiento', 'Atencion');
         }
     });
     </script>

@@ -12,19 +12,15 @@
     @Scripts.Render("~/scripts/Tables/Data/menu")
 }
 @Styles.Render("~/AdminPacket/plugins/datatables/css")
-
 <link href="~/Scripts/Toastr/toastr.min.css" rel="stylesheet" />
-
 <div class="box-header">
     <a class="btn btn-success btn-lg pull-right" data-target="#modal-crear" data-toggle="modal" href="/ProductsSM/Create">
         <span class="glyphicon glyphicon-plus"></span> Nuevo Producto
     </a>
 </div>
-
 @using (Html.BeginForm())
 {
     @Html.ValidationSummary(true)
-
     <div class="box">
         <div class="box-header">
             <h3 class="box-title">Lista de Productos de Santa Marta</h3>
@@ -72,14 +68,14 @@
 @*modal*@
 <div class="modal fade" tabindex="-1" role="dialog" id="modal-crear" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
+        <div class="modal-content" id="createModal">
         </div>
     </div>
 </div>
 @*modal 2*@
 <div class="modal fade" tabindex="-1" role="dialog" id="modal-editar" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
+        <div class="modal-content" id="editModal">
         </div>
     </div>
 </div>
@@ -98,7 +94,6 @@
     </div>
 </div>
 
-
 <script src="~/Scripts/jquery-3.1.1.min.js"></script>
 <script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
 
@@ -109,7 +104,7 @@
 
     <script>
         $('body').on('hidden.bs.modal', '.modal', function () {
-            $(this).removeData('bs.modal');
+            $(this).removeData('bs.modal').find(".modal-body").html('');
         });
     </script>
 
@@ -133,7 +128,7 @@
                 window.location.href = "/ProductsSM/Index";
             } else {
                 toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
-                $('.modal-content').html(data);
+                $('#createModal').html(data);
             }
         }
 </script>
@@ -145,7 +140,7 @@
                 window.location.href = "/ProductsSM/Index";
             } else {
                 toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
-                $('.modal-content').html(data);
+                $('#editModal').html(data);
             }
         }
 </script>

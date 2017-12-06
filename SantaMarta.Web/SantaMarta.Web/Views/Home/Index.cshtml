@@ -1,16 +1,19 @@
 ﻿@{
-    ViewBag.Title = "Home";
+    ViewBag.Title = "Inicio";
 }
 @section Menu {
     @Scripts.Render("~/Scripts/Charts/ChartsJs/menu")
 }
+
 @Scripts.Render("~/AdminPacket/plugins/jquery/js")
+
 @if (Session["users"] == null)
 {
     Response.Redirect("~/Login/Index");
-
 }
+
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
 <div class="row">
     <div class="col-md-12">
         <div class="box box-info">
@@ -20,19 +23,24 @@
                     <button type="button" class="btn btn-box-tool" data-widget="collapse">
                         <i class="fa fa-minus"></i>
                     </button>
-                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                 </div>
             </div>
             <div class="box-body">
+                <div class="input-group">
+                    <select class="form-control" id="assetsLiabilitiesYears"><option disabled selected> -- Selecciona el año -- </option></select>
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <select class="form-control" id="assetsLiabilitiesMonths"><option disabled selected> -- Selecciona el mes -- </option></select>
+                </div>
                 <div class="chart">
-                    <div id="ActivoPasivo" style="width:100%; height: 500px"></div>
+                    <div id="assetsLiabilities" style="width:100%; height: 500px"></div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
         <div class="box box-info">
             <div class="box-header with-border">
                 <h3 class="box-title">Cuentas</h3>
@@ -40,17 +48,19 @@
                     <button type="button" class="btn btn-box-tool" data-widget="collapse">
                         <i class="fa fa-minus"></i>
                     </button>
-                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                 </div>
             </div>
             <div class="box-body">
                 <div class="chart">
-                    <div id="Cuenta" style="width:100%; height: 100%"></div>
+                    <div id="accounts" style="width:100%; height: 100%"></div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-6">
+</div>
+
+<div class="row">
+    <div class="col-md-12">
         <div class="box box-info">
             <div class="box-header with-border">
                 <h3 class="box-title">Categorias</h3>
@@ -58,89 +68,122 @@
                     <button type="button" class="btn btn-box-tool" data-widget="collapse">
                         <i class="fa fa-minus"></i>
                     </button>
-                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                 </div>
             </div>
             <div class="box-body">
                 <div class="chart">
-                    <div id="Categoria" style="width:100%; height: 100%"></div>
+                    <div id="categories" style="width:100%; height: 100%"></div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div class="control-sidebar-bg"></div>
 
-<style>
-    #chart_display {
-        height: 400px;
-        width: 650px;
-    }
-</style>
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h3 class="box-title">Productos</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                <select class="form-control" id="productsYears"><option disabled selected> -- Selecciona el año -- </option></select>
+            </div>
+            <div class="box-body">
+                <div class="chart">
+                    <div id="products" style="width:100%; height: 100%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h3 class="box-title">Clientes</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <select class="form-control" id="clietsYears"><option disabled selected> -- Selecciona el año -- </option></select>
+                </div>
+                <div class="chart">
+                    <div id="clients" style="width:100%; height: 100%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
-    //initilize globar variable for hold chart data
     google.load("visualization", "1", { packages: ["corechart"] });
 </script>
-<script>
-    var chartData;
-    // get the chart data from the server.
-    $(document).ready(function () {
-        $.ajax({
-            url: "/Home/getCategoria",
-            data: "{}",
-            dataType: "json",
-            type: "POST",
-            contentType: "application/json; chartset=utf-8",
-            success: function (data) {
-                debugger;
-                chartData = data;
-                // Callback that creates and populates a data table,
-                // instantiates the pie chart, passes in the data and draws it.
-                //Creates a data table for storing the map data .chart api access this data for displaying
-                var data = new google.visualization.DataTable();
-                //Adding columns to data table to insert the chart data
-                data.addColumn('string', 'Nombre de Categoria');
-                data.addColumn('number', 'Monto');
-                //bind the data to the data table using for loop
-                for (var i = 0; i < chartData.length; i++) {
-                    data.addRow([chartData[i].Nombre, chartData[i].monto]);
-                }
-                // Instantiate and draw our chart, passing in some options
-                var chart = new google.visualization.PieChart(document.getElementById('Categoria'));
-                chart.draw(data,
-                    {
-                        title: "Movimientos segun la categoria",//title of the pie chart
-                    });
-            },
-            // ajax error display
-            error: function () {
-                alert("Error loading data! Please try again.");
-            }
-        });
-    });
-</script>
+
 <script>
     var chartData;
     $(document).ready(function () {
         $.ajax({
-            url: "/Home/getCuenta",
-            data: "{}",
-            dataType: "json",
-            type: "POST",
-            contentType: "application/json; chartset=utf-8",
+            url: "/Home/getClients",
+            type: "GET",
             success: function (data) {
-                debugger;
-                chartData = data;
-                var data = new google.visualization.DataTable();
-                data.addColumn('string', 'Nombre de Categoria');
-                data.addColumn('number', 'Monto');
-                for (var i = 0; i < chartData.length; i++) {
-                    data.addRow([chartData[i].Nombre, chartData[i].monto]);
+
+                var result = {}, ret = [];
+                var newCols = [];
+                for (var i = 0; i < data.length; i++) {
+
+                    if (!result[data[i].Name]) {
+                        result[data[i].Name] = {};
+                    }
+
+                    result[data[i].Name][data[i].Date] = data[i].Sum;
+
+                    if (newCols.indexOf(data[i].Date) == -1) {
+                        newCols.push(data[i].Date);
+                    }
                 }
-                var chart = new google.visualization.PieChart(document.getElementById('Cuenta'));
-                chart.draw(data,
+
+                newCols.sort();
+                var item = [];
+
+                item.push('Item');
+                item.push.apply(item, newCols);
+                ret.push(item);
+
+                for (var key in result) {
+                    item = [];
+                    item.push(key);
+                    for (var i = 0; i < newCols.length; i++) {
+                        item.push(result[key][newCols[i]] || "0");
+                    }
+                    ret.push(item);
+                }
+
+                var chartData = new google.visualization.arrayToDataTable(ret);
+
+                for (var i = 1; i < ret.length - 1; i++) {
+                    $("#clietsYears").append('<option value ="' + ret[0][i] + '">' + ret[0][i] + '</option>');
+                }
+
+                var chart = new google.visualization.BarChart(document.getElementById('clients'));
+                chart.draw(chartData,
                     {
-                        title: "Movimientos segun la cuenta",
+                        title: "Venta de Clientes",
+                        animation: {
+                            duration: 1500,
+                            startup: true
+                        }
                     });
             },
             error: function () {
@@ -149,34 +192,455 @@
         });
     });
 </script>
+
+<script>
+    $(document).ready(function () {
+        $("#clietsYears").change(function () {
+            $.ajax({
+                url: "/Home/getClientsFilter",
+                type: "GET",
+                data: { date: $("#clietsYears").val() },
+                success: function (data) {
+
+                    var monthNames = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+                        "Julio", "Agosto", "Setiembre", "Octubre", "Noviembre", "Diciembre"
+                    ];
+
+                    var result = {}, ret = [];
+                    var newCols = [];
+                    for (var i = 0; i < data.length; i++) {
+
+                        if (!result[data[i].Name]) {
+                            result[data[i].Name] = {};
+                        }
+
+                        result[data[i].Name][monthNames[data[i].Date]] = data[i].Sum;
+
+                        if (newCols.indexOf(monthNames[data[i].Date]) == -1) {
+                            newCols.push(monthNames[data[i].Date]);
+                        }
+                    }
+
+                    newCols.sort();
+                    var item = [];
+
+                    item.push('Item');
+                    item.push.apply(item, newCols);
+                    ret.push(item);
+
+                    for (var key in result) {
+                        item = [];
+                        item.push(key);
+                        for (var i = 0; i < newCols.length; i++) {
+                            item.push(result[key][newCols[i]] || "0");
+                        }
+                        ret.push(item);
+                    }
+
+                    var chartData = new google.visualization.arrayToDataTable(ret);
+
+                    var chart = new google.visualization.BarChart(document.getElementById('clients'));
+
+                    chart.draw(chartData,
+                        {
+                            title: "Venta de Clientes",
+                            animation: {
+                                duration: 1500,
+                                startup: true
+                            }
+                        });
+                },
+                error: function () {
+                    alert("Error loading data! Please try again.");
+                }
+            });
+        });
+    });
+</script>
+
+
+@*Productos*@
+<script>
+    var chartData;
+    $(document).ready(function () {
+        $.ajax({
+            url: "/Home/getProducts",
+            type: "GET",
+            success: function (data) {
+
+                var result = {}, ret = [];
+                var newCols = [];
+                for (var i = 0; i < data.length; i++) {
+
+                    if (!result[data[i].Name]) {
+                        result[data[i].Name] = {};
+                    }
+
+                    result[data[i].Name][data[i].Date] = data[i].Sum;
+
+                    if (newCols.indexOf(data[i].Date) == -1) {
+                        newCols.push(data[i].Date);
+                    }
+                }
+
+                newCols.sort();
+                var item = [];
+
+                item.push('Item');
+                item.push.apply(item, newCols);
+                ret.push(item);
+
+                for (var key in result) {
+                    item = [];
+                    item.push(key);
+                    for (var i = 0; i < newCols.length; i++) {
+                        item.push(result[key][newCols[i]] || "0");
+                    }
+                    ret.push(item);
+                }
+
+                var chartData = new google.visualization.arrayToDataTable(ret);
+
+                for (var i = 1; i < ret.length - 1; i++) {
+                    $("#productsYears").append('<option value ="' + ret[0][i] + '">' + ret[0][i] + '</option>');
+                }
+
+                var chart = new google.visualization.BarChart(document.getElementById('products'));
+                chart.draw(chartData,
+                    {
+                        title: "Venta de Productos",
+                        animation: {
+                            duration: 1500,
+                            startup: true
+                        }
+                    });
+            },
+            error: function () {
+                alert("Error loading data! Please try again.");
+            }
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#productsYears").change(function () {
+            $.ajax({
+                url: "/Home/getProductsFilter",
+                type: "GET",
+                data: { date: $("#productsYears").val() },
+                success: function (data) {
+
+                    var monthNames = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+                        "Julio", "Agosto", "Setiembre", "Octubre", "Noviembre", "Diciembre"
+                    ];
+
+                    var result = {}, ret = [];
+                    var newCols = [];
+                    for (var i = 0; i < data.length; i++) {
+
+                        if (!result[data[i].Name]) {
+                            result[data[i].Name] = {};
+                        }
+
+                        result[data[i].Name][monthNames[data[i].Date]] = data[i].Sum;
+
+                        if (newCols.indexOf(monthNames[data[i].Date]) == -1) {
+                            newCols.push(monthNames[data[i].Date]);
+                        }
+                    }
+
+                    newCols.sort();
+                    var item = [];
+
+                    item.push('Item');
+                    item.push.apply(item, newCols);
+                    ret.push(item);
+
+                    for (var key in result) {
+                        item = [];
+                        item.push(key);
+                        for (var i = 0; i < newCols.length; i++) {
+                            item.push(result[key][newCols[i]] || "0");
+                        }
+                        ret.push(item);
+                    }
+
+                    var chartData = new google.visualization.arrayToDataTable(ret);
+
+                    var chart = new google.visualization.BarChart(document.getElementById('products'));
+
+                    chart.draw(chartData,
+                        {
+                            title: "Venta de Productos",
+                            animation: {
+                                duration: 1500,
+                                startup: true
+                            }
+                        });
+                },
+                error: function () {
+                    alert("Error loading data! Please try again.");
+                }
+            });
+        });
+    });
+</script>
+
+
+@*Cuentas*@
+<script>
+    var chartData;
+    $(document).ready(function () {
+        $.ajax({
+            url: "/Home/getAccounts",
+            type: "GET",
+            success: function (data) {
+
+                chartData = data;
+
+                var data = new google.visualization.DataTable();
+
+                data.addColumn('string', 'Nombre');
+                data.addColumn('number', 'Ingreso');
+                data.addColumn('number', 'Egreso');
+                data.addColumn('number', 'Total');
+
+                for (var i = 0; i < chartData.length; i++) {
+                    var Total = chartData[i].Assets - chartData[i].Liabilities;
+                    data.addRow([chartData[i].Name, chartData[i].Assets, chartData[i].Liabilities, Total]);
+                }
+
+                var chart = new google.visualization.ComboChart(document.getElementById('accounts'));
+                chart.draw(data,
+                    {
+                        title: "Movimientos de Cuentas",
+                        animation: {
+                            duration: 1500,
+                            startup: true
+                        },
+                        seriesType: 'bars',
+                        series: { 2: { type: 'line' } }
+                    });
+            },
+            error: function () {
+                alert("Error loading data! Please try again.");
+            }
+        });
+    });
+</script>
+
+
+@*Categorias*@
+<script>
+    var chartData;
+    $(document).ready(function () {
+        $.ajax({
+            url: "/Home/getCategories",
+            type: "POST",
+            success: function (data) {
+                chartData = data;
+
+                var data = new google.visualization.DataTable();
+
+                data.addColumn('string', 'Nombre de Categoria');
+                data.addColumn('number', 'Monto');
+
+                for (var i = 0; i < chartData.length; i++) {
+                    data.addRow([chartData[i].Name, chartData[i].Sum]);
+                }
+
+                var chart = new google.visualization.PieChart(document.getElementById('categories'));
+                google.visualization.events.addListener(chart, 'select', function () {
+                    var chartSelect = chart.getSelection()[0];
+                    if (chartSelect) {
+                        var ValueSelect = data.getValue(chartSelect.row, 0);
+                        Reload(ValueSelect);
+                    }
+                });
+                chart.draw(data,
+                    {
+                        title: "Movimientos de Categorias",
+                        animation: {
+                            duration: 1500,
+                            easing: 'out',
+                            startup: true
+                        }
+                    });
+            },
+            error: function () {
+                alert("Error loading data! Please try again.");
+            }
+        });
+    });
+
+    function Reload(date) {
+        $.ajax({
+            url: "/Home/getSubCategories",
+            type: "GET",
+            data: { name: date },
+            success: function (data) {
+
+                chartData = data;
+                var data = new google.visualization.DataTable();
+
+                data.addColumn('string', 'Nombre de Sub-Categoria');
+                data.addColumn('number', 'Monto');
+
+                for (var i = 0; i < chartData.length; i++) {
+                    data.addRow([chartData[i].Name, chartData[i].Sum]);
+                }
+
+                var chart = new google.visualization.PieChart(document.getElementById('categories'));
+
+                var options = {
+                    title: 'Movimientos de SubCategorias',
+                    animation: {
+                        duration: 1500,
+                        easing: 'out',
+                        startup: true
+                    }
+                };
+
+                chart.draw(data, options);
+            },
+            error: function () {
+                alert("Error loading data! Please try again.");
+            }
+        });
+    }
+</script>
+
+
+
+@*Activos y Pasivos*@
 <script>
     var chartData;
     $(document).ready(function () {
         $.ajax({
             url: "/Home/getAssetsLiabilities",
-            data: "{}",
-            dataType: "json",
-            type: "POST",
-            contentType: "application/json; chartset=utf-8",
+            type: "GET",
             success: function (data) {
-                debugger;
+
                 chartData = data;
                 var data = new google.visualization.DataTable();
-                data.addColumn('string', 'v');
+
+                data.addColumn('string', 'Año');
                 data.addColumn('number', 'Ingreso');
                 data.addColumn('number', 'Egreso');
+
                 for (var i = 0; i < chartData.length; i++) {
-                    data.addRow([chartData[i].Fecha, chartData[i].activo, chartData[i].pasivo]);
+                    data.addRow([chartData[i].Years, chartData[i].Assets, chartData[i].Liabilities]);
+                    $("#assetsLiabilitiesYears").append('<option value ="' + chartData[i].Years + '">' + chartData[i].Years + '</option>');
                 }
-                var chart = new google.visualization.AreaChart(document.getElementById('ActivoPasivo'));
-                chart.draw(data,
-                    {
-                        title: "Movimientos de Ingresos y Egresos",
-                    });
+
+                var chart = new google.visualization.AreaChart(document.getElementById('assetsLiabilities'));
+
+                var options = {
+                    title: 'Movimientos de Ingresos y Egresos',
+                    animation: {
+                        duration: 1500,
+                        startup: true
+                    }
+                };
+
+                chart.draw(data, options);
             },
             error: function () {
                 alert("Error loading data! Please try again.");
             }
         });
     });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#assetsLiabilitiesYears").change(function () {
+            var assetLiability = $("#assetsLiabilitiesYears").val();
+            chartsYears(assetLiability);
+        });
+
+        $("#assetsLiabilitiesMonths").change(function () {
+            var assetLiability = $("#assetsLiabilitiesMonths").val();
+            chartsMonths(assetLiability);
+        });
+    });
+
+
+    function chartsYears(assetLiability) {
+        var chartData;
+        $.ajax({
+            url: "/Home/getAssetsLiabilitiesFilter",
+            type: "GET",
+            data: { date: assetLiability },
+            success: function (data) {
+
+                var monthNames = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+                    "Julio", "Agosto", "Setiembre", "Octubre", "Noviembre", "Diciembre"
+                ];
+
+                chartData = data;
+                var data = new google.visualization.DataTable();
+
+                data.addColumn('string', 'Año');
+                data.addColumn('number', 'Ingreso');
+                data.addColumn('number', 'Egreso');
+                for (var i = 0; i < chartData.length; i++) {
+                    data.addRow([monthNames[chartData[i].Years], chartData[i].Assets, chartData[i].Liabilities]);
+                    $("#assetsLiabilitiesMonths").append('<option value ="' + chartData[i].Years + '">' + monthNames[chartData[i].Years] + '</option>');
+                }
+
+                var chart = new google.visualization.AreaChart(document.getElementById('assetsLiabilities'));
+
+                var options = {
+                    title: 'Movimientos de Ingresos y Egresos',
+                    animation: {
+                        duration: 1500,
+                        startup: true
+                    }
+                };
+
+                chart.draw(data, options);
+            },
+            error: function () {
+                alert("Error loading data! Please try again.");
+            }
+        });
+    }
+
+    function chartsMonths(assetLiability) {
+        var chartData;
+        $.ajax({
+            url: "/Home/getAssetsLiabilitiesFilter",
+            type: "GET",
+            data: { date: assetLiability },
+            success: function (data) {
+
+                chartData = data;
+                var data = new google.visualization.DataTable();
+
+                data.addColumn('string', 'Año');
+                data.addColumn('number', 'Ingreso');
+                data.addColumn('number', 'Egreso');
+                for (var i = 0; i < chartData.length; i++) {
+                    data.addRow([chartData[i].Years, chartData[i].Assets, chartData[i].Liabilities]);
+                }
+
+                var chart = new google.visualization.AreaChart(document.getElementById('assetsLiabilities'));
+
+                var options = {
+                    title: 'Movimientos de Ingresos y Egresos',
+                    animation: {
+                        duration: 1500,
+                        startup: true
+                    }
+                };
+
+                chart.draw(data, options);
+            },
+            error: function () {
+                alert("Error loading data! Please try again.");
+            }
+        });
+    }
 </script>

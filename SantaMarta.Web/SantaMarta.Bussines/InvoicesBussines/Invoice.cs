@@ -19,9 +19,9 @@ namespace SantaMarta.Bussines.InvoicesBussines
             return invoiceAccess.Delete(id);
         }
 
-        public Views_Invoinces_Details GetById(Int64 id)
+        public Views_Invoinces_Details GetById(Int64 id, Boolean type)
         {
-            return invoiceAccess.GetById(id);
+            return invoiceAccess.GetById(id, type);
         }
 
         public int Update(Invoices input)
@@ -37,6 +37,11 @@ namespace SantaMarta.Bussines.InvoicesBussines
         public List<Views_Invoices> GetAllPurchases()
         {
             return invoiceAccess.GetAllPurchases();
+        }
+
+        public Int64 GetCode()
+        {
+            return invoiceAccess.GetCode();
         }
     }
 }

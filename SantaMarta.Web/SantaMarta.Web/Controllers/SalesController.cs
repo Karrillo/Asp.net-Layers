@@ -1,4 +1,7 @@
-﻿using SantaMarta.Bussines.AccountsBussines;
+﻿using PdfSharp.Drawing;
+using PdfSharp.Pdf;
+using PdfSharp.Pdf.IO;
+using SantaMarta.Bussines.AccountsBussines;
 using SantaMarta.Bussines.AssetsLiabilitiesBussines;
 using SantaMarta.Bussines.CategoriesBussines;
 using SantaMarta.Bussines.ClientsBussines;
@@ -16,8 +19,10 @@ using SantaMarta.Data.Models.Users;
 using SantaMarta.Data.Store_Procedures;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Web;
 using System.Web.Mvc;
 
 namespace SantaMarta.Web.Controllers
@@ -61,18 +66,24 @@ namespace SantaMarta.Web.Controllers
             foreach (var item in invoices)
             {
                 state = 0;
-
-                if (item.LimitDate < date && item.Total != item.Rode)
+                if (item.State == true)
                 {
-                    state = 0;
+                    if (item.LimitDate < date && item.Total != item.Rode)
+                    {
+                        state = 0;
+                    }
+                    else if (item.Total == item.Rode)
+                    {
+                        state = 1;
+                    }
+                    else if (item.Total != item.Rode && item.LimitDate > date)
+                    {
+                        state = 2;
+                    }
                 }
-                else if (item.Total == item.Rode)
+                else
                 {
-                    state = 1;
-                }
-                else if (item.Total != item.Rode && item.LimitDate > date)
-                {
-                    state = 2;
+                    state = 3;
                 }
 
                 if (item.Rode == null)
@@ -83,7 +94,7 @@ namespace SantaMarta.Web.Controllers
                 invoicesTable.Add(new InvoicesTable()
                 {
                     IDInvoice = item.IDInvoice,
-                    Name = item.SecondName + " " + item.FirstName + " " + item.Name,
+                    Name = item.FirstName + " " + item.SecondName + " " + item.Name,
                     NameCompany = item.NameCompany,
                     Code = item.Code,
                     Date = item.CurrentDate.ToShortDateString(),
@@ -102,7 +113,7 @@ namespace SantaMarta.Web.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Views_Invoinces_Details sales = invoicesB.GetById(id);
+            Views_Invoinces_Details sales = invoicesB.GetById(id, true);
 
             sales.Date = sales.CurrentDate.ToShortDateString();
             sales.Products = saleB.GetById(sales.IdDetail).ToList();
@@ -122,12 +133,14 @@ namespace SantaMarta.Web.Controllers
             return PartialView(sales);
         }
 
+        // GET: Products
         public JsonResult GetProduct(string id)
         {
             Products product = productsB.GetById(int.Parse(id));
             return Json(product, JsonRequestBehavior.AllowGet);
         }
 
+        // GET: Clients
         public JsonResult GetClient(string id)
         {
             All_Clients client = clientsB.GetById(Convert.ToInt32(id));
@@ -179,6 +192,10 @@ namespace SantaMarta.Web.Controllers
             {
                 invoices.LimitDate = date.AddDays(Convert.ToInt32(limitDate));
             }
+            else
+            {
+                invoices.LimitDate = date;
+            }
 
             invoices.Total = Convert.ToDecimal(total);
 
@@ -194,6 +211,13 @@ namespace SantaMarta.Web.Controllers
 
             if (status == 200)
             {
+                TempData["message"] = "Add";
+                return Json(new { success = true });
+            }
+            else if (status == 501)
+            {
+                TempData["message"] = "Add";
+                TempData["message"] = "ErrorEmail";
                 return Json(new { success = true });
             }
             else
@@ -212,17 +236,22 @@ namespace SantaMarta.Web.Controllers
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
-            try
+            int status = invoicesB.Delete(id);
+
+            if (status == 200)
             {
-                invoicesB.Delete(id);
+                TempData["message"] = "Delete";
                 return Json(new { success = true });
             }
-            catch
+            else if (status == 400)
             {
-                return PartialView();
+                TempData["message"] = "Exist";
+                return Json(new { success = true });
             }
+            return PartialView();
         }
 
+        // POST: AssetsLiabilities View
         public ActionResult Assets(int id, string name, decimal rode)
         {
             ViewData["category"] = new SelectList(categoriesB.GetAll(), "IdCategory", "Name");
@@ -245,6 +274,7 @@ namespace SantaMarta.Web.Controllers
 
             if (status == 200)
             {
+                TempData["message"] = "Asset";
                 return Json(new { success = true });
             }
             else if (status == 400)
@@ -257,16 +287,127 @@ namespace SantaMarta.Web.Controllers
             return View(assetLiability);
         }
 
+        // GET: Client Code
+        public JsonResult GetCode(string id)
+        {
+            var code = invoicesB.GetCode();
+            return Json(code, JsonRequestBehavior.AllowGet);
+        }
+
+        // GET: SubCategories
         public JsonResult GetSubCategories(string id)
         {
             var subCategories = subCategoriesB.GetByIdAll(int.Parse(id));
             return Json(new SelectList(subCategories, "IDSubCategory", "Name"), JsonRequestBehavior.AllowGet);
         }
 
+        // GET: categories
         public JsonResult GetPayment(string id)
         {
             var subCategories = subCategoriesB.GetByIdAll(int.Parse(id));
             return Json(new SelectList(subCategories, "IDSubCategory", "Name"), JsonRequestBehavior.AllowGet);
         }
+
+        //Create PDF 
+        [HttpGet]
+        public FileResult CreatePDF(string id)
+        {
+            Decimal totalProduct = 0;
+            string pathToTemplate = Server.MapPath("~/App_Data/invoice.pdf");
+
+            PdfDocument originalTemplate = PdfReader.Open(pathToTemplate, PdfDocumentOpenMode.Modify);
+            XFont font = new XFont("Times New Roman", 12, XFontStyle.Regular);
+            XGraphics graphics = XGraphics.FromPdfPage(originalTemplate.Pages[0]);
+            graphics.DrawString("Productos Alimenticios Santa Marta", font, XBrushes.Black, 300, 80);
+            int position = 200;
+
+            Views_Invoinces_Details sales = invoicesB.GetById(Int64.Parse(id), true);
+
+            sales.Date = sales.CurrentDate.ToShortDateString();
+            sales.Products = saleB.GetById(sales.IdDetail).ToList();
+            sales.AssetsLiabilities = assetsLiabilitiesB.GetByIdInvoinces(Int64.Parse(id)).ToList();
+
+            graphics.DrawString("Cliente: " + sales.Name + " " + sales.FirstName + " " + sales.SecondName, font, XBrushes.Black, 300, 95);
+            graphics.DrawString("Compañía: " + sales.NameCompany, font, XBrushes.Black, 300, 110);
+
+            graphics.DrawString(sales.Date, font, XBrushes.Black, 500, 30);
+            graphics.DrawString("Documento: " + sales.Code, font, XBrushes.Black, 500, 45);
+
+            graphics.DrawString("Codigo", font, XBrushes.Black, 35, position);
+            graphics.DrawString("Precio", font, XBrushes.Black, 185, position);
+            graphics.DrawString("Cantidad", font, XBrushes.Black, 335, position);
+            graphics.DrawString("SubTotal", font, XBrushes.Black, 485, position);
+
+            position = position + 15;
+
+            foreach (var item in sales.Products)
+            {
+                graphics.DrawString(item.Code.ToString(), font, XBrushes.Black, 35, position);
+                graphics.DrawString("₡" + item.Price.ToString(), font, XBrushes.Black, 185, position);
+                graphics.DrawString(item.Quantity.ToString(), font, XBrushes.Black, 335, position);
+                graphics.DrawString("₡" + item.Total.ToString(), font, XBrushes.Black, 485, position);
+                totalProduct = totalProduct + item.Total;
+                position = position + 15;
+            }
+
+            graphics.DrawString("Total: ₡" + totalProduct.ToString(), font, XBrushes.Black, 465, 545);
+
+            position = 575;
+
+            graphics.DrawString("Fecha", font, XBrushes.Black, 35, position);
+            graphics.DrawString("Nombre", font, XBrushes.Black, 140, position);
+            graphics.DrawString("Codigo", font, XBrushes.Black, 335, position);
+            graphics.DrawString("Monto", font, XBrushes.Black, 485, position);
+
+            position = position + 15;
+
+            foreach (var item in sales.AssetsLiabilities)
+            {
+                graphics.DrawString(item.CurrentDate.ToShortDateString(), font, XBrushes.Black, 35, position);
+                graphics.DrawString(item.Name.ToString(), font, XBrushes.Black, 140, position);
+                graphics.DrawString(item.Code.ToString(), font, XBrushes.Black, 335, position);
+                graphics.DrawString("₡" + item.Rode.ToString(), font, XBrushes.Black, 485, position);
+
+                position = position + 15;
+            }
+
+            if (sales.Products != null)
+            {
+                foreach (var item in sales.AssetsLiabilities)
+                {
+                    sales.Payments = sales.Payments + item.Rode;
+                }
+                sales.Residue = sales.Total - sales.Payments;
+            }
+
+            graphics.DrawString("Descuento aplicado: " + sales.Discount.ToString() + "%", font, XBrushes.Black, 35, 700);
+            if (sales.LimitDate != null)
+            {
+                graphics.DrawString("Cancelar el: " + sales.LimitDate.GetValueOrDefault(DateTime.Now).ToShortDateString(), font, XBrushes.Black, 35, 720);
+            }
+
+            graphics.DrawString("SubTotal ₡" + sales.Total.ToString(), font, XBrushes.Black, 450, 700);
+            graphics.DrawString("Abonos ₡" + sales.Payments.ToString(), font, XBrushes.Black, 450, 720);
+            graphics.DrawString("Total ₡" + sales.Residue.ToString(), font, XBrushes.Black, 450, 740);
+
+            MemoryStream stream = new MemoryStream();
+            originalTemplate.Save(stream, false);
+
+            byte[] bytesMemory = stream.ToArray();
+
+            Byte[] bytes = bytesMemory;
+            Response.Buffer = true;
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+
+            Response.AddHeader("content-disposition", "attachment; filename = Reporte_" + DateTime.Now.ToString("yyyy-MM-dd") + ".pdf");
+            Response.ContentType = "application/pdf";
+
+            Response.BinaryWrite(bytes);
+            Response.Flush();
+            Response.Close();
+            Response.End();
+            return File(bytes, "application/pdf");
+        }
     }
 }
+

@@ -19,6 +19,7 @@ namespace SantaMarta.Web.Controllers
             productsB = new ProductsB();
         }
 
+        // GET: Products
         public ActionResult Index(String id)
         {
 
@@ -30,25 +31,23 @@ namespace SantaMarta.Web.Controllers
             {
                 Session["IDProvider"] = null;
             }
+
             var providers = productsProvidersB.GetAllProviders().ToList();
 
             ViewBag.id = new SelectList(providers, "IDProvider", "NameCompany");
 
-            try
-            {
-                return View(productsProvidersB.GetAll(Convert.ToInt32(id)).ToList());
-            }
-            catch (Exception)
-            {
-                return View();
-            }
+
+            return View(productsProvidersB.GetAll(Convert.ToInt32(id)).ToList());
+
         }
 
+        // Get: Products Deleted
         public ActionResult Index2()
         {
             return View(productsB.GetAllDelete().ToList());
         }
 
+        // Get Details Product
         public ActionResult Details(int id)
         {
             if (id == 0)
@@ -59,15 +58,19 @@ namespace SantaMarta.Web.Controllers
             return PartialView(productsProvidersB.GetById(id));
         }
 
+        // POST: Create View
         public ActionResult Create(int? id)
         {
             return PartialView();
         }
 
+        // POST: Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Products products, int id)
         {
+            products.IdProvider = id;
+
             int status = productsProvidersB.Create(products);
 
             if (status == 200)
@@ -83,6 +86,7 @@ namespace SantaMarta.Web.Controllers
             return View(products);
         }
 
+        // GET: Client View
         public ActionResult Edit(int id)
         {
             if (id == 0)
@@ -93,6 +97,7 @@ namespace SantaMarta.Web.Controllers
             return PartialView(productsProvidersB.GetById(id));
         }
 
+        // POST: Edit 
         [HttpPost]
         public ActionResult Edit(int id, Products products)
         {

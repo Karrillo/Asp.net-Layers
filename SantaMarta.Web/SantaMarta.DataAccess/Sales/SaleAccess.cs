@@ -20,13 +20,14 @@ namespace SantaMarta.DataAccess.SaleAccess
             return null;
         }
 
+        //Get All Sales by Invoices
         public List<Views_Invoinces_Products> GetById(Int64 id)
         {
             List<Views_Invoinces_Products> products = new List<Views_Invoinces_Products>();
 
             try
             {
-                products = db.Views_Invoice_Product(id).ToList();
+                products = db.Views_Invoice_Product_Sale(id).ToList();
                 return products;
             }
             catch (Exception)
@@ -40,6 +41,7 @@ namespace SantaMarta.DataAccess.SaleAccess
             return 0;
         }
 
+        //Create Sales
         public int Create(Sales sales)
         {
             try
@@ -53,6 +55,7 @@ namespace SantaMarta.DataAccess.SaleAccess
             }
         }
 
+        //Delete Sales
         public int Delete(Int64 id)
         {
             try

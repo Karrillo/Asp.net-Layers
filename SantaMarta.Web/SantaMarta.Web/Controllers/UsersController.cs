@@ -21,6 +21,7 @@ namespace SantaMarta.Web.Controllers
             return View(userB.GetAll().ToList());
         }
 
+        // GET: Users Deleted
         public ActionResult Index2()
         {
             return View(userB.GetAllDelete().ToList());
@@ -98,6 +99,11 @@ namespace SantaMarta.Web.Controllers
             if (status == 200)
             {
                 TempData["message"] = "Delete";
+                return Json(new { success = true });
+            }
+            else if (status == 400)
+            {
+                TempData["message"] = "Exists";
                 return Json(new { success = true });
             }
             return PartialView();

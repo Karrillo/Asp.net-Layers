@@ -16,6 +16,7 @@ namespace SantaMarta.DataAccess.AssetLiabilityAccess
             db = new ContextDb();
         }
 
+        //Get All AssetsLiabilities
         public List<AssetsLiabilities> GetAll()
         {
             List<AssetsLiabilities> assetsLiabilities = new List<AssetsLiabilities>();
@@ -30,6 +31,7 @@ namespace SantaMarta.DataAccess.AssetLiabilityAccess
             }
         }
 
+        //Get AssetsLiabilities
         public AssetsLiabilities GetById(Int64 id)
         {
             AssetsLiabilities assetsLiabilities = new AssetsLiabilities();
@@ -44,11 +46,13 @@ namespace SantaMarta.DataAccess.AssetLiabilityAccess
             }
         }
 
+        //Update AssetsLiabilities
         public int Update(AssetsLiabilities assetsLiabilities)
         {
             return 0;
         }
 
+        //Create AssetsLiabilities
         public int Create(AssetsLiabilities assetsLiabilities)
         {
             try
@@ -62,18 +66,20 @@ namespace SantaMarta.DataAccess.AssetLiabilityAccess
             }
         }
 
+        //Create AssetsLiabilities on invoices
         public int CreateCredit(AssetsLiabilities assetsLiabilities)
         {
             try
             {
-                Check_Payment payment = db.Check_Payment(assetsLiabilities.IdInvoice ?? default(int));
+                Check_Payment payment = db.Check_Payment(assetsLiabilities.IdInvoice ?? default(int), assetsLiabilities.Type);
 
-                Decimal debt = payment.Total ?? 0 - payment.Rode ?? 0;
+                Decimal debt = (payment.Total ?? 0) - (payment.Rode ?? 0);
 
                 if (assetsLiabilities.Rode <= debt)
                 {
                     db.Insert_AssetLiability_Credit(assetsLiabilities);
                     return 200;
+
                 }
                 else
                 {
@@ -86,6 +92,7 @@ namespace SantaMarta.DataAccess.AssetLiabilityAccess
             }
         }
 
+        //Delete AssetsLiabilities
         public int Delete(int id)
         {
             try
@@ -99,6 +106,7 @@ namespace SantaMarta.DataAccess.AssetLiabilityAccess
             }
         }
 
+        //Get Total AssetsLiabilities
         public Decimal? TotalSum(string dateStart, string dateEnd, bool type)
         {
             try
@@ -116,6 +124,7 @@ namespace SantaMarta.DataAccess.AssetLiabilityAccess
             }
         }
 
+        //Get All AssetsLiabilities by Date
         public List<AssetsLiabilities> GetAllDate(String dateStart, String dateEnd)
         {
             List<AssetsLiabilities> assetsLiabilities = new List<AssetsLiabilities>();
@@ -131,6 +140,7 @@ namespace SantaMarta.DataAccess.AssetLiabilityAccess
             }
         }
 
+        //Get AssetsLiabilities
         public List<AssetsLiabilities> GetByIdInvoinces(Int64 id)
         {
             List<AssetsLiabilities> assetsLiabilities = new List<AssetsLiabilities>();

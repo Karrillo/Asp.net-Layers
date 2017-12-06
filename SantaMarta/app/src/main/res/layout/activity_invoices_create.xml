@@ -25,6 +25,7 @@
             android:id="@+id/linearH_segunda"
             android:layout_width="match_parent"
             android:layout_height="30dp"
+            android:layout_weight="0.35"
             android:orientation="horizontal">
 
             <TextView
@@ -49,7 +50,10 @@
                 android:id="@+id/btn_client"
                 android:layout_width="59dp"
                 android:layout_height="match_parent"
-                android:background="@android:drawable/ic_input_add" />
+                android:layout_weight="0.01"
+                android:background="@drawable/custom_button_border"
+                android:text="Clientes"
+                android:textColor="#FFFFFF" />
 
         </LinearLayout>
 
@@ -62,27 +66,29 @@
                 android:id="@+id/btn_product"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Productos"
                 android:background="@drawable/custom_button_border"
-                android:textColor="#FFFFFF"/>
+                android:text="Productos"
+                android:textColor="#FFFFFF" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="223dp"
+            android:layout_height="190dp"
+            android:layout_weight="0.15"
             android:orientation="horizontal">
 
             <ListView
                 android:id="@+id/list_invoices"
                 android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="33dp"
+            android:layout_weight="0.09"
             android:orientation="horizontal">
 
             <CheckBox
@@ -113,7 +119,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="39dp"
+            android:layout_height="24dp"
+            android:layout_weight="0.23"
             android:orientation="vertical">
 
             <SeekBar
@@ -129,7 +136,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
@@ -156,20 +163,26 @@
                 android:id="@+id/btn_more"
                 android:layout_width="67dp"
                 android:layout_height="match_parent"
-                android:background="@android:drawable/ic_input_add"
-                android:text="" />
+                android:background="@drawable/custom_button_border"
+                android:text="+"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="36sp" />
 
             <Button
                 android:id="@+id/btn_less"
                 android:layout_width="67dp"
                 android:layout_height="match_parent"
-                android:background="@android:drawable/presence_busy"
-                android:text="" />
+                android:background="@drawable/custom_button_border"
+                android:text="-"
+                android:textColor="#FFFFFF"
+                android:textSize="36sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="25dp"
+            android:layout_weight="0.11"
             android:orientation="horizontal">
 
             <TextView
@@ -197,25 +210,24 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <Button
                 android:id="@+id/btn_invoices"
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
-                android:text="Facturar"
                 android:background="@drawable/custom_button_border"
-                android:textColor="#FFFFFF"/>
+                android:text="Facturar"
+                android:textColor="#FFFFFF" />
 
             <Button
                 android:id="@+id/btn_back"
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
-                android:text="Salir"
                 android:background="@drawable/custom_button_border"
-                android:textColor="#FFFFFF"/>
+                android:text="Salir"
+                android:textColor="#FFFFFF" />
         </LinearLayout>
-
-
     </LinearLayout>
 </LinearLayout>

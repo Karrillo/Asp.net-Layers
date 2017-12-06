@@ -16,6 +16,23 @@ namespace SantaMarta.DataAccess.ClientAccess
             db = new ContextDb();
         }
 
+        //Get All Clients
+        public List<Int64> ClientsAll()
+        {
+            List<Int64> clients = new List<Int64>();
+
+            try
+            {
+                clients = db.ClientsAll().ToList();
+                return clients;
+            }
+            catch (Exception)
+            {
+                return clients;
+            }
+        }
+
+        //Get All Clients Active
         public List<All_Clients> GetAll()
         {
             List<All_Clients> clients = new List<All_Clients>();
@@ -31,6 +48,7 @@ namespace SantaMarta.DataAccess.ClientAccess
             }
         }
 
+        //Get All Clients Deleted
         public List<All_Clients> GetAllDelete()
         {
             List<All_Clients> clients = new List<All_Clients>();
@@ -46,6 +64,7 @@ namespace SantaMarta.DataAccess.ClientAccess
             }
         }
 
+        //Get Client
         public All_Clients GetById(Int64 id)
         {
             All_Clients clients = new All_Clients();
@@ -59,6 +78,7 @@ namespace SantaMarta.DataAccess.ClientAccess
             }
         }
 
+        //Get Client by Name
         public List<All_Clients> GetByName(String name)
         {
             List<All_Clients> clients = new List<All_Clients>();
@@ -74,13 +94,18 @@ namespace SantaMarta.DataAccess.ClientAccess
             }
         }
 
+        //Update Client
         public int Update(Persons personClient, Int64 id)
         {
             try
             {
                 String code = db.Check_CodePersons(personClient.Code);
-                String identification = db.Check_Identification(personClient.Identification);
-
+                String identification = null;
+                if (personClient.Identification != null)
+                {
+                    identification = db.Check_Identification(personClient.Identification);
+                }
+                
                 All_Clients client = GetById(id);
 
                 if (code == null || code == client.Code)
@@ -107,6 +132,7 @@ namespace SantaMarta.DataAccess.ClientAccess
             }
         }
 
+        //Create Client to Providers
         public int CreateCP(int id)
         {
             try
@@ -120,21 +146,27 @@ namespace SantaMarta.DataAccess.ClientAccess
             }
         }
 
+        //Create Client
         public int Create(Persons personClient)
         {
             try
             {
                 if (db.Check_CodePersons(personClient.Code) == null)
                 {
-                    if (db.Check_Identification(personClient.Identification) == null)
+                    if (personClient.Identification != null)
                     {
-                        db.Insert_Client(personClient);
-                        return 200;
+                        if (db.Check_Identification(personClient.Identification) == null)
+                        {
+                            db.Insert_Client(personClient);
+                            return 200;
+                        }
+                        else
+                        {
+                            return 401;
+                        }
                     }
-                    else
-                    {
-                        return 401;
-                    }
+                    db.Insert_Client(personClient);
+                    return 200;
                 }
                 else
                 {
@@ -147,6 +179,7 @@ namespace SantaMarta.DataAccess.ClientAccess
             }
         }
 
+        //Delete Client
         public int Delete(int id)
         {
             try
@@ -160,6 +193,7 @@ namespace SantaMarta.DataAccess.ClientAccess
             }
         }
 
+        //Restore Client
         public int Restore(int id)
         {
             try

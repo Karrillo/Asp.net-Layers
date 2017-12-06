@@ -1,6 +1,7 @@
 ﻿using SantaMarta.Data.Models.Persons;
 using SantaMarta.Data.Store_Procedures;
 using SantaMarta.DataAccess.ProviderAccess;
+using System;
 using System.Collections.Generic;
 
 namespace SantaMarta.Bussines.ProvidersBussines
@@ -30,6 +31,11 @@ namespace SantaMarta.Bussines.ProvidersBussines
         public List<All_Providers> GetAll()
         {
             return providerAccess.GetAll();
+        }
+
+        public List<Int64> ProvidersAll()
+        {
+            return providerAccess.ProvidersAll();
         }
 
         public List<All_Providers> GetAllDelete()

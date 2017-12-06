@@ -100,7 +100,7 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
                     date = calendar.getTime();
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                     dateNow = format.format(date);
-                    String response = contextdb.insertAssetsLiabilities(dateNow,"005",Double.parseDouble(txtRode.getText().toString()),true,txtDescription.getText().toString(),
+                    String response = contextdb.insertAssetsLiabilities(dateNow,txtCode.getText().toString(),Double.parseDouble(txtRode.getText().toString()),true,txtDescription.getText().toString(),
                             invoiceSelect.getName().toString(),true,invoiceSelect.getIDInvoice(),accountSelect.getId(),subCategorySelect.getId(),Integer.parseInt(MainActivity.idUSer), token);
                     switch (response) {
                         case "200":

@@ -46,12 +46,16 @@
     <Compile Include="AssetsLiabilitiesBussines\IAssetsLiabilitiesB.cs" />
     <Compile Include="CategoriesBussines\CategoriesB.cs" />
     <Compile Include="CategoriesBussines\ICategoriesB.cs" />
+    <Compile Include="ChartsBussines\ChartsB.cs" />
+    <Compile Include="ChartsBussines\IChartsB.cs" />
     <Compile Include="ClientsBussines\ClientsB.cs" />
     <Compile Include="ClientsBussines\IClientsB.cs" />
     <Compile Include="DetailsBussines\DetailsB.cs" />
     <Compile Include="DetailsBussines\IDetailsB.cs" />
     <Compile Include="InvoicesBussines\IInvoicesB.cs" />
     <Compile Include="InvoicesBussines\Invoice.cs" />
+    <Compile Include="MailsBussines\IMailsB.cs" />
+    <Compile Include="MailsBussines\MailsB.cs" />
     <Compile Include="PersonsBussines\IPersonsB.cs" />
     <Compile Include="PersonsBussines\Person.cs" />
     <Compile Include="ProductsBussines\IProductsB.cs" />

@@ -15,6 +15,7 @@ namespace SantaMarta.DataAccess.CategoryAccess
             db = new ContextDb();
         }
 
+        //Get All Categories
         public List<Categories> GetAll()
         {
             List<Categories> categories = new List<Categories>();
@@ -29,6 +30,7 @@ namespace SantaMarta.DataAccess.CategoryAccess
             }
         }
 
+        //Get All Categories Deleted
         public List<Categories> GetAllDelete()
         {
             List<Categories> categories = new List<Categories>();
@@ -43,6 +45,7 @@ namespace SantaMarta.DataAccess.CategoryAccess
             }
         }
 
+        //Get Categories
         public Categories GetById(Int64 id)
         {
             Categories categories = new Categories();
@@ -56,6 +59,7 @@ namespace SantaMarta.DataAccess.CategoryAccess
             }
         }
 
+        //Update Categories
         public int Update(Categories category)
         {
             try
@@ -79,6 +83,7 @@ namespace SantaMarta.DataAccess.CategoryAccess
             }
         }
 
+        //Create Categories
         public int Create(Categories category)
         {
             try
@@ -99,12 +104,18 @@ namespace SantaMarta.DataAccess.CategoryAccess
             }
         }
 
+        //Delete Categories
         public int Delete(int id)
         {
             try
             {
-                db.Delete_Category(id);
-                return 200;
+                Boolean? state = db.Check_Category(id) ?? false;
+                if (state == false)
+                {
+                    db.Delete_Category(id);
+                    return 200;
+                }
+                return 400;
             }
             catch (Exception)
             {
@@ -112,6 +123,7 @@ namespace SantaMarta.DataAccess.CategoryAccess
             }
         }
 
+        //Restore Categories
         public int Restore(int id)
         {
             try

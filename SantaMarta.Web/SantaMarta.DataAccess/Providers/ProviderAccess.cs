@@ -16,6 +16,23 @@ namespace SantaMarta.DataAccess.ProviderAccess
             db = new ContextDb();
         }
 
+        //Get All Providers
+        public List<Int64> ProvidersAll()
+        {
+            List<Int64> providers = new List<Int64>();
+
+            try
+            {
+                providers = db.ProvidersAll().ToList();
+                return providers;
+            }
+            catch (Exception)
+            {
+                return providers;
+            }
+        }
+
+        //Get All Providers Active
         public List<All_Providers> GetAll()
         {
             List<All_Providers> providers = new List<All_Providers>();
@@ -31,6 +48,7 @@ namespace SantaMarta.DataAccess.ProviderAccess
             }
         }
 
+        //Get All Providers Deleted
         public List<All_Providers> GetAllDelete()
         {
             List<All_Providers> providers = new List<All_Providers>();
@@ -46,6 +64,7 @@ namespace SantaMarta.DataAccess.ProviderAccess
             }
         }
 
+        //Get Providers
         public All_Providers GetById(Int64 id)
         {
             All_Providers prividers = new All_Providers();
@@ -59,12 +78,17 @@ namespace SantaMarta.DataAccess.ProviderAccess
             }
         }
 
+        //Update Providers
         public int Update(Persons personProvider, Int64 id)
         {
             try
             {
                 String code = db.Check_CodePersons(personProvider.Code);
-                String identification = db.Check_Identification(personProvider.Identification);
+                String identification = null;
+                if (personProvider.Identification != null)
+                {
+                    identification = db.Check_Identification(personProvider.Identification);
+                }
 
                 All_Providers providers = GetById(id);
 
@@ -92,6 +116,7 @@ namespace SantaMarta.DataAccess.ProviderAccess
             }
         }
 
+        //Create Providers to Clients
         public int CreatePC(int id)
         {
             try
@@ -105,21 +130,27 @@ namespace SantaMarta.DataAccess.ProviderAccess
             }
         }
 
+        //Create Providers
         public int Create(Persons personProvider)
         {
             try
             {
                 if (db.Check_CodePersons(personProvider.Code) == null)
                 {
-                    if (db.Check_Identification(personProvider.Identification) == null)
+                    if (personProvider.Identification != null)
                     {
-                        db.Insert_Provider(personProvider);
-                        return 200;
+                        if (db.Check_Identification(personProvider.Identification) == null)
+                        {
+                            db.Insert_Provider(personProvider);
+                            return 200;
+                        }
+                        else
+                        {
+                            return 401;
+                        }
                     }
-                    else
-                    {
-                        return 401;
-                    }
+                    db.Insert_Provider(personProvider);
+                    return 200;
                 }
                 else
                 {
@@ -132,6 +163,7 @@ namespace SantaMarta.DataAccess.ProviderAccess
             }
         }
 
+        //Delete Providers
         public int Delete(int id)
         {
             try
@@ -145,6 +177,7 @@ namespace SantaMarta.DataAccess.ProviderAccess
             }
         }
 
+        //Restore Providers
         public int Restore(int id)
         {
             try

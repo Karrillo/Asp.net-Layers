@@ -1,10 +1,6 @@
 ﻿using SantaMarta.Bussines.AssetsLiabilitiesBussines;
 using SantaMarta.Data.Models.AssetsLiabilities;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace SantaMarta.WebAPI.Controllers
@@ -37,13 +33,10 @@ namespace SantaMarta.WebAPI.Controllers
             {
                 case 200:
                     return Ok(200);
-                    break;
                 case 500:
                     return Ok(500);
-                    break;
                 default:
                     return Ok(false);
-                    break;
             }
         }
 

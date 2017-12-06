@@ -212,7 +212,10 @@
                 android:id="@+id/btn_account"
                 android:layout_width="59dp"
                 android:layout_height="match_parent"
-                android:background="@android:drawable/ic_input_add" />
+                android:background="@drawable/custom_button_border"
+                android:textColor="#FFFFFF"
+                android:text="Cuenta"
+                android:layout_weight="0.03" />
 
         </LinearLayout>
 
@@ -245,7 +248,10 @@
                 android:id="@+id/btn_category"
                 android:layout_width="59dp"
                 android:layout_height="match_parent"
-                android:background="@android:drawable/ic_input_add" />
+                android:background="@drawable/custom_button_border"
+                android:textColor="#FFFFFF"
+                android:text="Categoria"
+                android:layout_weight="0.04" />
 
         </LinearLayout>
 
@@ -279,7 +285,10 @@
                 android:enabled="false"
                 android:layout_width="59dp"
                 android:layout_height="match_parent"
-                android:background="@android:drawable/ic_input_add" />
+                android:background="@drawable/custom_button_border"
+                android:textColor="#FFFFFF"
+                android:text="Subcategoria"
+                android:layout_weight="0.14" />
 
         </LinearLayout>
 

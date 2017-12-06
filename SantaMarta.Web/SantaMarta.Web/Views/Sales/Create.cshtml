@@ -6,7 +6,6 @@
 
 @Styles.Render("~/AdminPacket/plugins/select2/css")
 @Styles.Render("~/AdminPacket/dist/css")
-<link href="~/Scripts/Datepicker/bootstrap-datepicker.min.css" rel="stylesheet" />
 
 <hr />
 
@@ -20,7 +19,7 @@
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-2 pull-right">
             <label>Numero de Documento:</label>
-            <input class="form-control" type="text" name="NInvoice" id="txt_numberInvoice" placeholder="N Documento" />
+            <input class="form-control" type="text" name="NInvoice" id="txt_numberInvoice" placeholder="N Documento" required readonly />
         </div>
     </div>
     <hr />
@@ -132,30 +131,31 @@
     @Scripts.Render("~/AdminPacket/plugins/select2/js")
     @Scripts.Render("~/Scripts/Forms/Advanced")
     <script src="~/Scripts/Mark/jquery.mask.min.js"></script>
-    <script src="~/Scripts/Daterangepicker/moment.min.js"></script>
-    <script src="~/Scripts/Datepicker/bootstrap-datepicker.min.js"></script>
+    <script>
+        $(document).ready(function () {
+             $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("GetCode")',
+                    dataType: 'json',
+                    success: function (code) {
+                        $("#txt_numberInvoice").val(code);
+                },
+                    error: function (ex) {
+                    alert('Failed to retrieve product.' + ex);
+                }
+            });
+        });
+    </script>
 
 }
 <script>
     $(document).ready(function () {
         $('#txt_fecha').mask('0000/00/00');
         $('#txt_quantity').mask('0000', { reverse: true });
-        $('#txt_tax').mask('000.00', { reverse: true });
-        $('#txt_price').mask('000,000,000,000,000.00', { reverse: true });
-        $('#txt_discount').mask('000.00', { reverse: true });
-        $('#txt_total').mask('000,000,000,000,000.00', { reverse: true });
-    });
-</script>
-
-<script>
-    $(document).ready(function () {
-        $("#txt_date").datepicker({
-            format: 'yyyy/mm/dd',
-            autoclose: true,
-            todayBtn: 'linked',
-            calendarWeeks: true,
-            todayHighlight: true
-        })
+        $('#txt_tax').mask('00.00', { reverse: true });
+        $('#txt_price').mask('00000000.00', { reverse: true });
+        $('#txt_discount').mask('00.00', { reverse: true });
+        $('#txt_total').mask('00000000.00', { reverse: true });
     });
 </script>
 
@@ -307,7 +307,7 @@
             total += parseFloat(subtotal);
             $("#txt_total").val(total.toFixed(2));
         } else {
-            $("#txt_total").val(subtotal);
+            $("#txt_total").val(subtotal.toFixed(2));
         }
     }
 

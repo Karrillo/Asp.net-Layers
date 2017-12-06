@@ -1,0 +1,33 @@
+﻿@model SantaMarta.Data.Models.Invoices.Invoices
+@{
+    Layout = null;
+    ViewBag.Title = "Delete";
+}
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h3 class="modal-title" id="myModalLabel">Anular Factura</h3>
+</div>
+<div class="modal-body">
+    @using (Ajax.BeginForm("Delete", "Purchases", null, new AjaxOptions
+    {
+        Url = Url.Action("Delete", "Purchases"),
+        UpdateTargetId = "modal-content",
+        OnSuccess = "closeModalDelete",
+        InsertionMode = InsertionMode.Replace
+
+    },
+                new { @class = "form-horizontal", role = "form", id = "frmDelete" }))
+    {
+
+        @Html.AntiForgeryToken()
+        <div class="box-body">
+            <p>Esta seguro de anular este factura?</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            <input id="btnCreate" type="submit" value="Borrar" class="btn btn-danger" />
+        </div>
+    }
+</div>

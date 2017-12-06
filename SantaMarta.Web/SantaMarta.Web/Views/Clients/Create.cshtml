@@ -3,7 +3,6 @@
     Layout = null;
     ViewBag.Title = "Create";
 }
-@*modal*@
 <script src="~/Scripts/Mark/jquery.mask.min.js"></script>
 
 <div class="modal-header">
@@ -17,59 +16,58 @@
     {
         HttpMethod = "POST",
         Url = Url.Action("Create", "Clients"),
-        UpdateTargetId = "modal-content",
+        UpdateTargetId = "createModal",
         OnSuccess = "closeModalCreate",
         InsertionMode = InsertionMode.Replace
     },
-               new { @class = "form-horizontal", role = "form", id = "frmCrear" }))
+                       new { @class = "form-horizontal", role = "form", id = "frmCrear" }))
     {
 
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        //textbox
         <div class="box-body">
-            @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Codigo", id="code" } })
+            @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Codigo", id = "code", maxlength = "20" } })
             @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger", id = "codeValidation" })
             <br>
-            @Html.EditorFor(model => model.Identification, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "identificacion", id= "identification" } })
+            @Html.EditorFor(model => model.Identification, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "identificacion", id = "identification", maxlength = "20" } })
             @Html.ValidationMessageFor(model => model.Identification, "", new { @class = "text-danger", id = "identificacionValidation" })
             <br>
-            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Nombre" } })
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Nombre", maxlength = "30" } })
             @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
             <br>
-            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Primer Apellido" } })
+            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Primer Apellido", maxlength = "15" } })
             @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
             <br>
-            @Html.EditorFor(model => model.SecondName, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Segundo Apellido" } })
+            @Html.EditorFor(model => model.SecondName, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Segundo Apellido", maxlength = "15" } })
             @Html.ValidationMessageFor(model => model.SecondName, "", new { @class = "text-danger" })
             <br>
-            @Html.EditorFor(model => model.NameCompany, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Nombre del Negocio" } })
+            @Html.EditorFor(model => model.NameCompany, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Nombre del Negocio", maxlength = "40" } })
             @Html.ValidationMessageFor(model => model.NameCompany, "", new { @class = "text-danger" })
             <br>
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-mobile-phone"></i></span>
-                @Html.EditorFor(model => model.CellPhone, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Celular", id="cellPhone" } })
+                @Html.EditorFor(model => model.CellPhone, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Celular", id = "cellPhone" } })
             </div>
             @Html.ValidationMessageFor(model => model.CellPhone, "", new { @class = "text-danger" })
             <br>
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-phone"></i></span>
-                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Telefono", id="phone" } })
+                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Telefono", id = "phone" } })
             </div>
             @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
             <br>
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Correo" } })
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Correo", maxlength = "40" } })
             </div>
             @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
             <br>
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-safari"></i></span>
-                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Direccion" } })
+                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Direccion", maxlength = "70" } })
             </div>
             @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
-        </div>@*botones*@
+        </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
             <input id="btnCreate" type="submit" value="Guardar" class="btn btn-success" />
@@ -81,8 +79,8 @@
 <script src="~/scripts/jquery.validate.unobtrusive.min.js"></script>
 
 <script>
-    $(document).ready(function () {
-        $('#cellPhone').mask('0000-0000');
-        $('#phone').mask('0000-0000');
-    });
+        $(document).ready(function () {
+            $('#cellPhone').mask('0000-0000');
+            $('#phone').mask('0000-0000');
+        });
 </script>

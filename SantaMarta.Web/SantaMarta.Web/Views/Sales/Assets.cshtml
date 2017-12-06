@@ -7,9 +7,6 @@
 
 @Styles.Render("~/AdminPacket/bootstrap/css")
 @Styles.Render("~/AdminPacket/plugins/icheck/css")
-<link href="~/Scripts/Datepicker/bootstrap-datepicker.min.css" rel="stylesheet" />
-
-@*modal*@
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
@@ -39,13 +36,13 @@
             @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Nombre", @readonly = "readonly" } })
             @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
             <br>
-            @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Nº Documento" } })
+            @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Nº Documento", maxlength = "30" } })
             @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
             <br>
             @Html.EditorFor(model => model.Rode, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Monto", id = "txt_rode" } })
             @Html.ValidationMessageFor(model => model.Rode, "", new { @class = "text-danger" })
             <br>
-            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Descripcion" } })
+            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Descripcion", maxlength = "100" } })
             @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
             <br>
             @Html.DropDownListFor(model => model.IdAccount, (SelectList)ViewBag.account, "Selecionar Cuenta", new { @class = "form-control" })
@@ -67,10 +64,7 @@
 
 <script src="~/scripts/jquery.validate.min.js"></script>
 <script src="~/scripts/jquery.validate.unobtrusive.min.js"></script>
-
 <script src="~/Scripts/Mark/jquery.mask.min.js"></script>
-<script src="~/Scripts/Daterangepicker/moment.min.js"></script>
-<script src="~/Scripts/Datepicker/bootstrap-datepicker.min.js"></script>
 
 @Scripts.Render("~/AdminPacket/dist/js")
 @Scripts.Render("~/AdminPacket/bootstrap/js")
@@ -80,7 +74,7 @@
 <script>
     $(document).ready(function () {
         $('#datepicker').mask('0000/00/00');
-        $('#rode').mask('000000000000000.00', { reverse: true });
+        $('#txt_rode').mask('0000000.00', { reverse: true });
     });
 </script>
 
@@ -96,7 +90,7 @@
                 dataType: 'json',
                 data: { id: $("#category").val() },
                 success: function (subCategories) {
-                    $("#subCategory").append('<option value ="">Selecionar Sub- Categoria</option>');
+                    $("#subCategory").append('<option value ="">Selecionar Sub-Categoria</option>');
                     $.each(subCategories, function (i, value) {
                         $("#subCategory").append('<option value ="' + value.Value + '">' + value.Text  + '</option>');
                     });
@@ -119,17 +113,5 @@
         $('input').iCheck({
             radioClass: 'iradio_flat'
         });
-    });
-</script>
-
-<script>
-    $(document).ready(function () {
-        $("#datepicker").datepicker({
-            format: 'yyyy/mm/dd',
-            autoclose: true,
-            todayBtn: 'linked',
-            calendarWeeks: true,
-            todayHighlight: true
-        })
     });
 </script>

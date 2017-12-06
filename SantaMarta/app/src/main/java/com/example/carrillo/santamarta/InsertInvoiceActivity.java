@@ -225,7 +225,8 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                                     print.setTotal(txtTotal.getText().toString());
                                     String response = contextdb.getDetail(MainActivity.idUSer, token);
                                     if (!response.toString().equals("false")) {
-                                        String responseInvoice = contextdb.insertInvoices(dateCredit, "02", Integer.parseInt(txtDiscont.getText().toString()), total,
+                                        String code = contextdb.getCode(token);
+                                        String responseInvoice = contextdb.insertInvoices(dateCredit, code, Integer.parseInt(txtDiscont.getText().toString()), total,
                                                 true, clientSelect.getIDClient(), provider, Long.parseLong(response), token);
                                         if (responseInvoice.toString().equals("500")) {
                                             Product item;
@@ -240,10 +241,10 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                                                 }
                                                 if (responseSale.equals("200")) {
                                                     if (clientSelect.getNameCompany().toString().equals("null")) {
-                                                        InvoicesActivity.printInvoice(clientSelect.getName() + " " + clientSelect.getFirstName() + " " + clientSelect.getSecondName(),
+                                                        InvoicesActivity.printInvoiceCredit(clientSelect.getName() + " " + clientSelect.getFirstName() + " " + clientSelect.getSecondName(),
                                                                 "003", print.getCurent(), print.getLimit(), "Si", listProducts, print.getDiscount(), print.getTotal());
                                                     } else {
-                                                        InvoicesActivity.printInvoice(clientSelect.getNameCompany(),
+                                                        InvoicesActivity.printInvoiceCredit(clientSelect.getNameCompany(),
                                                                 "003", print.getCurent(), print.getLimit(), "Si", listProducts, print.getDiscount(), print.getTotal());
                                                     }
                                                     Toast.makeText(getApplicationContext(), "Factura de venta ingresada correctamente", Toast.LENGTH_LONG).show();
@@ -282,7 +283,8 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                                     print.setTotal(txtTotal.getText().toString());
                                     String response = contextdb.getDetail(MainActivity.idUSer, token);
                                     if (!response.toString().equals("false")) {
-                                        String responseInvoice = contextdb.insertInvoices(dateCredit, "02", Integer.parseInt(txtDiscont.getText().toString()), total,
+                                        String code = contextdb.getCode(token);
+                                        String responseInvoice = contextdb.insertInvoices(dateCredit, code, Integer.parseInt(txtDiscont.getText().toString()), total,
                                                 true, clientSelect.getIDClient(), provider, Long.parseLong(response), token);
                                         if (responseInvoice.toString().equals("500")) {
                                             Product item;
@@ -300,10 +302,10 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                                                     InvoicesActivity.refresh();
                                                     if (clientSelect.getNameCompany().toString().equals("null")) {
                                                         InvoicesActivity.printInvoice(clientSelect.getName() + " " + clientSelect.getFirstName() + " " + clientSelect.getSecondName(),
-                                                                "003", print.getCurent(), print.getLimit(), "No", listProducts, print.getDiscount(), print.getTotal());
+                                                                "003", print.getCurent(), "Si", listProducts, print.getDiscount(), print.getTotal());
                                                     } else {
                                                         InvoicesActivity.printInvoice(clientSelect.getNameCompany(),
-                                                                "003", print.getCurent(), print.getLimit(), "No", listProducts, print.getDiscount(), print.getTotal());
+                                                                "003", print.getCurent(), "Si", listProducts, print.getDiscount(), print.getTotal());
                                                     }
                                                     // SLEEP 2 SECONDS HERE ...
                                                     final Handler handler = new Handler();
