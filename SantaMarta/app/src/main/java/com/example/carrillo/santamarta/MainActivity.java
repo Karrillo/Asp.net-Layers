@@ -32,17 +32,21 @@ public class MainActivity extends AppCompatActivity {
                 if(nick.getText().toString().equals("") || password.getText().toString().equals("")){
                     Toast.makeText(getApplicationContext(), "Ingrese el usuario y la contraseña", Toast.LENGTH_LONG).show();
                 }else {
+                    insert.setEnabled(false);
                     String response = contextdb.getCheck(nick.getText().toString(),password.getText().toString());
+                    password.setText("");
                     if(!response.toString().equals("0") && !response.toString().equals("false")) {
                         token= contextdb.getToken();
                         idUSer = response;
-                        password.setText("");
+                        insert.setEnabled(true);
                         Intent menu = new Intent(MainActivity.this, MenuActivity.class);
                         startActivity(menu);
-                    }else if(response=="0"){
+                    }else if(response.toString().equals("0")){
                         Toast.makeText(getApplicationContext(), "Usuario o contraseña incorrectos", Toast.LENGTH_LONG).show();
+                        insert.setEnabled(true);
                     }else {
                         Toast.makeText(getApplicationContext(), "Fallo en la conexion con el servidor", Toast.LENGTH_LONG).show();
+                        insert.setEnabled(true);
                     }
                 }
             }

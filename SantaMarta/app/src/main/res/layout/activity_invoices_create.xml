@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:background="@drawable/fondo"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
     <LinearLayout
         android:focusable="true"
         android:focusableInTouchMode="true"
@@ -60,7 +62,9 @@
                 android:id="@+id/btn_product"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Productos" />
+                android:text="Productos"
+                android:background="@drawable/custom_button_border"
+                android:textColor="#FFFFFF"/>
         </LinearLayout>
 
         <LinearLayout
@@ -199,13 +203,17 @@
                 android:id="@+id/btn_invoices"
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
-                android:text="Facturar" />
+                android:text="Facturar"
+                android:background="@drawable/custom_button_border"
+                android:textColor="#FFFFFF"/>
 
             <Button
                 android:id="@+id/btn_back"
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
-                android:text="Salir" />
+                android:text="Salir"
+                android:background="@drawable/custom_button_border"
+                android:textColor="#FFFFFF"/>
         </LinearLayout>
 
 

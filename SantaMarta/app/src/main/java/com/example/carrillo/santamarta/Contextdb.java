@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -29,7 +30,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class Contextdb {
 
     public String getCheck(String nickname, String password) {
-        String sql = "http://192.168.2.5:49161/api/User";
+        String sql = "http://192.168.2.2:49161/api/User";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -96,7 +97,7 @@ public class Contextdb {
     }
 
     public String getToken() {
-        String sql = "http://192.168.2.5:49161/token";
+        String sql = "http://192.168.2.2:49161/token";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -162,7 +163,7 @@ public class Contextdb {
     }
 
     public List<Client> getAllClients(String token) {
-        String sql = "http://192.168.2.5:49161/api/Client";
+        String sql = "http://192.168.2.2:49161/api/Client";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -198,11 +199,11 @@ public class Contextdb {
                 if(!jsonObject.optString("NameCompany").equals("null")){
                     listClients.add(new Client(Integer.parseInt(jsonObject.optString("IDClient")),jsonObject.optString("Name"),jsonObject.optString("FirstName"),
                             jsonObject.optString("SecondName"),jsonObject.optString("Email"),jsonObject.optString("Phone"),jsonObject.optString("CellPhone")
-                            ,jsonObject.optString("Address"),jsonObject.optString("Identification"),jsonObject.optString("NameCompany"),jsonObject.optString("Code")));
+                            ,jsonObject.optString("Address"),jsonObject.optString("NameCompany"),jsonObject.optString("Code")));
                 }else {
                     listClients.add(new Client(Integer.parseInt(jsonObject.optString("IDClient")),jsonObject.optString("Name"),jsonObject.optString("FirstName"),
                             jsonObject.optString("SecondName"),jsonObject.optString("Email"),jsonObject.optString("Phone"),jsonObject.optString("CellPhone")
-                            ,jsonObject.optString("Address"),jsonObject.optString("Identification"),jsonObject.optString("N/D"),jsonObject.optString("Code")));
+                            ,jsonObject.optString("Address"),jsonObject.optString("N/D"),jsonObject.optString("Code")));
                 }
             }
 
@@ -220,7 +221,7 @@ public class Contextdb {
     }
 
     public String insertClients(Client client, String token) {
-        String sql = "http://192.168.2.5:49161/api/Client";
+        String sql = "http://192.168.2.2:49161/api/Client";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -237,7 +238,6 @@ public class Contextdb {
             params.put("Phone", client.getPhone());
             params.put("CellPhone", client.getCellPhone());
             params.put("Address", client.getAddress());
-            params.put("Identification", client.getIdentification());
             params.put("NameCompany", client.getNameCompany());
             params.put("Code", client.getCode());
 
@@ -292,7 +292,7 @@ public class Contextdb {
     }
 
     public List<Client> searchClients(String token, String name) {
-        String sql = "http://192.168.2.5:49161/api/Client/GetName/"+name;
+        String sql = "http://192.168.2.2:49161/api/Client/GetName/"+name;
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -332,11 +332,11 @@ public class Contextdb {
                         if (!jsonObject.optString("NameCompany").equals("null")) {
                             listClients.add(new Client(Integer.parseInt(jsonObject.optString("IDClient")), jsonObject.optString("Name"), jsonObject.optString("FirstName"),
                                     jsonObject.optString("SecondName"), jsonObject.optString("Email"), jsonObject.optString("Phone"), jsonObject.optString("CellPhone")
-                                    , jsonObject.optString("Address"), jsonObject.optString("Identification"), jsonObject.optString("NameCompany"), jsonObject.optString("Code")));
+                                    , jsonObject.optString("Address"), jsonObject.optString("NameCompany"), jsonObject.optString("Code")));
                         } else {
                             listClients.add(new Client(Integer.parseInt(jsonObject.optString("IDClient")), jsonObject.optString("Name"), jsonObject.optString("FirstName"),
                                     jsonObject.optString("SecondName"), jsonObject.optString("Email"), jsonObject.optString("Phone"), jsonObject.optString("CellPhone")
-                                    , jsonObject.optString("Address"), jsonObject.optString("Identification"), jsonObject.optString("N/D"), jsonObject.optString("Code")));
+                                    , jsonObject.optString("Address"), jsonObject.optString("N/D"), jsonObject.optString("Code")));
                         }
                     }
                     return listClients;
@@ -353,7 +353,7 @@ public class Contextdb {
         return null;
     }
     public List<Invoice> getAllInvoices(String token) {
-        String sql = "http://192.168.2.5:49161/api/Invoice/GetInvoicesAllSales";
+        String sql = "http://192.168.2.2:49161/api/Invoice/GetInvoicesAllSales";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -401,7 +401,7 @@ public class Contextdb {
                     String CurrentDate = jsonObject.optString("CurrentDate");
                     String Current[] = CurrentDate.split("T");
                     listInvoices.add(new Invoice(Long.parseLong(jsonObject.optString("IDInvoice")), Limit[0].toString(), Current[0].toString(),
-                            jsonObject.optString("Code"), Double.parseDouble(jsonObject.optString("Total")), jsonObject.optString("State"),
+                            jsonObject.optString("Code"), Double.parseDouble(jsonObject.optString("Total"))-Double.parseDouble(jsonObject.optString("Rode")), jsonObject.optString("State"),
                             jsonObject.optString("Name") + " " + jsonObject.optString("FirstName") + " " + jsonObject.optString("SecondName"), jsonObject.optString("NameCompany"),
                             Double.parseDouble(jsonObject.optString("Rode"))));
                 }
@@ -420,7 +420,7 @@ public class Contextdb {
         }
     }
     public List<Product> getAllProducts(String token) {
-        String sql = "http://192.168.2.5:49161/api/Product";
+        String sql = "http://192.168.2.2:49161/api/Product";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -453,9 +453,15 @@ public class Contextdb {
             List<Product> listProducts = new ArrayList<Product>();
             for (int i = 0; i < jsonArr.length(); i++) {
                 JSONObject jsonObject = jsonArr.getJSONObject(i);
-                listProducts.add(new Product(Integer.parseInt(jsonObject.optString("IDProduct")),jsonObject.optString("Name"),jsonObject.optString("Code"),
-                        jsonObject.optString("State"),jsonObject.optString("Description"),Double.parseDouble(jsonObject.optString("Price")),Double.parseDouble(jsonObject.optString("Tax")),
-                        Integer.parseInt(jsonObject.optString("IdProvider")),0,0.0));
+                if(jsonObject.optString("Tax").toString().equals("null")){
+                    listProducts.add(new Product(Integer.parseInt(jsonObject.optString("IDProduct")), jsonObject.optString("Name"), jsonObject.optString("Code"),
+                            jsonObject.optString("State"), jsonObject.optString("Description"), Double.parseDouble(jsonObject.optString("Price")), 0.0,
+                            Integer.parseInt(jsonObject.optString("IdProvider")), 0, 0.0));
+                }else {
+                    listProducts.add(new Product(Integer.parseInt(jsonObject.optString("IDProduct")), jsonObject.optString("Name"), jsonObject.optString("Code"),
+                            jsonObject.optString("State"), jsonObject.optString("Description"), Double.parseDouble(jsonObject.optString("Price")), Double.parseDouble(jsonObject.optString("Tax")),
+                            Integer.parseInt(jsonObject.optString("IdProvider")), 0, 0.0));
+                }
             }
 
             return listProducts;
@@ -471,7 +477,7 @@ public class Contextdb {
         }
     }
     public String getDetail(String id, String token) {
-        String sql = "http://192.168.2.5:49161/api/Detail/"+id;
+        String sql = "http://192.168.2.2:49161/api/Detail/"+id;
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -513,14 +519,14 @@ public class Contextdb {
         }
     }
     public String insertInvoices(String LimitDate, String Code, int Discount, Double Total, Boolean State, int IdClient, int IdProvider, long IdDetail, String token) {
-        String sql = "http://192.168.2.5:49161/api/Invoice";
+        String sql = "http://192.168.2.2:49161/api/Invoice";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
         URL url = null;
         HttpURLConnection conn;
-
+        DecimalFormat df = new DecimalFormat("#.00");
         try {
             Map<String, Object> params = new LinkedHashMap<>();
             params.put("LimitDate", LimitDate);
@@ -578,14 +584,14 @@ public class Contextdb {
         }
     }
     public String insertSales(String Code, int Quantity, Double Total, int IdProduct, long IdDetails, String token) {
-        String sql = "http://192.168.2.5:49161/api/Sale";
+        String sql = "http://192.168.2.2:49161/api/Sale";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
         URL url = null;
         HttpURLConnection conn;
-
+        DecimalFormat df = new DecimalFormat("#.00");
         try {
             Map<String, Object> params = new LinkedHashMap<>();
             params.put("Code", Code);
@@ -640,7 +646,7 @@ public class Contextdb {
         }
     }
     public List<Account> getAllAccounts(String token) {
-        String sql = "http://192.168.2.5:49161/api/Accounts";
+        String sql = "http://192.168.2.2:49161/api/Accounts";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -689,7 +695,7 @@ public class Contextdb {
         }
     }
     public List<Category> getAllCategorys(String token) {
-        String sql = "http://192.168.2.5:49161/api/Categories";
+        String sql = "http://192.168.2.2:49161/api/Categories";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -738,7 +744,7 @@ public class Contextdb {
         }
     }
     public List<SubCategory> getAllSubCategorys(int id, String token) {
-        String sql = "http://192.168.2.5:49161/api/SubCategories/" + id;
+        String sql = "http://192.168.2.2:49161/api/SubCategories/" + id;
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -788,14 +794,14 @@ public class Contextdb {
     }
     public String insertAssetsLiabilities(String CurrentDate, String Code, Double Rode, Boolean Type, String Description, String Name,
                                           Boolean State, Long IdInvoice, int IdAccount, int IdSubCategory, int IdUser, String token) {
-        String sql = "http://192.168.2.5:49161/api/AssetLiability";
+        String sql = "http://192.168.2.2:49161/api/AssetLiability";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
         URL url = null;
         HttpURLConnection conn;
-
+        DecimalFormat df = new DecimalFormat("#.00");
         try {
             Map<String, Object> params = new LinkedHashMap<>();
             params.put("CurrentDate", CurrentDate);

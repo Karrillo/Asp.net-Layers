@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:background="@drawable/fondo"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
     <LinearLayout
         android:focusable="true"
         android:focusableInTouchMode="true"
@@ -132,6 +134,7 @@
             android:hint="Cantidad"
             android:digits="0123456789"
             android:ems="10"
+            android:maxLength="20"
             android:id="@+id/txt_rode" />
 
 
@@ -175,6 +178,7 @@
             android:layout_weight="0.01"
             android:hint="Descripcion"
             android:inputType="textMultiLine"
+            android:maxLength="100"
             android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789 QWERTYUIOPASDFGHJKLÑZXCVBNM"
             android:ems="10"
             android:id="@+id/txt_description" />
@@ -284,14 +288,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.01"
-            android:id="@+id/btn_insert" />
+            android:id="@+id/btn_insert"
+            android:background="@drawable/custom_button_border"
+            android:textColor="#FFFFFF"/>
 
         <Button
             android:text="Cancelar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.01"
-            android:id="@+id/btn_back" />
+            android:id="@+id/btn_back"
+            android:background="@drawable/custom_button_border"
+            android:textColor="#FFFFFF"/>
 
     </LinearLayout>
 </LinearLayout>

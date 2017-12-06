@@ -1,5 +1,7 @@
 package com.example.carrillo.santamarta;
 
+import java.text.DecimalFormat;
+
 /**
  * Created by joser on 18/11/2017.
  */
@@ -114,12 +116,13 @@ public class Product {
 
     @Override
     public String toString() {
+        DecimalFormat df = new DecimalFormat("#.00");
         return
                 "Nombre: " + Name + '\n' +
                 "Codigo: " + Code + '\n' +
                 "Precio: " + Price + '\n' +
                 "Impuesto: " + Tax + '\n' +
                 "Cantidad: " + Quantity + '\n' +
-                "Total: " + Total ;
+                "Total: " + df.format(Total);
     }
 }

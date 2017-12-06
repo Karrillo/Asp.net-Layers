@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:background="@drawable/fondo"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
     <LinearLayout
         android:focusable="true"
         android:focusableInTouchMode="true"
@@ -22,46 +24,55 @@
             android:id="@+id/linearH_segunda"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:weightSum="1">
 
             <TextView
                 android:id="@+id/Agent"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
+                android:layout_height="46dp"
                 android:text="Buscar:"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                android:textSize="30sp" />
+                android:textColor="#FFFFFF"
+                android:textSize="24sp" />
 
             <EditText
                 android:id="@+id/txt_search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="171dp"
+                android:layout_height="53dp"
                 android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789 QWERTYUIOPASDFGHJKLÑZXCVBNM"
                 android:hint="Cliente"
-                android:layout_weight="1"
+                android:textColor="#FFFFFF"
+                android:maxLength="60"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:layout_weight="0.51" />
 
-            <ImageButton
+            <Button
                 android:id="@+id/btn_add"
-                android:layout_width="wrap_content"
+                android:layout_width="84dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@android:drawable/ic_input_add" />
+                android:layout_weight="0.28"
+                android:background="@drawable/custom_button_border"
+                android:text="Agregar"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
 
         </LinearLayout>
 
         <ListView
+            android:id="@+id/list_clients"
             android:layout_width="match_parent"
             android:layout_height="316dp"
-            android:id="@+id/list_clients"
             android:layout_weight="1.02" />
 
         <Button
-            android:text="Salir"
+            android:id="@+id/btn_back"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_back" />
+            android:background="@drawable/custom_button_border"
+            android:text="Salir"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
     </LinearLayout>
 </LinearLayout>

@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -105,6 +106,11 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
                         case "200":
                             Toast.makeText(getApplicationContext(), "Abono ingresado correctamente", Toast.LENGTH_LONG).show();
                             InvoicesActivity.refresh();
+                            DecimalFormat df = new DecimalFormat("#.00");
+                            Double total = Double.parseDouble(txtTotal.getText().toString()) - Double.parseDouble(txtRode.getText().toString());
+                            Double quantity = Double.parseDouble(txtQuantity.getText().toString()) + Double.parseDouble(txtRode.getText().toString());
+                            InvoicesActivity.printRode(txtClient.getText().toString(),"010",dateNow,df.format(total),
+                                    df.format(quantity),txtRode.getText().toString());
                             // SLEEP 2 SECONDS HERE ...
                             final Handler handler = new Handler();
                             Timer t = new Timer();
@@ -153,7 +159,7 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Error con los datos del usuario, por favor vuelva a loguear", Toast.LENGTH_LONG).show();
             return false;
         }
-        if(Double.parseDouble(txtRode.getText().toString())>(invoiceSelect.getTotal()-invoiceSelect.getRode())){
+        if(Double.parseDouble(txtRode.getText().toString())>(invoiceSelect.getTotal())){
             Toast.makeText(getApplicationContext(), "Ingrese un monto menor o igual al faltante no abonado de la factura", Toast.LENGTH_LONG).show();
             return false;
         }
@@ -161,11 +167,20 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
     }
 
     public void display(Invoice invoice) {
+        DecimalFormat df = new DecimalFormat("#.00");
         if(invoice.getNameCompany().toString().equals("null")){
             txtClient.setText(invoice.getName());
             txtCode.setText(invoice.getCode());
-            txtTotal.setText(String.valueOf(invoice.getTotal()));
-            txtQuantity.setText(String.valueOf(invoice.getRode()));
+            if(invoice.getTotal()<1){
+                txtTotal.setText(String.valueOf(invoice.getTotal()));
+            }else {
+                txtTotal.setText(df.format(invoice.getTotal()));
+            }
+            if(invoice.getRode()<1){
+                txtQuantity.setText(String.valueOf(invoice.getRode()));
+            }else {
+                txtQuantity.setText(df.format(invoice.getRode()));
+            }
             String dateCurent = "";
             Date date = new Date();
             Calendar calendar = Calendar.getInstance();
@@ -178,8 +193,16 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
         }else {
             txtClient.setText(invoice.getNameCompany());
             txtCode.setText(invoice.getCode());
-            txtTotal.setText(String.valueOf(invoice.getTotal()));
-            txtQuantity.setText(String.valueOf(invoice.getRode()));
+            if(invoice.getTotal()<1){
+                txtTotal.setText(String.valueOf(invoice.getTotal()));
+            }else {
+                txtTotal.setText(df.format(invoice.getTotal()));
+            }
+            if(invoice.getRode()<1){
+                txtQuantity.setText(String.valueOf(invoice.getRode()));
+            }else {
+                txtQuantity.setText(df.format(invoice.getRode()));
+            }
             String dateCurent = "";
             Date date = new Date();
             Calendar calendar = Calendar.getInstance();
