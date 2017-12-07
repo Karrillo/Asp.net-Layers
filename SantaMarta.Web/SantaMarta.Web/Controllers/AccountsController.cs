@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace SantaMarta.Web.Controllers
 {
+    [SessionExpireFilter]
     public class AccountsController : Controller
     {
         private AccountsB accountB;
@@ -53,7 +54,7 @@ namespace SantaMarta.Web.Controllers
             }
             else if (status == 400)
             {
-                ModelState.AddModelError("Name", "El nombre se esta usando actualmente");
+                ModelState.AddModelError("Name", "El nombre se está usando actualmente");
                 return View(accounts);
             }
             return View(accounts);
@@ -84,7 +85,7 @@ namespace SantaMarta.Web.Controllers
             }
             else if (status == 400)
             {
-                ModelState.AddModelError("Name", "El nombre se esta usando actualmente");
+                ModelState.AddModelError("Name", "El nombre se está usando actualmente");
                 return View(account);
             }
             return View(account);

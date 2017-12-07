@@ -23,7 +23,7 @@ public class ClientsActivity extends AppCompatActivity{
 
     private ListView list;
     private EditText txtsearch;
-    private ImageButton add;
+    private Button add;
     private Button back;
     private String token = "";
     private Contextdb contextdb = new Contextdb();
@@ -36,7 +36,7 @@ public class ClientsActivity extends AppCompatActivity{
 
         list = (ListView) findViewById(R.id.list_clients);
         txtsearch = (EditText) findViewById(R.id.txt_search);
-        add = (ImageButton) findViewById(R.id.btn_add);
+        add = (Button) findViewById(R.id.btn_add);
         back = (Button) findViewById(R.id.btn_back);
         token = MainActivity.token;
         final Contextdb contextdb = new Contextdb();

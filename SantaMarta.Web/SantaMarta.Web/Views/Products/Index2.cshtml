@@ -3,7 +3,7 @@
     ViewBag.Title = "Restaurar Productos";
 }
 
-@if (Session["users"] == null)
+@if ((Boolean)Session["Type"] == false)
 {
     Response.Redirect("~/Login/Index");
 }
@@ -105,7 +105,7 @@
                 $('#modal-restore').modal('hide');
                 window.location.href = "/Products/Index2";
             } else {
-                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                toastr.warning('No se ejecutó la operación, hubo un error', 'Atención');
             }
         }
 </script>

@@ -76,8 +76,6 @@ namespace SantaMarta.WebAPI.Controllers
             {
                 case 200:
                     return Ok(200);
-                case 401:
-                    return Ok(401);
                 case 400:
                     return Ok(400);
                 case 500:

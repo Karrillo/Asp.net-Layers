@@ -2,122 +2,109 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:mask="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/fondo">
+
+
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
         <TextView
-            android:text="Identificacion:"
+            android:id="@+id/txtv_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/txtv_identification" />
+            android:text="Codigo:" />
 
         <EditText
+            android:id="@+id/txt_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
             android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789QWERTYUIOPASDFGHJKLÑZXCVBNM"
-            android:hint="Identificacion"
-            android:maxLength="20"
             android:ems="10"
-            android:id="@+id/txt_identification" />
-
-        <TextView
-            android:text="Codigo:"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/txtv_code" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789QWERTYUIOPASDFGHJKLÑZXCVBNM"
             android:hint="Codigo"
-            android:maxLength="20"
-            android:ems="10"
-            android:id="@+id/txt_code" />
+            android:inputType="textPersonName"
+            android:maxLength="20" />
 
         <TextView
-            android:text="Nombre:"
+            android:id="@+id/txtv_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/txtv_name" />
+            android:text="Nombre:" />
 
         <EditText
+            android:id="@+id/txt_Name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
             android:digits="qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNM "
+            android:ems="10"
             android:hint="Nombre"
-            android:maxLength="30"
-            android:ems="10"
-            android:id="@+id/txt_Name" />
+            android:inputType="textPersonName"
+            android:maxLength="30" />
 
         <TextView
-            android:text="Primer Apellido:"
+            android:id="@+id/txtv_firstName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/txtv_firstName" />
+            android:text="Primer Apellido:" />
 
         <EditText
+            android:id="@+id/txt_firstName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
             android:digits="qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNM "
+            android:ems="10"
             android:hint="Primer Apellido"
-            android:maxLength="15"
-            android:ems="10"
-            android:id="@+id/txt_firstName" />
+            android:inputType="textPersonName"
+            android:maxLength="15" />
 
         <TextView
-            android:text="Segundo Apellido:"
+            android:id="@+id/txtv_secondName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/txtv_secondName" />
+            android:text="Segundo Apellido:" />
 
         <EditText
+            android:id="@+id/txt_secondName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
             android:digits="qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNM "
+            android:ems="10"
             android:hint="Segundo Apellido"
-            android:maxLength="15"
-            android:ems="10"
-            android:id="@+id/txt_secondName" />
-
-        <TextView
-            android:text="Nombre de Empresa:"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/txtv_nameCompany" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789QWERTYUIOPASDFGHJKLÑZXCVBNM "
-            android:hint="Nombre de Empresa"
-            android:maxLength="40"
-            android:ems="10"
-            android:id="@+id/txt_nameCompany" />
+            android:maxLength="15" />
+
         <TextView
-            android:text="Telefono:"
+            android:id="@+id/txtv_nameCompany"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/txtv_phone" />
+            android:text="Nombre de Empresa:" />
 
         <EditText
+            android:id="@+id/txt_nameCompany"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789QWERTYUIOPASDFGHJKLÑZXCVBNM "
+            android:ems="10"
+            android:hint="Nombre de Empresa"
+            android:inputType="textPersonName"
+            android:maxLength="40" />
+
+        <TextView
+            android:id="@+id/txtv_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Telefono:" />
+
+        <EditText
+            android:id="@+id/txt_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
             android:hint="Telefono"
             android:inputType="phone"
-            android:maxLength="9"
-            android:ems="10"
-            android:id="@+id/txt_phone" />
+            android:maxLength="9" />
 
         <TextView
             android:id="@+id/txtv_cellPhone"
@@ -126,61 +113,85 @@
             android:text="Celular:" />
 
         <EditText
+            android:id="@+id/txt_cellPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:ems="10"
             android:hint="Celular"
             android:inputType="phone"
-            android:ems="10"
             android:maxLength="9"
-            android:id="@+id/txt_cellPhone"
-            mask:mask="+7(###)###-##-##"
-            mask:keep_hint="false" />
+            mask:keep_hint="false"
+            mask:mask="+7(###)###-##-##" />
+
         <TextView
-            android:text="Correo:"
+            android:id="@+id/txtv_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/txtv_email" />
+            android:text="Correo:" />
 
         <EditText
+            android:id="@+id/txt_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
             android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789@.QWERTYUIOPASDFGHJKLÑZXCVBNM"
-            android:hint="Correo"
             android:ems="10"
-            android:maxLength="40"
-            android:id="@+id/txt_email" />
+            android:hint="Correo"
+            android:inputType="textEmailAddress"
+            android:maxLength="40" />
+
         <TextView
-            android:text="Direccion:"
+            android:id="@+id/txtv_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/txtv_address" />
+            android:text="Direccion:" />
 
         <EditText
+            android:id="@+id/txt_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Direccion"
-            android:inputType="textMultiLine"
             android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789 QWERTYUIOPASDFGHJKLÑZXCVBNM"
             android:ems="10"
-            android:maxLength="70"
-            android:id="@+id/txt_address" />
-        <Button
-            android:text="Ingresar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_insert" />
+            android:hint="Direccion"
+            android:inputType="textMultiLine"
+            android:maxLength="70" />
 
-        <Button
-            android:text="Cancelar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_back" />
         <LinearLayout
-            android:focusable="true"
-            android:focusableInTouchMode="true"
+            android:layout_width="match_parent"
+            android:layout_height="59dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_insert"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/custom_button_border"
+                android:text="Ingresar"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_back"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_button_border"
+                android:text="Cancelar"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="0px"
-            android:layout_height="0px" >
+            android:layout_height="0px"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
             <requestFocus />
         </LinearLayout>
     </LinearLayout>

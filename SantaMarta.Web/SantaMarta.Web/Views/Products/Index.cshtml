@@ -10,12 +10,6 @@
 @Styles.Render("~/AdminPacket/dist/css")
 <link href="~/Scripts/Toastr/toastr.min.css" rel="stylesheet" />
 
-
-@if (Session["users"] == null)
-{
-    Response.Redirect("~/Login/Index");
-}
-
 @if (Session["IDProvider"] != null)
 {
     <div class="box-header">
@@ -56,7 +50,7 @@
                             <td>@Html.DisplayFor(modelItem => item.Name)</td>
                             <td>@Html.DisplayFor(modelItem => item.Price)</td>
                             <td>
-                                @if (Session["Type"] != null)
+                                @if ((Boolean)Session["Type"] == true)
                                 {
                                     <a class="btn btn-primary glyphicon glyphicon-edit" data-target="#modal-editar" data-toggle="modal" href="@Url.Action("Edit", "Products", new { id = item.IDProduct })"></a>
                                     <a class="btn btn-danger glyphicon glyphicon-trash" data-target="#modal-editar" data-toggle="modal" href="@Url.Action("Delete", "Products", new { id = item.IDProduct })"></a>
@@ -130,11 +124,11 @@
         $(document).ready(function () {
 
             if ('@TempData["message"]' == "Add") {
-            toastr.success('El usuario ha sido agregado correctamente', 'Agregado');
+            toastr.success('El producto ha sido agregado correctamente', 'Agregado');
         } else if ('@TempData["message"]' == "Update"){
-                toastr.success('El usuario ha sido modificado correctamente', 'Modificado');
+                toastr.success('El producto ha sido modificado correctamente', 'Modificado');
         } else if ('@TempData["message"]' == "Delete"){
-                toastr.success('El usuario ha sido eliminado correctamente', 'Eliminado');
+                toastr.success('El producto ha sido eliminado correctamente', 'Eliminado');
             }
     });
     </script>
@@ -145,7 +139,7 @@
                 $('#modal-crear').modal('hide');
                 window.location.href = "/Products/Index";
             } else {
-                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                toastr.warning('No se ejecutó la operación, hubo un error', 'Atención');
                 $('.modal-content').html(data);
             }
         }
@@ -156,7 +150,7 @@
                 $('#modal-editar').modal('hide');
                 window.location.href = "/Products/Index";
             } else {
-                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                toastr.warning('No se ejecutó la operación, hubo un error', 'Atención');
                 $('.modal-content').html(data);
             }
         }
@@ -167,7 +161,7 @@
                 $('#modal-delete').modal('hide');
                 window.location.href = "/Products/Index";
             } else {
-                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                toastr.warning('No se ejecutó la operación, hubo un error', 'Atención');
             }
         }
 </script>

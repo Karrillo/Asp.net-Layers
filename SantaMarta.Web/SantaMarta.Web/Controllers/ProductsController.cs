@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace SantaMarta.Web.Controllers
 {
+    [SessionExpireFilter]
     public class ProductsController : Controller
     {
         private ProductsProvidersB productsProvidersB;
@@ -80,7 +81,7 @@ namespace SantaMarta.Web.Controllers
             }
             else if (status == 400)
             {
-                ModelState.AddModelError("Code", "El codigo se esta usando actualmente");
+                ModelState.AddModelError("Code", "El codigo se está usando actualmente");
                 return View(products);
             }
             return View(products);
@@ -110,7 +111,7 @@ namespace SantaMarta.Web.Controllers
             }
             else if (status == 400)
             {
-                ModelState.AddModelError("Code", "El codigo se esta usando actualmente");
+                ModelState.AddModelError("Code", "El codigo se está usando actualmente");
                 return View(products);
             }
             return View(products);

@@ -18,7 +18,6 @@ import java.util.TimerTask;
  */
 
 public class InsertClientsActivity extends AppCompatActivity {
-    private EditText txtIdentification;
     private EditText txtCode;
     private EditText txtName;
     private EditText txtFirstName;
@@ -36,7 +35,6 @@ public class InsertClientsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clients_create);
 
-        txtIdentification = (EditText) findViewById(R.id.txt_identification);
         txtCode = (EditText) findViewById(R.id.txt_code);
         txtName = (EditText) findViewById(R.id.txt_Name);
         txtFirstName = (EditText) findViewById(R.id.txt_firstName);
@@ -80,7 +78,6 @@ public class InsertClientsActivity extends AppCompatActivity {
                     client.setSecondName(txtSecondName.getText().toString());
                     client.setEmail(txtEmail.getText().toString());
                     client.setAddress(txtAddress.getText().toString());
-                    client.setIdentification(txtIdentification.getText().toString());
                     client.setCode(txtCode.getText().toString());
                     if (txtNameCompany.getText().toString().equals("")) {
                         client.setNameCompany("null");
@@ -108,9 +105,6 @@ public class InsertClientsActivity extends AppCompatActivity {
                             break;
                         case "400":
                             Toast.makeText(getApplicationContext(), "El codigo ingresado ya existe en el sistema", Toast.LENGTH_LONG).show();
-                            break;
-                        case "401":
-                            Toast.makeText(getApplicationContext(), "La identificacion ingresada ya existe en el sistema", Toast.LENGTH_LONG).show();
                             break;
                         case "500":
                             Toast.makeText(getApplicationContext(), "Fallo al insertar cliente", Toast.LENGTH_LONG).show();

@@ -31,6 +31,19 @@ namespace SantaMarta.WebAPI.Controllers
             }
         }
 
+        // GET: api/Invoice
+        [HttpGet]
+        public IHttpActionResult Get(Int64 id)
+        {
+            Int64 code;
+
+            InvoicesB invoiceB = new InvoicesB();
+
+            code = invoiceB.GetCode();
+
+            return Ok(code);
+        }
+
         [Route("api/Invoice/GetInvoicesAllSales")]
         [HttpGet]
         public IHttpActionResult GetInvoicesAllSales()

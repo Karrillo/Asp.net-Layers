@@ -16,5 +16,6 @@ namespace SantaMarta.Bussines.ProvidersBussines
         List<All_Providers> GetAll();
         List<All_Providers> GetAllDelete();
         List<Int64> ProvidersAll();
+        Int64 GetIdOwn();
     }
 }

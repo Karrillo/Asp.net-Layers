@@ -39,6 +39,16 @@ namespace SantaMarta.Bussines.InvoicesBussines
             return invoiceAccess.GetAllPurchases();
         }
 
+        public List<Views_Invoices> GetAllSalesExpired()
+        {
+            return invoiceAccess.GetAllSalesExpired();
+        }
+
+        public List<Views_Invoices> GetAllPurchasesExpired()
+        {
+            return invoiceAccess.GetAllPurchasesExpired();
+        }
+
         public Int64 GetCode()
         {
             return invoiceAccess.GetCode();

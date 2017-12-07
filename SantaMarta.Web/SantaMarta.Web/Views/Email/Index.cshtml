@@ -5,7 +5,7 @@
 
 <link href="~/Scripts/Toastr/toastr.min.css" rel="stylesheet" />
 
-@if (Session["Type"] == null)
+@if ((Boolean)Session["Type"] == false)
 {
     Response.Redirect("~/Login/Index");
 }
@@ -30,6 +30,7 @@
         <button type="button" class="btn btn-success btn-lg pull-right" data-target="#modal-editar" data-toggle="modal" href="@Url.Action("Edit", "Email")">Modificar Correo</button>
     </div>
 }
+<p style="color:red;">Importante: El correo electronico debe ser de GMAIL</p>
 
     @*modal*@
     <div class="modal fade" tabindex="-1" role="dialog" id="modal-crear" aria-labelledby="myModalLabel">
@@ -42,6 +43,7 @@
     <div class="modal fade" tabindex="-1" role="dialog" id="modal-editar" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
+
             </div>
         </div>
     </div>
@@ -74,7 +76,7 @@
                 $('#modal-crear').modal('hide');
                 window.location.href = "/Email/Index";
             } else {
-                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                toastr.warning('No se ejecutó la operación, hubo un error', 'Atención');
                 $('.modal-content').html(data);
             }
         }
@@ -86,7 +88,7 @@
                 $('#modal-editar').modal('hide');
                 window.location.href = "/Email/Index";
             } else {
-                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                toastr.warning('No se ejecutó la operación, hubo un error', 'Atención');
                 $('.modal-content').html(data);
             }
         }

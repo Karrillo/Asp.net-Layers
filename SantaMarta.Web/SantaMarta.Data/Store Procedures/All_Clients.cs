@@ -9,19 +9,19 @@ namespace SantaMarta.Data.Store_Procedures
         [Key]
         public Int64 IDPerson { get; set; }
 
-        [RegularExpression(@"^[^-\s][a-zA-Z\s-]+$", ErrorMessage = "Caracteres no permitidas")]
+        [RegularExpression(@"^([ñÑa-zA-Z0-9]+\s)*[ñÑa-zA-Z0-9]+$", ErrorMessage = "Caracteres no permitidas")]
         [Required(ErrorMessage = "El nombre es requerido")]
         [DataType(DataType.Text)]
-        [StringLength(20, MinimumLength = 1, ErrorMessage = "El numero de caracteres debe ser menor a 20")]
+        [StringLength(30, MinimumLength = 1, ErrorMessage = "El numero de caracteres debe ser menor a 30")]
         public String Name { get; set; }
 
-        [RegularExpression(@"^[^-\s][a-zA-Z\s-]+$", ErrorMessage = "Caracteres no permitidas")]
+        [RegularExpression(@"^([ñÑa-zA-Z0-9]+\s)*[ñÑa-zA-Z0-9]+$", ErrorMessage = "Caracteres no permitidas")]
         [Required(ErrorMessage = "El primer apellido es requerido")]
         [DataType(DataType.Text)]
         [StringLength(15, MinimumLength = 1, ErrorMessage = "El numero de caracteres debe ser menor a 15")]
         public String FirstName { get; set; }
 
-        [RegularExpression(@"^[^-\s][a-zA-Z\s-]+$", ErrorMessage = "Caracteres no permitidas")]
+        [RegularExpression(@"^([ñÑa-zA-Z0-9]+\s)*[ñÑa-zA-Z0-9]+$", ErrorMessage = "Caracteres no permitidas")]
         [Required(ErrorMessage = "El segundo apellido es requerido")]
         [DataType(DataType.Text)]
         [StringLength(15, MinimumLength = 1, ErrorMessage = "El numero de caracteres debe ser menor a 15")]
@@ -30,7 +30,7 @@ namespace SantaMarta.Data.Store_Procedures
         [EmailAddress(ErrorMessage = "Correo no valido")]
         [DataType(DataType.EmailAddress)]
         [StringLength(40, MinimumLength = 0, ErrorMessage = "El numero de caracteres debe ser menor a 40")]
-        [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "Correo no valido")]
+        [RegularExpression("^[ñÑa-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "Correo no valido")]
         public String Email { get; set; }
 
         [RegularExpression(@"^\(?([0-9]{4})[-. ]?([0-9]{4})$", ErrorMessage = "Numero telefonico no valido")]
@@ -43,13 +43,13 @@ namespace SantaMarta.Data.Store_Procedures
         [StringLength(9, MinimumLength = 0, ErrorMessage = "El numero de caracteres debe ser menor a 9")]
         public String CellPhone { get; set; }
 
-        [RegularExpression(@"^[^-\s][.,a-zA-Z0-9_\s-]+$", ErrorMessage = "Caracteres especiales no son permitidos")]
+        [RegularExpression(@"^([.,ñÑa-zA-Z0-9]+\s)*[.,ñÑa-zA-Z0-9]+$", ErrorMessage = "Caracteres no permitidas")]
         [Required(ErrorMessage = "La direccion es requerida")]
         [DataType(DataType.Text)]
         [StringLength(70, MinimumLength = 1, ErrorMessage = "El numero de caracteres debe ser menor a 70")]
         public String Address { get; set; }
 
-        [RegularExpression(@"^[^-\s][a-zA-Z0-9\s-]+$", ErrorMessage = "Caracteres no permitidas")]
+        [RegularExpression(@"^([ñÑa-zA-Z0-9]+\s)*[ñÑa-zA-Z0-9]+$", ErrorMessage = "Caracteres no permitidas")]
         [Required(ErrorMessage = "Nombre de compañía es requerida")]
         [DataType(DataType.Text)]
         [StringLength(40, MinimumLength = 1, ErrorMessage = "El numero de caracteres debe ser menor a 40")]

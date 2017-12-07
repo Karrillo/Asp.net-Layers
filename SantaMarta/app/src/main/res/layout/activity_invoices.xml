@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:background="@drawable/fondo"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -26,24 +28,41 @@
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
-            <ImageButton
+            <Button
                 android:id="@+id/btn_add"
                 android:layout_width="84dp"
                 android:layout_height="match_parent"
-                android:background="@android:drawable/ic_input_add" />
+                android:background="@drawable/custom_button_border"
+                android:textColor="#FFFFFF"
+                android:text="Agregar" />
 
         </LinearLayout>
 
-        <ListView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="316dp"
-            android:id="@+id/list_invoices"
-            android:layout_weight="1.02" />
+            android:layout_height="409dp"
+            android:orientation="horizontal"
+            android:layout_weight="0.93">
 
-        <Button
-            android:text="Salir"
+            <ListView
+                android:id="@+id/list_invoices"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_back" />
+            android:layout_height="54dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_back"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/custom_button_border"
+                android:text="Salir"
+                android:textColor="#FFFFFF" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

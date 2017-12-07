@@ -25,15 +25,15 @@
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-2">
             <label>Codigo de Proveedor:</label>
-            @Html.DropDownList("providersCode", null, "Seleccionar el producto", new { @class = "form-control select2" })
+            @Html.DropDownList("providersCode", null, "Seleccionar producto", new { @class = "form-control select2" })
         </div>
         <div class="col-sm-12 col-md-12 col-lg-5">
             <label>Nombre de Compañía:</label>
-            @Html.DropDownList("providersCompany", null, "Seleccionar el producto", new { @class = "form-control select2" })
+            @Html.DropDownList("providersCompany", null, "Seleccionar producto", new { @class = "form-control select2" })
         </div>
         <div class="col-sm-12 col-md-12 col-lg-5">
             <label>Nombre del Proveedor:</label>
-            @Html.DropDownList("providersName", null, "Seleccionar el producto", new { @class = "form-control select2" })
+            @Html.DropDownList("providersName", null, "Seleccionar producto", new { @class = "form-control select2" })
         </div>
     </div>
     <span id="eProvider" style="color:#FF0000;"></span>
@@ -139,7 +139,7 @@
         $('#txt_price').mask('00000000.00', { reverse: true });
         $('#txt_discount').mask('00.00', { reverse: true });
         $('#txt_total').mask('00000000.00', { reverse: true });
-        $('#txt_numberInvoice').mask('000000000000000000000000000000', { reverse: true });
+        $('#txt_numberInvoice').mask('0000000000000000000000', { reverse: true });
     });
 </script>
 

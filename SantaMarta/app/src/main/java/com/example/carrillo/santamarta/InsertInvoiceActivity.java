@@ -21,6 +21,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -47,6 +48,7 @@ public class InsertInvoiceActivity extends AppCompatActivity {
     private Contextdb contextdb = new Contextdb();
     private static Client clientSelect;
     private static int provider;
+    private static Double total;
     private static Print print = new Print();
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +73,7 @@ public class InsertInvoiceActivity extends AppCompatActivity {
         txtClient.setText("No seleccionado");
         context = getBaseContext();
         barCredit.setEnabled(false);
+        total = 0.0;
         token = MainActivity.token;
         final Contextdb contextdb = new Contextdb();
 
@@ -222,27 +225,28 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                                     print.setTotal(txtTotal.getText().toString());
                                     String response = contextdb.getDetail(MainActivity.idUSer, token);
                                     if (!response.toString().equals("false")) {
-                                        String responseInvoice = contextdb.insertInvoices(dateCredit, "02", Integer.parseInt(txtDiscont.getText().toString()), Double.parseDouble(txtTotal.getText().toString()),
+                                        String code = contextdb.getCode(token);
+                                        String responseInvoice = contextdb.insertInvoices(dateCredit, code, Integer.parseInt(txtDiscont.getText().toString()), total,
                                                 true, clientSelect.getIDClient(), provider, Long.parseLong(response), token);
-                                        if (!responseInvoice.toString().equals("500")) {
+                                        if (responseInvoice.toString().equals("500")) {
                                             Product item;
                                             String responseSale = "";
                                             for (int x = 0; x < listProducts.size(); x++) {
                                                 item = listProducts.get(x);
                                                 responseSale = contextdb.insertSales(item.getCode(), item.getQuantity(), item.getTotal(), item.getIDProduct(),
                                                         Long.parseLong(response), token);
-                                                if (responseInvoice.toString().equals("500")) {
+                                                if (responseSale.toString().equals("500")) {
                                                     Toast.makeText(getApplicationContext(), "Error, factura mal ingresada al sistema", Toast.LENGTH_LONG).show();
                                                     break;
                                                 }
                                                 if (responseSale.equals("200")) {
-                                                    //if (clientSelect.getNameCompany().toString().equals("null")) {
-                                                        //MainPrintActivity.printInvoice(clientSelect.getName() + " " + clientSelect.getFirstName() + " " + clientSelect.getSecondName(),
-                                                                //"003", print.getCurent(), print.getLimit(), "Si", listProducts, print.getDiscount(), print.getTotal());
-                                                    //} else {
-                                                        //MainPrintActivity.printInvoice(clientSelect.getNameCompany(),
-                                                                //"003", print.getCurent(), print.getLimit(), "Si", listProducts, print.getDiscount(), print.getTotal());
-                                                    //}
+                                                    if (clientSelect.getNameCompany().toString().equals("null")) {
+                                                        InvoicesActivity.printInvoiceCredit(clientSelect.getName() + " " + clientSelect.getFirstName() + " " + clientSelect.getSecondName(),
+                                                                "003", print.getCurent(), print.getLimit(), "Si", listProducts, print.getDiscount(), print.getTotal());
+                                                    } else {
+                                                        InvoicesActivity.printInvoiceCredit(clientSelect.getNameCompany(),
+                                                                "003", print.getCurent(), print.getLimit(), "Si", listProducts, print.getDiscount(), print.getTotal());
+                                                    }
                                                     Toast.makeText(getApplicationContext(), "Factura de venta ingresada correctamente", Toast.LENGTH_LONG).show();
                                                     InvoicesActivity.refresh();
                                                     // SLEEP 2 SECONDS HERE ...
@@ -279,29 +283,30 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                                     print.setTotal(txtTotal.getText().toString());
                                     String response = contextdb.getDetail(MainActivity.idUSer, token);
                                     if (!response.toString().equals("false")) {
-                                        String responseInvoice = contextdb.insertInvoices(dateCredit, "02", Integer.parseInt(txtDiscont.getText().toString()), Double.parseDouble(txtTotal.getText().toString()),
+                                        String code = contextdb.getCode(token);
+                                        String responseInvoice = contextdb.insertInvoices(dateCredit, code, Integer.parseInt(txtDiscont.getText().toString()), total,
                                                 true, clientSelect.getIDClient(), provider, Long.parseLong(response), token);
-                                        if (!responseInvoice.toString().equals("500")) {
+                                        if (responseInvoice.toString().equals("500")) {
                                             Product item;
                                             String responseSale = "";
                                             for (int x = 0; x < listProducts.size(); x++) {
                                                 item = listProducts.get(x);
                                                 responseSale = contextdb.insertSales(item.getCode(), item.getQuantity(), item.getTotal(), item.getIDProduct(),
                                                         Long.parseLong(response), token);
-                                                if (responseInvoice.toString().equals("500")) {
+                                                if (responseSale.toString().equals("500")) {
                                                     Toast.makeText(getApplicationContext(), "Error, factura mal ingresada al sistema", Toast.LENGTH_LONG).show();
                                                     break;
                                                 }
                                                 if (responseSale.equals("200")) {
                                                     Toast.makeText(getApplicationContext(), "Factura de venta ingresada correctamente", Toast.LENGTH_LONG).show();
                                                     InvoicesActivity.refresh();
-                                                    //if (clientSelect.getNameCompany().toString().equals("null")) {
-                                                        //MainPrintActivity.printInvoice(clientSelect.getName() + " " + clientSelect.getFirstName() + " " + clientSelect.getSecondName(),
-                                                                //"003", print.getCurent(), print.getLimit(), "No", listProducts, print.getDiscount(), print.getTotal());
-                                                    //} else {
-                                                        //MainPrintActivity.printInvoice(clientSelect.getNameCompany(),
-                                                                //"003", print.getCurent(), print.getLimit(), "No", listProducts, print.getDiscount(), print.getTotal());
-                                                    //}
+                                                    if (clientSelect.getNameCompany().toString().equals("null")) {
+                                                        InvoicesActivity.printInvoice(clientSelect.getName() + " " + clientSelect.getFirstName() + " " + clientSelect.getSecondName(),
+                                                                "003", print.getCurent(), "Si", listProducts, print.getDiscount(), print.getTotal());
+                                                    } else {
+                                                        InvoicesActivity.printInvoice(clientSelect.getNameCompany(),
+                                                                "003", print.getCurent(), "Si", listProducts, print.getDiscount(), print.getTotal());
+                                                    }
                                                     // SLEEP 2 SECONDS HERE ...
                                                     final Handler handler = new Handler();
                                                     Timer t = new Timer();
@@ -369,19 +374,24 @@ public class InsertInvoiceActivity extends AppCompatActivity {
 
     public static void total(){
         if(listProducts.size()>0){
-            Double total = 0.0;
+            total = 0.0;
             Product item;
             for(int x=0;x<listProducts.size();x++){
                 item = listProducts.get(x);
                 total = total +item.getTotal();
             }
             if(txtDiscont.getText().toString().equals("0")){
-                txtTotal.setText(String.valueOf(total));
+                DecimalFormat df = new DecimalFormat("#.00");
+                String sumTotal = df.format(total);
+                txtTotal.setText(sumTotal);
             }else {
                 total = total - ((total * Integer.parseInt(txtDiscont.getText().toString()))/100);
-                txtTotal.setText(String.valueOf(total));
+                DecimalFormat df = new DecimalFormat("#.00");
+                String sumTotal = df.format(total);
+                txtTotal.setText(sumTotal);
             }
         }else {
+            total = 0.0;
             txtTotal.setText("0");
         }
     }

@@ -23,6 +23,7 @@ using System.Web.Mvc;
 
 namespace SantaMarta.Web.Controllers
 {
+    [SessionExpireFilter]
     public class PurchasesController : Controller
     {
         private ProductsProvidersB productsProvidersB;
@@ -103,6 +104,57 @@ namespace SantaMarta.Web.Controllers
             return View(invoicesTable);
         }
 
+        // GET: Purchases Expired
+        public ActionResult Index2()
+        {
+            List<InvoicesTable> invoicesTable = new List<InvoicesTable>();
+            List<Views_Invoices> invoices = invoicesB.GetAllPurchasesExpired().ToList();
+
+            DateTime date = DateTime.Now;
+            Int16 state = 0;
+
+            foreach (var item in invoices)
+            {
+                state = 0;
+                if (item.State == true)
+                {
+                    if (item.LimitDate < date && item.Total != item.Rode)
+                    {
+                        state = 0;
+                    }
+                    else if (item.Total == item.Rode)
+                    {
+                        state = 1;
+                    }
+                    else if (item.Total != item.Rode && item.LimitDate > date)
+                    {
+                        state = 2;
+                    }
+                }
+                else
+                {
+                    state = 3;
+                }
+
+                if (item.Rode == null)
+                {
+                    item.Rode = 0;
+                }
+
+                invoicesTable.Add(new InvoicesTable()
+                {
+                    IDInvoice = item.IDInvoice,
+                    Name = item.FirstName + " " + item.SecondName + " " + item.Name,
+                    NameCompany = item.NameCompany,
+                    Code = item.Code,
+                    Date = item.CurrentDate.ToShortDateString(),
+                    Rode = item.Total - item.Rode ?? 0,
+                    Type = state
+                });
+            }
+            return View(invoicesTable);
+        }
+
         // GET: Purchases/Details/5
         public ActionResult Details(int id)
         {
@@ -136,7 +188,6 @@ namespace SantaMarta.Web.Controllers
         {
             var products = productsProvidersB.GetAll(Convert.ToInt32(id)).ToList();
             return Json(products, JsonRequestBehavior.AllowGet);
-            //return Json(new SelectList(products, "IDProduct", "Name", "Code"), JsonRequestBehavior.AllowGet);
         }
 
         // GET: Products
@@ -214,8 +265,8 @@ namespace SantaMarta.Web.Controllers
             }
 
             invoices.Code = code;
-            invoices.IdClient = 1;
-            invoices.IdProvider = Convert.ToInt64(idProvider); ;
+            invoices.IdClient = 2;
+            invoices.IdProvider = Convert.ToInt64(idProvider);
             int status = invoicesB.Create(invoices);
 
             if (status != 500)
@@ -288,6 +339,13 @@ namespace SantaMarta.Web.Controllers
                 return View(assetLiability);
             }
             return View(assetLiability);
+        }
+
+        // GET: Invoices Expired
+        public JsonResult GetInvoicesExpired()
+        {
+            List<Views_Invoices> invoices = invoicesB.GetAllPurchasesExpired();
+            return Json(invoices, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using SantaMarta.Data.Models.Sales;
 using System;
-using SantaMarta.Data.Models.Products;
-using SantaMarta.Data.Models.AssetsLiabilities;
 using SantaMarta.Data.Store_Procedures;
 
 namespace SantaMarta.Bussines.SalesBussines

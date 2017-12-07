@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:background="@drawable/fondo"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
     <LinearLayout
         android:focusable="true"
         android:focusableInTouchMode="true"
@@ -210,7 +212,10 @@
                 android:id="@+id/btn_account"
                 android:layout_width="59dp"
                 android:layout_height="match_parent"
-                android:background="@android:drawable/ic_input_add" />
+                android:background="@drawable/custom_button_border"
+                android:textColor="#FFFFFF"
+                android:text="Cuenta"
+                android:layout_weight="0.03" />
 
         </LinearLayout>
 
@@ -243,7 +248,10 @@
                 android:id="@+id/btn_category"
                 android:layout_width="59dp"
                 android:layout_height="match_parent"
-                android:background="@android:drawable/ic_input_add" />
+                android:background="@drawable/custom_button_border"
+                android:textColor="#FFFFFF"
+                android:text="Categoria"
+                android:layout_weight="0.04" />
 
         </LinearLayout>
 
@@ -277,7 +285,10 @@
                 android:enabled="false"
                 android:layout_width="59dp"
                 android:layout_height="match_parent"
-                android:background="@android:drawable/ic_input_add" />
+                android:background="@drawable/custom_button_border"
+                android:textColor="#FFFFFF"
+                android:text="Subcategoria"
+                android:layout_weight="0.14" />
 
         </LinearLayout>
 
@@ -286,14 +297,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.01"
-            android:id="@+id/btn_insert" />
+            android:id="@+id/btn_insert"
+            android:background="@drawable/custom_button_border"
+            android:textColor="#FFFFFF"/>
 
         <Button
             android:text="Cancelar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.01"
-            android:id="@+id/btn_back" />
+            android:id="@+id/btn_back"
+            android:background="@drawable/custom_button_border"
+            android:textColor="#FFFFFF"/>
 
     </LinearLayout>
 </LinearLayout>

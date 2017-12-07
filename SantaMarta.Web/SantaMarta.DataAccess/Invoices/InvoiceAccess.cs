@@ -50,6 +50,36 @@ namespace SantaMarta.DataAccess.InvoiceAccess
             }
         }
 
+        //Get All Sales Invoices Expired
+        public List<Views_Invoices> GetAllSalesExpired()
+        {
+            List<Views_Invoices> invoice = new List<Views_Invoices>();
+            try
+            {
+                invoice = db.Views_Invoices_All_Sales_Expired();
+                return invoice;
+            }
+            catch (Exception)
+            {
+                return invoice;
+            }
+        }
+
+        //Get All Purchases Invoices Expired
+        public List<Views_Invoices> GetAllPurchasesExpired()
+        {
+            List<Views_Invoices> invoice = new List<Views_Invoices>();
+            try
+            {
+                invoice = db.Views_Invoices_All_Purchase_Expired();
+                return invoice;
+            }
+            catch (Exception)
+            {
+                return invoice;
+            }
+        }
+
         //Get Invoices
         public Views_Invoinces_Details GetById(Int64 id, Boolean type)
         {

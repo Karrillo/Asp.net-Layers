@@ -26,6 +26,7 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -55,7 +56,7 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
 
     private static ListView list;
     private EditText txtadd;
-    private ImageButton add;
+    private Button add;
     private Button back;
     private static String token = "";
     private static Contextdb contextdb = new Contextdb();
@@ -68,7 +69,7 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
         setContentView(R.layout.activity_invoices);
         //final ListView list = (ListView) findViewById(R.id.list_invoices);
         list = (ListView) findViewById(R.id.list_invoices);
-        add = (ImageButton) findViewById(R.id.btn_add);
+        add = (Button) findViewById(R.id.btn_add);
         back = (Button) findViewById(R.id.btn_back);
         token = MainActivity.token;
         context = getBaseContext();
@@ -81,9 +82,37 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(position>=0){
                     if(type[position] =="2" || type[position] =="3"){
-                        invoice = listInvoices.get(position);
-                        Intent menu = new Intent(InvoicesActivity.this, AssetsliabilitiesActivity.class);
-                        startActivity(menu);
+                        if(mBluetoothAdapter!=null){
+                            Toast.makeText(getApplicationContext(), "Impresora no conectada, por favor conecte el dispocitivo", Toast.LENGTH_LONG).show();
+                            // SLEEP 2 SECONDS HERE ...
+                            final Handler handler = new Handler();
+                            Timer t = new Timer();
+                            t.schedule(new TimerTask() {
+                                public void run() {
+                                    handler.post(new Runnable() {
+                                        public void run() {
+                                            mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+                                            if (!mBluetoothAdapter.isEnabled()) {
+                                                Intent enableBtIntent = new Intent(
+                                                        BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                                                startActivityForResult(enableBtIntent,
+                                                        REQUEST_ENABLE_BT);
+                                            } else {
+                                                ListPairedDevices();
+                                                Intent connectIntent = new Intent(InvoicesActivity.this,
+                                                        DeviceListActivity.class);
+                                                startActivityForResult(connectIntent,
+                                                        REQUEST_CONNECT_DEVICE);
+                                            }
+                                        }
+                                    });
+                                }
+                            }, 1000);
+                        }else {
+                            invoice = listInvoices.get(position);
+                            Intent menu = new Intent(InvoicesActivity.this, AssetsliabilitiesActivity.class);
+                            startActivity(menu);
+                        }
                     }
                 }
             }
@@ -237,7 +266,7 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                     if(date_curent.equals(date_limit)){
                         color[x] = "0";
                     }else {
-                        if(invoice.getTotal() == invoice.getRode()){
+                        if(invoice.getTotal() == 0){
                             color[x] = "1";
                         }else if(date_limit.after(date_now) && invoice.getTotal() != invoice.getRode()){
                             color[x] = "2";
@@ -399,8 +428,95 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
         buffer.flip();
         return buffer.array();
     }
-    public static void printInvoice(final String client, final String numInvoice, final String dateCurent, final String dateLimit, final String credit, final List<Product> productlist,
+    public static void printInvoice(final String client, final String numInvoice, final String dateCurent, final String credit, final List<Product> productlist,
+                                          final String discount, final String total){
+        final DecimalFormat df = new DecimalFormat("#.00");
+        Thread t = new Thread() {
+            public void run() {
+                Product product;
+                try {
+                    OutputStream os = mBluetoothSocket
+                            .getOutputStream();
+                    String BILL = "";
+
+                    BILL = "     PRODUCTOS ALIMENTICIOS \n"
+                            + "          SANTA MARTA \n" +
+                            "        Factura de venta     \n" +
+                            "Numero de Factura: "+numInvoice+"\n" +
+                            "Fecha: " + dateCurent +"\n" +
+                            "Contado: "+credit+"\n" +
+                            "Cliente: \n" +
+                            ""+ client + "\n";
+                    BILL = BILL
+                            + "-------------------------------\n";
+
+
+                    BILL = BILL + " Nombre          Codigo ";
+                    BILL = BILL + "\n";
+                    BILL = BILL
+                            + "-------------------------------\n";
+                    for(int x=0; x<productlist.size();x++) {
+                        product = productlist.get(x);
+                        BILL = BILL + "\n " + product.getName()+"    "+product.getCode();
+                    }
+                    BILL = BILL
+                            + "\n-------------------------------\n";
+                    BILL = BILL + "\n\n ";
+
+                    BILL = BILL + "Cantidad Impuesto  Total";
+                    BILL = BILL + "\n";
+                    BILL = BILL
+                            + "-------------------------------\n";
+                    for(int x=0; x<productlist.size();x++) {
+                        product = productlist.get(x);
+                        BILL = BILL + "\n " + product.getQuantity()+"    "+product.getTax()+"   "+df.format(product.getTotal());
+                    }
+
+                    BILL = BILL
+                            + "\n-------------------------------";
+                    BILL = BILL + "\n";
+                    BILL = BILL + "\n";
+
+                    BILL = BILL + " Descuento: " + discount + " %" + "\n";
+                    BILL = BILL + " Total de Factura: \n";
+                    BILL = BILL + " "+ total +"\n";
+
+                    BILL = BILL
+                            + "-------------------------------\n";
+                    BILL = BILL + "\n";
+                    BILL = BILL + "\n";
+                    BILL = BILL + "\n";
+                    BILL = BILL + "\n";
+                    os.write(BILL.getBytes());
+                    //This is printer specific code you can comment ==== > Start
+
+                    // Setting height
+                    int gs = 29;
+                    os.write(intToByteArray(gs));
+                    int h = 104;
+                    os.write(intToByteArray(h));
+                    int n = 162;
+                    os.write(intToByteArray(n));
+
+                    // Setting Width
+                    int gs_width = 29;
+                    os.write(intToByteArray(gs_width));
+                    int w = 119;
+                    os.write(intToByteArray(w));
+                    int n_width = 2;
+                    os.write(intToByteArray(n_width));
+
+
+                } catch (Exception e) {
+                    Log.e("MainPrintActivity", "Exe ", e);
+                }
+            }
+        };
+        t.start();
+    }
+    public static void printInvoiceCredit(final String client, final String numInvoice, final String dateCurent, final String dateLimit, final String credit, final List<Product> productlist,
                                     final String discount, final String total){
+        final DecimalFormat df = new DecimalFormat("#.00");
         Thread t = new Thread() {
             public void run() {
                 Product product;
@@ -441,7 +557,7 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                             + "-------------------------------\n";
                     for(int x=0; x<productlist.size();x++) {
                         product = productlist.get(x);
-                        BILL = BILL + "\n " + product.getQuantity()+"    "+product.getTax()+"   "+product.getTotal();
+                        BILL = BILL + "\n " + product.getQuantity()+"    "+product.getTax()+"   "+df.format(product.getTotal());
                     }
 
                     BILL = BILL
@@ -455,6 +571,71 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
 
                     BILL = BILL
                             + "-------------------------------\n";
+                    BILL = BILL + "\n";
+                    BILL = BILL + "\n";
+                    BILL = BILL + "\n";
+                    BILL = BILL + "\n";
+                    os.write(BILL.getBytes());
+                    //This is printer specific code you can comment ==== > Start
+
+                    // Setting height
+                    int gs = 29;
+                    os.write(intToByteArray(gs));
+                    int h = 104;
+                    os.write(intToByteArray(h));
+                    int n = 162;
+                    os.write(intToByteArray(n));
+
+                    // Setting Width
+                    int gs_width = 29;
+                    os.write(intToByteArray(gs_width));
+                    int w = 119;
+                    os.write(intToByteArray(w));
+                    int n_width = 2;
+                    os.write(intToByteArray(n_width));
+
+
+                } catch (Exception e) {
+                    Log.e("MainPrintActivity", "Exe ", e);
+                }
+            }
+        };
+        t.start();
+    }
+    public static void printRode(final String client, final String numInvoice, final String dateCurent, final String totalInvoice,
+                                    final String totalRode, final String total){
+        final DecimalFormat df = new DecimalFormat("#.00");
+        Thread t = new Thread() {
+            public void run() {
+                Product product;
+                try {
+                    OutputStream os = mBluetoothSocket
+                            .getOutputStream();
+                    String BILL = "";
+
+                    BILL = "     PRODUCTOS ALIMENTICIOS \n"
+                            + "          SANTA MARTA \n" +
+                            "        Recibo de Abono     \n" +
+                            "Numero de Factura: "+numInvoice+"\n" +
+                            "Fecha: " + dateCurent +"\n" +
+                            "Cliente: \n" +
+                            ""+ client + "\n";
+
+                    BILL = BILL
+                            + "\n-------------------------------";
+                    BILL = BILL + "\n";
+                    BILL = BILL + "\n";
+
+                    BILL = BILL + "Total de Cuenta: \n" +
+                            ""+ totalInvoice + "\n";
+                    BILL = BILL + "Total de Abonos: \n" +
+                            ""+ totalRode + "\n";
+                    BILL = BILL + "Total Abonado: \n" +
+                            ""+ total + "\n";
+
+                    BILL = BILL
+                            + "-------------------------------\n";
+
                     BILL = BILL + "\n";
                     BILL = BILL + "\n";
                     BILL = BILL + "\n";

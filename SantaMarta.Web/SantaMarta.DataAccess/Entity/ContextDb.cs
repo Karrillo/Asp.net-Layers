@@ -311,6 +311,10 @@ namespace SantaMarta.DataAccess.Entity
         {
             return this.Database.SqlQuery<All_Providers>("select * from All_Providers_Deleted ()").ToList();
         }
+        public virtual Int64 Get_IdOwn()
+        {
+            return this.Database.SqlQuery<Int64>("select * from Get_IdOwn ()").FirstOrDefault();
+        }
         #endregion
         //products
         #region Products
@@ -1005,6 +1009,14 @@ namespace SantaMarta.DataAccess.Entity
         public virtual List<Views_Invoices> Views_Invoices_All_Purchase()
         {
             return this.Database.SqlQuery<Views_Invoices>("select * from Views_Invoices_All_Purchase ()").ToList();
+        }
+        public virtual List<Views_Invoices> Views_Invoices_All_Sales_Expired()
+        {
+            return this.Database.SqlQuery<Views_Invoices>("select * from Views_Invoices_All_Sales_Expired ()").ToList();
+        }
+        public virtual List<Views_Invoices> Views_Invoices_All_Purchase_Expired()
+        {
+            return this.Database.SqlQuery<Views_Invoices>("select * from Views_Invoices_All_Purchase_Expired ()").ToList();
         }
         public virtual Views_Invoinces_Details View_Invoice_Clients(Int64 IDInvoice)
         {

@@ -1,5 +1,7 @@
 package com.example.carrillo.santamarta;
 
+import java.text.DecimalFormat;
+
 /**
  * Created by joser on 15/11/2017.
  */
@@ -104,13 +106,43 @@ public class Invoice {
 
     @Override
     public String toString() {
-        return
-                "Nombre de cliente: " + Name + '\n' +
-                "Nombre de compañia: " + NameCompany + '\n' +
-                "Fecha Creación: " + CurrentDate + '\n' +
-                "Fecha limite: " + LimitDate + '\n' +
-                "Codigo: " + Code + '\n' +
-                "Abonado: " + Rode + '\n' +
-                "Total: " + Total ;
+        DecimalFormat df = new DecimalFormat("#.00");
+        if(Rode==0 && Total==0){
+            return
+                    "Nombre de cliente: " + Name + '\n' +
+                            "Nombre de compañia: " + NameCompany + '\n' +
+                            "Fecha Creación: " + CurrentDate + '\n' +
+                            "Fecha limite: " + LimitDate + '\n' +
+                            "Codigo: " + Code + '\n' +
+                            "Abonado: " + Rode + '\n' +
+                            "Total: " + Total;
+        }else if(Rode>0 && Total>0){
+            return
+                    "Nombre de cliente: " + Name + '\n' +
+                            "Nombre de compañia: " + NameCompany + '\n' +
+                            "Fecha Creación: " + CurrentDate + '\n' +
+                            "Fecha limite: " + LimitDate + '\n' +
+                            "Codigo: " + Code + '\n' +
+                            "Abonado: " + df.format(Rode) + '\n' +
+                            "Total: " + df.format(Total);
+        }else if(Rode>0 && Total==0){
+            return
+                    "Nombre de cliente: " + Name + '\n' +
+                            "Nombre de compañia: " + NameCompany + '\n' +
+                            "Fecha Creación: " + CurrentDate + '\n' +
+                            "Fecha limite: " + LimitDate + '\n' +
+                            "Codigo: " + Code + '\n' +
+                            "Abonado: " + df.format(Rode) + '\n' +
+                            "Total: " + Total;
+        }else {
+            return
+                    "Nombre de cliente: " + Name + '\n' +
+                            "Nombre de compañia: " + NameCompany + '\n' +
+                            "Fecha Creación: " + CurrentDate + '\n' +
+                            "Fecha limite: " + LimitDate + '\n' +
+                            "Codigo: " + Code + '\n' +
+                            "Abonado: " + Rode + '\n' +
+                            "Total: " + df.format(Total);
+        }
     }
 }

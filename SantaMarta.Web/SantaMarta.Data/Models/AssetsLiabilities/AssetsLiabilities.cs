@@ -24,12 +24,12 @@ namespace SantaMarta.Data.Models.AssetsLiabilities
         [Required(ErrorMessage = "Tipo de operacion requerida")]
         public Boolean Type { get; set; }
 
-        [RegularExpression(@"^[^-\s][.,a-zA-Z0-9_\s-]+$", ErrorMessage = "Caracteres especiales no son permitidos")]
+        [RegularExpression(@"^([.,ñÑa-zA-Z0-9]+\s)*[.,ñÑa-zA-Z0-9]+$", ErrorMessage = "Caracteres no permitidas")]
         [DataType(DataType.Text)]
         [StringLength(100, MinimumLength = 1, ErrorMessage = "El numero de caracteres debe ser menor a 100")]
         public String Description { get; set; }
 
-        [RegularExpression(@"^[^-\s][a-zA-Z\s-]+$", ErrorMessage = "Caracteres no permitidas")]
+        [RegularExpression(@"^([ñÑa-zA-Z0-9]+\s)*[ñÑa-zA-Z0-9]+$", ErrorMessage = "Caracteres no permitidas")]
         [Required(ErrorMessage = "El nombre es requerido")]
         [DataType(DataType.Text)]
         [StringLength(30, MinimumLength = 1, ErrorMessage = "El numero de caracteres debe ser menor a 30")]

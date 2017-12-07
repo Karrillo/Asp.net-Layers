@@ -9,7 +9,8 @@
 <link href="~/Scripts/Toastr/toastr.min.css" rel="stylesheet" />
 
 @Styles.Render("~/AdminPacket/plugins/datatables/css")
-@if (Session["users"] == null)
+
+@if ((Boolean)Session["Type"] == false)
 {
     Response.Redirect("~/Login/Index");
 }
@@ -110,7 +111,7 @@
                 $('#modal-restore').modal('hide');
                 window.location.href = "/Clients/Index2";
             } else {
-                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                toastr.warning('No se ejecutó la operación, hubo un error', 'Atención');
             }
         }
 </script>

@@ -1,0 +1,160 @@
+﻿@model IEnumerable<SantaMarta.Data.Store_Procedures.InvoicesTable>
+
+@{
+    ViewBag.Title = "Compras Vencidas";
+}
+@section Menu {
+    @Scripts.Render("~/scripts/Tables/Data/menu")
+}
+@Styles.Render("~/AdminPacket/plugins/datatables/css")
+<link href="~/Scripts/Toastr/toastr.min.css" rel="stylesheet" />
+<link href="~/Scripts/Toastr/toastr.min.css" rel="stylesheet" />
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+
+    <div class="box">
+        <div class="box-header">
+            <h3 class="box-title">Lista de Facturas</h3>
+        </div>
+        <div class="box-body">
+            <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>N°Factura</th>
+                        <th>Nombre</th>
+                        <th>Compañía</th>
+                        <th>Saldo</th>
+                        <th>Estados</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.Date)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Code)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                            <td>@Html.DisplayFor(modelItem => item.NameCompany)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Rode)</td>
+                            @if (item.Type == 0)
+                            {
+                                <td><span class="label label-danger">Vencida</span></td>
+                            }
+                            else if (item.Type == 1)
+                            {
+                                <td><span class="label label-success">Cancelada</span></td>
+                            }
+                            else if (item.Type == 2)
+                            {
+                                <td><span class="label label-warning">Pendiente</span></td>
+                            }
+                            else if (item.Type == 3)
+                            {
+                                <td><span class="label label-default">NULA</span></td>
+                            }
+                            <td>
+                                @if ((Boolean)Session["Type"] == true && item.Type != 3)
+                                {
+                                    <a class="btn btn-danger glyphicon glyphicon-remove-sign" data-target="#modal-delete" data-toggle="modal" href="@Url.Action("Delete", "Purchases", new { id = item.IDInvoice })"></a>
+                                }
+                                <a class="btn btn-info glyphicon glyphicon-file" data-target="#modal-details" data-toggle="modal" href="@Url.Action("Details", "Purchases", new { id = item.IDInvoice})"></a>
+                                @if (item.Type != 1 && item.Type != 3)
+                                {
+                                    <a class="btn btn-success glyphicon glyphicon-piggy-bank" data-target="#modal-assets" data-toggle="modal" href="@Url.Action("Assets", "Purchases", new { id = item.IDInvoice, item.Name, item.Rode})"></a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>N°Factura</th>
+                        <th>Nombre</th>
+                        <th>Compañía</th>
+                        <th>Saldo</th>
+                        <th>Estados</th>
+                        <th>Acciones</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+}
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-delete" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-details" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-assets" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" id="createModal">
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/AdminPacket/plugins/datatables/js")
+    @Scripts.Render("~/scripts/Tables/Data")
+    <script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/Toastr/toastr.min.js"></script>
+
+    <script>
+        $('body').on('hidden.bs.modal', '.modal', function () {
+            $(this).removeData('bs.modal').find(".modal-body").html('');
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if ('@TempData["message"]' == "Add") {
+            toastr.success('La factura ha sido agregada correctamente', 'Agregado');
+        } else if ('@TempData["message"]' == "Delete"){
+                toastr.success('Se ha anulado la factura correctamente', 'Eliminado');
+            }else if ('@TempData["message"]' == "Asset"){
+                toastr.success('El Pago ha sido aplicado correctamente', 'Agregado');
+            } else if ('@TempData["message"]' == "Exist"){
+                toastr.warning('La factura esta vinculada a un movimiento', 'Atención');
+        }
+    });
+    </script>
+}
+
+<script>
+        function closeModalDelete(data) {
+            if (data.success) {
+                $('#modal-delete').modal('hide');
+                window.location.href = "/Purchases/Index";
+            } else {
+                toastr.warning('No se ejecutó la operación, hubo un error', 'Atención');
+            }
+        }
+</script>
+
+<script>
+        function closeModalAssets(data) {
+            if (data.success) {
+                $('#modal-assets').modal('hide');
+                window.location.href = "/Purchases/Index";
+            } else {
+                toastr.warning('No se ejecutó la operación, hubo un error', 'Atención');
+                $('#createModal').html(data);
+            }
+        }
+</script>
+

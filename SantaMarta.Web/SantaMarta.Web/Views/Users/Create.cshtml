@@ -27,7 +27,7 @@
             @Html.EditorFor(model => model.Nickname, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Usuario", id = "name", maxlength = "15" } })
             @Html.ValidationMessageFor(model => model.Nickname, "", new { @class = "text-danger", id = "nameValidation" })
             <br>
-            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Contraseña", maxlength = "10" } })
+            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", data_toggle = "password", data_placement = "before", Type = "password", placeholder = "Password", maxlength = "15" } })
             @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
             <br>
             <div class="form-group">
@@ -49,3 +49,19 @@
 
 <script src="~/scripts/jquery.validate.min.js"></script>
 <script src="~/scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/Password/bootstrap-show-password.min.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+        $('#password').password().on('show.bs.password', function (e) {
+            $('#eventLog').text('On show event');
+            $('#methods').prop('checked', true);
+        }).on('hide.bs.password', function (e) {
+            $('#eventLog').text('On hide event');
+            $('#methods').prop('checked', false);
+        });
+        $('#methods').click(function () {
+            $('#password').password('toggle');
+        });
+    });
+</script>

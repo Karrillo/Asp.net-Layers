@@ -23,8 +23,12 @@ namespace SantaMarta.Web.Controllers
         // GET: Login
         public ActionResult Index()
         {
-            Check();
-            return View();
+            if (Session["users"] == null)
+            {
+                Check();
+                return View();
+            }
+            return RedirectToAction("index", "home");
         }
 
         //View
@@ -41,13 +45,15 @@ namespace SantaMarta.Web.Controllers
                 if (userLogin.Nickname != null)
                 {
                     Session["users"] = userLogin;
+                    Session["nameUser"] = userLogin.Nickname;
+
                     if (userLogin.Type == true)
                     {
                         Session["type"] = userLogin.Type;
                     }
                     else
                     {
-                        Session["type"] = null;
+                        Session["type"] = false;
                     }
                     return RedirectToAction("index", "home");
                 }
@@ -150,7 +156,8 @@ namespace SantaMarta.Web.Controllers
                 {
                     TempData["message"] = "ErrorEmail";
                 }
-                else {
+                else
+                {
                     TempData["message"] = "SendEmail";
                 }
             }

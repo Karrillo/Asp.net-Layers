@@ -21,8 +21,6 @@ public class Client {
 
     public String Address;
 
-    public String Identification;
-
     public String NameCompany;
 
     public String Code;
@@ -30,7 +28,7 @@ public class Client {
     public Client() {
     }
 
-    public Client(int IDClient, String name, String firstName, String secondName, String email, String phone, String cellPhone, String address, String identification, String nameCompany, String code) {
+    public Client(int IDClient, String name, String firstName, String secondName, String email, String phone, String cellPhone, String address, String nameCompany, String code) {
         this.IDClient = IDClient;
         Name = name;
         FirstName = firstName;
@@ -39,7 +37,6 @@ public class Client {
         Phone = phone;
         CellPhone = cellPhone;
         Address = address;
-        this.Identification = identification;
         NameCompany = nameCompany;
         Code = code;
     }
@@ -108,14 +105,6 @@ public class Client {
         Address = address;
     }
 
-    public String getIdentification() {
-        return Identification;
-    }
-
-    public void setIdentification(String identification) {
-        this.Identification = identification;
-    }
-
     public String getNameCompany() {
         return NameCompany;
     }
@@ -140,7 +129,6 @@ public class Client {
                 "Phone: " + Phone + '\n' +
                 "CellPhone: " + CellPhone + '\n' +
                 "Address: " + Address + '\n' +
-                "identification: " + Identification + '\n' +
                 "NameCompany: " + NameCompany + '\n' +
                 "Code: " + Code ;
     }
