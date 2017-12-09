@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputFilter;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -68,7 +69,7 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
         account.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent menu = new Intent(AssetsliabilitiesActivity.this, AssetsliabilitiesAccount.class);
+                Intent menu = new Intent(AssetsliabilitiesActivity.this, AssetsliabilitiesAccountActivity.class);
                 startActivity(menu);
             }
         });
@@ -76,7 +77,7 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
         category.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent menu = new Intent(AssetsliabilitiesActivity.this, AssetsliabilitiesCategory.class);
+                Intent menu = new Intent(AssetsliabilitiesActivity.this, AssetsliabilitiesCategoryActivity.class);
                 startActivity(menu);
             }
         });
@@ -84,7 +85,7 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
         subCategory.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent menu = new Intent(AssetsliabilitiesActivity.this, AssetsliabilitiesSubCategory.class);
+                Intent menu = new Intent(AssetsliabilitiesActivity.this, AssetsliabilitiesSubCategoryActivity.class);
                 startActivity(menu);
             }
         });
@@ -93,6 +94,7 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(check()==true) {
+                    session();
                     String dateNow="";
                     Date date = new Date();
                     Calendar calendar = Calendar.getInstance();
@@ -190,6 +192,7 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
             dateCurent = format.format(date);
             txtDate.setText(dateCurent);
             invoiceSelect=invoice;
+            txtRode.setFilters(new InputFilter[]{ new InputFilter.LengthFilter(txtTotal.getText().length()) });
         }else {
             txtClient.setText(invoice.getNameCompany());
             txtCode.setText(invoice.getCode());
@@ -212,6 +215,7 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
             dateCurent = format.format(date);
             txtDate.setText(dateCurent);
             invoiceSelect=invoice;
+            txtRode.setFilters(new InputFilter[]{ new InputFilter.LengthFilter(txtTotal.getText().length()) });
         }
     }
     public static void display_account(Account account){
@@ -231,5 +235,41 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
     }
     public static int select_Category(){
         return categorySelect.getId();
+    }
+    public void session(){
+        String responce = contextdb.getSession(token);
+        if(responce.toString().equals("false")){
+            Toast.makeText(getApplicationContext(), "Sesión expirada, por favor vuelva a loguear su cuenta!", Toast.LENGTH_LONG).show();
+            // SLEEP 2 SECONDS HERE ...
+            final Handler handler = new Handler();
+            Timer t = new Timer();
+            t.schedule(new TimerTask() {
+                public void run() {
+                    handler.post(new Runnable() {
+                        public void run() {
+                            Intent menu = new Intent(AssetsliabilitiesActivity.this, MainActivity.class);
+                            startActivity(menu);
+                            finish();
+                        }
+                    });
+                }
+            }, 1000);
+        }else if(responce.toString().equals("false")){
+            Toast.makeText(getApplicationContext(), "Error en la conexion con el servidor!", Toast.LENGTH_LONG).show();
+            // SLEEP 2 SECONDS HERE ...
+            final Handler handler = new Handler();
+            Timer t = new Timer();
+            t.schedule(new TimerTask() {
+                public void run() {
+                    handler.post(new Runnable() {
+                        public void run() {
+                            Intent menu = new Intent(AssetsliabilitiesActivity.this, MainActivity.class);
+                            startActivity(menu);
+                            finish();
+                        }
+                    });
+                }
+            }, 1000);
+        }
     }
 }

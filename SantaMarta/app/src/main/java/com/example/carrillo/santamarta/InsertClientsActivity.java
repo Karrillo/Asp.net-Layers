@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.regex.Pattern;
 
 /**
  * Created by Carrillo on 9/21/2017.
@@ -62,6 +64,7 @@ public class InsertClientsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(check()==true) {
+                    session();
                     Client client = new Client();
                     if (txtPhone.getText().toString().equals("")) {
                         client.setPhone("null");
@@ -117,6 +120,11 @@ public class InsertClientsActivity extends AppCompatActivity {
         });
      }
 
+    private boolean validatedEmail(String email) {
+        Pattern pattern = Patterns.EMAIL_ADDRESS;
+        return pattern.matcher(email).matches();
+    }
+
      public boolean check(){
          if(txtName.getText().toString().equals("") || txtFirstName.getText().toString().equals("") || txtSecondName.getText().toString().equals("")){
                  Toast.makeText(getApplicationContext(), "Ingrese nombre y apellidos completos", Toast.LENGTH_LONG).show();
@@ -137,7 +145,47 @@ public class InsertClientsActivity extends AppCompatActivity {
          if(txtEmail.getText().toString().equals("")){
              Toast.makeText(getApplicationContext(), "Ingrese un email del cliente", Toast.LENGTH_LONG).show();
              return false;
+         }else {
+             if (!validatedEmail(txtEmail.getText().toString())){
+                 txtEmail.setError("Email no válido");
+             }
          }
          return true;
      }
+    public void session(){
+        String responce = contextdb.getSession(token);
+        if(responce.toString().equals("false")){
+            Toast.makeText(getApplicationContext(), "Sesión expirada, por favor vuelva a loguear su cuenta!", Toast.LENGTH_LONG).show();
+            // SLEEP 2 SECONDS HERE ...
+            final Handler handler = new Handler();
+            Timer t = new Timer();
+            t.schedule(new TimerTask() {
+                public void run() {
+                    handler.post(new Runnable() {
+                        public void run() {
+                            Intent menu = new Intent(InsertClientsActivity.this, MainActivity.class);
+                            startActivity(menu);
+                            finish();
+                        }
+                    });
+                }
+            }, 1000);
+        }else if(responce.toString().equals("false")){
+            Toast.makeText(getApplicationContext(), "Error en la conexion con el servidor!", Toast.LENGTH_LONG).show();
+            // SLEEP 2 SECONDS HERE ...
+            final Handler handler = new Handler();
+            Timer t = new Timer();
+            t.schedule(new TimerTask() {
+                public void run() {
+                    handler.post(new Runnable() {
+                        public void run() {
+                            Intent menu = new Intent(InsertClientsActivity.this, MainActivity.class);
+                            startActivity(menu);
+                            finish();
+                        }
+                    });
+                }
+            }, 1000);
+        }
     }
+}

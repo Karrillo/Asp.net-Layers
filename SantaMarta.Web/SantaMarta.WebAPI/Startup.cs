@@ -22,7 +22,6 @@ namespace SantaMarta.WebAPI
             WebApiConfig.Register(config);
             app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
             app.UseWebApi(config);
-
         }
 
         private void ConfigureOAuth(IAppBuilder app)
@@ -32,7 +31,7 @@ namespace SantaMarta.WebAPI
         {
             TokenEndpointPath = new PathString("/token"),
             Provider = new SimpleAuthorizationServerProvider(),
-            AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(60),
+            AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(1),
             AllowInsecureHttp = true,
 
         });

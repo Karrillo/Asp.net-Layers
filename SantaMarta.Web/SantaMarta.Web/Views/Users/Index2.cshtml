@@ -7,7 +7,7 @@
 }
 @Styles.Render("~/AdminPacket/plugins/datatables/css")
 <link href="~/Scripts/Toastr/toastr.min.css" rel="stylesheet" />
-@if (Session["Type"] == null)
+@if ((Boolean)Session["Type"] == false)
 {
     Response.Redirect("~/Login/Index");
 }
@@ -25,7 +25,6 @@
                 <thead>
                     <tr>
                         <th>Usuario</th>
-                        <th>Contraseña</th>
                         <th>Privilegios</th>
                         <th>Acciones</th>
                     </tr>
@@ -35,7 +34,6 @@
                 {
                         <tr>
                             <td>@Html.DisplayFor(modelItem => item.Nickname)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Password)</td>
                             <td>@Html.DisplayFor(modelItem => item.Type)</td>
                             <td>
                                 <a class="btn btn-success glyphicon glyphicon-plus" data-target="#modal-restore" data-toggle="modal" href="@Url.Action("Restore", "Users", new { id = item.IDUser })"></a>
@@ -46,7 +44,6 @@
                 <tfoot>
                     <tr>
                         <th>Usuario</th>
-                        <th>Contraseña</th>
                         <th>Privilegios</th>
                         <th>Acciones</th>
                     </tr>
@@ -89,7 +86,7 @@
                 $('#modal-restore').modal('hide');
                 window.location.href = "/Users/Index2";
             } else {
-                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                toastr.warning('No se ejecutó la operación, hubo un error', 'Atención');
             }
         }
 </script>

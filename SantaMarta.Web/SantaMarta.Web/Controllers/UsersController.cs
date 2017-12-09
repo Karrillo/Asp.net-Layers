@@ -6,6 +6,7 @@ using System.Net;
 
 namespace SantaMarta.Web.Controllers
 {
+    [SessionExpireFilter]
     public class UsersController : Controller
     {
         private UsersB userB;
@@ -47,7 +48,7 @@ namespace SantaMarta.Web.Controllers
             }
             else if (status == 400)
             {
-                ModelState.AddModelError("NickName", "El NickName se esta usando actualmente");
+                ModelState.AddModelError("NickName", "El NickName se está usando actualmente");
                 return View(users);
             }
             return View(users);
@@ -73,13 +74,24 @@ namespace SantaMarta.Web.Controllers
 
             if (status == 200)
             {
+                Users user = (Users)Session["users"];
+                if (user.IDUser == users.IDUser)
+                {
+                    Session["nameUser"] = users.Nickname;
+                    Session["type"] = users.Type;
+                }
                 TempData["message"] = "Update";
                 return Json(new { success = true });
             }
             else if (status == 400)
             {
-                ModelState.AddModelError("NickName", "El NickName se esta usando actualmente");
+                ModelState.AddModelError("NickName", "El NickName se está usando actualmente");
                 return View(users);
+            }
+            else if (status == 401)
+            {
+                TempData["message"] = "Exists";
+                return Json(new { success = true });
             }
             return View(users);
         }

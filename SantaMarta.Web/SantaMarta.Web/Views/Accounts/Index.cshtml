@@ -8,7 +8,7 @@
 @Styles.Render("~/AdminPacket/plugins/datatables/css")
 <link href="~/Scripts/Toastr/toastr.min.css" rel="stylesheet" />
 
-@if (Session["Type"] == null)
+@if ((Boolean)Session["Type"] == false)
 {
     Response.Redirect("~/Login/Index");
 }
@@ -98,7 +98,7 @@
         } else if ('@TempData["message"]' == "Delete"){
                 toastr.success('La cuenta ha sido eliminado correctamente', 'Eliminado');
             } else if ('@TempData["message"]' == "Exists"){
-                toastr.warning('La cuenta esta vinculada a un movimiento', 'Atencion');
+                toastr.warning('La cuenta está vinculada a un movimiento', 'Atención');
         }
     });
     </script>
@@ -109,7 +109,7 @@
                 $('#modal-crear').modal('hide');
                 window.location.href = "/Accounts/Index";
             } else {
-                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                toastr.warning('No se ejecutó la operación, hubo un error', 'Atención');
                 $('.modal-content').html(data);
             }
         }
@@ -120,7 +120,7 @@
                 $('#modal-editar').modal('hide');
                 window.location.href = "/Accounts/Index";
             } else {
-                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                toastr.warning('No se ejecutó la operación, hubo un error', 'Atención');
                 $('.modal-content').html(data);
             }
         }
@@ -131,7 +131,7 @@
                 $('#modal-delete').modal('hide');
                 window.location.href = "/Accounts/Index";
             } else {
-                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                toastr.warning('No se ejecutó la operación, hubo un error', 'Atención');
             }
         }
 </script>

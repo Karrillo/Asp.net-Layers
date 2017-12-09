@@ -7,11 +7,6 @@
 
 @Scripts.Render("~/AdminPacket/plugins/jquery/js")
 
-@if (Session["users"] == null)
-{
-    Response.Redirect("~/Login/Index");
-}
-
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
 <div class="row">
@@ -187,7 +182,7 @@
                     });
             },
             error: function () {
-                alert("Error loading data! Please try again.");
+                alert("¡Error en cargar datos! Por favor intente otra vez");
             }
         });
     });
@@ -251,7 +246,7 @@
                         });
                 },
                 error: function () {
-                    alert("Error loading data! Please try again.");
+                    alert("¡Error en cargar datos! Por favor intente otra vez");
                 }
             });
         });
@@ -316,7 +311,7 @@
                     });
             },
             error: function () {
-                alert("Error loading data! Please try again.");
+                alert("¡Error en cargar datos! Por favor intente otra vez");
             }
         });
     });
@@ -380,7 +375,7 @@
                         });
                 },
                 error: function () {
-                    alert("Error loading data! Please try again.");
+                    alert("¡Error en cargar datos! Por favor intente otra vez");
                 }
             });
         });
@@ -424,7 +419,7 @@
                     });
             },
             error: function () {
-                alert("Error loading data! Please try again.");
+                alert("¡Error en cargar datos! Por favor intente otra vez");
             }
         });
     });
@@ -469,7 +464,7 @@
                     });
             },
             error: function () {
-                alert("Error loading data! Please try again.");
+                alert("¡Error en cargar datos! Por favor intente otra vez");
             }
         });
     });
@@ -505,7 +500,7 @@
                 chart.draw(data, options);
             },
             error: function () {
-                alert("Error loading data! Please try again.");
+                alert("¡Error en cargar datos! Por favor intente otra vez");
             }
         });
     }
@@ -547,7 +542,7 @@
                 chart.draw(data, options);
             },
             error: function () {
-                alert("Error loading data! Please try again.");
+                alert("¡Error en cargar datos! Por favor intente otra vez");
             }
         });
     });
@@ -603,7 +598,7 @@
                 chart.draw(data, options);
             },
             error: function () {
-                alert("Error loading data! Please try again.");
+                alert("¡Error en cargar datos! Por favor intente otra vez");
             }
         });
     }
@@ -639,7 +634,7 @@
                 chart.draw(data, options);
             },
             error: function () {
-                alert("Error loading data! Please try again.");
+                alert("¡Error en cargar datos! Por favor intente otra vez");
             }
         });
     }

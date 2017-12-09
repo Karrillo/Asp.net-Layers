@@ -100,6 +100,27 @@ namespace SantaMarta.DataAccess.UserAccess
 
                 if (nickName == null || nickName == GetById(user.IDUser).Nickname)
                 {
+                    List<Users> users = db.List_Users();
+                    Boolean type = (from u in users where u.IDUser == user.IDUser select u.Type).FirstOrDefault();
+
+                    if (type == true)
+                    {
+                        int cont = 0;
+                        foreach (var item in users)
+                        {
+                            if (item.Type == true)
+                            {
+                                cont = cont + 1;
+                            }
+                        }
+
+                        if (cont > 1)
+                        {
+                            db.Update_User(Encrypt(user));
+                            return 200;
+                        }
+                        return 401;
+                    }
                     db.Update_User(Encrypt(user));
                     return 200;
                 }
@@ -154,7 +175,7 @@ namespace SantaMarta.DataAccess.UserAccess
                         }
                     }
 
-                    if (cont < 1)
+                    if (cont > 1)
                     {
                         db.Delete_User(id);
                         return 200;

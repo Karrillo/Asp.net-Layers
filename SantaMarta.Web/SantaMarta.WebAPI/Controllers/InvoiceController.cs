@@ -30,9 +30,10 @@ namespace SantaMarta.WebAPI.Controllers
                     return Ok(false);
             }
         }
-        // GET: api/Invoice
+
+        [Route("api/Invoice/GetCode")]
         [HttpGet]
-        public IHttpActionResult Get(Int64 id)
+        public IHttpActionResult GetCode()
         {
             Int64 code;
 

@@ -5,10 +5,9 @@
 <link href="~/Scripts/Tree/tree.css" rel="stylesheet" />
 <link href="~/Scripts/Toastr/toastr.min.css" rel="stylesheet" />
 
-@if (Session["users"] == null)
+@if ((Boolean)Session["Type"] == false)
 {
     Response.Redirect("~/Login/Index");
-
 }
 
 <div class="container">
@@ -145,7 +144,7 @@
                 $('#modal-createCategory').modal('hide');
                 window.location.href = "/Categories/Index";
             } else {
-                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                toastr.warning('No se ejecutó la operación, hubo un error', 'Atención');
                 $('.modal-content').html(data);
             }
         }
@@ -156,7 +155,7 @@
                 $('#modal-editarCategory').modal('hide');
                 window.location.href = "/Categories/Index";
             } else {
-                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                toastr.warning('No se ejecutó la operación, hubo un error', 'Atención');
                 $('.modal-content').html(data);
             }
         }
@@ -167,7 +166,7 @@
                 $('#modal-deleteCategory').modal('hide');
                 window.location.href = "/Categories/Index";
             } else {
-                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                toastr.warning('No se ejecutó la operación, hubo un error', 'Atención');
             }
         }
 </script>
@@ -177,7 +176,7 @@
                 $('#modal-createSubCategory').modal('hide');
                 window.location.href = "/Categories/Index";
             } else {
-                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                toastr.warning('No se ejecutó la operación, hubo un error', 'Atención');
                 $('.modal-content').html(data);
             }
         }
@@ -188,7 +187,7 @@
                 $('#modal-editarSubCategory').modal('hide');
                 window.location.href = "/Categories/Index";
             } else {
-                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                toastr.warning('No se ejecutó la operación, hubo un error', 'Atención');
                 $('.modal-content').html(data);
             }
         }
@@ -199,7 +198,7 @@
                 $('#modal-deleteSubCategory').modal('hide');
                 window.location.href = "/Categories/Index";
             } else {
-                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                toastr.warning('No se ejecutó la operación, hubo un error', 'Atención');
             }
         }
 </script>

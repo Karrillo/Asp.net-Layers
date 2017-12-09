@@ -58,27 +58,3 @@
         $('#tax').mask('00.00', { reverse: true });
     });
 </script>
-
-<script>
-        document.getElementById("code").addEventListener("change", myFunction);
-        function myFunction() {
-               var valueCode = $("#code").val();
-            if (valueCode) {
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("GetProduct")',
-                    dataType: 'json',
-                    data: { name: valueCode},
-                    success: function (product) {
-                        $("#codeValidation").text("El codigo ya esta registrado: " + valueCode).show();
-                        $("#code").val("");
-                        $("#code").focus();
-                            return false;
-                    },
-                    error: function (ex) {
-                        return true;
-                    }
-                });
-            }
-        }
-</script>

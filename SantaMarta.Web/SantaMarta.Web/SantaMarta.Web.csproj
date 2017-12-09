@@ -174,6 +174,7 @@
     <Compile Include="Controllers\ProvidersController.cs" />
     <Compile Include="Controllers\PurchasesController.cs" />
     <Compile Include="Controllers\SalesController.cs" />
+    <Compile Include="Controllers\SessionExpireFilterAttribute.cs" />
     <Compile Include="Controllers\SubCategoriesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
@@ -1094,6 +1095,7 @@
     <Content Include="Scripts\Mark\jquery.mask.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\Password\bootstrap-show-password.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\Select2\select2.css" />
@@ -1201,6 +1203,8 @@
     <Content Include="Views\Email\Index.cshtml" />
     <Content Include="Views\Email\Create.cshtml" />
     <Content Include="Views\Email\Edit.cshtml" />
+    <Content Include="Views\Purchases\Index2.cshtml" />
+    <Content Include="Views\Sales\Index2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

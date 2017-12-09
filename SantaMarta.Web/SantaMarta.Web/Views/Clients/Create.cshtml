@@ -29,9 +29,6 @@
             @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Codigo", id = "code", maxlength = "20" } })
             @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger", id = "codeValidation" })
             <br>
-            @Html.EditorFor(model => model.Identification, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "identificacion", id = "identification", maxlength = "20" } })
-            @Html.ValidationMessageFor(model => model.Identification, "", new { @class = "text-danger", id = "identificacionValidation" })
-            <br>
             @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", Type = "text", placeholder = "Nombre", maxlength = "30" } })
             @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
             <br>

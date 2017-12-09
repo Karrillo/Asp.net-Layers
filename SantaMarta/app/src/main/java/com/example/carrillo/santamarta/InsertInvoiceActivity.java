@@ -1,7 +1,6 @@
 package com.example.carrillo.santamarta;
 
 import android.app.AlertDialog;
-import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,8 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -97,7 +94,7 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                         dialog.dismiss();
                     }
                 });
-                informacion.setTitle("Productos");
+                informacion.setTitle("Facturas");
                 informacion.show();
                 return true;
             }
@@ -161,7 +158,7 @@ public class InsertInvoiceActivity extends AppCompatActivity {
         client.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent create = new Intent(InsertInvoiceActivity.this, InvoiceClients.class);
+                Intent create = new Intent(InsertInvoiceActivity.this, InvoiceClientsActivity.class);
                 startActivity(create);
             }
         });
@@ -169,7 +166,7 @@ public class InsertInvoiceActivity extends AppCompatActivity {
         product.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent create = new Intent(InsertInvoiceActivity.this, InvoiceProducts.class);
+                Intent create = new Intent(InsertInvoiceActivity.this, InvoiceProductsActivity.class);
                 startActivity(create);
             }
         });
@@ -200,9 +197,7 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                 if(MainActivity.idUSer.length()>0){
                     if(clientSelect.getIDClient()!=0){
                         if(listProducts.size()!=0){
-                            if(MainPrintActivity.mBluetoothAdapter!=null){
-
-                            }else {
+                            session();
                                 String dateCredit = "";
                                 String dateCurent = "";
                                 Date date = new Date();
@@ -331,7 +326,6 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                                         Toast.makeText(getApplicationContext(), "Error al intentar ingresar la factura al sistema", Toast.LENGTH_LONG).show();
                                     }
                                 }
-                            }
                         }else {
                             Toast.makeText(getApplicationContext(), "Por favor ingrese una lista de productos activity_assetsliabilities vender", Toast.LENGTH_LONG).show();
                         }
@@ -395,5 +389,40 @@ public class InsertInvoiceActivity extends AppCompatActivity {
             txtTotal.setText("0");
         }
     }
-
+    public void session(){
+        String responce = contextdb.getSession(token);
+        if(responce.toString().equals("false")){
+            Toast.makeText(getApplicationContext(), "Sesión expirada, por favor vuelva a loguear su cuenta!", Toast.LENGTH_LONG).show();
+            // SLEEP 2 SECONDS HERE ...
+            final Handler handler = new Handler();
+            Timer t = new Timer();
+            t.schedule(new TimerTask() {
+                public void run() {
+                    handler.post(new Runnable() {
+                        public void run() {
+                            Intent menu = new Intent(InsertInvoiceActivity.this, MainActivity.class);
+                            startActivity(menu);
+                            finish();
+                        }
+                    });
+                }
+            }, 1000);
+        }else if(responce.toString().equals("false")){
+            Toast.makeText(getApplicationContext(), "Error en la conexion con el servidor!", Toast.LENGTH_LONG).show();
+            // SLEEP 2 SECONDS HERE ...
+            final Handler handler = new Handler();
+            Timer t = new Timer();
+            t.schedule(new TimerTask() {
+                public void run() {
+                    handler.post(new Runnable() {
+                        public void run() {
+                            Intent menu = new Intent(InsertInvoiceActivity.this, MainActivity.class);
+                            startActivity(menu);
+                            finish();
+                        }
+                    });
+                }
+            }, 1000);
+        }
+    }
 }

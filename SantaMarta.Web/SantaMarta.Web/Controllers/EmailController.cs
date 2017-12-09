@@ -4,6 +4,7 @@ using System.Web.Mvc;
 
 namespace SantaMarta.Web.Controllers
 {
+    [SessionExpireFilter]
     public class EmailController : Controller
     {
         private MailsB emailsB;

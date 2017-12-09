@@ -8,10 +8,6 @@
 @Styles.Render("~/AdminPacket/plugins/datatables/css")
 <link href="~/Scripts/Toastr/toastr.min.css" rel="stylesheet" />
 
-@if (Session["users"] == null)
-{
-    Response.Redirect("~/Login/Index");
-}
 <div class="box-header">
     <a class="btn btn-success btn-lg pull-right" data-target="#modal-crear" data-toggle="modal" href="/Providers/Create">
         <span class="glyphicon glyphicon-plus"></span> Nuevo Proveedor
@@ -47,7 +43,7 @@
                             <td>@Html.DisplayFor(modelItem => item.CellPhone)</td>
                             <td>@Html.DisplayFor(modelItem => item.Email)</td>
                             <td>
-                                @if (Session["Type"] != null)
+                                @if ((Boolean)Session["Type"] == true)
                                 {
                                     <a class="btn btn-primary glyphicon glyphicon-edit" data-target="#modal-editar" data-toggle="modal" href="@Url.Action("Edit", "Providers", new { id = item.IDProvider })"></a>
                                     <a class="btn btn-danger glyphicon glyphicon-trash" data-target="#modal-delete" data-toggle="modal" href="@Url.Action("Delete", "Providers", new { id = item.IDProvider })"></a>
@@ -141,7 +137,7 @@
                 $('#modal-crear').modal('hide');
                 window.location.href = "/Providers/Index";
             } else {
-                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                toastr.warning('No se ejecutó la operación, hubo un error', 'Atención');
                 $('#createModal').html(data);
             }
         }
@@ -152,7 +148,7 @@
                 $('#modal-editar').modal('hide');
                 window.location.href = "/Providers/Index";
             } else {
-                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                toastr.warning('No se ejecutó la operación, hubo un error', 'Atención');
                 $('#editModal').html(data);
             }
         }
@@ -163,7 +159,7 @@
                 $('#modal-delete').modal('hide');
                 window.location.href = "/Providers/Index";
             } else {
-                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                toastr.warning('No se ejecutó la operación, hubo un error', 'Atención');
             }
         }
 </script>
@@ -173,7 +169,7 @@
                 $('#modal-createPC').modal('hide');
                 window.location.href = "/Providers/Index";
             } else {
-                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                toastr.warning('No se ejecutó la operación, hubo un error', 'Atención');
             }
         }
 </script>

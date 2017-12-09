@@ -8,6 +8,7 @@ using SantaMarta.Bussines.ClientsBussines;
 using SantaMarta.Bussines.DetailsBussines;
 using SantaMarta.Bussines.InvoicesBussines;
 using SantaMarta.Bussines.ProductsBussines;
+using SantaMarta.Bussines.ProvidersBussines;
 using SantaMarta.Bussines.SalesBussines;
 using SantaMarta.Bussines.SubCategoriesBussines;
 using SantaMarta.Bussines.UsersBussines;
@@ -27,6 +28,7 @@ using System.Web.Mvc;
 
 namespace SantaMarta.Web.Controllers
 {
+    [SessionExpireFilter]
     public class SalesController : Controller
     {
         private CategoriesB categoriesB;
@@ -39,6 +41,7 @@ namespace SantaMarta.Web.Controllers
         private ProductsB productsB;
         private DetailsB detailsB;
         private InvoicesB invoicesB;
+        private ProvidersB providersB;
 
         public SalesController()
         {
@@ -52,6 +55,7 @@ namespace SantaMarta.Web.Controllers
             productsB = new ProductsB();
             detailsB = new DetailsB();
             invoicesB = new InvoicesB();
+            providersB = new ProvidersB();
         }
 
         // GET: Sales
@@ -59,6 +63,57 @@ namespace SantaMarta.Web.Controllers
         {
             List<InvoicesTable> invoicesTable = new List<InvoicesTable>();
             List<Views_Invoices> invoices = invoicesB.GetAllSales().ToList();
+
+            DateTime date = DateTime.Now;
+            Int16 state = 0;
+
+            foreach (var item in invoices)
+            {
+                state = 0;
+                if (item.State == true)
+                {
+                    if (item.LimitDate < date && item.Total != item.Rode)
+                    {
+                        state = 0;
+                    }
+                    else if (item.Total == item.Rode)
+                    {
+                        state = 1;
+                    }
+                    else if (item.Total != item.Rode && item.LimitDate > date)
+                    {
+                        state = 2;
+                    }
+                }
+                else
+                {
+                    state = 3;
+                }
+
+                if (item.Rode == null)
+                {
+                    item.Rode = 0;
+                }
+
+                invoicesTable.Add(new InvoicesTable()
+                {
+                    IDInvoice = item.IDInvoice,
+                    Name = item.FirstName + " " + item.SecondName + " " + item.Name,
+                    NameCompany = item.NameCompany,
+                    Code = item.Code,
+                    Date = item.CurrentDate.ToShortDateString(),
+                    Rode = item.Total - item.Rode ?? 0,
+                    Type = state
+                });
+            }
+            return View(invoicesTable);
+        }
+
+        // GET: Sales Expired
+        public ActionResult Index2()
+        {
+            List<InvoicesTable> invoicesTable = new List<InvoicesTable>();
+            List<Views_Invoices> invoices = invoicesB.GetAllSalesExpired().ToList();
 
             DateTime date = DateTime.Now;
             Int16 state = 0;
@@ -206,7 +261,7 @@ namespace SantaMarta.Web.Controllers
 
             invoices.Code = code;
             invoices.IdClient = Convert.ToInt64(idClient);
-            invoices.IdProvider = 1;
+            invoices.IdProvider = providersB.GetIdOwn();
             int status = invoicesB.Create(invoices);
 
             if (status == 200)
@@ -407,6 +462,13 @@ namespace SantaMarta.Web.Controllers
             Response.Close();
             Response.End();
             return File(bytes, "application/pdf");
+        }
+
+        // GET: Invoices Expired
+        public JsonResult GetInvoicesExpired()
+        {
+            List<Views_Invoices> invoices = invoicesB.GetAllSalesExpired();
+            return Json(invoices, JsonRequestBehavior.AllowGet);
         }
     }
 }

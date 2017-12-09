@@ -13,6 +13,8 @@ namespace SantaMarta.Bussines.InvoicesBussines
         Views_Invoinces_Details GetById(Int64 id, Boolean type);
         List<Views_Invoices> GetAllSales();
         List<Views_Invoices> GetAllPurchases();
+        List<Views_Invoices> GetAllSalesExpired();
+        List<Views_Invoices> GetAllPurchasesExpired();
         Int64 GetCode();
     }
 }

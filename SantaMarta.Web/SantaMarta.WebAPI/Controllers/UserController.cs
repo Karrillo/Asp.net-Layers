@@ -45,6 +45,13 @@ namespace SantaMarta.WebAPI.Controllers
             return Ok(user);
         }
 
+        [Authorize]
+        [Route("api/User/GetSession")]
+        [HttpGet]
+        public IHttpActionResult GetSession()
+        {
+            return Ok(true);
+        }
         // POST: api/User
         [HttpPost]
         public IHttpActionResult Post(Users users)

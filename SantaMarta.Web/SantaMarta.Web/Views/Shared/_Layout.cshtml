@@ -32,105 +32,125 @@
                         </li>
                     </ul>
                 </div>
-                @if (Session["Type"] != null)
+                @if (Session["users"] != null)
                 {
-                    <div class="navbar-custom-menu">
-                        <ul class="nav navbar-nav">
-                            <li class="dropdown messages-menu">
-                                <a href="#" data-toggle="dropdown">
-                                    <i class="fa fa-gears"></i>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li class="header" style="font-weight: bold;">Configuracion Administrador</li>
-                                    <li>
-                                        <ul class="menu">
-                                            <li>
-                                                <a href=@Url.Action("Index", "Users")>
-                                                    <div class="pull-left fa fa-users" style="font-size:20px; color:dimgrey;"></div>
-                                                    <h4>Usuarios</h4>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href=@Url.Action("Index", "Categories")>
-                                                    <div class="pull-left fa fa-folder-o" style="font-size:20px; color:dimgrey;"></div>
-                                                    <h4>Categorias</h4>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href=@Url.Action("Index", "Accounts")>
-                                                    <div class="pull-left fa fa-credit-card" style="font-size:20px; color:dimgrey;"></div>
-                                                    <h4>Cuentas</h4>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href=@Url.Action("Index", "Email")>
-                                                    <div class="pull-left fa fa-at" style="font-size:20px; color:dimgrey;"></div>
-                                                    <h4>Correo</h4>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                }
+                    if ((Boolean)Session["Type"] == true)
+                    {
+                        <div class="navbar-custom-menu">
+                            <ul class="nav navbar-nav">
+                                <li class="dropdown messages-menu">
+                                    <a href="#" data-toggle="dropdown">
+                                        <i class="fa fa-gears"></i>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li class="header" style="font-weight: bold;">Configuracion Administrador</li>
+                                        <li>
+                                            <ul class="menu">
+                                                <li>
+                                                    <a href=@Url.Action("Index", "Users")>
+                                                        <div class="pull-left fa fa-users" style="font-size:20px; color:dimgrey;"></div>
+                                                        <h4>Usuarios</h4>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href=@Url.Action("Index", "Categories")>
+                                                        <div class="pull-left fa fa-folder-o" style="font-size:20px; color:dimgrey;"></div>
+                                                        <h4>Categorias</h4>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href=@Url.Action("Index", "Accounts")>
+                                                        <div class="pull-left fa fa-credit-card" style="font-size:20px; color:dimgrey;"></div>
+                                                        <h4>Cuentas</h4>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href=@Url.Action("Index", "Email")>
+                                                        <div class="pull-left fa fa-at" style="font-size:20px; color:dimgrey;"></div>
+                                                        <h4>Correo</h4>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    }
 
-                @if (Session["Type"] != null)
-                {
+                    if ((Boolean)Session["Type"] == true)
+                    {
+                        <div class="navbar-custom-menu">
+                            <ul class="nav navbar-nav">
+                                <li class="dropdown messages-menu">
+                                    <a href="#" data-toggle="dropdown">
+                                        <i class="fa fa-database"></i>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li class="header" style="font-weight: bold;">Restauracion de Datos</li>
+                                        <li>
+                                            <ul class="menu">
+                                                <li>
+                                                    <a href=@Url.Action("Index2", "Clients")>
+                                                        <div class="pull-left fa fa-credit-card" style="font-size:20px; color:dimgrey;"></div>
+                                                        <h4>Restaurar Clientes</h4>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href=@Url.Action("Index2", "Providers")>
+                                                        <div class="pull-left fa fa-credit-card" style="font-size:20px; color:dimgrey;"></div>
+                                                        <h4>Restaurar Proveedores</h4>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href=@Url.Action("Index2", "Users")>
+                                                        <div class="pull-left fa fa-credit-card" style="font-size:20px; color:dimgrey;"></div>
+                                                        <h4>Restaurar Usuarios</h4>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href=@Url.Action("Index2", "Accounts")>
+                                                        <div class="pull-left fa fa-credit-card" style="font-size:20px; color:dimgrey;"></div>
+                                                        <h4>Restaurar Cuentas</h4>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href=@Url.Action("Index2", "Categories")>
+                                                        <div class="pull-left fa fa-credit-card" style="font-size:20px; color:dimgrey;"></div>
+                                                        <h4>Restaurar Categorias</h4>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href=@Url.Action("Index2", "SubCategories")>
+                                                        <div class="pull-left fa fa-credit-card" style="font-size:20px; color:dimgrey;"></div>
+                                                        <h4>Restaurar Sub-Categorias</h4>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href=@Url.Action("Index2", "Products")>
+                                                        <div class="pull-left fa fa-credit-card" style="font-size:20px; color:dimgrey;"></div>
+                                                        <h4>Restaurar Productos</h4>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    }
+
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav">
-                            <li class="dropdown messages-menu">
-                                <a href="#" data-toggle="dropdown">
-                                    <i class="fa fa-database"></i>
+                            <li class="dropdown notifications-menu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-bell-o"></i>
+                                    <span class="label label-warning" id="Total"></span>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li class="header" style="font-weight: bold;">Restauracion de Datos</li>
+                                    <li class="header" id="totalN"></li>
                                     <li>
-                                        <ul class="menu">
-                                            <li>
-                                                <a href=@Url.Action("Index2", "Clients")>
-                                                    <div class="pull-left fa fa-credit-card" style="font-size:20px; color:dimgrey;"></div>
-                                                    <h4>Restaurar Clientes</h4>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href=@Url.Action("Index2", "Providers")>
-                                                    <div class="pull-left fa fa-credit-card" style="font-size:20px; color:dimgrey;"></div>
-                                                    <h4>Restaurar Proveedores</h4>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href=@Url.Action("Index2", "Users")>
-                                                    <div class="pull-left fa fa-credit-card" style="font-size:20px; color:dimgrey;"></div>
-                                                    <h4>Restaurar Usuarios</h4>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href=@Url.Action("Index2", "Accounts")>
-                                                    <div class="pull-left fa fa-credit-card" style="font-size:20px; color:dimgrey;"></div>
-                                                    <h4>Restaurar Cuentas</h4>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href=@Url.Action("Index2", "Categories")>
-                                                    <div class="pull-left fa fa-credit-card" style="font-size:20px; color:dimgrey;"></div>
-                                                    <h4>Restaurar Categorias</h4>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href=@Url.Action("Index2", "SubCategories")>
-                                                    <div class="pull-left fa fa-credit-card" style="font-size:20px; color:dimgrey;"></div>
-                                                    <h4>Restaurar Sub-Categorias</h4>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href=@Url.Action("Index2", "Products")>
-                                                    <div class="pull-left fa fa-credit-card" style="font-size:20px; color:dimgrey;"></div>
-                                                    <h4>Restaurar Productos</h4>
-                                                </a>
-                                            </li>
-                                        </ul>
+                                        <ul class="menu" id="notification"></ul>
                                     </li>
                                 </ul>
                             </li>
@@ -143,6 +163,25 @@
         <aside class="main-sidebar">
             <section class="sidebar">
                 <div class="user-panel">
+                    @if (Session["users"] != null)
+                    {
+                        if ((bool)Session["type"] == false)
+                        {
+                            <div class="pull-left image">
+                                <img src="~/Img/admin.png" class="img-circle" alt="Usuario: ">
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="pull-left image">
+                                <img src="~/Img/star.png" class="img-circle" alt="Usuario: ">
+                            </div>
+                        }
+                        <div class="pull-left info" style="max-width:45px">
+                            <p>@HttpContext.Current.Session["nameUser"].ToString()</p>
+                            <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                        </div>
+                    }
                 </div>
                 <ul class="sidebar-menu">
                     @*SANTA MARTA*@
@@ -176,6 +215,7 @@
                         <a href="@Url.Action("Index", "Sales")">
                             <i class="fa fa-caret-square-o-up"></i>
                             <span>Ventas</span>
+                            <small id="salesN"></small>
                         </a>
                     </li>
                     @*COMPRAS*@
@@ -183,6 +223,7 @@
                         <a href=@Url.Action("Index", "Purchases")>
                             <i class="fa  fa-caret-square-o-down"></i>
                             <span>Compras</span>
+                            <small id="purchasesN"></small>
                         </a>
                     </li>
                     @*PRODUCTOS*@
@@ -259,5 +300,53 @@
     @Scripts.Render("~/scripts/Shared/_Layout")
     @Scripts.Render("~/AdminPacket/dist/js")
     @RenderSection("scripts", required: false)
+
+    <script>
+        $(document).ready(function () {
+            var saleTotal = 0;
+            var purchaseTotal = 0;
+
+                    $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("GetInvoicesExpired","Sales")',
+                    dataType: 'json',
+                    success: function (invoices) {
+                        if (invoices.length > 0) {
+                            $('#salesN').text(invoices.length);
+                            $('#salesN').addClass('label pull-right bg-red');
+                            temp = "<li><a href='@Url.Action("Index2", "Sales")'><i class='fa fa-warning text-yellow'></i> Facturas de venta vencidas: "+invoices.length+"</a></li>";
+                            $("#notification").append(temp);
+                        }
+                        saleTotal = invoices.length;
+                         $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("GetInvoicesExpired","Purchases")',
+                    dataType: 'json',
+                    success: function (invoices) {
+                        if (invoices.length > 0) {
+                            $('#purchasesN').text(invoices.length);
+                            $('#purchasesN').addClass('label pull-right bg-red');
+                            temp = "<li><a href='@Url.Action("Index2", "Purchases")'><i class='fa fa-warning text-yellow'></i> Facturas de compra vencidas: " + invoices.length + "</a></li>";
+                            $("#notification").append(temp);
+                        }
+                        purchaseTotal = invoices.length;
+                        var Total = saleTotal + purchaseTotal;
+                        $('#Total').text(Total);
+                        $('#totalN').text("Tiene " + Total + " notificaciones");
+                },
+                    error: function (ex) {
+                    alert('Failed to retrieve product.' + ex);
+                }
+                    });
+                },
+                    error: function (ex) {
+                    alert('Failed to retrieve product.' + ex);
+                }
+             });
+
+            $('#Total').text(saleTotal);
+            $('#totalN').text("Tiene " + saleTotal + " notificaciones");
+    });
+    </script>
 </body>
 </html>

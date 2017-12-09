@@ -7,9 +7,9 @@
 }
 @Styles.Render("~/AdminPacket/plugins/datatables/css")
 <link href="~/Scripts/Toastr/toastr.min.css" rel="stylesheet" />
-@if (Session["Type"] == null)
+@if ((Boolean)Session["Type"] == false)
 {
-    Response.Redirect("~/Login/Index");
+    Response.Redirect("~/Home/Index");
 }
 <div class="box-header">
     <a class="btn btn-success btn-lg pull-right" data-target="#modal-crear" data-toggle="modal" href="/Users/Create">
@@ -29,7 +29,6 @@
                 <thead>
                     <tr>
                         <th>Usuario</th>
-                        <th>Contraseña</th>
                         <th>Privilegios</th>
                         <th>Acciones</th>
                     </tr>
@@ -39,7 +38,6 @@
                 {
                         <tr>
                             <td>@Html.DisplayFor(modelItem => item.Nickname)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Password)</td>
                             <td>@Html.DisplayFor(modelItem => item.Type)</td>
                             <td>
                                 <a class="btn btn-primary glyphicon glyphicon-edit" data-target="#modal-editar" data-toggle="modal" href="@Url.Action("Edit", "Users", new { id = item.IDUser })"></a>
@@ -51,7 +49,6 @@
                 <tfoot>
                     <tr>
                         <th>Usuario</th>
-                        <th>Contraseña</th>
                         <th>Privilegios</th>
                         <th>Acciones</th>
                     </tr>
@@ -109,7 +106,7 @@
         } else if ('@TempData["message"]' == "Delete"){
                 toastr.success('El usuario ha sido eliminado correctamente', 'Eliminado');
         }else if ('@TempData["message"]' == "Exists"){
-                toastr.warning('Debe Tener al menos un usuario administrador', 'Atencion');
+                toastr.warning('Debe Tener al menos un usuario administrador', 'Atención');
         }
     });
     </script>
@@ -120,7 +117,7 @@
                 $('#modal-crear').modal('hide');
                 window.location.href = "/Users/Index";
             } else {
-                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                toastr.warning('No se ejecutó la operación, hubo un error', 'Atención');
                 $('.modal-content').html(data);
             }
         }
@@ -131,7 +128,7 @@
                 $('#modal-editar').modal('hide');
                 window.location.href = "/Users/Index";
             } else {
-                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                toastr.warning('No se ejecutó la operación, hubo un error', 'Atención');
                 $('.modal-content').html(data);
             }
         }
@@ -142,7 +139,7 @@
                 $('#modal-delete').modal('hide');
                 window.location.href = "/Users/Index";
             } else {
-                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                toastr.warning('No se ejecutó la operación, hubo un error', 'Atención');
             }
         }
 </script>

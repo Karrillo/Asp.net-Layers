@@ -28,11 +28,11 @@
         <activity android:name=".InsertInvoiceActivity"></activity>
         <activity android:name=".DeviceListActivity"></activity>
         <activity android:name=".MainPrintActivity"></activity>
-        <activity android:name=".InvoiceClients"></activity>
-        <activity android:name=".InvoiceProducts"></activity>
+        <activity android:name=".InvoiceClientsActivity"></activity>
+        <activity android:name=".InvoiceProductsActivity"></activity>
         <activity android:name=".AssetsliabilitiesActivity"></activity>
-        <activity android:name=".AssetsliabilitiesAccount"></activity>
-        <activity android:name=".AssetsliabilitiesCategory"></activity>
-        <activity android:name=".AssetsliabilitiesSubCategory"></activity>
+        <activity android:name=".AssetsliabilitiesAccountActivity"></activity>
+        <activity android:name=".AssetsliabilitiesCategoryActivity"></activity>
+        <activity android:name=".AssetsliabilitiesSubCategoryActivity"></activity>
     </application>
 </manifest>

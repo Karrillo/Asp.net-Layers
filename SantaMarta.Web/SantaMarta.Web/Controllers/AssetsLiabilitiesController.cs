@@ -18,6 +18,7 @@ using System.Web.Mvc;
 
 namespace SantaMarta.Web.Controllers
 {
+    [SessionExpireFilter]
     public class AssetsLiabilitiesController : Controller
     {
 

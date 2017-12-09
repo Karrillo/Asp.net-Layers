@@ -9,7 +9,7 @@ namespace SantaMarta.Data.Models.Accounts
         [Key]
         public Int64 IDAccount { get; set; }
 
-        [RegularExpression(@"^[^-\s][a-zA-Z0-9\s-]+$", ErrorMessage = "Caracteres no permitidas")]
+        [RegularExpression(@"^([ñÑa-zA-Z0-9]+\s)*[ñÑa-zA-Z0-9]+$", ErrorMessage = "Caracteres no permitidas")]
         [Required(ErrorMessage = "Nombre de cuenta requerida")]
         [DataType(DataType.Text)]
         [StringLength(30, MinimumLength = 1, ErrorMessage = "El numero de caracteres debe ser menor a 30")]

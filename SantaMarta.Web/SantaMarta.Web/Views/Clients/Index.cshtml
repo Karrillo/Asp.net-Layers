@@ -10,10 +10,6 @@
 <link href="~/Scripts/Toastr/toastr.min.css" rel="stylesheet" />
 
 @Styles.Render("~/AdminPacket/plugins/datatables/css")
-@if (Session["users"] == null)
-{
-    Response.Redirect("~/Login/Index");
-}
 
 <div class="box-header">
     <a class="btn btn-success btn-lg pull-right" data-target="#modal-crear" data-toggle="modal" href="/Clients/Create">
@@ -52,7 +48,7 @@
                             <td>@Html.DisplayFor(modelItem => item.CellPhone)</td>
                             <td>@Html.DisplayFor(modelItem => item.Email)</td>
                             <td>
-                                @if (Session["Type"] != null)
+                                @if ((Boolean)Session["Type"] == true)
                                 {
                                     <a class="btn btn-primary glyphicon glyphicon-edit" data-target="#modal-editar" data-toggle="modal" href="@Url.Action("Edit", "Clients", new { id = item.IDClient })"></a>
                                     <a class="btn btn-danger glyphicon glyphicon-trash" data-target="#modal-delete" data-toggle="modal" href="@Url.Action("Delete", "Clients", new { id = item.IDClient })"></a>
@@ -148,7 +144,7 @@
                 $('#modal-crear').modal('hide');
                 window.location.href = "/Clients/Index";
             } else {
-                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                toastr.warning('No se ejecutó la operación, hubo un error', 'Atención');
                 $('#createModal').html(data);
             }
         }
@@ -160,7 +156,7 @@
                 $('#modal-editar').modal('hide');
                 window.location.href = "/Clients/Index";
             } else {
-                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                toastr.warning('No se ejecutó la operación, hubo un error', 'Atención');
                 $('#editModal').html(data2);
             }
         }
@@ -172,7 +168,7 @@
                 $('#modal-delete').modal('hide');
                 window.location.href = "/Clients/Index";
             } else {
-                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                toastr.warning('No se ejecutó la operación, hubo un error', 'Atención');
             }
         }
 </script>
@@ -183,7 +179,7 @@
                 $('#modal-createCP').modal('hide');
                 window.location.href = "/Clients/Index";
             } else {
-                toastr.warning('No se ejecuto la operacion, hubo un error', 'Atencion');
+                toastr.warning('No se ejecutó la operación, hubo un error', 'Atención');
             }
         }
 </script>
