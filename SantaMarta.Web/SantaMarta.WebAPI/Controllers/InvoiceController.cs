@@ -62,6 +62,24 @@ namespace SantaMarta.WebAPI.Controllers
             return Ok(invoice);
         }
 
+        [Route("api/Invoice/GetInvoicesAllSalesExpired")]
+        [HttpGet]
+        public IHttpActionResult GetInvoicesAllSalesExpired()
+        {
+            IList<Views_Invoices> invoice = null;
+
+            InvoicesB invoiceB = new InvoicesB();
+
+            invoice = invoiceB.GetAllSalesExpired();
+
+            if (invoice == null)
+            {
+                Ok(false);
+            }
+
+            return Ok(invoice);
+        }
+
         [Route("api/Invoice/GetInvoicesDetails")]
         [HttpGet]
         public IHttpActionResult GetInvoicesDetails(Int64 id)

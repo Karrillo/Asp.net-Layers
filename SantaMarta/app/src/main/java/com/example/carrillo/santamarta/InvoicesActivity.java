@@ -20,6 +20,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -56,7 +58,7 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
     BluetoothDevice mBluetoothDevice;
 
     private static ListView list;
-    private EditText txtadd;
+    private CheckBox checkExpired;
     private Button add;
     private Button back;
     private static String token = "";
@@ -76,6 +78,7 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
         list = (ListView) findViewById(R.id.list_invoices);
         add = (Button) findViewById(R.id.btn_add);
         back = (Button) findViewById(R.id.btn_back);
+        checkExpired = (CheckBox) findViewById(R.id.cb_credit);
         token = MainActivity.token;
         context = getBaseContext();
         final Contextdb contextdb = new Contextdb();
@@ -119,6 +122,21 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
         };
 
         txtsearch.addTextChangedListener(text);
+
+        checkExpired.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+            {
+                if (checkExpired.isChecked()==true) {
+                    listInvoices = contextdb.getAllInvoicesExpired(token);
+                    display();
+                }
+                if (checkExpired.isChecked()==false) {
+                    listInvoices = contextdb.getAllInvoices(token);
+                    display();
+                }
+            }
+        });
 
         list.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
             @Override
