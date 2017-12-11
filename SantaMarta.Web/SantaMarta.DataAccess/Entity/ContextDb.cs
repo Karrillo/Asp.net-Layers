@@ -187,6 +187,10 @@ namespace SantaMarta.DataAccess.Entity
 
             return this.Database.SqlQuery<All_Clients>("select * from Seach_Client_Word (@Name)", nameParameter).ToList();
         }
+        public virtual Int64 Get_IdClient_Own()
+        {
+            return this.Database.SqlQuery<Int64>("select * from Get_IdClient_Own ()").FirstOrDefault();
+        }
         #endregion
         //porviders
         #region Providers
@@ -311,9 +315,9 @@ namespace SantaMarta.DataAccess.Entity
         {
             return this.Database.SqlQuery<All_Providers>("select * from All_Providers_Deleted ()").ToList();
         }
-        public virtual Int64 Get_IdOwn()
+        public virtual Int64 Get_IdProvider_Own()
         {
-            return this.Database.SqlQuery<Int64>("select * from Get_IdOwn ()").FirstOrDefault();
+            return this.Database.SqlQuery<Int64>("select * from Get_IdProvider_Own ()").FirstOrDefault();
         }
         #endregion
         //products

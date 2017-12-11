@@ -179,5 +179,18 @@ namespace SantaMarta.DataAccess.ClientAccess
                 return 500;
             }
         }
+
+        //GET Id Productos Alimenticios Santa Marta
+        public Int64 GetIdClientOwn()
+        {
+            try
+            {
+                return db.Get_IdClient_Own();
+            }
+            catch (Exception)
+            {
+                return 500;
+            }
+        }
     }
 }

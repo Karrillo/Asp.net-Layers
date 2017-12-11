@@ -16,5 +16,6 @@ namespace SantaMarta.Bussines.ClientsBussines
         List<All_Clients> GetAll();
         List<All_Clients> GetAllDelete();
         List<Int64> ClientsAll();
+        Int64 GetIdClientOwn();
     }
 }

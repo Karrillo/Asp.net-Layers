@@ -1,6 +1,7 @@
 ﻿using SantaMarta.Bussines.AccountsBussines;
 using SantaMarta.Bussines.AssetsLiabilitiesBussines;
 using SantaMarta.Bussines.CategoriesBussines;
+using SantaMarta.Bussines.ClientsBussines;
 using SantaMarta.Bussines.DetailsBussines;
 using SantaMarta.Bussines.InvoicesBussines;
 using SantaMarta.Bussines.ProductsBussines;
@@ -37,6 +38,7 @@ namespace SantaMarta.Web.Controllers
         private ProductsB productsB;
         private DetailsB detailsB;
         private InvoicesB invoicesB;
+        private ClientsB clientsB;
 
         public PurchasesController()
         {
@@ -51,6 +53,7 @@ namespace SantaMarta.Web.Controllers
             detailsB = new DetailsB();
             invoicesB = new InvoicesB();
             productsProvidersB = new ProductsProvidersB();
+            clientsB = new ClientsB();
         }
 
         // GET: Purchases
@@ -265,7 +268,7 @@ namespace SantaMarta.Web.Controllers
             }
 
             invoices.Code = code;
-            invoices.IdClient = 2;
+            invoices.IdClient = clientsB.GetIdClientOwn();
             invoices.IdProvider = Convert.ToInt64(idProvider);
             int status = invoicesB.Create(invoices);
 

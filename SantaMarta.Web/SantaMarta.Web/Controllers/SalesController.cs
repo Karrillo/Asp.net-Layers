@@ -261,7 +261,7 @@ namespace SantaMarta.Web.Controllers
 
             invoices.Code = code;
             invoices.IdClient = Convert.ToInt64(idClient);
-            invoices.IdProvider = providersB.GetIdOwn();
+            invoices.IdProvider = providersB.GetIdProviderOwn();
             int status = invoicesB.Create(invoices);
 
             if (status == 200)

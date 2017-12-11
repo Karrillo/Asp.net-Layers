@@ -117,12 +117,20 @@ public class Product {
     @Override
     public String toString() {
         DecimalFormat df = new DecimalFormat("#.00");
-        return
-                "Nombre: " + Name + '\n' +
-                "Codigo: " + Code + '\n' +
-                "Precio: " + Price + '\n' +
-                "Impuesto: " + Tax + '\n' +
-                "Cantidad: " + Quantity + '\n' +
-                "Total: " + df.format(Total);
+        if(Quantity<=0){
+            return
+                    "Nombre: " + Name + '\n' +
+                            "Codigo: " + Code + '\n' +
+                            "Precio: " + Price + '\n' +
+                            "Impuesto: " + Tax;
+        }else {
+            return
+                    "Nombre: " + Name + '\n' +
+                            "Codigo: " + Code + '\n' +
+                            "Precio: " + Price + '\n' +
+                            "Impuesto: " + Tax + '\n' +
+                            "Cantidad: " + Quantity + '\n' +
+                            "Total: " + df.format(Total);
+        }
     }
 }

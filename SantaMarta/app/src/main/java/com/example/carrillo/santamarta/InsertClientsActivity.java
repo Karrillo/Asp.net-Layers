@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.regex.Pattern;
 
 /**
  * Created by Carrillo on 9/21/2017.
@@ -62,16 +64,21 @@ public class InsertClientsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(check()==true) {
+                    session();
                     Client client = new Client();
                     if (txtPhone.getText().toString().equals("")) {
                         client.setPhone("null");
                     } else {
-                        client.setPhone(txtPhone.getText().toString());
+                        String phone = txtPhone.getText().toString();
+                        phone = phone.substring(0,4)+"-"+phone.substring(4,phone.length());
+                        client.setPhone(phone);
                     }
                     if (txtCellphone.getText().toString().equals("")) {
                         client.setCellPhone("null");
                     } else {
-                        client.setCellPhone(txtCellphone.getText().toString());
+                        String cellPhone = txtPhone.getText().toString();
+                        cellPhone = cellPhone.substring(0,4)+"-"+cellPhone.substring(4,cellPhone.length());
+                        client.setCellPhone(cellPhone);
                     }
                     client.setName(txtName.getText().toString());
                     client.setFirstName(txtFirstName.getText().toString());
@@ -117,6 +124,11 @@ public class InsertClientsActivity extends AppCompatActivity {
         });
      }
 
+    private boolean validatedEmail(String email) {
+        Pattern pattern = Patterns.EMAIL_ADDRESS;
+        return pattern.matcher(email).matches();
+    }
+
      public boolean check(){
          if(txtName.getText().toString().equals("") || txtFirstName.getText().toString().equals("") || txtSecondName.getText().toString().equals("")){
                  Toast.makeText(getApplicationContext(), "Ingrese nombre y apellidos completos", Toast.LENGTH_LONG).show();
@@ -134,10 +146,45 @@ public class InsertClientsActivity extends AppCompatActivity {
              Toast.makeText(getApplicationContext(), "Ingrese el codigo del cliente", Toast.LENGTH_LONG).show();
              return false;
          }
-         if(txtEmail.getText().toString().equals("")){
-             Toast.makeText(getApplicationContext(), "Ingrese un email del cliente", Toast.LENGTH_LONG).show();
-             return false;
+         if(!txtEmail.getText().toString().equals("")){
+             boolean validated = validatedEmail(txtEmail.getText().toString());
+             if (validated==false){
+                 Toast.makeText(getApplicationContext(), "Formato de correo incorrecto", Toast.LENGTH_LONG).show();
+                 return false;
+             }
          }
          return true;
      }
+    public void session(){
+        String responce = contextdb.getSession(token);
+        if(responce.toString().equals("false")){
+            Toast.makeText(getApplicationContext(), "Sesión expirada, por favor vuelva a loguear su cuenta!", Toast.LENGTH_LONG).show();
+            // SLEEP 2 SECONDS HERE ...
+            final Handler handler = new Handler();
+            Timer t = new Timer();
+            t.schedule(new TimerTask() {
+                public void run() {
+                    handler.post(new Runnable() {
+                        public void run() {
+                            finish();
+                        }
+                    });
+                }
+            }, 1000);
+        }else if(responce.toString().equals("error")){
+            Toast.makeText(getApplicationContext(), "Error en la conexion con el servidor!", Toast.LENGTH_LONG).show();
+            // SLEEP 2 SECONDS HERE ...
+            final Handler handler = new Handler();
+            Timer t = new Timer();
+            t.schedule(new TimerTask() {
+                public void run() {
+                    handler.post(new Runnable() {
+                        public void run() {
+                            finish();
+                        }
+                    });
+                }
+            }, 1000);
+        }
     }
+}

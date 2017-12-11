@@ -161,7 +161,48 @@ public class Contextdb {
         }
 
     }
+    public String getSession(String token) {
+        String sql = "http://192.168.0.100:49161/api/User/GetSession";
 
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        URL url = null;
+        HttpURLConnection conn;
+
+        try {
+            url = new URL(sql);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Authorization", "Bearer " + token);
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+            String inputLine;
+
+            StringBuffer response = new StringBuffer();
+
+            String json = "";
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+
+            json = response.toString();
+
+            if (json.equals("true")) {
+                return json;
+            } else {
+                return "false";
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return "error";
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "error";
+        }
+    }
     public List<Client> getAllClients(String token) {
         String sql = "http://192.168.0.100:49161/api/Client";
 
@@ -419,6 +460,73 @@ public class Contextdb {
             return null;
         }
     }
+    public List<Invoice> getAllInvoicesExpired(String token) {
+        String sql = "http://192.168.0.100:49161/api/Invoice/GetInvoicesAllSalesExpired";
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        URL url = null;
+        HttpURLConnection conn;
+
+        try {
+            url = new URL(sql);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Authorization", "Bearer " + token);
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+            String inputLine;
+
+            StringBuffer response = new StringBuffer();
+
+            String json = "";
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+
+            json = response.toString();
+
+            JSONArray jsonArr = null;
+            jsonArr = new JSONArray(json);
+            List<Invoice> listInvoices = new ArrayList<Invoice>();
+            for (int i = 0; i < jsonArr.length(); i++) {
+                JSONObject jsonObject = jsonArr.getJSONObject(i);
+                if(jsonObject.optString("Rode")=="null"){
+                    String LimitDate = jsonObject.optString("LimitDate");
+                    String Limit[] = LimitDate.split("T");
+                    String CurrentDate = jsonObject.optString("CurrentDate");
+                    String Current[] = CurrentDate.split("T");
+                    listInvoices.add(new Invoice(Long.parseLong(jsonObject.optString("IDInvoice")), Limit[0].toString(), Current[0].toString(),
+                            jsonObject.optString("Code"), Double.parseDouble(jsonObject.optString("Total")), jsonObject.optString("State"),
+                            jsonObject.optString("Name") + " " + jsonObject.optString("FirstName") + " " + jsonObject.optString("SecondName"), jsonObject.optString("NameCompany"),
+                            0.0));
+                }else {
+                    String LimitDate = jsonObject.optString("LimitDate");
+                    String Limit[] = LimitDate.split("T");
+                    String CurrentDate = jsonObject.optString("CurrentDate");
+                    String Current[] = CurrentDate.split("T");
+                    listInvoices.add(new Invoice(Long.parseLong(jsonObject.optString("IDInvoice")), Limit[0].toString(), Current[0].toString(),
+                            jsonObject.optString("Code"), Double.parseDouble(jsonObject.optString("Total"))-Double.parseDouble(jsonObject.optString("Rode")), jsonObject.optString("State"),
+                            jsonObject.optString("Name") + " " + jsonObject.optString("FirstName") + " " + jsonObject.optString("SecondName"), jsonObject.optString("NameCompany"),
+                            Double.parseDouble(jsonObject.optString("Rode"))));
+                }
+            }
+
+            return listInvoices;
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     public List<Product> getAllProducts(String token) {
         String sql = "http://192.168.0.100:49161/api/Product";
 
@@ -519,7 +627,7 @@ public class Contextdb {
         }
     }
     public String getCode(String token) {
-        String sql = "http://192.168.0.100:49161/api/Invoice";
+        String sql = "http://192.168.0.100:49161/api/Invoice/GetCode";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -614,6 +722,8 @@ public class Contextdb {
 
             if(json.toString().equals("200")){
                 return "200";
+            }else  if(json.toString().equals("501")){
+                return "501";
             }else {
                 return "500";
             }

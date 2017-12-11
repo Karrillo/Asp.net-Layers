@@ -1,68 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:background="@drawable/fondo"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:background="@drawable/fondo">
+
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/linearV_primera"
-        android:weightSum="1">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/linearH_segunda">
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/linearV_primera"
+            android:weightSum="1">
 
-            <TextView
-                android:id="@+id/Agent"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="19dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="8sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:id="@+id/linearH_segunda">
+
+                <TextView
+                    android:id="@+id/Agent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="46dp"
+                    android:layout_weight="0.10"
+                    android:text="Buscar:"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="#FFFFFF"
+                    android:textSize="24sp" />
+
+                <EditText
+                    android:id="@+id/txt_search"
+                    android:layout_width="171dp"
+                    android:layout_height="53dp"
+                    android:layout_weight="0.60"
+                    android:gravity="center"
+                    android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789 QWERTYUIOPASDFGHJKLÑZXCVBNM"
+                    android:ems="10"
+                    android:hint="Facturas"
+                    android:inputType="textPersonName"
+                    android:maxLength="60"
+                    android:textAlignment="center"
+                    android:textColor="#FFFFFF" />
+
+                <Button
+                    android:id="@+id/btn_add"
+                    android:layout_width="84dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/custom_button_border"
+                    android:textColor="#FFFFFF"
+                    android:text="Agregar" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Facturas"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+                android:id="@+id/linearH_quinta">
 
-            <Button
-                android:id="@+id/btn_add"
-                android:layout_width="84dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/custom_button_border"
-                android:textColor="#FFFFFF"
-                android:text="Agregar" />
+                <CheckBox
+                    android:id="@+id/cb_expired"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.10"
+                    android:text="Vencidas" />
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="375dp"
+                android:orientation="horizontal">
+
+                <ListView
+                    android:id="@+id/list_invoices"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/custom_button_border"
+                    android:text="Salir"
+                    android:textColor="#FFFFFF" />
+            </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="409dp"
-            android:orientation="horizontal"
-            android:layout_weight="0.93">
 
-            <ListView
-                android:id="@+id/list_invoices"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="54dp"
-            android:orientation="horizontal">
+            android:layout_width="0px"
+            android:layout_height="0px"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
-            <Button
-                android:id="@+id/btn_back"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/custom_button_border"
-                android:text="Salir"
-                android:textColor="#FFFFFF" />
+            <requestFocus />
         </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</ScrollView>

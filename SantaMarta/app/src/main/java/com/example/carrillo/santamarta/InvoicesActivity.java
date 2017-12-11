@@ -12,14 +12,17 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -55,34 +58,93 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
     BluetoothDevice mBluetoothDevice;
 
     private static ListView list;
-    private EditText txtadd;
+    private CheckBox checkExpired;
     private Button add;
     private Button back;
     private static String token = "";
     private static Contextdb contextdb = new Contextdb();
     private static List<Invoice> listInvoices;
+    private static List<Invoice> listInvoicesSearch;
     private static Context context;
     private static String[] type ;
     public static Invoice invoice;
+    private EditText txtsearch;
+    private TextWatcher text = null;
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invoices);
         //final ListView list = (ListView) findViewById(R.id.list_invoices);
+        txtsearch = (EditText) findViewById(R.id.txt_search);
         list = (ListView) findViewById(R.id.list_invoices);
         add = (Button) findViewById(R.id.btn_add);
         back = (Button) findViewById(R.id.btn_back);
+        checkExpired = (CheckBox) findViewById(R.id.cb_expired);
         token = MainActivity.token;
         context = getBaseContext();
         final Contextdb contextdb = new Contextdb();
         listInvoices = contextdb.getAllInvoices(token);
         display();
 
+        text = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                listInvoicesSearch = null;
+                if (txtsearch.getText().toString().equals("")) {
+                    display();
+                } else {
+                    for (int x = 0; x < listInvoices.size(); x++) {
+                        invoice = listInvoices.get(x);
+                        if (invoice.getName().compareTo(txtsearch.getText().toString()) == 1) {
+                            listInvoicesSearch.add(new Invoice(invoice.getIDInvoice(), invoice.getLimitDate(), invoice.getCurrentDate(), invoice.getCode(),
+                                    invoice.getTotal(), invoice.getState(), invoice.getName(), invoice.getNameCompany(), invoice.getRode()));
+                        } else if (invoice.getNameCompany().compareTo(txtsearch.getText().toString()) == 1) {
+                            listInvoicesSearch.add(new Invoice(invoice.getIDInvoice(), invoice.getLimitDate(), invoice.getCurrentDate(), invoice.getCode(),
+                                    invoice.getTotal(), invoice.getState(), invoice.getName(), invoice.getNameCompany(), invoice.getRode()));
+                        } else if (invoice.getName().startsWith(txtsearch.getText().toString()) == true) {
+                            listInvoicesSearch.add(new Invoice(invoice.getIDInvoice(), invoice.getLimitDate(), invoice.getCurrentDate(), invoice.getCode(),
+                                    invoice.getTotal(), invoice.getState(), invoice.getName(), invoice.getNameCompany(), invoice.getRode()));
+                        } else if (invoice.getNameCompany().startsWith(txtsearch.getText().toString()) == true) {
+                            listInvoicesSearch.add(new Invoice(invoice.getIDInvoice(), invoice.getLimitDate(), invoice.getCurrentDate(), invoice.getCode(),
+                                    invoice.getTotal(), invoice.getState(), invoice.getName(), invoice.getNameCompany(), invoice.getRode()));
+                        }
+                        displaySearch();
+                    }
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        };
+
+        txtsearch.addTextChangedListener(text);
+
+        checkExpired.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+            {
+                if (checkExpired.isChecked()==true) {
+                    listInvoices = contextdb.getAllInvoicesExpired(token);
+                    display();
+                }
+                if (checkExpired.isChecked()==false) {
+                    listInvoices = contextdb.getAllInvoices(token);
+                    display();
+                }
+            }
+        });
+
         list.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(position>=0){
-                    if(type[position] =="2" || type[position] =="3"){
-                        if(mBluetoothAdapter!=null){
+                    if(type[position] =="0" || type[position] =="2" || type[position] =="3"){
+                        session();
+                        if(mBluetoothAdapter==null){
                             Toast.makeText(getApplicationContext(), "Impresora no conectada, por favor conecte el dispocitivo", Toast.LENGTH_LONG).show();
                             // SLEEP 2 SECONDS HERE ...
                             final Handler handler = new Handler();
@@ -130,7 +192,8 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
         add.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                if(mBluetoothAdapter!=null){
+                session();
+                if(mBluetoothAdapter==null){
                     Toast.makeText(getApplicationContext(), "Impresora no conectada, por favor conecte el dispocitivo", Toast.LENGTH_LONG).show();
                     // SLEEP 2 SECONDS HERE ...
                     final Handler handler = new Handler();
@@ -192,15 +255,22 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                     Date date_curent = formatter.parse(invoice.getCurrentDate().toString());
                     Date date_limit = formatter.parse(invoice.getLimitDate().toString());
                     if(date_curent.equals(date_limit)){
-                        color[x] = "0";
+                        if(invoice.getTotal() == 0.0){
+                            color[x] = "1";
+                        }else {
+                            color[x] = "0";
+                        }
                     }else {
-                        if(invoice.getTotal() == invoice.getRode()){
+                        if(invoice.getTotal() == 0){
                             color[x] = "1";
                         }else if(date_limit.after(date_now) && invoice.getTotal() != invoice.getRode()){
                             color[x] = "2";
                         }else if(date_limit.before(date_now) && invoice.getTotal() != invoice.getRode()) {
                             color[x] = "3";
                         }
+                    }
+                    if(invoice.getState().toString().equals("false")){
+                        color[x] = "4";
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -215,17 +285,20 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                     View view = super.getView(position,convertView,parent);
                     if(color[position] == "0")
                     {
-                        view.setBackgroundColor(Color.parseColor("#7577e7"));
+                        view.setBackgroundColor(Color.parseColor("#ec3e3e"));
                     }
                     else if(color[position] == "1")
                     {
-                        view.setBackgroundColor(Color.parseColor("#7577e7"));
+                        view.setBackgroundColor(Color.parseColor("#2bc81e"));
                     }else if(color[position] == "2")
                     {
-                        view.setBackgroundColor(Color.parseColor("#2bc81e"));
+                        view.setBackgroundColor(Color.parseColor("#ffbf00"));
                     }else if(color[position] == "3")
                     {
                         view.setBackgroundColor(Color.parseColor("#ec3e3e"));
+                    }else if(color[position] == "4")
+                    {
+                        view.setBackgroundColor(Color.parseColor("#a4a4a4"));
                     }
                     return view;
                 }
@@ -264,9 +337,13 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                     Date date_curent = formatter.parse(invoice.getCurrentDate().toString());
                     Date date_limit = formatter.parse(invoice.getLimitDate().toString());
                     if(date_curent.equals(date_limit)){
-                        color[x] = "0";
+                        if(invoice.getTotal() == 0.0){
+                            color[x] = "1";
+                        }else {
+                            color[x] = "0";
+                        }
                     }else {
-                        if(invoice.getTotal() == 0){
+                        if(invoice.getTotal() == 0.0){
                             color[x] = "1";
                         }else if(date_limit.after(date_now) && invoice.getTotal() != invoice.getRode()){
                             color[x] = "2";
@@ -274,30 +351,36 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                             color[x] = "3";
                         }
                     }
+                    if(invoice.getState().toString().equals("false")){
+                        color[x] = "4";
+                    }
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
             }
 
             final ArrayAdapter arrayAdapter2 = new ArrayAdapter
-                    (this, android.R.layout.simple_list_item_1, listInvoices){
+                    (context, android.R.layout.simple_list_item_1, listInvoices){
                 @Override
                 public View getView(int position, View convertView, ViewGroup parent){
 
                     View view = super.getView(position,convertView,parent);
                     if(color[position] == "0")
                     {
-                        view.setBackgroundColor(Color.parseColor("#7577e7"));
+                        view.setBackgroundColor(Color.parseColor("#ec3e3e"));
                     }
                     else if(color[position] == "1")
                     {
-                        view.setBackgroundColor(Color.parseColor("#7577e7"));
+                        view.setBackgroundColor(Color.parseColor("#2bc81e"));
                     }else if(color[position] == "2")
                     {
-                        view.setBackgroundColor(Color.parseColor("#2bc81e"));
+                        view.setBackgroundColor(Color.parseColor("#ffbf00"));
                     }else if(color[position] == "3")
                     {
                         view.setBackgroundColor(Color.parseColor("#ec3e3e"));
+                    }else if(color[position] == "4")
+                    {
+                        view.setBackgroundColor(Color.parseColor("#a4a4a4"));
                     }
                     return view;
                 }
@@ -309,7 +392,86 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
 
         }
     }
+    public void displaySearch() {
+        if (listInvoicesSearch.size()==0) {
+            List<String> search = new ArrayList<String>();
+            search.add("Facturas no encontradas");
 
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, search);
+            //se setean los datos en el listView
+            list.setAdapter(adapter);
+        } else{
+            final String[] color = new String[listInvoicesSearch.size()];
+            Invoice invoice;
+            String dateNow="";
+            Date date = new Date();
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.DATE, 1);
+            date = calendar.getTime();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            dateNow = format.format(date);
+
+            for(int x =0; x < listInvoicesSearch.size(); x++){
+                invoice = listInvoicesSearch.get(x);
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                try {
+                    Date date_now = formatter.parse(dateNow.toString());
+                    Date date_curent = formatter.parse(invoice.getCurrentDate().toString());
+                    Date date_limit = formatter.parse(invoice.getLimitDate().toString());
+                    if(date_curent.equals(date_limit)){
+                        if(invoice.getTotal() == 0.0){
+                            color[x] = "1";
+                        }else {
+                            color[x] = "0";
+                        }
+                    }else {
+                        if(invoice.getTotal() == 0){
+                            color[x] = "1";
+                        }else if(date_limit.after(date_now) && invoice.getTotal() != invoice.getRode()){
+                            color[x] = "2";
+                        }else if(date_limit.before(date_now) && invoice.getTotal() != invoice.getRode()) {
+                            color[x] = "3";
+                        }
+                    }
+                    if(invoice.getState().toString().equals("false")){
+                        color[x] = "4";
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            final ArrayAdapter arrayAdapter2 = new ArrayAdapter
+                    (context, android.R.layout.simple_list_item_1, listInvoices){
+                @Override
+                public View getView(int position, View convertView, ViewGroup parent){
+
+                    View view = super.getView(position,convertView,parent);
+                    if(color[position] == "0")
+                    {
+                        view.setBackgroundColor(Color.parseColor("#ec3e3e"));
+                    }
+                    else if(color[position] == "1")
+                    {
+                        view.setBackgroundColor(Color.parseColor("#2bc81e"));
+                    }else if(color[position] == "2")
+                    {
+                        view.setBackgroundColor(Color.parseColor("#ffbf00"));
+                    }else if(color[position] == "3")
+                    {
+                        view.setBackgroundColor(Color.parseColor("#ec3e3e"));
+                    }else if(color[position] == "4")
+                    {
+                        view.setBackgroundColor(Color.parseColor("#a4a4a4"));
+                    }
+                    return view;
+                }
+            };
+            type = color;
+// DataBind ListView with items from ArrayAdapter
+            list.setAdapter(arrayAdapter2);
+        }
+    }
     @Override
     protected void onDestroy() {
         // TODO Auto-generated method stub
@@ -441,10 +603,10 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
 
                     BILL = "     PRODUCTOS ALIMENTICIOS \n"
                             + "          SANTA MARTA \n" +
+                            "      Telefono: 2473 15 16 \n" +
                             "        Factura de venta     \n" +
                             "Numero de Factura: "+numInvoice+"\n" +
                             "Fecha: " + dateCurent +"\n" +
-                            "Contado: "+credit+"\n" +
                             "Cliente: \n" +
                             ""+ client + "\n";
                     BILL = BILL
@@ -484,6 +646,7 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                     BILL = BILL
                             + "-------------------------------\n";
                     BILL = BILL + "\n";
+                    BILL = BILL + "  Mejorando la calidad cada dia \n";
                     BILL = BILL + "\n";
                     BILL = BILL + "\n";
                     BILL = BILL + "\n";
@@ -527,10 +690,10 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
 
                     BILL = "     PRODUCTOS ALIMENTICIOS \n"
                             + "          SANTA MARTA \n" +
+                            "      Telefono: 2473 15 16 \n" +
                             "        Factura de venta     \n" +
                             "Numero de Factura: "+numInvoice+"\n" +
                             "Fecha: " + dateCurent +"\n" +
-                            "Credito: "+credit+"\n" +
                             "Fecha Limite: \n" +
                             ""+ dateLimit + " \n" +
                             "Cliente: \n" +
@@ -572,6 +735,7 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                     BILL = BILL
                             + "-------------------------------\n";
                     BILL = BILL + "\n";
+                    BILL = BILL + "  Mejorando la calidad cada dia \n";
                     BILL = BILL + "\n";
                     BILL = BILL + "\n";
                     BILL = BILL + "\n";
@@ -615,6 +779,7 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
 
                     BILL = "     PRODUCTOS ALIMENTICIOS \n"
                             + "          SANTA MARTA \n" +
+                            "      Telefono: 2473 15 16 \n" +
                             "        Recibo de Abono     \n" +
                             "Numero de Factura: "+numInvoice+"\n" +
                             "Fecha: " + dateCurent +"\n" +
@@ -637,6 +802,7 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                             + "-------------------------------\n";
 
                     BILL = BILL + "\n";
+                    BILL = BILL + "  Mejorando la calidad cada dia \n";
                     BILL = BILL + "\n";
                     BILL = BILL + "\n";
                     BILL = BILL + "\n";
@@ -666,5 +832,37 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
             }
         };
         t.start();
+    }
+    public void session(){
+        String responce = contextdb.getSession(token);
+        if(responce.toString().equals("false")){
+            Toast.makeText(getApplicationContext(), "Sesión expirada, por favor vuelva a loguear su cuenta!", Toast.LENGTH_LONG).show();
+            // SLEEP 2 SECONDS HERE ...
+            final Handler handler = new Handler();
+            Timer t = new Timer();
+            t.schedule(new TimerTask() {
+                public void run() {
+                    handler.post(new Runnable() {
+                        public void run() {
+                            finish();
+                        }
+                    });
+                }
+            }, 1000);
+        }else if(responce.toString().equals("error")){
+            Toast.makeText(getApplicationContext(), "Error en la conexion con el servidor!", Toast.LENGTH_LONG).show();
+            // SLEEP 2 SECONDS HERE ...
+            final Handler handler = new Handler();
+            Timer t = new Timer();
+            t.schedule(new TimerTask() {
+                public void run() {
+                    handler.post(new Runnable() {
+                        public void run() {
+                            finish();
+                        }
+                    });
+                }
+            }, 1000);
+        }
     }
 }

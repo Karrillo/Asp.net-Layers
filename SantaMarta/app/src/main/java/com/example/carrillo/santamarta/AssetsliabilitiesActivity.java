@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputFilter;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -68,7 +69,7 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
         account.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent menu = new Intent(AssetsliabilitiesActivity.this, AssetsliabilitiesAccount.class);
+                Intent menu = new Intent(AssetsliabilitiesActivity.this, AssetsliabilitiesAccountActivity.class);
                 startActivity(menu);
             }
         });
@@ -76,7 +77,7 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
         category.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent menu = new Intent(AssetsliabilitiesActivity.this, AssetsliabilitiesCategory.class);
+                Intent menu = new Intent(AssetsliabilitiesActivity.this, AssetsliabilitiesCategoryActivity.class);
                 startActivity(menu);
             }
         });
@@ -84,7 +85,7 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
         subCategory.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent menu = new Intent(AssetsliabilitiesActivity.this, AssetsliabilitiesSubCategory.class);
+                Intent menu = new Intent(AssetsliabilitiesActivity.this, AssetsliabilitiesSubCategoryActivity.class);
                 startActivity(menu);
             }
         });
@@ -93,10 +94,11 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(check()==true) {
+                    session();
                     String dateNow="";
                     Date date = new Date();
                     Calendar calendar = Calendar.getInstance();
-                    calendar.add(Calendar.DATE, 1);
+                    calendar.add(Calendar.DATE, 0);
                     date = calendar.getTime();
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                     dateNow = format.format(date);
@@ -107,10 +109,16 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Abono ingresado correctamente", Toast.LENGTH_LONG).show();
                             InvoicesActivity.refresh();
                             DecimalFormat df = new DecimalFormat("#.00");
-                            Double total = Double.parseDouble(txtTotal.getText().toString()) - Double.parseDouble(txtRode.getText().toString());
-                            Double quantity = Double.parseDouble(txtQuantity.getText().toString()) + Double.parseDouble(txtRode.getText().toString());
-                            InvoicesActivity.printRode(txtClient.getText().toString(),"010",dateNow,df.format(total),
-                                    df.format(quantity),txtRode.getText().toString());
+                            Double total = invoiceSelect.getTotal() - invoiceSelect.getRode();
+                            Double quantity = Double.parseDouble(txtQuantity.getText().toString()) + invoiceSelect.getRode();
+                            if(total==0){
+                                InvoicesActivity.printRode(txtClient.getText().toString(),invoiceSelect.getCode(),dateNow,String.valueOf(total),
+                                        df.format(quantity),txtRode.getText().toString());
+                            }else {
+                                InvoicesActivity.printRode(txtClient.getText().toString(),invoiceSelect.getCode(),dateNow,df.format(total),
+                                        df.format(quantity),txtRode.getText().toString());
+                            }
+
                             // SLEEP 2 SECONDS HERE ...
                             final Handler handler = new Handler();
                             Timer t = new Timer();
@@ -159,7 +167,15 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Error con los datos del usuario, por favor vuelva a loguear", Toast.LENGTH_LONG).show();
             return false;
         }
-        if(Double.parseDouble(txtRode.getText().toString())>(invoiceSelect.getTotal())){
+        DecimalFormat df = new DecimalFormat("#.00");
+        Double more = Double.parseDouble(txtRode.getText().toString());
+        Double less = 0.0;
+        if(invoiceSelect.getTotal()<1){
+            less = Double.parseDouble(df.format(invoiceSelect.getTotal()));
+        }else {
+            less = invoiceSelect.getTotal();
+        }
+        if(more > less){
             Toast.makeText(getApplicationContext(), "Ingrese un monto menor o igual al faltante no abonado de la factura", Toast.LENGTH_LONG).show();
             return false;
         }
@@ -190,6 +206,7 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
             dateCurent = format.format(date);
             txtDate.setText(dateCurent);
             invoiceSelect=invoice;
+            txtRode.setFilters(new InputFilter[]{ new InputFilter.LengthFilter(txtTotal.getText().length()) });
         }else {
             txtClient.setText(invoice.getNameCompany());
             txtCode.setText(invoice.getCode());
@@ -212,6 +229,7 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
             dateCurent = format.format(date);
             txtDate.setText(dateCurent);
             invoiceSelect=invoice;
+            txtRode.setFilters(new InputFilter[]{ new InputFilter.LengthFilter(txtTotal.getText().length()) });
         }
     }
     public static void display_account(Account account){
@@ -231,5 +249,37 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
     }
     public static int select_Category(){
         return categorySelect.getId();
+    }
+    public void session(){
+        String responce = contextdb.getSession(token);
+        if(responce.toString().equals("false")){
+            Toast.makeText(getApplicationContext(), "Sesión expirada, por favor vuelva a loguear su cuenta!", Toast.LENGTH_LONG).show();
+            // SLEEP 2 SECONDS HERE ...
+            final Handler handler = new Handler();
+            Timer t = new Timer();
+            t.schedule(new TimerTask() {
+                public void run() {
+                    handler.post(new Runnable() {
+                        public void run() {
+                            finish();
+                        }
+                    });
+                }
+            }, 1000);
+        }else if(responce.toString().equals("error")){
+            Toast.makeText(getApplicationContext(), "Error en la conexion con el servidor!", Toast.LENGTH_LONG).show();
+            // SLEEP 2 SECONDS HERE ...
+            final Handler handler = new Handler();
+            Timer t = new Timer();
+            t.schedule(new TimerTask() {
+                public void run() {
+                    handler.post(new Runnable() {
+                        public void run() {
+                            finish();
+                        }
+                    });
+                }
+            }, 1000);
+        }
     }
 }

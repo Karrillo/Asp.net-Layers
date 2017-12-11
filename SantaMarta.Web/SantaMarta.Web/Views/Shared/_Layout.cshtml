@@ -44,7 +44,7 @@
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li class="header" style="font-weight: bold;">Configuracion Administrador</li>
-                                        <li>
+                                        <li style="height:165px">
                                             <ul class="menu">
                                                 <li>
                                                     <a href=@Url.Action("Index", "Users")>
@@ -145,11 +145,11 @@
                             <li class="dropdown notifications-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <i class="fa fa-bell-o"></i>
-                                    <span class="label label-warning" id="Total"></span>
+                                    <span id="Total"></span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li class="header" id="totalN"></li>
-                                    <li>
+                                    <li id="menubar">
                                         <ul class="menu" id="notification"></ul>
                                     </li>
                                 </ul>
@@ -331,7 +331,17 @@
                         }
                         purchaseTotal = invoices.length;
                         var Total = saleTotal + purchaseTotal;
-                        $('#Total').text(Total);
+                        if (Total > 0) {
+                            if (saleTotal == 0 || purchaseTotal == 0) {
+                                document.getElementById("menubar").style.height = "40px";
+                            } else {
+                                document.getElementById("menubar").style.height = "80px";
+                            }
+                            $('#Total').text(Total);
+                            $('#Total').addClass('label label-danger');
+                        } else {
+                          document.getElementById("menubar").style.height = "0px";
+                        }
                         $('#totalN').text("Tiene " + Total + " notificaciones");
                 },
                     error: function (ex) {
@@ -343,9 +353,6 @@
                     alert('Failed to retrieve product.' + ex);
                 }
              });
-
-            $('#Total').text(saleTotal);
-            $('#totalN').text("Tiene " + saleTotal + " notificaciones");
     });
     </script>
 </body>

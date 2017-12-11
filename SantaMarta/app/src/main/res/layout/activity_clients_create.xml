@@ -21,6 +21,7 @@
             android:id="@+id/txt_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789QWERTYUIOPASDFGHJKLÑZXCVBNM"
             android:ems="10"
             android:hint="Codigo"
@@ -37,6 +38,7 @@
             android:id="@+id/txt_Name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:digits="qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNM "
             android:ems="10"
             android:hint="Nombre"
@@ -55,6 +57,7 @@
             android:layout_height="wrap_content"
             android:digits="qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNM "
             android:ems="10"
+            android:gravity="center"
             android:hint="Primer Apellido"
             android:inputType="textPersonName"
             android:maxLength="15" />
@@ -71,6 +74,7 @@
             android:layout_height="wrap_content"
             android:digits="qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNM "
             android:ems="10"
+            android:gravity="center"
             android:hint="Segundo Apellido"
             android:inputType="textPersonName"
             android:maxLength="15" />
@@ -87,6 +91,7 @@
             android:layout_height="wrap_content"
             android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789QWERTYUIOPASDFGHJKLÑZXCVBNM "
             android:ems="10"
+            android:gravity="center"
             android:hint="Nombre de Empresa"
             android:inputType="textPersonName"
             android:maxLength="40" />
@@ -102,9 +107,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:gravity="center"
             android:hint="Telefono"
             android:inputType="phone"
-            android:maxLength="9" />
+            android:maxLength="8" />
 
         <TextView
             android:id="@+id/txtv_cellPhone"
@@ -117,9 +123,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:gravity="center"
             android:hint="Celular"
             android:inputType="phone"
-            android:maxLength="9"
+            android:maxLength="8"
             mask:keep_hint="false"
             mask:mask="+7(###)###-##-##" />
 
@@ -135,6 +142,7 @@
             android:layout_height="wrap_content"
             android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789@.QWERTYUIOPASDFGHJKLÑZXCVBNM"
             android:ems="10"
+            android:gravity="center"
             android:hint="Correo"
             android:inputType="textEmailAddress"
             android:maxLength="40" />
@@ -151,6 +159,7 @@
             android:layout_height="wrap_content"
             android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789 QWERTYUIOPASDFGHJKLÑZXCVBNM"
             android:ems="10"
+            android:gravity="center"
             android:hint="Direccion"
             android:inputType="textMultiLine"
             android:maxLength="70" />

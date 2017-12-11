@@ -12,7 +12,7 @@ import android.widget.Button;
 
 public class MenuActivity extends AppCompatActivity {
 
-    private Button invoices, clients, logout, config;
+    private Button invoices, clients, logout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -22,7 +22,6 @@ public class MenuActivity extends AppCompatActivity {
         invoices = (Button) findViewById(R.id.btn_invoices);
         clients = (Button) findViewById(R.id.btn_clients);
         logout = (Button) findViewById(R.id.btn_logout);
-        config = (Button) findViewById(R.id.btn_config);
 
         invoices.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -37,15 +36,6 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MenuActivity.this, ClientsActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-        config.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MenuActivity.this, MainPrintActivity.class);
                 startActivity(intent);
                 finish();
             }

@@ -24,6 +24,8 @@ namespace SantaMarta.WebAPI.Controllers
             {
                 case 200:
                     return Ok(200);
+                case 501:
+                    return Ok(501);
                 case 500:
                     return Ok(500);
                 default:
@@ -31,9 +33,9 @@ namespace SantaMarta.WebAPI.Controllers
             }
         }
 
-        // GET: api/Invoice
+        [Route("api/Invoice/GetCode")]
         [HttpGet]
-        public IHttpActionResult Get(Int64 id)
+        public IHttpActionResult GetCode()
         {
             Int64 code;
 
@@ -53,6 +55,24 @@ namespace SantaMarta.WebAPI.Controllers
             InvoicesB invoiceB = new InvoicesB();
 
             invoice = invoiceB.GetAllSales();
+
+            if (invoice == null)
+            {
+                Ok(false);
+            }
+
+            return Ok(invoice);
+        }
+
+        [Route("api/Invoice/GetInvoicesAllSalesExpired")]
+        [HttpGet]
+        public IHttpActionResult GetInvoicesAllSalesExpired()
+        {
+            IList<Views_Invoices> invoice = null;
+
+            InvoicesB invoiceB = new InvoicesB();
+
+            invoice = invoiceB.GetAllSalesExpired();
 
             if (invoice == null)
             {
