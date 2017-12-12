@@ -37,13 +37,14 @@ public class AssetsliabilitiesSubCategoryActivity extends AppCompatActivity {
         back = (Button) findViewById(R.id.btn_back);
         token = MainActivity.token;
         final Contextdb contextdb = new Contextdb();
-        session();
         listSubCategorys = contextdb.getAllSubCategorys(AssetsliabilitiesActivity.select_Category(),token);
         display(listSubCategorys);
         back.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                finish();
+                if(session()==false) {
+                    finish();
+                }
             }
         });
 
@@ -51,9 +52,11 @@ public class AssetsliabilitiesSubCategoryActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(position>=0){
-                    subcategory = listSubCategorys.get(position);
-                    AssetsliabilitiesActivity.display_subCategory(subcategory);
-                    finish();
+                    if(session()==false) {
+                        subcategory = listSubCategorys.get(position);
+                        AssetsliabilitiesActivity.display_subCategory(subcategory);
+                        finish();
+                    }
                 }
             }
         });
@@ -72,7 +75,7 @@ public class AssetsliabilitiesSubCategoryActivity extends AppCompatActivity {
             list.setAdapter(adapter);
         }
     }
-    public void session(){
+    public boolean session(){
         String responce = contextdb.getSession(token);
         if(responce.toString().equals("false")){
             Toast.makeText(getApplicationContext(), "Sesión expirada, por favor vuelva a loguear su cuenta!", Toast.LENGTH_LONG).show();
@@ -90,7 +93,8 @@ public class AssetsliabilitiesSubCategoryActivity extends AppCompatActivity {
                     });
                 }
             }, 1000);
-        }else if(responce.toString().equals("false")){
+            return true;
+        }else if(responce.toString().equals("error")){
             Toast.makeText(getApplicationContext(), "Error en la conexion con el servidor!", Toast.LENGTH_LONG).show();
             // SLEEP 2 SECONDS HERE ...
             final Handler handler = new Handler();
@@ -106,6 +110,8 @@ public class AssetsliabilitiesSubCategoryActivity extends AppCompatActivity {
                     });
                 }
             }, 1000);
+            return true;
         }
+        return false;
     }
 }

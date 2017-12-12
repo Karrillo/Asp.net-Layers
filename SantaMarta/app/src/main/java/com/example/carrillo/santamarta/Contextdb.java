@@ -30,7 +30,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class Contextdb {
 
     public String getCheck(String nickname, String password) {
-        String sql = "http://192.168.2.4:49161/api/User";
+        String sql = "http://192.168.0.4:49161/api/User";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -93,11 +93,10 @@ public class Contextdb {
             e.printStackTrace();
             return "false";
         }
-
     }
 
     public String getToken() {
-        String sql = "http://192.168.2.4:49161/token";
+        String sql = "http://192.168.0.4:49161/token";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -127,42 +126,49 @@ public class Contextdb {
             conn.setDoOutput(true);
             conn.getOutputStream().write(postDataBytes);
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            int responseCode = conn.getResponseCode();
+            //String responseMsg = connection.getResponseMessage();
 
-            String inputLine;
+            if (responseCode == 200) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
-            StringBuffer response = new StringBuffer();
+                String inputLine;
 
-            String json = "";
+                StringBuffer response = new StringBuffer();
 
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
+                String json = "";
+
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+
+                json = response.toString();
+
+                JSONObject jsonArr = null;
+
+                jsonArr = new JSONObject(json);
+                String token = "";
+
+                token = jsonArr.optString("access_token");
+
+                return token;
+            }else {
+                return "error";
             }
 
-            json = response.toString();
-
-            JSONObject jsonArr = null;
-
-            jsonArr = new JSONObject(json);
-            String token = "";
-
-            token = jsonArr.optString("access_token");
-
-            return token;
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            return null;
+            return "error";
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
+            return "error";
         } catch (JSONException e) {
             e.printStackTrace();
-            return null;
+            return "error";
         }
-
     }
     public String getSession(String token) {
-        String sql = "http://192.168.2.4:49161/api/User/GetSession";
+        String sql = "http://192.168.0.4:49161/api/User/GetSession";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -173,27 +179,20 @@ public class Contextdb {
         try {
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(60 * 1000);
+            conn.setConnectTimeout(60 * 1000);
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Authorization", "Bearer " + token);
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            int responseCode = conn.getResponseCode();
+            //String responseMsg = connection.getResponseMessage();
 
-            String inputLine;
-
-            StringBuffer response = new StringBuffer();
-
-            String json = "";
-
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
-
-            json = response.toString();
-
-            if (json.equals("true")) {
-                return json;
-            } else {
+            if (responseCode == 200) {
+                return "true";
+            }else if (responseCode == 401){
                 return "false";
+            }else {
+                return "error";
             }
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -204,65 +203,73 @@ public class Contextdb {
         }
     }
     public List<Client> getAllClients(String token) {
-        String sql = "http://192.168.2.4:49161/api/Client";
+        String sql = "http://192.168.0.4:49161/api/Client";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
         URL url = null;
         HttpURLConnection conn;
-
+        List<Client> listClients = new ArrayList<Client>();
         try {
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Authorization", "Bearer " + token);
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            int responseCode = conn.getResponseCode();
+            //String responseMsg = connection.getResponseMessage();
 
-            String inputLine;
+            if (responseCode == 200) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
-            StringBuffer response = new StringBuffer();
+                String inputLine;
 
-            String json = "";
+                StringBuffer response = new StringBuffer();
 
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
+                String json = "";
 
-            json = response.toString();
-
-            JSONArray jsonArr = null;
-            jsonArr = new JSONArray(json);
-            List<Client> listClients = new ArrayList<Client>();
-            for (int i = 0; i < jsonArr.length(); i++) {
-                JSONObject jsonObject = jsonArr.getJSONObject(i);
-                if(!jsonObject.optString("NameCompany").equals("null")){
-                    listClients.add(new Client(Integer.parseInt(jsonObject.optString("IDClient")),jsonObject.optString("Name"),jsonObject.optString("FirstName"),
-                            jsonObject.optString("SecondName"),jsonObject.optString("Email"),jsonObject.optString("Phone"),jsonObject.optString("CellPhone")
-                            ,jsonObject.optString("Address"),jsonObject.optString("NameCompany"),jsonObject.optString("Code")));
-                }else {
-                    listClients.add(new Client(Integer.parseInt(jsonObject.optString("IDClient")),jsonObject.optString("Name"),jsonObject.optString("FirstName"),
-                            jsonObject.optString("SecondName"),jsonObject.optString("Email"),jsonObject.optString("Phone"),jsonObject.optString("CellPhone")
-                            ,jsonObject.optString("Address"),jsonObject.optString("N/D"),jsonObject.optString("Code")));
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
                 }
-            }
 
-            return listClients;
+                json = response.toString();
+
+                JSONArray jsonArr = null;
+                jsonArr = new JSONArray(json);
+
+                for (int i = 0; i < jsonArr.length(); i++) {
+                    JSONObject jsonObject = jsonArr.getJSONObject(i);
+                    if(!jsonObject.optString("NameCompany").equals("null")){
+                        listClients.add(new Client(Integer.parseInt(jsonObject.optString("IDClient")),jsonObject.optString("Name"),jsonObject.optString("FirstName"),
+                                jsonObject.optString("SecondName"),jsonObject.optString("Email"),jsonObject.optString("Phone"),jsonObject.optString("CellPhone")
+                                ,jsonObject.optString("Address"),jsonObject.optString("NameCompany"),jsonObject.optString("Code")));
+                    }else {
+                        listClients.add(new Client(Integer.parseInt(jsonObject.optString("IDClient")),jsonObject.optString("Name"),jsonObject.optString("FirstName"),
+                                jsonObject.optString("SecondName"),jsonObject.optString("Email"),jsonObject.optString("Phone"),jsonObject.optString("CellPhone")
+                                ,jsonObject.optString("Address"),jsonObject.optString("N/D"),jsonObject.optString("Code")));
+                    }
+                }
+            }else if (responseCode == 401){
+                return listClients;
+            }else {
+                return listClients;
+            }
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            return null;
+            return listClients;
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
+            return listClients;
         } catch (JSONException e) {
             e.printStackTrace();
-            return null;
+            return listClients;
         }
+        return listClients;
     }
 
     public String insertClients(Client client, String token) {
-        String sql = "http://192.168.2.4:49161/api/Client";
+        String sql = "http://192.168.0.4:49161/api/Client";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -300,292 +307,331 @@ public class Contextdb {
             conn.setDoOutput(true);
             conn.getOutputStream().write(postDataBytes);
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            int responseCode = conn.getResponseCode();
+            //String responseMsg = connection.getResponseMessage();
 
-            String inputLine;
+            if (responseCode == 200) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
-            StringBuffer response = new StringBuffer();
+                String inputLine;
 
-            String json = "";
+                StringBuffer response = new StringBuffer();
 
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
+                String json = "";
 
-            json = response.toString();
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
 
-            if(json.toString().equals("200")){
-                return "200";
-            }else if (json.toString().equals("400")){
-                return "400";
-            }else if (json.toString().equals("401")){
-                return "401";
+                json = response.toString();
+
+                if(json.toString().equals("200")){
+                    return "200";
+                }else if (json.toString().equals("400")){
+                    return "400";
+                }else if (json.toString().equals("401")){
+                    return "401";
+                }else {
+                    return "500";
+                }
+            }else if (responseCode == 401){
+                return "500";
             }else {
                 return "500";
             }
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            return "false";
+            return "500";
         } catch (IOException e) {
             e.printStackTrace();
-            return "false";
+            return "500";
         }
     }
 
     public List<Client> searchClients(String token, String name) {
-        String sql = "http://192.168.2.4:49161/api/Client/GetName/"+name;
+        String sql = "http://192.168.0.4:49161/api/Client/GetName/"+name;
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
         URL url = null;
         HttpURLConnection conn;
-
+        List<Client> listClients = new ArrayList<Client>();
         try {
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Authorization", "Bearer " + token);
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            int responseCode = conn.getResponseCode();
+            //String responseMsg = connection.getResponseMessage();
 
-            String inputLine;
+            if (responseCode == 200) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
-            StringBuffer response = new StringBuffer();
+                String inputLine;
 
-            String json = "";
+                StringBuffer response = new StringBuffer();
 
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
+                String json = "";
 
-            List<Client> listClients = new ArrayList<Client>();
-            json = response.toString();
-            if(!json.toString().equals("false")) {
-                if (json.toString().equals("[]")) {
-                    return listClients;
-                } else {
-                    JSONArray jsonArr = null;
-                    jsonArr = new JSONArray(json);
-
-                    for (int i = 0; i < jsonArr.length(); i++) {
-                        JSONObject jsonObject = jsonArr.getJSONObject(i);
-                        if (!jsonObject.optString("NameCompany").equals("null")) {
-                            listClients.add(new Client(Integer.parseInt(jsonObject.optString("IDClient")), jsonObject.optString("Name"), jsonObject.optString("FirstName"),
-                                    jsonObject.optString("SecondName"), jsonObject.optString("Email"), jsonObject.optString("Phone"), jsonObject.optString("CellPhone")
-                                    , jsonObject.optString("Address"), jsonObject.optString("NameCompany"), jsonObject.optString("Code")));
-                        } else {
-                            listClients.add(new Client(Integer.parseInt(jsonObject.optString("IDClient")), jsonObject.optString("Name"), jsonObject.optString("FirstName"),
-                                    jsonObject.optString("SecondName"), jsonObject.optString("Email"), jsonObject.optString("Phone"), jsonObject.optString("CellPhone")
-                                    , jsonObject.optString("Address"), jsonObject.optString("N/D"), jsonObject.optString("Code")));
-                        }
-                    }
-                    return listClients;
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
                 }
+
+
+                json = response.toString();
+                if(!json.toString().equals("false")) {
+                    if (json.toString().equals("[]")) {
+                        return listClients;
+                    } else {
+                        JSONArray jsonArr = null;
+                        jsonArr = new JSONArray(json);
+
+                        for (int i = 0; i < jsonArr.length(); i++) {
+                            JSONObject jsonObject = jsonArr.getJSONObject(i);
+                            if (!jsonObject.optString("NameCompany").equals("null")) {
+                                listClients.add(new Client(Integer.parseInt(jsonObject.optString("IDClient")), jsonObject.optString("Name"), jsonObject.optString("FirstName"),
+                                        jsonObject.optString("SecondName"), jsonObject.optString("Email"), jsonObject.optString("Phone"), jsonObject.optString("CellPhone")
+                                        , jsonObject.optString("Address"), jsonObject.optString("NameCompany"), jsonObject.optString("Code")));
+                            } else {
+                                listClients.add(new Client(Integer.parseInt(jsonObject.optString("IDClient")), jsonObject.optString("Name"), jsonObject.optString("FirstName"),
+                                        jsonObject.optString("SecondName"), jsonObject.optString("Email"), jsonObject.optString("Phone"), jsonObject.optString("CellPhone")
+                                        , jsonObject.optString("Address"), jsonObject.optString("N/D"), jsonObject.optString("Code")));
+                            }
+                        }
+                        return listClients;
+                    }
+                }
+            }else if (responseCode == 401){
+                return listClients;
+            }else {
+                return listClients;
             }
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
+            return listClients;
         } catch (IOException e) {
             e.printStackTrace();
+            return listClients;
         } catch (JSONException e) {
             e.printStackTrace();
+            return listClients;
         }
-        return null;
+        return listClients;
     }
     public List<Invoice> getAllInvoices(String token) {
-        String sql = "http://192.168.2.4:49161/api/Invoice/GetInvoicesAllSales";
+        String sql = "http://192.168.0.4:49161/api/Invoice/GetInvoicesAllSales";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
         URL url = null;
         HttpURLConnection conn;
-
+        List<Invoice> listInvoices = new ArrayList<Invoice>();
         try {
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Authorization", "Bearer " + token);
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            int responseCode = conn.getResponseCode();
+            //String responseMsg = connection.getResponseMessage();
 
-            String inputLine;
+            if (responseCode == 200) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
-            StringBuffer response = new StringBuffer();
+                String inputLine;
 
-            String json = "";
+                StringBuffer response = new StringBuffer();
 
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
+                String json = "";
 
-            json = response.toString();
-
-            JSONArray jsonArr = null;
-            jsonArr = new JSONArray(json);
-            List<Invoice> listInvoices = new ArrayList<Invoice>();
-            for (int i = 0; i < jsonArr.length(); i++) {
-                JSONObject jsonObject = jsonArr.getJSONObject(i);
-                if(jsonObject.optString("Rode")=="null"){
-                    String LimitDate = jsonObject.optString("LimitDate");
-                    String Limit[] = LimitDate.split("T");
-                    String CurrentDate = jsonObject.optString("CurrentDate");
-                    String Current[] = CurrentDate.split("T");
-                    listInvoices.add(new Invoice(Long.parseLong(jsonObject.optString("IDInvoice")), Limit[0].toString(), Current[0].toString(),
-                            jsonObject.optString("Code"), Double.parseDouble(jsonObject.optString("Total")), jsonObject.optString("State"),
-                            jsonObject.optString("Name") + " " + jsonObject.optString("FirstName") + " " + jsonObject.optString("SecondName"), jsonObject.optString("NameCompany"),
-                            0.0));
-                }else {
-                    String LimitDate = jsonObject.optString("LimitDate");
-                    String Limit[] = LimitDate.split("T");
-                    String CurrentDate = jsonObject.optString("CurrentDate");
-                    String Current[] = CurrentDate.split("T");
-                    listInvoices.add(new Invoice(Long.parseLong(jsonObject.optString("IDInvoice")), Limit[0].toString(), Current[0].toString(),
-                            jsonObject.optString("Code"), Double.parseDouble(jsonObject.optString("Total"))-Double.parseDouble(jsonObject.optString("Rode")), jsonObject.optString("State"),
-                            jsonObject.optString("Name") + " " + jsonObject.optString("FirstName") + " " + jsonObject.optString("SecondName"), jsonObject.optString("NameCompany"),
-                            Double.parseDouble(jsonObject.optString("Rode"))));
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
                 }
-            }
 
-            return listInvoices;
+                json = response.toString();
+
+                JSONArray jsonArr = null;
+                jsonArr = new JSONArray(json);
+
+                for (int i = 0; i < jsonArr.length(); i++) {
+                    JSONObject jsonObject = jsonArr.getJSONObject(i);
+                    if(jsonObject.optString("Rode")=="null"){
+                        String LimitDate = jsonObject.optString("LimitDate");
+                        String Limit[] = LimitDate.split("T");
+                        String CurrentDate = jsonObject.optString("CurrentDate");
+                        String Current[] = CurrentDate.split("T");
+                        listInvoices.add(new Invoice(Long.parseLong(jsonObject.optString("IDInvoice")), Limit[0].toString(), Current[0].toString(),
+                                jsonObject.optString("Code"), Double.parseDouble(jsonObject.optString("Total")), jsonObject.optString("State"),
+                                jsonObject.optString("Name") + " " + jsonObject.optString("FirstName") + " " + jsonObject.optString("SecondName"), jsonObject.optString("NameCompany"),
+                                0.0));
+                    }else {
+                        String LimitDate = jsonObject.optString("LimitDate");
+                        String Limit[] = LimitDate.split("T");
+                        String CurrentDate = jsonObject.optString("CurrentDate");
+                        String Current[] = CurrentDate.split("T");
+                        listInvoices.add(new Invoice(Long.parseLong(jsonObject.optString("IDInvoice")), Limit[0].toString(), Current[0].toString(),
+                                jsonObject.optString("Code"), Double.parseDouble(jsonObject.optString("Total"))-Double.parseDouble(jsonObject.optString("Rode")), jsonObject.optString("State"),
+                                jsonObject.optString("Name") + " " + jsonObject.optString("FirstName") + " " + jsonObject.optString("SecondName"), jsonObject.optString("NameCompany"),
+                                Double.parseDouble(jsonObject.optString("Rode"))));
+                    }
+                }
+                return listInvoices;
+            }else {
+                return listInvoices;
+            }
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            return null;
+            return listInvoices;
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
+            return listInvoices;
         } catch (JSONException e) {
             e.printStackTrace();
-            return null;
+            return listInvoices;
         }
     }
     public List<Invoice> getAllInvoicesExpired(String token) {
-        String sql = "http://192.168.2.4:49161/api/Invoice/GetInvoicesAllSalesExpired";
+        String sql = "http://192.168.0.4:49161/api/Invoice/GetInvoicesAllSalesExpired";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
         URL url = null;
         HttpURLConnection conn;
-
+        List<Invoice> listInvoices = new ArrayList<Invoice>();
         try {
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Authorization", "Bearer " + token);
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            int responseCode = conn.getResponseCode();
+            //String responseMsg = connection.getResponseMessage();
 
-            String inputLine;
+            if (responseCode == 200) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
-            StringBuffer response = new StringBuffer();
+                String inputLine;
 
-            String json = "";
+                StringBuffer response = new StringBuffer();
 
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
+                String json = "";
 
-            json = response.toString();
-
-            JSONArray jsonArr = null;
-            jsonArr = new JSONArray(json);
-            List<Invoice> listInvoices = new ArrayList<Invoice>();
-            for (int i = 0; i < jsonArr.length(); i++) {
-                JSONObject jsonObject = jsonArr.getJSONObject(i);
-                if(jsonObject.optString("Rode")=="null"){
-                    String LimitDate = jsonObject.optString("LimitDate");
-                    String Limit[] = LimitDate.split("T");
-                    String CurrentDate = jsonObject.optString("CurrentDate");
-                    String Current[] = CurrentDate.split("T");
-                    listInvoices.add(new Invoice(Long.parseLong(jsonObject.optString("IDInvoice")), Limit[0].toString(), Current[0].toString(),
-                            jsonObject.optString("Code"), Double.parseDouble(jsonObject.optString("Total")), jsonObject.optString("State"),
-                            jsonObject.optString("Name") + " " + jsonObject.optString("FirstName") + " " + jsonObject.optString("SecondName"), jsonObject.optString("NameCompany"),
-                            0.0));
-                }else {
-                    String LimitDate = jsonObject.optString("LimitDate");
-                    String Limit[] = LimitDate.split("T");
-                    String CurrentDate = jsonObject.optString("CurrentDate");
-                    String Current[] = CurrentDate.split("T");
-                    listInvoices.add(new Invoice(Long.parseLong(jsonObject.optString("IDInvoice")), Limit[0].toString(), Current[0].toString(),
-                            jsonObject.optString("Code"), Double.parseDouble(jsonObject.optString("Total"))-Double.parseDouble(jsonObject.optString("Rode")), jsonObject.optString("State"),
-                            jsonObject.optString("Name") + " " + jsonObject.optString("FirstName") + " " + jsonObject.optString("SecondName"), jsonObject.optString("NameCompany"),
-                            Double.parseDouble(jsonObject.optString("Rode"))));
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
                 }
-            }
 
-            return listInvoices;
+                json = response.toString();
+
+                JSONArray jsonArr = null;
+                jsonArr = new JSONArray(json);
+
+                for (int i = 0; i < jsonArr.length(); i++) {
+                    JSONObject jsonObject = jsonArr.getJSONObject(i);
+                    if(jsonObject.optString("Rode")=="null"){
+                        String LimitDate = jsonObject.optString("LimitDate");
+                        String Limit[] = LimitDate.split("T");
+                        String CurrentDate = jsonObject.optString("CurrentDate");
+                        String Current[] = CurrentDate.split("T");
+                        listInvoices.add(new Invoice(Long.parseLong(jsonObject.optString("IDInvoice")), Limit[0].toString(), Current[0].toString(),
+                                jsonObject.optString("Code"), Double.parseDouble(jsonObject.optString("Total")), jsonObject.optString("State"),
+                                jsonObject.optString("Name") + " " + jsonObject.optString("FirstName") + " " + jsonObject.optString("SecondName"), jsonObject.optString("NameCompany"),
+                                0.0));
+                    }else {
+                        String LimitDate = jsonObject.optString("LimitDate");
+                        String Limit[] = LimitDate.split("T");
+                        String CurrentDate = jsonObject.optString("CurrentDate");
+                        String Current[] = CurrentDate.split("T");
+                        listInvoices.add(new Invoice(Long.parseLong(jsonObject.optString("IDInvoice")), Limit[0].toString(), Current[0].toString(),
+                                jsonObject.optString("Code"), Double.parseDouble(jsonObject.optString("Total"))-Double.parseDouble(jsonObject.optString("Rode")), jsonObject.optString("State"),
+                                jsonObject.optString("Name") + " " + jsonObject.optString("FirstName") + " " + jsonObject.optString("SecondName"), jsonObject.optString("NameCompany"),
+                                Double.parseDouble(jsonObject.optString("Rode"))));
+                    }
+                }
+                return listInvoices;
+            }else {
+                return listInvoices;
+            }
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            return null;
+            return listInvoices;
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
+            return listInvoices;
         } catch (JSONException e) {
             e.printStackTrace();
-            return null;
+            return listInvoices;
         }
     }
     public List<Product> getAllProducts(String token) {
-        String sql = "http://192.168.2.4:49161/api/Product";
+        String sql = "http://192.168.0.4:49161/api/Product";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
         URL url = null;
         HttpURLConnection conn;
-
+        List<Product> listProducts = new ArrayList<Product>();
         try {
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Authorization", "Bearer " + token);
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            int responseCode = conn.getResponseCode();
+            //String responseMsg = connection.getResponseMessage();
 
-            String inputLine;
+            if (responseCode == 200) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
-            StringBuffer response = new StringBuffer();
+                String inputLine;
 
-            String json = "";
+                StringBuffer response = new StringBuffer();
 
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
+                String json = "";
 
-            json = response.toString();
-
-            JSONArray jsonArr = null;
-            jsonArr = new JSONArray(json);
-            List<Product> listProducts = new ArrayList<Product>();
-            for (int i = 0; i < jsonArr.length(); i++) {
-                JSONObject jsonObject = jsonArr.getJSONObject(i);
-                if(jsonObject.optString("Tax").toString().equals("null")){
-                    listProducts.add(new Product(Integer.parseInt(jsonObject.optString("IDProduct")), jsonObject.optString("Name"), jsonObject.optString("Code"),
-                            jsonObject.optString("State"), jsonObject.optString("Description"), Double.parseDouble(jsonObject.optString("Price")), 0.0,
-                            Integer.parseInt(jsonObject.optString("IdProvider")), 0, 0.0));
-                }else {
-                    listProducts.add(new Product(Integer.parseInt(jsonObject.optString("IDProduct")), jsonObject.optString("Name"), jsonObject.optString("Code"),
-                            jsonObject.optString("State"), jsonObject.optString("Description"), Double.parseDouble(jsonObject.optString("Price")), Double.parseDouble(jsonObject.optString("Tax")),
-                            Integer.parseInt(jsonObject.optString("IdProvider")), 0, 0.0));
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
                 }
-            }
 
-            return listProducts;
+                json = response.toString();
+
+                JSONArray jsonArr = null;
+                jsonArr = new JSONArray(json);
+
+                for (int i = 0; i < jsonArr.length(); i++) {
+                    JSONObject jsonObject = jsonArr.getJSONObject(i);
+                    if(jsonObject.optString("Tax").toString().equals("null")){
+                        listProducts.add(new Product(Integer.parseInt(jsonObject.optString("IDProduct")), jsonObject.optString("Name"), jsonObject.optString("Code"),
+                                jsonObject.optString("State"), jsonObject.optString("Description"), Double.parseDouble(jsonObject.optString("Price")), 0.0,
+                                Integer.parseInt(jsonObject.optString("IdProvider")), 0, 0.0));
+                    }else {
+                        listProducts.add(new Product(Integer.parseInt(jsonObject.optString("IDProduct")), jsonObject.optString("Name"), jsonObject.optString("Code"),
+                                jsonObject.optString("State"), jsonObject.optString("Description"), Double.parseDouble(jsonObject.optString("Price")), Double.parseDouble(jsonObject.optString("Tax")),
+                                Integer.parseInt(jsonObject.optString("IdProvider")), 0, 0.0));
+                    }
+                }
+                return listProducts;
+            }else {
+                return listProducts;
+            }
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            return null;
+            return listProducts;
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
+            return listProducts;
         } catch (JSONException e) {
             e.printStackTrace();
-            return null;
+            return listProducts;
         }
     }
     public String getDetail(String id, String token) {
-        String sql = "http://192.168.2.4:49161/api/Detail/"+id;
+        String sql = "http://192.168.0.4:49161/api/Detail/"+id;
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -599,23 +645,30 @@ public class Contextdb {
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Authorization", "Bearer " + token);
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            int responseCode = conn.getResponseCode();
+            //String responseMsg = connection.getResponseMessage();
 
-            String inputLine;
+            if (responseCode == 200) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
-            StringBuffer response = new StringBuffer();
+                String inputLine;
 
-            String json = "";
+                StringBuffer response = new StringBuffer();
 
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
+                String json = "";
 
-            json = response.toString();
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
 
-            if (!json.equals("false")) {
-                return json;
-            } else {
+                json = response.toString();
+
+                if (!json.equals("false")) {
+                    return json;
+                } else {
+                    return "false";
+                }
+            }else {
                 return "false";
             }
         } catch (MalformedURLException e) {
@@ -627,7 +680,7 @@ public class Contextdb {
         }
     }
     public String getCode(String token) {
-        String sql = "http://192.168.2.4:49161/api/Invoice/GetCode";
+        String sql = "http://192.168.0.4:49161/api/Invoice/GetCode";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -641,23 +694,30 @@ public class Contextdb {
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Authorization", "Bearer " + token);
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            int responseCode = conn.getResponseCode();
+            //String responseMsg = connection.getResponseMessage();
 
-            String inputLine;
+            if (responseCode == 200) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
-            StringBuffer response = new StringBuffer();
+                String inputLine;
 
-            String json = "";
+                StringBuffer response = new StringBuffer();
 
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
+                String json = "";
 
-            json = response.toString();
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
 
-            if (!json.equals("false")) {
-                return json;
-            } else {
+                json = response.toString();
+
+                if (!json.equals("false")) {
+                    return json;
+                } else {
+                    return "false";
+                }
+            }else {
                 return "false";
             }
         } catch (MalformedURLException e) {
@@ -669,7 +729,7 @@ public class Contextdb {
         }
     }
     public String insertInvoices(String LimitDate, String Code, int Discount, Double Total, Boolean State, int IdClient, int IdProvider, long IdDetail, String token) {
-        String sql = "http://192.168.2.4:49161/api/Invoice";
+        String sql = "http://192.168.0.4:49161/api/Invoice";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -706,35 +766,45 @@ public class Contextdb {
             conn.setDoOutput(true);
             conn.getOutputStream().write(postDataBytes);
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            int responseCode = conn.getResponseCode();
+            //String responseMsg = connection.getResponseMessage();
 
-            String inputLine;
+            if (responseCode == 200) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
-            StringBuffer response = new StringBuffer();
+                String inputLine;
 
-            String json = "";
+                StringBuffer response = new StringBuffer();
 
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
+                String json = "";
 
-            json = response.toString();
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
 
-            if(json.toString().equals("200")){
-                return "200";
+                json = response.toString();
+
+                if(json.toString().equals("200")){
+                    return "200";
+                }else  if(json.toString().equals("501")){
+                    return "501";
+                }else {
+                    return "500";
+                }
             }else {
                 return "500";
             }
+
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            return "false";
+            return "500";
         } catch (IOException e) {
             e.printStackTrace();
-            return "false";
+            return "500";
         }
     }
     public String insertSales(String Code, int Quantity, Double Total, int IdProduct, long IdDetails, String token) {
-        String sql = "http://192.168.2.4:49161/api/Sale";
+        String sql = "http://192.168.0.4:49161/api/Sale";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -768,183 +838,210 @@ public class Contextdb {
             conn.setDoOutput(true);
             conn.getOutputStream().write(postDataBytes);
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            int responseCode = conn.getResponseCode();
+            //String responseMsg = connection.getResponseMessage();
 
-            String inputLine;
+            if (responseCode == 200) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
-            StringBuffer response = new StringBuffer();
+                String inputLine;
 
-            String json = "";
+                StringBuffer response = new StringBuffer();
 
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
+                String json = "";
 
-            json = response.toString();
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
 
-            if(json.toString().equals("200")){
-                return "200";
+                json = response.toString();
+
+                if(json.toString().equals("200")){
+                    return "200";
+                }else {
+                    return "500";
+                }
             }else {
                 return "500";
             }
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            return "false";
+            return "500";
         } catch (IOException e) {
             e.printStackTrace();
-            return "false";
+            return "500";
         }
     }
     public List<Account> getAllAccounts(String token) {
-        String sql = "http://192.168.2.4:49161/api/Accounts";
+        String sql = "http://192.168.0.4:49161/api/Accounts";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
         URL url = null;
         HttpURLConnection conn;
-
+        List<Account> listAccounts = new ArrayList<Account>();
         try {
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Authorization", "Bearer " + token);
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            int responseCode = conn.getResponseCode();
+            //String responseMsg = connection.getResponseMessage();
 
-            String inputLine;
+            if (responseCode == 200) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
-            StringBuffer response = new StringBuffer();
+                String inputLine;
 
-            String json = "";
+                StringBuffer response = new StringBuffer();
 
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
+                String json = "";
+
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+
+                json = response.toString();
+
+                JSONArray jsonArr = null;
+                jsonArr = new JSONArray(json);
+
+                for (int i = 0; i < jsonArr.length(); i++) {
+                    JSONObject jsonObject = jsonArr.getJSONObject(i);
+                    listAccounts.add(new Account(Integer.parseInt(jsonObject.optString("IDAccount")),jsonObject.optString("Name")));
+                }
+                return listAccounts;
+            }else {
+                return listAccounts;
             }
-
-            json = response.toString();
-
-            JSONArray jsonArr = null;
-            jsonArr = new JSONArray(json);
-            List<Account> listAccounts = new ArrayList<Account>();
-            for (int i = 0; i < jsonArr.length(); i++) {
-                JSONObject jsonObject = jsonArr.getJSONObject(i);
-                listAccounts.add(new Account(Integer.parseInt(jsonObject.optString("IDAccount")),jsonObject.optString("Name")));
-            }
-
-            return listAccounts;
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            return null;
+            return listAccounts;
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
+            return listAccounts;
         } catch (JSONException e) {
             e.printStackTrace();
-            return null;
+            return listAccounts;
         }
     }
     public List<Category> getAllCategorys(String token) {
-        String sql = "http://192.168.2.4:49161/api/Categories";
+        String sql = "http://192.168.0.4:49161/api/Categories";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
         URL url = null;
         HttpURLConnection conn;
-
+        List<Category> listCategorys = new ArrayList<Category>();
         try {
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Authorization", "Bearer " + token);
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            int responseCode = conn.getResponseCode();
+            //String responseMsg = connection.getResponseMessage();
 
-            String inputLine;
+            if (responseCode == 200) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
-            StringBuffer response = new StringBuffer();
+                String inputLine;
 
-            String json = "";
+                StringBuffer response = new StringBuffer();
 
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
+                String json = "";
+
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+
+                json = response.toString();
+
+                JSONArray jsonArr = null;
+                jsonArr = new JSONArray(json);
+
+                for (int i = 0; i < jsonArr.length(); i++) {
+                    JSONObject jsonObject = jsonArr.getJSONObject(i);
+                    listCategorys.add(new Category(Integer.parseInt(jsonObject.optString("IDCategory")),jsonObject.optString("Name")));
+                }
+                return listCategorys;
+            }else {
+                return listCategorys;
             }
-
-            json = response.toString();
-
-            JSONArray jsonArr = null;
-            jsonArr = new JSONArray(json);
-            List<Category> listCategorys = new ArrayList<Category>();
-            for (int i = 0; i < jsonArr.length(); i++) {
-                JSONObject jsonObject = jsonArr.getJSONObject(i);
-                listCategorys.add(new Category(Integer.parseInt(jsonObject.optString("IDCategory")),jsonObject.optString("Name")));
-            }
-
-            return listCategorys;
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            return null;
+            return listCategorys;
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
+            return listCategorys;
         } catch (JSONException e) {
             e.printStackTrace();
-            return null;
+            return listCategorys;
         }
     }
     public List<SubCategory> getAllSubCategorys(int id, String token) {
-        String sql = "http://192.168.2.4:49161/api/SubCategories/" + id;
+        String sql = "http://192.168.0.4:49161/api/SubCategories/" + id;
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
         URL url = null;
         HttpURLConnection conn;
-
+        List<SubCategory> listSubCategorys = new ArrayList<SubCategory>();
         try {
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Authorization", "Bearer " + token);
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            int responseCode = conn.getResponseCode();
+            //String responseMsg = connection.getResponseMessage();
 
-            String inputLine;
+            if (responseCode == 200) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
-            StringBuffer response = new StringBuffer();
+                String inputLine;
 
-            String json = "";
+                StringBuffer response = new StringBuffer();
 
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
+                String json = "";
+
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+
+                json = response.toString();
+
+                JSONArray jsonArr = null;
+                jsonArr = new JSONArray(json);
+
+                for (int i = 0; i < jsonArr.length(); i++) {
+                    JSONObject jsonObject = jsonArr.getJSONObject(i);
+                    listSubCategorys.add(new SubCategory(Integer.parseInt(jsonObject.optString("IDSubCategory")),jsonObject.optString("Name")));
+                }
+                return listSubCategorys;
+            }else if (responseCode == 401){
+                return listSubCategorys;
+            }else {
+                return listSubCategorys;
             }
-
-            json = response.toString();
-
-            JSONArray jsonArr = null;
-            jsonArr = new JSONArray(json);
-            List<SubCategory> listSubCategorys = new ArrayList<SubCategory>();
-            for (int i = 0; i < jsonArr.length(); i++) {
-                JSONObject jsonObject = jsonArr.getJSONObject(i);
-                listSubCategorys.add(new SubCategory(Integer.parseInt(jsonObject.optString("IDSubCategory")),jsonObject.optString("Name")));
-            }
-
-            return listSubCategorys;
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            return null;
+            return listSubCategorys;
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
+            return listSubCategorys;
         } catch (JSONException e) {
             e.printStackTrace();
-            return null;
+            return listSubCategorys;
         }
     }
     public String insertAssetsLiabilities(String CurrentDate, String Code, Double Rode, Boolean Type, String Description, String Name,
                                           Boolean State, Long IdInvoice, int IdAccount, int IdSubCategory, int IdUser, String token) {
-        String sql = "http://192.168.2.4:49161/api/AssetLiability";
+        String sql = "http://192.168.0.4:49161/api/AssetLiability";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -984,31 +1081,39 @@ public class Contextdb {
             conn.setDoOutput(true);
             conn.getOutputStream().write(postDataBytes);
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            int responseCode = conn.getResponseCode();
+            //String responseMsg = connection.getResponseMessage();
 
-            String inputLine;
+            if (responseCode == 200) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
-            StringBuffer response = new StringBuffer();
+                String inputLine;
 
-            String json = "";
+                StringBuffer response = new StringBuffer();
 
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
+                String json = "";
 
-            json = response.toString();
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
 
-            if(json.toString().equals("200")){
-                return "200";
+                json = response.toString();
+
+                if(json.toString().equals("200")){
+                    return "200";
+                }else {
+                    return "500";
+                }
             }else {
                 return "500";
             }
+
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            return "false";
+            return "500";
         } catch (IOException e) {
             e.printStackTrace();
-            return "false";
+            return "500";
         }
     }
 }

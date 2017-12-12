@@ -2,6 +2,7 @@ package com.example.carrillo.santamarta;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.UriPermission;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,10 +38,15 @@ public class MainActivity extends AppCompatActivity {
                     password.setText("");
                     if(!response.toString().equals("0") && !response.toString().equals("false")) {
                         token= contextdb.getToken();
-                        idUSer = response;
-                        insert.setEnabled(true);
-                        Intent menu = new Intent(MainActivity.this, MenuActivity.class);
-                        startActivity(menu);
+                        if(token.toString().equals("error")){
+                            Toast.makeText(getApplicationContext(), "No se pudo obtener certificacion de segurridad, por favor vuelva a loguear", Toast.LENGTH_LONG).show();
+                            insert.setEnabled(true);
+                        }else {
+                            idUSer = response;
+                            insert.setEnabled(true);
+                            Intent menu = new Intent(MainActivity.this, MenuActivity.class);
+                            startActivity(menu);
+                        }
                     }else if(response.toString().equals("0")){
                         Toast.makeText(getApplicationContext(), "Usuario o contraseña incorrectos", Toast.LENGTH_LONG).show();
                         insert.setEnabled(true);

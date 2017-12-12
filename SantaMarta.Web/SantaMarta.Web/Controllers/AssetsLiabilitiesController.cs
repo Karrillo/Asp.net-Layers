@@ -106,7 +106,7 @@ namespace SantaMarta.Web.Controllers
             assetsLiabilitiesDetails.NameCategory = subCategoriesB.GetByIdName((int)assetsLiabilities.IdSubCategory);
             assetsLiabilitiesDetails.NameSubCategory = subCategoriesB.GetById((int)assetsLiabilities.IdSubCategory).Name;
             assetsLiabilitiesDetails.NameUser = userB.GetById((int)assetsLiabilities.IdUser).Nickname;
-            assetsLiabilitiesDetails.NameAccount = accountB.GetById((int)assetsLiabilities.IdUser).Name;
+            assetsLiabilitiesDetails.NameAccount = accountB.GetById((int)assetsLiabilities.IdAccount).Name;
             assetsLiabilitiesDetails.Name = assetsLiabilities.Name;
             assetsLiabilitiesDetails.Code = assetsLiabilities.Code;
             assetsLiabilitiesDetails.CurrentDate = assetsLiabilities.CurrentDate;

@@ -54,9 +54,11 @@ public class InsertClientsActivity extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent menu = new Intent(InsertClientsActivity.this, ClientsActivity.class);
-                startActivity(menu);
-                finish();
+                if(session()==false) {
+                    Intent menu = new Intent(InsertClientsActivity.this, ClientsActivity.class);
+                    startActivity(menu);
+                    finish();
+                }
             }
         });
 
@@ -64,56 +66,61 @@ public class InsertClientsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(check()==true) {
-                    session();
-                    Client client = new Client();
-                    if (txtPhone.getText().toString().equals("")) {
-                        client.setPhone("null");
-                    } else {
-                        client.setPhone(txtPhone.getText().toString());
-                    }
-                    if (txtCellphone.getText().toString().equals("")) {
-                        client.setCellPhone("null");
-                    } else {
-                        client.setCellPhone(txtCellphone.getText().toString());
-                    }
-                    client.setName(txtName.getText().toString());
-                    client.setFirstName(txtFirstName.getText().toString());
-                    client.setSecondName(txtSecondName.getText().toString());
-                    client.setEmail(txtEmail.getText().toString());
-                    client.setAddress(txtAddress.getText().toString());
-                    client.setCode(txtCode.getText().toString());
-                    if (txtNameCompany.getText().toString().equals("")) {
-                        client.setNameCompany("null");
-                    } else {
-                        client.setNameCompany(txtNameCompany.getText().toString());
-                    }
-                    String response = contextdb.insertClients(client, token);
-                    switch (response) {
-                        case "200":
-                            Toast.makeText(getApplicationContext(), "Cliente ingresado correctamente", Toast.LENGTH_LONG).show();
-                            // SLEEP 2 SECONDS HERE ...
-                            final Handler handler = new Handler();
-                            Timer t = new Timer();
-                            t.schedule(new TimerTask() {
-                                public void run() {
-                                    handler.post(new Runnable() {
-                                        public void run() {
-                                            Intent menu = new Intent(InsertClientsActivity.this, ClientsActivity.class);
-                                            startActivity(menu);
-                                            finish();
-                                        }
-                                    });
-                                }
-                            }, 1000);
-                            break;
-                        case "400":
-                            Toast.makeText(getApplicationContext(), "El codigo ingresado ya existe en el sistema", Toast.LENGTH_LONG).show();
-                            break;
-                        case "500":
-                            Toast.makeText(getApplicationContext(), "Fallo al insertar cliente", Toast.LENGTH_LONG).show();
-                            break;
-                        default:
-                            break;
+                    if (session() == false) {
+                        Client client = new Client();
+                        if (txtPhone.getText().toString().equals("")) {
+                            client.setPhone("null");
+                        } else {
+                            String phone = txtPhone.getText().toString();
+                            phone = phone.substring(0, 4) + "-" + phone.substring(4, phone.length());
+                            client.setPhone(phone);
+                        }
+                        if (txtCellphone.getText().toString().equals("")) {
+                            client.setCellPhone("null");
+                        } else {
+                            String cellPhone = txtPhone.getText().toString();
+                            cellPhone = cellPhone.substring(0, 4) + "-" + cellPhone.substring(4, cellPhone.length());
+                            client.setCellPhone(cellPhone);
+                        }
+                        client.setName(txtName.getText().toString());
+                        client.setFirstName(txtFirstName.getText().toString());
+                        client.setSecondName(txtSecondName.getText().toString());
+                        client.setEmail(txtEmail.getText().toString());
+                        client.setAddress(txtAddress.getText().toString());
+                        client.setCode(txtCode.getText().toString());
+                        if (txtNameCompany.getText().toString().equals("")) {
+                            client.setNameCompany("null");
+                        } else {
+                            client.setNameCompany(txtNameCompany.getText().toString());
+                        }
+                        String response = contextdb.insertClients(client, token);
+                        switch (response) {
+                            case "200":
+                                Toast.makeText(getApplicationContext(), "Cliente ingresado correctamente", Toast.LENGTH_LONG).show();
+                                // SLEEP 2 SECONDS HERE ...
+                                final Handler handler = new Handler();
+                                Timer t = new Timer();
+                                t.schedule(new TimerTask() {
+                                    public void run() {
+                                        handler.post(new Runnable() {
+                                            public void run() {
+                                                Intent menu = new Intent(InsertClientsActivity.this, ClientsActivity.class);
+                                                startActivity(menu);
+                                                finish();
+                                            }
+                                        });
+                                    }
+                                }, 1000);
+                                break;
+                            case "400":
+                                Toast.makeText(getApplicationContext(), "El codigo ingresado ya existe en el sistema", Toast.LENGTH_LONG).show();
+                                break;
+                            case "500":
+                                Toast.makeText(getApplicationContext(), "Fallo al insertar cliente", Toast.LENGTH_LONG).show();
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 }
             }
@@ -142,17 +149,16 @@ public class InsertClientsActivity extends AppCompatActivity {
              Toast.makeText(getApplicationContext(), "Ingrese el codigo del cliente", Toast.LENGTH_LONG).show();
              return false;
          }
-         if(txtEmail.getText().toString().equals("")){
-             Toast.makeText(getApplicationContext(), "Ingrese un email del cliente", Toast.LENGTH_LONG).show();
-             return false;
-         }else {
-             if (!validatedEmail(txtEmail.getText().toString())){
-                 txtEmail.setError("Email no válido");
+         if(!txtEmail.getText().toString().equals("")){
+             boolean validated = validatedEmail(txtEmail.getText().toString());
+             if (validated==false){
+                 Toast.makeText(getApplicationContext(), "Formato de correo incorrecto", Toast.LENGTH_LONG).show();
+                 return false;
              }
          }
          return true;
      }
-    public void session(){
+    public boolean session(){
         String responce = contextdb.getSession(token);
         if(responce.toString().equals("false")){
             Toast.makeText(getApplicationContext(), "Sesión expirada, por favor vuelva a loguear su cuenta!", Toast.LENGTH_LONG).show();
@@ -170,7 +176,8 @@ public class InsertClientsActivity extends AppCompatActivity {
                     });
                 }
             }, 1000);
-        }else if(responce.toString().equals("false")){
+            return true;
+        }else if(responce.toString().equals("error")){
             Toast.makeText(getApplicationContext(), "Error en la conexion con el servidor!", Toast.LENGTH_LONG).show();
             // SLEEP 2 SECONDS HERE ...
             final Handler handler = new Handler();
@@ -186,6 +193,8 @@ public class InsertClientsActivity extends AppCompatActivity {
                     });
                 }
             }, 1000);
+            return true;
         }
+        return false;
     }
 }

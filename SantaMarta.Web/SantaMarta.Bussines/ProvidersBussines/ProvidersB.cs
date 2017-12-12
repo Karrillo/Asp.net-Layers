@@ -53,9 +53,9 @@ namespace SantaMarta.Bussines.ProvidersBussines
             return providerAccess.Update(input, id);
         }
 
-        public Int64 GetIdOwn()
+        public Int64 GetIdProviderOwn()
         {
-            return providerAccess.GetIdOwn();
+            return providerAccess.GetIdProviderOwn();
         }
     }
 }

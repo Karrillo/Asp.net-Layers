@@ -168,11 +168,11 @@ namespace SantaMarta.DataAccess.ProviderAccess
         }
 
         //GET Id Productos Alimenticios Santa Marta
-        public Int64 GetIdOwn()
+        public Int64 GetIdProviderOwn()
         {
             try
             {
-                return db.Get_IdOwn();
+                return db.Get_IdProvider_Own();
             }
             catch (Exception)
             {

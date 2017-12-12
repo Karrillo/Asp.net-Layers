@@ -31,7 +31,7 @@ namespace SantaMarta.WebAPI
         {
             TokenEndpointPath = new PathString("/token"),
             Provider = new SimpleAuthorizationServerProvider(),
-            AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(1),
+            AccessTokenExpireTimeSpan = TimeSpan.FromHours(1),
             AllowInsecureHttp = true,
 
         });

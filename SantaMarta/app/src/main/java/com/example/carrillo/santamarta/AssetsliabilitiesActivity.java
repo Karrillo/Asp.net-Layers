@@ -62,31 +62,39 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                finish();
+                if(session()==false) {
+                    finish();
+                }
             }
         });
 
         account.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent menu = new Intent(AssetsliabilitiesActivity.this, AssetsliabilitiesAccountActivity.class);
-                startActivity(menu);
+                if(session()==false) {
+                    Intent menu = new Intent(AssetsliabilitiesActivity.this, AssetsliabilitiesAccountActivity.class);
+                    startActivity(menu);
+                }
             }
         });
 
         category.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent menu = new Intent(AssetsliabilitiesActivity.this, AssetsliabilitiesCategoryActivity.class);
-                startActivity(menu);
+                if(session()==false) {
+                    Intent menu = new Intent(AssetsliabilitiesActivity.this, AssetsliabilitiesCategoryActivity.class);
+                    startActivity(menu);
+                }
             }
         });
 
         subCategory.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent menu = new Intent(AssetsliabilitiesActivity.this, AssetsliabilitiesSubCategoryActivity.class);
-                startActivity(menu);
+                if(session()==false) {
+                    Intent menu = new Intent(AssetsliabilitiesActivity.this, AssetsliabilitiesSubCategoryActivity.class);
+                    startActivity(menu);
+                }
             }
         });
 
@@ -94,43 +102,50 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(check()==true) {
-                    session();
-                    String dateNow="";
-                    Date date = new Date();
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.add(Calendar.DATE, 1);
-                    date = calendar.getTime();
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-                    dateNow = format.format(date);
-                    String response = contextdb.insertAssetsLiabilities(dateNow,txtCode.getText().toString(),Double.parseDouble(txtRode.getText().toString()),true,txtDescription.getText().toString(),
-                            invoiceSelect.getName().toString(),true,invoiceSelect.getIDInvoice(),accountSelect.getId(),subCategorySelect.getId(),Integer.parseInt(MainActivity.idUSer), token);
-                    switch (response) {
-                        case "200":
-                            Toast.makeText(getApplicationContext(), "Abono ingresado correctamente", Toast.LENGTH_LONG).show();
-                            InvoicesActivity.refresh();
-                            DecimalFormat df = new DecimalFormat("#.00");
-                            Double total = Double.parseDouble(txtTotal.getText().toString()) - Double.parseDouble(txtRode.getText().toString());
-                            Double quantity = Double.parseDouble(txtQuantity.getText().toString()) + Double.parseDouble(txtRode.getText().toString());
-                            InvoicesActivity.printRode(txtClient.getText().toString(),"010",dateNow,df.format(total),
-                                    df.format(quantity),txtRode.getText().toString());
-                            // SLEEP 2 SECONDS HERE ...
-                            final Handler handler = new Handler();
-                            Timer t = new Timer();
-                            t.schedule(new TimerTask() {
-                                public void run() {
-                                    handler.post(new Runnable() {
-                                        public void run() {
-                                            finish();
-                                        }
-                                    });
+                    if (session() == false) {
+                        String dateNow = "";
+                        Date date = new Date();
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.add(Calendar.DATE, 0);
+                        date = calendar.getTime();
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                        dateNow = format.format(date);
+                        String response = contextdb.insertAssetsLiabilities(dateNow, txtCode.getText().toString(), Double.parseDouble(txtRode.getText().toString()), true, txtDescription.getText().toString(),
+                                invoiceSelect.getName().toString(), true, invoiceSelect.getIDInvoice(), accountSelect.getId(), subCategorySelect.getId(), Integer.parseInt(MainActivity.idUSer), token);
+                        switch (response) {
+                            case "200":
+                                Toast.makeText(getApplicationContext(), "Abono ingresado correctamente", Toast.LENGTH_LONG).show();
+                                DecimalFormat df = new DecimalFormat("#.00");
+                                Double total = invoiceSelect.getTotal() - invoiceSelect.getRode();
+                                Double quantity = Double.parseDouble(txtQuantity.getText().toString()) + invoiceSelect.getRode();
+                                if (total == 0) {
+                                    InvoicesActivity.printRode(txtClient.getText().toString(), invoiceSelect.getCode(), dateNow, String.valueOf(total),
+                                            df.format(quantity), txtRode.getText().toString());
+                                } else {
+                                    InvoicesActivity.printRode(txtClient.getText().toString(), invoiceSelect.getCode(), dateNow, df.format(total),
+                                            df.format(quantity), txtRode.getText().toString());
                                 }
-                            }, 1000);
-                            break;
-                        case "500":
-                            Toast.makeText(getApplicationContext(), "Fallo al insertar el abono", Toast.LENGTH_LONG).show();
-                            break;
-                        default:
-                            break;
+
+                                // SLEEP 2 SECONDS HERE ...
+                                final Handler handler = new Handler();
+                                Timer t = new Timer();
+                                t.schedule(new TimerTask() {
+                                    public void run() {
+                                        handler.post(new Runnable() {
+                                            public void run() {
+                                                InvoicesActivity.refresh();
+                                                finish();
+                                            }
+                                        });
+                                    }
+                                }, 1000);
+                                break;
+                            case "500":
+                                Toast.makeText(getApplicationContext(), "Fallo al insertar el abono", Toast.LENGTH_LONG).show();
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 }
             }
@@ -161,7 +176,15 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Error con los datos del usuario, por favor vuelva a loguear", Toast.LENGTH_LONG).show();
             return false;
         }
-        if(Double.parseDouble(txtRode.getText().toString())>(invoiceSelect.getTotal())){
+        DecimalFormat df = new DecimalFormat("#.00");
+        Double more = Double.parseDouble(txtRode.getText().toString());
+        Double less = 0.0;
+        if(invoiceSelect.getTotal()<1){
+            less = Double.parseDouble(df.format(invoiceSelect.getTotal()));
+        }else {
+            less = invoiceSelect.getTotal();
+        }
+        if(more > less){
             Toast.makeText(getApplicationContext(), "Ingrese un monto menor o igual al faltante no abonado de la factura", Toast.LENGTH_LONG).show();
             return false;
         }
@@ -236,7 +259,8 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
     public static int select_Category(){
         return categorySelect.getId();
     }
-    public void session(){
+
+    public boolean session(){
         String responce = contextdb.getSession(token);
         if(responce.toString().equals("false")){
             Toast.makeText(getApplicationContext(), "Sesión expirada, por favor vuelva a loguear su cuenta!", Toast.LENGTH_LONG).show();
@@ -254,7 +278,8 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
                     });
                 }
             }, 1000);
-        }else if(responce.toString().equals("false")){
+            return true;
+        }else if(responce.toString().equals("error")){
             Toast.makeText(getApplicationContext(), "Error en la conexion con el servidor!", Toast.LENGTH_LONG).show();
             // SLEEP 2 SECONDS HERE ...
             final Handler handler = new Handler();
@@ -270,6 +295,8 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
                     });
                 }
             }, 1000);
+            return true;
         }
+        return false;
     }
 }

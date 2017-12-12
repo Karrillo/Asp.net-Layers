@@ -370,6 +370,7 @@ C:\Users\Carrillo\Documents\GitHub\Asp.net-Layers\SantaMarta.Web\SantaMarta.Web\
 C:\Users\Carrillo\Documents\GitHub\Asp.net-Layers\SantaMarta.Web\SantaMarta.Web\bin\PdfSharp.Charting.xml
 C:\Users\Carrillo\Documents\GitHub\Asp.net-Layers\SantaMarta.Web\SantaMarta.Web\bin\de\PdfSharp.resources.dll
 C:\Users\Carrillo\Documents\GitHub\Asp.net-Layers\SantaMarta.Web\SantaMarta.Web\bin\de\PdfSharp.Charting.resources.dll
+C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.Web\obj\Debug\SantaMarta.Web.csprojResolveAssemblyReference.cache
 C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.Web\bin\ApplicationInsights.config
 C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.Web\bin\roslyn\csc.exe
 C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.Web\bin\roslyn\csc.exe.config
@@ -468,6 +469,5 @@ C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.Web\bin\es\System.Web.Razor.
 C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.Web\bin\es\System.Web.WebPages.resources.dll
 C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.Web\bin\es\System.Web.WebPages.Deployment.resources.dll
 C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.Web\bin\es\System.Web.WebPages.Razor.resources.dll
-C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.Web\obj\Debug\SantaMarta.Web.csprojResolveAssemblyReference.cache
 C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.Web\obj\Debug\SantaMarta.Web.dll
 C:\Users\Carrillo\Desktop\SantaMarta.Web\SantaMarta.Web\obj\Debug\SantaMarta.Web.pdb

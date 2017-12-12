@@ -57,5 +57,10 @@ namespace SantaMarta.Bussines.ClientsBussines
         {
             return clientAccess.GetByName(name);
         }
+
+        public Int64 GetIdClientOwn()
+        {
+            return clientAccess.GetIdClientOwn();
+        }
     }
 }

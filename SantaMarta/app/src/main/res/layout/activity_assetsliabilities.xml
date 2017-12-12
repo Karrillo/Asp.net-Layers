@@ -140,7 +140,7 @@
                 android:inputType="number"
                 android:hint="Cantidad"
                 android:gravity="center"
-                android:digits="0123456789"
+                android:digits="0123456789."
                 android:ems="10"
                 android:maxLength="20"
                 android:id="@+id/txt_rode" />

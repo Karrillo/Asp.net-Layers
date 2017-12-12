@@ -39,13 +39,14 @@ public class InvoiceProductsActivity extends AppCompatActivity {
         back = (Button) findViewById(R.id.btn_back);
         token = MainActivity.token;
         final Contextdb contextdb = new Contextdb();
-        session();
         listProducts = contextdb.getAllProducts(token);
         display(listProducts);
         back.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                finish();
+                if(session()==false) {
+                    finish();
+                }
             }
         });
 
@@ -54,16 +55,18 @@ public class InvoiceProductsActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(!txtQuantity.getText().toString().equals("")){
                     if(Integer.parseInt(txtQuantity.getText().toString())<1){
-                        Toast.makeText(getApplicationContext(), "Ingrese una cantidad de producto mayor activity_assetsliabilities cero", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Ingrese una cantidad de producto mayor cero", Toast.LENGTH_LONG).show();
                     }else {
-                        product = listProducts.get(position);
-                        product.setQuantity(Integer.parseInt(txtQuantity.getText().toString()));
-                        product.setTotal((product.getPrice() + ((product.getPrice()*product.getTax())/100))*Integer.parseInt(txtQuantity.getText().toString()));
-                        InsertInvoiceActivity.display(product);
-                        finish();
+                        if(session()==false) {
+                            product = listProducts.get(position);
+                            product.setQuantity(Integer.parseInt(txtQuantity.getText().toString()));
+                            product.setTotal((product.getPrice() + ((product.getPrice() * product.getTax()) / 100)) * Integer.parseInt(txtQuantity.getText().toString()));
+                            InsertInvoiceActivity.display(product);
+                            finish();
+                        }
                     }
                 }else {
-                    Toast.makeText(getApplicationContext(), "El campo de cantidad de producto esta vacio, porfavor ingrese una cantidad", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "El campo de cantidad de producto esta vacio, por favor ingrese una cantidad", Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -83,7 +86,7 @@ public class InvoiceProductsActivity extends AppCompatActivity {
             list.setAdapter(adapter);
         }
     }
-    public void session(){
+    public boolean session(){
         String responce = contextdb.getSession(token);
         if(responce.toString().equals("false")){
             Toast.makeText(getApplicationContext(), "Sesión expirada, por favor vuelva a loguear su cuenta!", Toast.LENGTH_LONG).show();
@@ -101,7 +104,8 @@ public class InvoiceProductsActivity extends AppCompatActivity {
                     });
                 }
             }, 1000);
-        }else if(responce.toString().equals("false")){
+            return true;
+        }else if(responce.toString().equals("error")){
             Toast.makeText(getApplicationContext(), "Error en la conexion con el servidor!", Toast.LENGTH_LONG).show();
             // SLEEP 2 SECONDS HERE ...
             final Handler handler = new Handler();
@@ -117,6 +121,8 @@ public class InvoiceProductsActivity extends AppCompatActivity {
                     });
                 }
             }, 1000);
+            return true;
         }
+        return false;
     }
 }

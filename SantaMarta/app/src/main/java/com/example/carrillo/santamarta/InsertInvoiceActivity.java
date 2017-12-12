@@ -149,25 +149,31 @@ public class InsertInvoiceActivity extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                //Intent menu = new Intent(InsertInvoiceActivity.this, InvoicesActivity.class);
-                //startActivity(menu);
-                finish();
+                if(session()==false) {
+                    //Intent menu = new Intent(InsertInvoiceActivity.this, InvoicesActivity.class);
+                    //startActivity(menu);
+                    finish();
+                }
             }
         });
 
         client.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent create = new Intent(InsertInvoiceActivity.this, InvoiceClientsActivity.class);
-                startActivity(create);
+                if(session()==false) {
+                    Intent create = new Intent(InsertInvoiceActivity.this, InvoiceClientsActivity.class);
+                    startActivity(create);
+                }
             }
         });
 
         product.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent create = new Intent(InsertInvoiceActivity.this, InvoiceProductsActivity.class);
-                startActivity(create);
+                if(session()==false) {
+                    Intent create = new Intent(InsertInvoiceActivity.this, InvoiceProductsActivity.class);
+                    startActivity(create);
+                }
             }
         });
 
@@ -197,7 +203,7 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                 if(MainActivity.idUSer.length()>0){
                     if(clientSelect.getIDClient()!=0){
                         if(listProducts.size()!=0){
-                            session();
+                            if(session()==false) {
                                 String dateCredit = "";
                                 String dateCurent = "";
                                 Date date = new Date();
@@ -223,7 +229,7 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                                         String code = contextdb.getCode(token);
                                         String responseInvoice = contextdb.insertInvoices(dateCredit, code, Integer.parseInt(txtDiscont.getText().toString()), total,
                                                 true, clientSelect.getIDClient(), provider, Long.parseLong(response), token);
-                                        if (responseInvoice.toString().equals("500")) {
+                                        if (!responseInvoice.toString().equals("500")) {
                                             Product item;
                                             String responseSale = "";
                                             for (int x = 0; x < listProducts.size(); x++) {
@@ -237,12 +243,16 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                                                 if (responseSale.equals("200")) {
                                                     if (clientSelect.getNameCompany().toString().equals("null")) {
                                                         InvoicesActivity.printInvoiceCredit(clientSelect.getName() + " " + clientSelect.getFirstName() + " " + clientSelect.getSecondName(),
-                                                                "003", print.getCurent(), print.getLimit(), "Si", listProducts, print.getDiscount(), print.getTotal());
+                                                                code, print.getCurent(), print.getLimit(), "Si", listProducts, print.getDiscount(), print.getTotal());
                                                     } else {
                                                         InvoicesActivity.printInvoiceCredit(clientSelect.getNameCompany(),
-                                                                "003", print.getCurent(), print.getLimit(), "Si", listProducts, print.getDiscount(), print.getTotal());
+                                                                code, print.getCurent(), print.getLimit(), "Si", listProducts, print.getDiscount(), print.getTotal());
                                                     }
-                                                    Toast.makeText(getApplicationContext(), "Factura de venta ingresada correctamente", Toast.LENGTH_LONG).show();
+                                                    if (responseInvoice.toString().equals("501")) {
+                                                        Toast.makeText(getApplicationContext(), "Factura de venta ingresada correctamente, error al enviar el correo", Toast.LENGTH_LONG).show();
+                                                    } else {
+                                                        Toast.makeText(getApplicationContext(), "Factura de venta ingresada correctamente", Toast.LENGTH_LONG).show();
+                                                    }
                                                     InvoicesActivity.refresh();
                                                     // SLEEP 2 SECONDS HERE ...
                                                     final Handler handler = new Handler();
@@ -281,7 +291,7 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                                         String code = contextdb.getCode(token);
                                         String responseInvoice = contextdb.insertInvoices(dateCredit, code, Integer.parseInt(txtDiscont.getText().toString()), total,
                                                 true, clientSelect.getIDClient(), provider, Long.parseLong(response), token);
-                                        if (responseInvoice.toString().equals("500")) {
+                                        if (!responseInvoice.toString().equals("500")) {
                                             Product item;
                                             String responseSale = "";
                                             for (int x = 0; x < listProducts.size(); x++) {
@@ -293,14 +303,18 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                                                     break;
                                                 }
                                                 if (responseSale.equals("200")) {
-                                                    Toast.makeText(getApplicationContext(), "Factura de venta ingresada correctamente", Toast.LENGTH_LONG).show();
+                                                    if (responseInvoice.toString().equals("501")) {
+                                                        Toast.makeText(getApplicationContext(), "Factura de venta ingresada correctamente, error al enviar el correo", Toast.LENGTH_LONG).show();
+                                                    } else {
+                                                        Toast.makeText(getApplicationContext(), "Factura de venta ingresada correctamente", Toast.LENGTH_LONG).show();
+                                                    }
                                                     InvoicesActivity.refresh();
                                                     if (clientSelect.getNameCompany().toString().equals("null")) {
                                                         InvoicesActivity.printInvoice(clientSelect.getName() + " " + clientSelect.getFirstName() + " " + clientSelect.getSecondName(),
-                                                                "003", print.getCurent(), "Si", listProducts, print.getDiscount(), print.getTotal());
+                                                                code, print.getCurent(), "Si", listProducts, print.getDiscount(), print.getTotal());
                                                     } else {
                                                         InvoicesActivity.printInvoice(clientSelect.getNameCompany(),
-                                                                "003", print.getCurent(), "Si", listProducts, print.getDiscount(), print.getTotal());
+                                                                code, print.getCurent(), "Si", listProducts, print.getDiscount(), print.getTotal());
                                                     }
                                                     // SLEEP 2 SECONDS HERE ...
                                                     final Handler handler = new Handler();
@@ -326,6 +340,7 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                                         Toast.makeText(getApplicationContext(), "Error al intentar ingresar la factura al sistema", Toast.LENGTH_LONG).show();
                                     }
                                 }
+                            }
                         }else {
                             Toast.makeText(getApplicationContext(), "Por favor ingrese una lista de productos activity_assetsliabilities vender", Toast.LENGTH_LONG).show();
                         }
@@ -389,7 +404,7 @@ public class InsertInvoiceActivity extends AppCompatActivity {
             txtTotal.setText("0");
         }
     }
-    public void session(){
+    public boolean session(){
         String responce = contextdb.getSession(token);
         if(responce.toString().equals("false")){
             Toast.makeText(getApplicationContext(), "Sesión expirada, por favor vuelva a loguear su cuenta!", Toast.LENGTH_LONG).show();
@@ -407,7 +422,8 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                     });
                 }
             }, 1000);
-        }else if(responce.toString().equals("false")){
+            return true;
+        }else if(responce.toString().equals("error")){
             Toast.makeText(getApplicationContext(), "Error en la conexion con el servidor!", Toast.LENGTH_LONG).show();
             // SLEEP 2 SECONDS HERE ...
             final Handler handler = new Handler();
@@ -423,6 +439,8 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                     });
                 }
             }, 1000);
+            return true;
         }
+        return false;
     }
 }

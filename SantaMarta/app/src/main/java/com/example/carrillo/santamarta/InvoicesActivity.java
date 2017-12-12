@@ -78,7 +78,7 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
         list = (ListView) findViewById(R.id.list_invoices);
         add = (Button) findViewById(R.id.btn_add);
         back = (Button) findViewById(R.id.btn_back);
-        checkExpired = (CheckBox) findViewById(R.id.cb_credit);
+        checkExpired = (CheckBox) findViewById(R.id.cb_expired);
         token = MainActivity.token;
         context = getBaseContext();
         final Contextdb contextdb = new Contextdb();
@@ -92,27 +92,32 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                listInvoicesSearch = null;
+                listInvoicesSearch = new ArrayList<Invoice>();
                 if (txtsearch.getText().toString().equals("")) {
                     display();
                 } else {
                     for (int x = 0; x < listInvoices.size(); x++) {
                         invoice = listInvoices.get(x);
-                        if (invoice.getName().compareTo(txtsearch.getText().toString()) == 1) {
+                        String name = invoice.getName();
+                        String nameCompany = invoice.getNameCompany();
+                        if(txtsearch.getText().length()>1){
+                            if (name.contains(txtsearch.getText().toString()) == true) {
+                                listInvoicesSearch.add(new Invoice(invoice.getIDInvoice(), invoice.getLimitDate(), invoice.getCurrentDate(), invoice.getCode(),
+                                        invoice.getTotal(), invoice.getState(), invoice.getName(), invoice.getNameCompany(), invoice.getRode()));
+                            } else if (nameCompany.contains(txtsearch.getText().toString()) == true) {
+                                listInvoicesSearch.add(new Invoice(invoice.getIDInvoice(), invoice.getLimitDate(), invoice.getCurrentDate(), invoice.getCode(),
+                                        invoice.getTotal(), invoice.getState(), invoice.getName(), invoice.getNameCompany(), invoice.getRode()));
+                            }
+                        }
+                        if (name.startsWith(txtsearch.getText().toString()) == true) {
                             listInvoicesSearch.add(new Invoice(invoice.getIDInvoice(), invoice.getLimitDate(), invoice.getCurrentDate(), invoice.getCode(),
                                     invoice.getTotal(), invoice.getState(), invoice.getName(), invoice.getNameCompany(), invoice.getRode()));
-                        } else if (invoice.getNameCompany().compareTo(txtsearch.getText().toString()) == 1) {
-                            listInvoicesSearch.add(new Invoice(invoice.getIDInvoice(), invoice.getLimitDate(), invoice.getCurrentDate(), invoice.getCode(),
-                                    invoice.getTotal(), invoice.getState(), invoice.getName(), invoice.getNameCompany(), invoice.getRode()));
-                        } else if (invoice.getName().startsWith(txtsearch.getText().toString()) == true) {
-                            listInvoicesSearch.add(new Invoice(invoice.getIDInvoice(), invoice.getLimitDate(), invoice.getCurrentDate(), invoice.getCode(),
-                                    invoice.getTotal(), invoice.getState(), invoice.getName(), invoice.getNameCompany(), invoice.getRode()));
-                        } else if (invoice.getNameCompany().startsWith(txtsearch.getText().toString()) == true) {
+                        } else if (nameCompany.startsWith(txtsearch.getText().toString()) == true) {
                             listInvoicesSearch.add(new Invoice(invoice.getIDInvoice(), invoice.getLimitDate(), invoice.getCurrentDate(), invoice.getCode(),
                                     invoice.getTotal(), invoice.getState(), invoice.getName(), invoice.getNameCompany(), invoice.getRode()));
                         }
-                        displaySearch();
                     }
+                    displaySearch();
                 }
             }
             @Override
@@ -127,13 +132,15 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
         {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
             {
-                if (checkExpired.isChecked()==true) {
-                    listInvoices = contextdb.getAllInvoicesExpired(token);
-                    display();
-                }
-                if (checkExpired.isChecked()==false) {
-                    listInvoices = contextdb.getAllInvoices(token);
-                    display();
+                if(session()==false) {
+                    if (checkExpired.isChecked() == true) {
+                        listInvoices = contextdb.getAllInvoicesExpired(token);
+                        display();
+                    }
+                    if (checkExpired.isChecked() == false) {
+                        listInvoices = contextdb.getAllInvoices(token);
+                        display();
+                    }
                 }
             }
         });
@@ -142,38 +149,39 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(position>=0){
-                    if(type[position] =="2" || type[position] =="3"){
-                        session();
-                        if(mBluetoothAdapter!=null){
-                            Toast.makeText(getApplicationContext(), "Impresora no conectada, por favor conecte el dispocitivo", Toast.LENGTH_LONG).show();
-                            // SLEEP 2 SECONDS HERE ...
-                            final Handler handler = new Handler();
-                            Timer t = new Timer();
-                            t.schedule(new TimerTask() {
-                                public void run() {
-                                    handler.post(new Runnable() {
-                                        public void run() {
-                                            mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-                                            if (!mBluetoothAdapter.isEnabled()) {
-                                                Intent enableBtIntent = new Intent(
-                                                        BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                                                startActivityForResult(enableBtIntent,
-                                                        REQUEST_ENABLE_BT);
-                                            } else {
-                                                ListPairedDevices();
-                                                Intent connectIntent = new Intent(InvoicesActivity.this,
-                                                        DeviceListActivity.class);
-                                                startActivityForResult(connectIntent,
-                                                        REQUEST_CONNECT_DEVICE);
+                    if(type[position] =="0" || type[position] =="2" || type[position] =="3"){
+                        if(session()==false) {
+                            if (mBluetoothAdapter != null) {
+                                Toast.makeText(getApplicationContext(), "Impresora no conectada, por favor conecte el dispocitivo", Toast.LENGTH_LONG).show();
+                                // SLEEP 2 SECONDS HERE ...
+                                final Handler handler = new Handler();
+                                Timer t = new Timer();
+                                t.schedule(new TimerTask() {
+                                    public void run() {
+                                        handler.post(new Runnable() {
+                                            public void run() {
+                                                mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+                                                if (!mBluetoothAdapter.isEnabled()) {
+                                                    Intent enableBtIntent = new Intent(
+                                                            BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                                                    startActivityForResult(enableBtIntent,
+                                                            REQUEST_ENABLE_BT);
+                                                } else {
+                                                    ListPairedDevices();
+                                                    Intent connectIntent = new Intent(InvoicesActivity.this,
+                                                            DeviceListActivity.class);
+                                                    startActivityForResult(connectIntent,
+                                                            REQUEST_CONNECT_DEVICE);
+                                                }
                                             }
-                                        }
-                                    });
-                                }
-                            }, 1000);
-                        }else {
-                            invoice = listInvoices.get(position);
-                            Intent menu = new Intent(InvoicesActivity.this, AssetsliabilitiesActivity.class);
-                            startActivity(menu);
+                                        });
+                                    }
+                                }, 1000);
+                            } else {
+                                invoice = listInvoices.get(position);
+                                Intent menu = new Intent(InvoicesActivity.this, AssetsliabilitiesActivity.class);
+                                startActivity(menu);
+                            }
                         }
                     }
                 }
@@ -183,45 +191,48 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
         back.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent menu = new Intent(InvoicesActivity.this, MenuActivity.class);
-                startActivity(menu);
-                finish();
+                if(session()==false) {
+                    Intent menu = new Intent(InvoicesActivity.this, MenuActivity.class);
+                    startActivity(menu);
+                    finish();
+                }
             }
         });
 
         add.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                session();
-                if(mBluetoothAdapter!=null){
-                    Toast.makeText(getApplicationContext(), "Impresora no conectada, por favor conecte el dispocitivo", Toast.LENGTH_LONG).show();
-                    // SLEEP 2 SECONDS HERE ...
-                    final Handler handler = new Handler();
-                    Timer t = new Timer();
-                    t.schedule(new TimerTask() {
-                        public void run() {
-                            handler.post(new Runnable() {
-                                public void run() {
-                                    mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-                                    if (!mBluetoothAdapter.isEnabled()) {
-                                        Intent enableBtIntent = new Intent(
-                                                BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                                        startActivityForResult(enableBtIntent,
-                                                REQUEST_ENABLE_BT);
-                                    } else {
-                                        ListPairedDevices();
-                                        Intent connectIntent = new Intent(InvoicesActivity.this,
-                                                DeviceListActivity.class);
-                                        startActivityForResult(connectIntent,
-                                                REQUEST_CONNECT_DEVICE);
+                if(session()==false) {
+                    if (mBluetoothAdapter != null) {
+                        Toast.makeText(getApplicationContext(), "Impresora no conectada, por favor conecte el dispocitivo", Toast.LENGTH_LONG).show();
+                        // SLEEP 2 SECONDS HERE ...
+                        final Handler handler = new Handler();
+                        Timer t = new Timer();
+                        t.schedule(new TimerTask() {
+                            public void run() {
+                                handler.post(new Runnable() {
+                                    public void run() {
+                                        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+                                        if (!mBluetoothAdapter.isEnabled()) {
+                                            Intent enableBtIntent = new Intent(
+                                                    BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                                            startActivityForResult(enableBtIntent,
+                                                    REQUEST_ENABLE_BT);
+                                        } else {
+                                            ListPairedDevices();
+                                            Intent connectIntent = new Intent(InvoicesActivity.this,
+                                                    DeviceListActivity.class);
+                                            startActivityForResult(connectIntent,
+                                                    REQUEST_CONNECT_DEVICE);
+                                        }
                                     }
-                                }
-                            });
-                        }
-                    }, 1000);
-                }else {
-                    Intent invoice = new Intent(InvoicesActivity.this, InsertInvoiceActivity.class);
-                    startActivity(invoice);
+                                });
+                            }
+                        }, 1000);
+                    } else {
+                        Intent invoice = new Intent(InvoicesActivity.this, InsertInvoiceActivity.class);
+                        startActivity(invoice);
+                    }
                 }
             }
         });
@@ -242,7 +253,7 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
             String dateNow="";
             Date date = new Date();
             Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.DATE, 1);
+            calendar.add(Calendar.DATE, 0);
             date = calendar.getTime();
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             dateNow = format.format(date);
@@ -255,15 +266,22 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                     Date date_curent = formatter.parse(invoice.getCurrentDate().toString());
                     Date date_limit = formatter.parse(invoice.getLimitDate().toString());
                     if(date_curent.equals(date_limit)){
-                        color[x] = "0";
+                        if(invoice.getTotal() == 0.0){
+                            color[x] = "1";
+                        }else {
+                            color[x] = "0";
+                        }
                     }else {
-                        if(invoice.getTotal() == invoice.getRode()){
+                        if(invoice.getTotal() == 0){
                             color[x] = "1";
                         }else if(date_limit.after(date_now) && invoice.getTotal() != invoice.getRode()){
                             color[x] = "2";
                         }else if(date_limit.before(date_now) && invoice.getTotal() != invoice.getRode()) {
                             color[x] = "3";
                         }
+                    }
+                    if(invoice.getState().toString().equals("false")){
+                        color[x] = "4";
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -278,17 +296,20 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                     View view = super.getView(position,convertView,parent);
                     if(color[position] == "0")
                     {
-                        view.setBackgroundColor(Color.parseColor("#7577e7"));
+                        view.setBackgroundColor(Color.parseColor("#ec3e3e"));
                     }
                     else if(color[position] == "1")
                     {
-                        view.setBackgroundColor(Color.parseColor("#7577e7"));
+                        view.setBackgroundColor(Color.parseColor("#2bc81e"));
                     }else if(color[position] == "2")
                     {
-                        view.setBackgroundColor(Color.parseColor("#2bc81e"));
+                        view.setBackgroundColor(Color.parseColor("#ffbf00"));
                     }else if(color[position] == "3")
                     {
                         view.setBackgroundColor(Color.parseColor("#ec3e3e"));
+                    }else if(color[position] == "4")
+                    {
+                        view.setBackgroundColor(Color.parseColor("#a4a4a4"));
                     }
                     return view;
                 }
@@ -314,7 +335,7 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
             String dateNow="";
             Date date = new Date();
             Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.DATE, 1);
+            calendar.add(Calendar.DATE, 0);
             date = calendar.getTime();
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             dateNow = format.format(date);
@@ -327,9 +348,13 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                     Date date_curent = formatter.parse(invoice.getCurrentDate().toString());
                     Date date_limit = formatter.parse(invoice.getLimitDate().toString());
                     if(date_curent.equals(date_limit)){
-                        color[x] = "0";
+                        if(invoice.getTotal() == 0.0){
+                            color[x] = "1";
+                        }else {
+                            color[x] = "0";
+                        }
                     }else {
-                        if(invoice.getTotal() == 0){
+                        if(invoice.getTotal() == 0.0){
                             color[x] = "1";
                         }else if(date_limit.after(date_now) && invoice.getTotal() != invoice.getRode()){
                             color[x] = "2";
@@ -337,30 +362,36 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                             color[x] = "3";
                         }
                     }
+                    if(invoice.getState().toString().equals("false")){
+                        color[x] = "4";
+                    }
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
             }
 
             final ArrayAdapter arrayAdapter2 = new ArrayAdapter
-                    (this, android.R.layout.simple_list_item_1, listInvoices){
+                    (context, android.R.layout.simple_list_item_1, listInvoices){
                 @Override
                 public View getView(int position, View convertView, ViewGroup parent){
 
                     View view = super.getView(position,convertView,parent);
                     if(color[position] == "0")
                     {
-                        view.setBackgroundColor(Color.parseColor("#7577e7"));
+                        view.setBackgroundColor(Color.parseColor("#ec3e3e"));
                     }
                     else if(color[position] == "1")
                     {
-                        view.setBackgroundColor(Color.parseColor("#7577e7"));
+                        view.setBackgroundColor(Color.parseColor("#2bc81e"));
                     }else if(color[position] == "2")
                     {
-                        view.setBackgroundColor(Color.parseColor("#2bc81e"));
+                        view.setBackgroundColor(Color.parseColor("#ffbf00"));
                     }else if(color[position] == "3")
                     {
                         view.setBackgroundColor(Color.parseColor("#ec3e3e"));
+                    }else if(color[position] == "4")
+                    {
+                        view.setBackgroundColor(Color.parseColor("#a4a4a4"));
                     }
                     return view;
                 }
@@ -386,7 +417,7 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
             String dateNow="";
             Date date = new Date();
             Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.DATE, 1);
+            calendar.add(Calendar.DATE, 0);
             date = calendar.getTime();
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             dateNow = format.format(date);
@@ -399,9 +430,13 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                     Date date_curent = formatter.parse(invoice.getCurrentDate().toString());
                     Date date_limit = formatter.parse(invoice.getLimitDate().toString());
                     if(date_curent.equals(date_limit)){
-                        color[x] = "0";
+                        if(invoice.getTotal() == 0.0){
+                            color[x] = "1";
+                        }else {
+                            color[x] = "0";
+                        }
                     }else {
-                        if(invoice.getTotal() == 0){
+                        if(invoice.getTotal() == 0.0){
                             color[x] = "1";
                         }else if(date_limit.after(date_now) && invoice.getTotal() != invoice.getRode()){
                             color[x] = "2";
@@ -409,30 +444,36 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                             color[x] = "3";
                         }
                     }
+                    if(invoice.getState().toString().equals("false")){
+                        color[x] = "4";
+                    }
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
             }
 
             final ArrayAdapter arrayAdapter2 = new ArrayAdapter
-                    (this, android.R.layout.simple_list_item_1, listInvoicesSearch){
+                    (context, android.R.layout.simple_list_item_1, listInvoicesSearch){
                 @Override
                 public View getView(int position, View convertView, ViewGroup parent){
 
                     View view = super.getView(position,convertView,parent);
                     if(color[position] == "0")
                     {
-                        view.setBackgroundColor(Color.parseColor("#7577e7"));
+                        view.setBackgroundColor(Color.parseColor("#ec3e3e"));
                     }
                     else if(color[position] == "1")
                     {
-                        view.setBackgroundColor(Color.parseColor("#7577e7"));
+                        view.setBackgroundColor(Color.parseColor("#2bc81e"));
                     }else if(color[position] == "2")
                     {
-                        view.setBackgroundColor(Color.parseColor("#2bc81e"));
+                        view.setBackgroundColor(Color.parseColor("#ffbf00"));
                     }else if(color[position] == "3")
                     {
                         view.setBackgroundColor(Color.parseColor("#ec3e3e"));
+                    }else if(color[position] == "4")
+                    {
+                        view.setBackgroundColor(Color.parseColor("#a4a4a4"));
                     }
                     return view;
                 }
@@ -440,8 +481,11 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
             type = color;
 // DataBind ListView with items from ArrayAdapter
             list.setAdapter(arrayAdapter2);
+
+
         }
     }
+
     @Override
     protected void onDestroy() {
         // TODO Auto-generated method stub
@@ -573,10 +617,10 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
 
                     BILL = "     PRODUCTOS ALIMENTICIOS \n"
                             + "          SANTA MARTA \n" +
+                            "      Telefono: 2473 15 16 \n" +
                             "        Factura de venta     \n" +
                             "Numero de Factura: "+numInvoice+"\n" +
                             "Fecha: " + dateCurent +"\n" +
-                            "Contado: "+credit+"\n" +
                             "Cliente: \n" +
                             ""+ client + "\n";
                     BILL = BILL
@@ -616,6 +660,7 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                     BILL = BILL
                             + "-------------------------------\n";
                     BILL = BILL + "\n";
+                    BILL = BILL + "  Mejorando la calidad cada dia \n";
                     BILL = BILL + "\n";
                     BILL = BILL + "\n";
                     BILL = BILL + "\n";
@@ -659,10 +704,10 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
 
                     BILL = "     PRODUCTOS ALIMENTICIOS \n"
                             + "          SANTA MARTA \n" +
+                            "      Telefono: 2473 15 16 \n" +
                             "        Factura de venta     \n" +
                             "Numero de Factura: "+numInvoice+"\n" +
                             "Fecha: " + dateCurent +"\n" +
-                            "Credito: "+credit+"\n" +
                             "Fecha Limite: \n" +
                             ""+ dateLimit + " \n" +
                             "Cliente: \n" +
@@ -704,6 +749,7 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                     BILL = BILL
                             + "-------------------------------\n";
                     BILL = BILL + "\n";
+                    BILL = BILL + "  Mejorando la calidad cada dia \n";
                     BILL = BILL + "\n";
                     BILL = BILL + "\n";
                     BILL = BILL + "\n";
@@ -747,6 +793,7 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
 
                     BILL = "     PRODUCTOS ALIMENTICIOS \n"
                             + "          SANTA MARTA \n" +
+                            "      Telefono: 2473 15 16 \n" +
                             "        Recibo de Abono     \n" +
                             "Numero de Factura: "+numInvoice+"\n" +
                             "Fecha: " + dateCurent +"\n" +
@@ -769,6 +816,7 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                             + "-------------------------------\n";
 
                     BILL = BILL + "\n";
+                    BILL = BILL + "  Mejorando la calidad cada dia \n";
                     BILL = BILL + "\n";
                     BILL = BILL + "\n";
                     BILL = BILL + "\n";
@@ -799,7 +847,7 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
         };
         t.start();
     }
-    public void session(){
+    public boolean session(){
         String responce = contextdb.getSession(token);
         if(responce.toString().equals("false")){
             Toast.makeText(getApplicationContext(), "Sesión expirada, por favor vuelva a loguear su cuenta!", Toast.LENGTH_LONG).show();
@@ -817,7 +865,8 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                     });
                 }
             }, 1000);
-        }else if(responce.toString().equals("false")){
+            return true;
+        }else if(responce.toString().equals("error")){
             Toast.makeText(getApplicationContext(), "Error en la conexion con el servidor!", Toast.LENGTH_LONG).show();
             // SLEEP 2 SECONDS HERE ...
             final Handler handler = new Handler();
@@ -833,6 +882,8 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                     });
                 }
             }, 1000);
+            return true;
         }
+        return false;
     }
 }

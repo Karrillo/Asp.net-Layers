@@ -107,7 +107,7 @@ public class Invoice {
     @Override
     public String toString() {
         DecimalFormat df = new DecimalFormat("#.00");
-        if(Rode==0 && Total==0){
+        if(Rode==0.0 && Total==0.0){
             return
                     "Nombre de cliente: " + Name + '\n' +
                             "Nombre de compañia: " + NameCompany + '\n' +
@@ -125,7 +125,7 @@ public class Invoice {
                             "Codigo: " + Code + '\n' +
                             "Abonado: " + df.format(Rode) + '\n' +
                             "Total: " + df.format(Total);
-        }else if(Rode>0 && Total==0){
+        }else if(Rode>0 && Total==0.0){
             return
                     "Nombre de cliente: " + Name + '\n' +
                             "Nombre de compañia: " + NameCompany + '\n' +
