@@ -11,17 +11,17 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/linearV_primera"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="598dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:orientation="vertical"
+            android:id="@+id/linearV_primera"
             android:weightSum="1">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
@@ -35,8 +35,7 @@
             <LinearLayout
                 android:id="@+id/linearH_segunda"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_weight="0.35"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
@@ -71,7 +70,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
@@ -99,8 +98,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="190dp"
-                android:layout_weight="0.15"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_weight="0.80">
 
                 <ListView
                     android:id="@+id/list_invoices"
@@ -113,7 +112,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="33dp"
-                android:layout_weight="0.09"
                 android:orientation="horizontal">
 
                 <CheckBox
@@ -147,8 +145,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="24dp"
-                android:layout_weight="0.23"
+                android:layout_height="30dp"
                 android:orientation="vertical">
 
                 <SeekBar
@@ -219,7 +216,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
-                android:layout_weight="0.11"
                 android:orientation="horizontal">
 
                 <TextView
@@ -249,7 +245,19 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="8sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <Button
@@ -264,7 +272,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
@@ -278,7 +286,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <Button

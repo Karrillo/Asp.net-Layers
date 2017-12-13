@@ -67,6 +67,8 @@ public class InsertClientsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(check()==true) {
                     if (session() == false) {
+                        insert.setEnabled(false);
+                        back.setEnabled(false);
                         Client client = new Client();
                         if (txtPhone.getText().toString().equals("")) {
                             client.setPhone("null");
@@ -104,6 +106,8 @@ public class InsertClientsActivity extends AppCompatActivity {
                                     public void run() {
                                         handler.post(new Runnable() {
                                             public void run() {
+                                                insert.setEnabled(true);
+                                                back.setEnabled(true);
                                                 Intent menu = new Intent(InsertClientsActivity.this, ClientsActivity.class);
                                                 startActivity(menu);
                                                 finish();
@@ -113,12 +117,18 @@ public class InsertClientsActivity extends AppCompatActivity {
                                 }, 1000);
                                 break;
                             case "400":
+                                insert.setEnabled(true);
+                                back.setEnabled(true);
                                 Toast.makeText(getApplicationContext(), "El codigo ingresado ya existe en el sistema", Toast.LENGTH_LONG).show();
                                 break;
                             case "500":
+                                insert.setEnabled(true);
+                                back.setEnabled(true);
                                 Toast.makeText(getApplicationContext(), "Fallo al insertar cliente", Toast.LENGTH_LONG).show();
                                 break;
                             default:
+                                insert.setEnabled(true);
+                                back.setEnabled(true);
                                 break;
                         }
                     }

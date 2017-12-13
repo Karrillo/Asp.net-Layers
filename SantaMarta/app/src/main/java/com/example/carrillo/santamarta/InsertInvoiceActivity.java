@@ -204,6 +204,13 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                     if(clientSelect.getIDClient()!=0){
                         if(listProducts.size()!=0){
                             if(session()==false) {
+                                more.setEnabled(false);
+                                less.setEnabled(false);
+                                product.setEnabled(false);
+                                client.setEnabled(false);
+                                invoice.setEnabled(false);
+                                back.setEnabled(false);
+                                checkCredit.setEnabled(false);
                                 String dateCredit = "";
                                 String dateCurent = "";
                                 Date date = new Date();
@@ -237,6 +244,13 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                                                 responseSale = contextdb.insertSales(item.getCode(), item.getQuantity(), item.getTotal(), item.getIDProduct(),
                                                         Long.parseLong(response), token);
                                                 if (responseSale.toString().equals("500")) {
+                                                    more.setEnabled(true);
+                                                    less.setEnabled(true);
+                                                    product.setEnabled(true);
+                                                    client.setEnabled(true);
+                                                    invoice.setEnabled(true);
+                                                    back.setEnabled(true);
+                                                    checkCredit.setEnabled(true);
                                                     Toast.makeText(getApplicationContext(), "Error, factura mal ingresada al sistema", Toast.LENGTH_LONG).show();
                                                     break;
                                                 }
@@ -261,6 +275,13 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                                                         public void run() {
                                                             handler.post(new Runnable() {
                                                                 public void run() {
+                                                                    more.setEnabled(true);
+                                                                    less.setEnabled(true);
+                                                                    product.setEnabled(true);
+                                                                    client.setEnabled(true);
+                                                                    invoice.setEnabled(true);
+                                                                    back.setEnabled(true);
+                                                                    checkCredit.setEnabled(true);
                                                                     //Intent menu = new Intent(InsertInvoiceActivity.this, InvoicesActivity.class);
                                                                     //startActivity(menu);
                                                                     finish();
@@ -272,9 +293,23 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                                                 }
                                             }
                                         } else {
+                                            more.setEnabled(true);
+                                            less.setEnabled(true);
+                                            product.setEnabled(true);
+                                            client.setEnabled(true);
+                                            invoice.setEnabled(true);
+                                            back.setEnabled(true);
+                                            checkCredit.setEnabled(true);
                                             Toast.makeText(getApplicationContext(), "Error, factura mal ingresada al sistema", Toast.LENGTH_LONG).show();
                                         }
                                     } else {
+                                        more.setEnabled(true);
+                                        less.setEnabled(true);
+                                        product.setEnabled(true);
+                                        client.setEnabled(true);
+                                        invoice.setEnabled(true);
+                                        back.setEnabled(true);
+                                        checkCredit.setEnabled(true);
                                         Toast.makeText(getApplicationContext(), "Error al intentar ingresar la factura al sistema", Toast.LENGTH_LONG).show();
                                     }
                                 } else {
@@ -299,6 +334,13 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                                                 responseSale = contextdb.insertSales(item.getCode(), item.getQuantity(), item.getTotal(), item.getIDProduct(),
                                                         Long.parseLong(response), token);
                                                 if (responseSale.toString().equals("500")) {
+                                                    more.setEnabled(true);
+                                                    less.setEnabled(true);
+                                                    product.setEnabled(true);
+                                                    client.setEnabled(true);
+                                                    invoice.setEnabled(true);
+                                                    back.setEnabled(true);
+                                                    checkCredit.setEnabled(true);
                                                     Toast.makeText(getApplicationContext(), "Error, factura mal ingresada al sistema", Toast.LENGTH_LONG).show();
                                                     break;
                                                 }
@@ -323,6 +365,13 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                                                         public void run() {
                                                             handler.post(new Runnable() {
                                                                 public void run() {
+                                                                    more.setEnabled(true);
+                                                                    less.setEnabled(true);
+                                                                    product.setEnabled(true);
+                                                                    client.setEnabled(true);
+                                                                    invoice.setEnabled(true);
+                                                                    back.setEnabled(true);
+                                                                    checkCredit.setEnabled(true);
                                                                     //Intent menu = new Intent(InsertInvoiceActivity.this, InvoicesActivity.class);
                                                                     //startActivity(menu);
                                                                     finish();
@@ -334,9 +383,23 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                                                 }
                                             }
                                         } else {
+                                            more.setEnabled(true);
+                                            less.setEnabled(true);
+                                            product.setEnabled(true);
+                                            client.setEnabled(true);
+                                            invoice.setEnabled(true);
+                                            back.setEnabled(true);
+                                            checkCredit.setEnabled(true);
                                             Toast.makeText(getApplicationContext(), "Error, factura mal ingresada al sistema", Toast.LENGTH_LONG).show();
                                         }
                                     } else {
+                                        more.setEnabled(true);
+                                        less.setEnabled(true);
+                                        product.setEnabled(true);
+                                        client.setEnabled(true);
+                                        invoice.setEnabled(true);
+                                        back.setEnabled(true);
+                                        checkCredit.setEnabled(true);
                                         Toast.makeText(getApplicationContext(), "Error al intentar ingresar la factura al sistema", Toast.LENGTH_LONG).show();
                                     }
                                 }

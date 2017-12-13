@@ -103,6 +103,11 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(check()==true) {
                     if (session() == false) {
+                        insert.setEnabled(false);
+                        account.setEnabled(false);
+                        category.setEnabled(false);
+                        subCategory.setEnabled(false);
+                        back.setEnabled(false);
                         String dateNow = "";
                         Date date = new Date();
                         Calendar calendar = Calendar.getInstance();
@@ -133,6 +138,11 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
                                     public void run() {
                                         handler.post(new Runnable() {
                                             public void run() {
+                                                insert.setEnabled(true);
+                                                account.setEnabled(true);
+                                                category.setEnabled(true);
+                                                subCategory.setEnabled(true);
+                                                back.setEnabled(true);
                                                 InvoicesActivity.refresh();
                                                 finish();
                                             }
@@ -141,6 +151,11 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
                                 }, 1000);
                                 break;
                             case "500":
+                                insert.setEnabled(true);
+                                account.setEnabled(true);
+                                category.setEnabled(true);
+                                subCategory.setEnabled(true);
+                                back.setEnabled(true);
                                 Toast.makeText(getApplicationContext(), "Fallo al insertar el abono", Toast.LENGTH_LONG).show();
                                 break;
                             default:
