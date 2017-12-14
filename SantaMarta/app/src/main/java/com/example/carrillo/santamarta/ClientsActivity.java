@@ -44,24 +44,28 @@ public class ClientsActivity extends AppCompatActivity{
         back = (Button) findViewById(R.id.btn_back);
         token = MainActivity.token;
         final Contextdb contextdb = new Contextdb();
-        session();
+
         listClients = contextdb.getAllClients(token);
         display(listClients);
         back.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent menu = new Intent(ClientsActivity.this, MenuActivity.class);
-                startActivity(menu);
-                finish();
+                if(session()==false) {
+                    Intent menu = new Intent(ClientsActivity.this, MenuActivity.class);
+                    startActivity(menu);
+                    finish();
+                }
             }
         });
 
         add.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent create = new Intent(ClientsActivity.this, InsertClientsActivity.class);
-                startActivity(create);
-                finish();
+                if(session()==false) {
+                    Intent create = new Intent(ClientsActivity.this, InsertClientsActivity.class);
+                    startActivity(create);
+                    finish();
+                }
             }
         });
 
@@ -75,8 +79,10 @@ public class ClientsActivity extends AppCompatActivity{
                 if(txtsearch.getText().toString().equals("")) {
                     display(listClients);
                 }else {
-                    listSearchClients = contextdb.searchClients(token, txtsearch.getText().toString());
-                    display(listSearchClients);
+                    if(session()==false) {
+                        listSearchClients = contextdb.searchClients(token, txtsearch.getText().toString());
+                        display(listSearchClients);
+                    }
                 }
             }
 
@@ -102,7 +108,7 @@ public class ClientsActivity extends AppCompatActivity{
             list.setAdapter(adapter);
         }
     }
-    public void session(){
+    public boolean session(){
         String responce = contextdb.getSession(token);
         if(responce.toString().equals("false")){
             Toast.makeText(getApplicationContext(), "Sesión expirada, por favor vuelva a loguear su cuenta!", Toast.LENGTH_LONG).show();
@@ -113,11 +119,14 @@ public class ClientsActivity extends AppCompatActivity{
                 public void run() {
                     handler.post(new Runnable() {
                         public void run() {
+                            Intent menu = new Intent(ClientsActivity.this, MainActivity.class);
+                            startActivity(menu);
                             finish();
                         }
                     });
                 }
             }, 1000);
+            return true;
         }else if(responce.toString().equals("error")){
             Toast.makeText(getApplicationContext(), "Error en la conexion con el servidor!", Toast.LENGTH_LONG).show();
             // SLEEP 2 SECONDS HERE ...
@@ -127,11 +136,15 @@ public class ClientsActivity extends AppCompatActivity{
                 public void run() {
                     handler.post(new Runnable() {
                         public void run() {
+                            Intent menu = new Intent(ClientsActivity.this, MainActivity.class);
+                            startActivity(menu);
                             finish();
                         }
                     });
                 }
             }, 1000);
+            return true;
         }
+        return false;
     }
 }

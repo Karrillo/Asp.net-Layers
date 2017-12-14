@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mask="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/fondo">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/txtv_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:text="Codigo:" />
+
+        <EditText
+            android:id="@+id/txt_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789QWERTYUIOPASDFGHJKLÑZXCVBNM"
+            android:ems="10"
+            android:hint="Codigo"
+            android:inputType="textPersonName"
+            android:textColor="#ffffff"
+            android:maxLength="20" />
+
+        <TextView
+            android:id="@+id/txtv_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:text="Nombre:" />
+
+        <EditText
+            android:id="@+id/txt_Name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:digits="qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNM "
+            android:ems="10"
+            android:hint="Nombre"
+            android:inputType="textPersonName"
+            android:textColor="#ffffff"
+            android:maxLength="30" />
+
+        <TextView
+            android:id="@+id/txtv_firstName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:text="Primer Apellido:" />
+
+        <EditText
+            android:id="@+id/txt_firstName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:digits="qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNM "
+            android:ems="10"
+            android:gravity="center"
+            android:hint="Primer Apellido"
+            android:inputType="textPersonName"
+            android:textColor="#ffffff"
+            android:maxLength="15" />
+
+        <TextView
+            android:id="@+id/txtv_secondName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:text="Segundo Apellido:" />
+
+        <EditText
+            android:id="@+id/txt_secondName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:digits="qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNM "
+            android:ems="10"
+            android:gravity="center"
+            android:hint="Segundo Apellido"
+            android:inputType="textPersonName"
+            android:textColor="#ffffff"
+            android:maxLength="15" />
+
+        <TextView
+            android:id="@+id/txtv_nameCompany"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:text="Nombre de Empresa:" />
+
+        <EditText
+            android:id="@+id/txt_nameCompany"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789QWERTYUIOPASDFGHJKLÑZXCVBNM "
+            android:ems="10"
+            android:gravity="center"
+            android:hint="Nombre de Empresa"
+            android:inputType="textPersonName"
+            android:textColor="#ffffff"
+            android:maxLength="40" />
+
+        <TextView
+            android:id="@+id/txtv_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:text="Telefono:" />
+
+        <EditText
+            android:id="@+id/txt_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="center"
+            android:digits="0123456789"
+            android:hint="Telefono"
+            android:inputType="phone"
+            android:textColor="#ffffff"
+            android:maxLength="8" />
+
+        <TextView
+            android:id="@+id/txtv_cellPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:text="Celular:" />
+
+        <EditText
+            android:id="@+id/txt_cellPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="Celular"
+            android:digits="0123456789"
+            android:inputType="phone"
+            android:maxLength="8"
+            mask:keep_hint="false"
+            android:textColor="#ffffff"
+            mask:mask="+7(###)###-##-##" />
+
+        <TextView
+            android:id="@+id/txtv_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:text="Correo:" />
+
+        <EditText
+            android:id="@+id/txt_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789@.QWERTYUIOPASDFGHJKLÑZXCVBNM"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="Correo"
+            android:inputType="textEmailAddress"
+            android:textColor="#ffffff"
+            android:maxLength="40" />
+
+        <TextView
+            android:id="@+id/txtv_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:text="Direccion:" />
+
+        <EditText
+            android:id="@+id/txt_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789 QWERTYUIOPASDFGHJKLÑZXCVBNM"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="Direccion"
+            android:inputType="textMultiLine"
+            android:textColor="#ffffff"
+            android:maxLength="70" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:orientation="vertical"></LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="59dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_insert"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/custom_button_border"
+                android:text="Ingresar"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_back"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_button_border"
+                android:text="Cancelar"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0px"
+            android:layout_height="0px"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+            <requestFocus />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"></LinearLayout>
+</LinearLayout>

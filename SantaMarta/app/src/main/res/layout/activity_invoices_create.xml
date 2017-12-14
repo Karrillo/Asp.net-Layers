@@ -11,17 +11,17 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/linearV_primera"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="598dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:orientation="vertical"
+            android:id="@+id/linearV_primera"
             android:weightSum="1">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
@@ -35,8 +35,7 @@
             <LinearLayout
                 android:id="@+id/linearH_segunda"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_weight="0.35"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
@@ -44,6 +43,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="Cliente:"
+                    android:textColor="#ffffff"
                     android:gravity="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                     android:textSize="18sp" />
@@ -55,6 +55,7 @@
                     android:layout_weight="0.05"
                     android:gravity="center"
                     android:text="No seleccionado"
+                    android:textColor="#ffffff"
                     android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                     android:textSize="18sp" />
 
@@ -71,7 +72,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
@@ -99,13 +100,14 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="190dp"
-                android:layout_weight="0.15"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_weight="0.80">
 
                 <ListView
                     android:id="@+id/list_invoices"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:textColor="#ffffff"
                     android:layout_weight="1" />
 
             </LinearLayout>
@@ -113,14 +115,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="33dp"
-                android:layout_weight="0.09"
                 android:orientation="horizontal">
 
                 <CheckBox
                     android:id="@+id/cb_credit"
                     android:layout_width="146dp"
                     android:layout_height="wrap_content"
-
+                    android:textColor="#ffffff"
                     android:text="Credito" />
 
                 <TextView
@@ -128,6 +129,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="Dias de credito:"
+                    android:textColor="#ffffff"
                     android:gravity="center"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Display1"
@@ -140,6 +142,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.08"
                     android:text="7"
+                    android:textColor="#ffffff"
                     android:gravity="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                     android:textSize="18sp" />
@@ -147,8 +150,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="24dp"
-                android:layout_weight="0.23"
+                android:layout_height="30dp"
                 android:orientation="vertical">
 
                 <SeekBar
@@ -173,6 +175,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="Descuento:"
+                    android:textColor="#ffffff"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                     android:textSize="18sp"
@@ -184,6 +187,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="0"
+                    android:textColor="#ffffff"
                     android:gravity="center"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Display1"
@@ -219,7 +223,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
-                android:layout_weight="0.11"
                 android:orientation="horizontal">
 
                 <TextView
@@ -228,6 +231,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.54"
                     android:text="Total:"
+                    android:textColor="#ffffff"
                     android:gravity="center"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Display1"
@@ -239,6 +243,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1.46"
                     android:text="0"
+                    android:textColor="#ffffff"
                     android:gravity="center"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Display1"
@@ -249,7 +254,19 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="8sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <Button
@@ -264,7 +281,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
@@ -278,7 +295,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <Button

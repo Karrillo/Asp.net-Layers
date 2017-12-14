@@ -10,6 +10,7 @@ using SantaMarta.Data.Models.AssetsLiabilities;
 using SantaMarta.Data.Models.Users;
 using SantaMarta.Data.Store_Procedures;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -68,6 +69,7 @@ namespace SantaMarta.Web.Controllers
                 ViewBag.liabilities = assetsLiabilitiesB.TotalSum(DateTime.Today.ToString("yyyy-MM-dd"), DateTime.Today.ToString("yyyy-MM-dd"), false);
                 ViewBag.Fecha = DateTime.Today.ToString("yyyy-MM-dd");
                 tableInformation(ViewBag.assets, ViewBag.liabilities);
+                List<AssetsLiabilities> assetliabilities = assetsLiabilitiesB.GetAllDate(DateTime.Today.ToString("yyyy-MM-dd"), DateTime.Today.ToString("yyyy-MM-dd")).ToList();
 
                 return View(assetsLiabilitiesB.GetAllDate(DateTime.Today.ToString("yyyy-MM-dd"), DateTime.Today.ToString("yyyy-MM-dd")).ToList());
             }

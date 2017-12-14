@@ -37,13 +37,14 @@ public class AssetsliabilitiesCategoryActivity extends AppCompatActivity {
         back = (Button) findViewById(R.id.btn_back);
         token = MainActivity.token;
         final Contextdb contextdb = new Contextdb();
-        session();
         listCategorys = contextdb.getAllCategorys(token);
         display(listCategorys);
         back.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                finish();
+                if(session()==false) {
+                    finish();
+                }
             }
         });
 
@@ -51,9 +52,11 @@ public class AssetsliabilitiesCategoryActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(position>=0){
-                    category = listCategorys.get(position);
-                    AssetsliabilitiesActivity.display_category(category);
-                    finish();
+                    if(session()==false) {
+                        category = listCategorys.get(position);
+                        AssetsliabilitiesActivity.display_category(category);
+                        finish();
+                    }
                 }
             }
         });
@@ -72,7 +75,7 @@ public class AssetsliabilitiesCategoryActivity extends AppCompatActivity {
             list.setAdapter(adapter);
         }
     }
-    public void session(){
+    public boolean session(){
         String responce = contextdb.getSession(token);
         if(responce.toString().equals("false")){
             Toast.makeText(getApplicationContext(), "Sesión expirada, por favor vuelva a loguear su cuenta!", Toast.LENGTH_LONG).show();
@@ -83,11 +86,14 @@ public class AssetsliabilitiesCategoryActivity extends AppCompatActivity {
                 public void run() {
                     handler.post(new Runnable() {
                         public void run() {
+                            Intent menu = new Intent(AssetsliabilitiesCategoryActivity.this, MainActivity.class);
+                            startActivity(menu);
                             finish();
                         }
                     });
                 }
             }, 1000);
+            return true;
         }else if(responce.toString().equals("error")){
             Toast.makeText(getApplicationContext(), "Error en la conexion con el servidor!", Toast.LENGTH_LONG).show();
             // SLEEP 2 SECONDS HERE ...
@@ -97,11 +103,15 @@ public class AssetsliabilitiesCategoryActivity extends AppCompatActivity {
                 public void run() {
                     handler.post(new Runnable() {
                         public void run() {
+                            Intent menu = new Intent(AssetsliabilitiesCategoryActivity.this, MainActivity.class);
+                            startActivity(menu);
                             finish();
                         }
                     });
                 }
             }, 1000);
+            return true;
         }
+        return false;
     }
 }

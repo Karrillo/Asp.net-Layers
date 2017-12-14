@@ -107,7 +107,8 @@ public class Invoice {
     @Override
     public String toString() {
         DecimalFormat df = new DecimalFormat("#.00");
-        if(Rode==0.0 && Total==0.0){
+        DecimalFormat dfd = new DecimalFormat("0.00");
+        if(Rode<1 && Total<1){
             return
                     "Nombre de cliente: " + Name + '\n' +
                             "Nombre de compañia: " + NameCompany + '\n' +
@@ -116,7 +117,34 @@ public class Invoice {
                             "Codigo: " + Code + '\n' +
                             "Abonado: " + Rode + '\n' +
                             "Total: " + Total;
-        }else if(Rode>0 && Total>0){
+        }else if(Rode>0 && Rode<1 && Total>=1){
+            return
+                    "Nombre de cliente: " + Name + '\n' +
+                            "Nombre de compañia: " + NameCompany + '\n' +
+                            "Fecha Creación: " + CurrentDate + '\n' +
+                            "Fecha limite: " + LimitDate + '\n' +
+                            "Codigo: " + Code + '\n' +
+                            "Abonado: " + dfd.format(Rode) + '\n' +
+                            "Total: " + Total;
+        }else if(Total>0 && Total<1 && Rode>=1){
+            return
+                    "Nombre de cliente: " + Name + '\n' +
+                            "Nombre de compañia: " + NameCompany + '\n' +
+                            "Fecha Creación: " + CurrentDate + '\n' +
+                            "Fecha limite: " + LimitDate + '\n' +
+                            "Codigo: " + Code + '\n' +
+                            "Abonado: " + Rode + '\n' +
+                            "Total: " + dfd.format(Total);
+        }else if(Rode>0 && Rode<1 && Total>0 && Total<1){
+            return
+                    "Nombre de cliente: " + Name + '\n' +
+                            "Nombre de compañia: " + NameCompany + '\n' +
+                            "Fecha Creación: " + CurrentDate + '\n' +
+                            "Fecha limite: " + LimitDate + '\n' +
+                            "Codigo: " + Code + '\n' +
+                            "Abonado: " + dfd.format(Rode) + '\n' +
+                            "Total: " + dfd.format(Total);
+        }else if(Rode>=1 && Total>=1){
             return
                     "Nombre de cliente: " + Name + '\n' +
                             "Nombre de compañia: " + NameCompany + '\n' +
@@ -125,7 +153,7 @@ public class Invoice {
                             "Codigo: " + Code + '\n' +
                             "Abonado: " + df.format(Rode) + '\n' +
                             "Total: " + df.format(Total);
-        }else if(Rode>0 && Total==0.0){
+        }else if(Rode>=1 && Total<1){
             return
                     "Nombre de cliente: " + Name + '\n' +
                             "Nombre de compañia: " + NameCompany + '\n' +

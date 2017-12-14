@@ -94,7 +94,7 @@
                     if (item.State == true)
                     {
                         <tr>
-                            <td>@Html.DisplayFor(modelItem => item.CurrentDate)</td>
+                            <td>@Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.CurrentDate))</td>
                             <td>@Html.DisplayFor(modelItem => item.Code)</td>
                             <td>@Html.DisplayFor(modelItem => item.Name)</td>
                             @if (item.Type == true)

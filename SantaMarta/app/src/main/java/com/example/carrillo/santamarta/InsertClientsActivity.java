@@ -54,9 +54,11 @@ public class InsertClientsActivity extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent menu = new Intent(InsertClientsActivity.this, ClientsActivity.class);
-                startActivity(menu);
-                finish();
+                if(session()==false) {
+                    Intent menu = new Intent(InsertClientsActivity.this, ClientsActivity.class);
+                    startActivity(menu);
+                    finish();
+                }
             }
         });
 
@@ -64,60 +66,71 @@ public class InsertClientsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(check()==true) {
-                    session();
-                    Client client = new Client();
-                    if (txtPhone.getText().toString().equals("")) {
-                        client.setPhone("null");
-                    } else {
-                        String phone = txtPhone.getText().toString();
-                        phone = phone.substring(0,4)+"-"+phone.substring(4,phone.length());
-                        client.setPhone(phone);
-                    }
-                    if (txtCellphone.getText().toString().equals("")) {
-                        client.setCellPhone("null");
-                    } else {
-                        String cellPhone = txtPhone.getText().toString();
-                        cellPhone = cellPhone.substring(0,4)+"-"+cellPhone.substring(4,cellPhone.length());
-                        client.setCellPhone(cellPhone);
-                    }
-                    client.setName(txtName.getText().toString());
-                    client.setFirstName(txtFirstName.getText().toString());
-                    client.setSecondName(txtSecondName.getText().toString());
-                    client.setEmail(txtEmail.getText().toString());
-                    client.setAddress(txtAddress.getText().toString());
-                    client.setCode(txtCode.getText().toString());
-                    if (txtNameCompany.getText().toString().equals("")) {
-                        client.setNameCompany("null");
-                    } else {
-                        client.setNameCompany(txtNameCompany.getText().toString());
-                    }
-                    String response = contextdb.insertClients(client, token);
-                    switch (response) {
-                        case "200":
-                            Toast.makeText(getApplicationContext(), "Cliente ingresado correctamente", Toast.LENGTH_LONG).show();
-                            // SLEEP 2 SECONDS HERE ...
-                            final Handler handler = new Handler();
-                            Timer t = new Timer();
-                            t.schedule(new TimerTask() {
-                                public void run() {
-                                    handler.post(new Runnable() {
-                                        public void run() {
-                                            Intent menu = new Intent(InsertClientsActivity.this, ClientsActivity.class);
-                                            startActivity(menu);
-                                            finish();
-                                        }
-                                    });
-                                }
-                            }, 1000);
-                            break;
-                        case "400":
-                            Toast.makeText(getApplicationContext(), "El codigo ingresado ya existe en el sistema", Toast.LENGTH_LONG).show();
-                            break;
-                        case "500":
-                            Toast.makeText(getApplicationContext(), "Fallo al insertar cliente", Toast.LENGTH_LONG).show();
-                            break;
-                        default:
-                            break;
+                    if (session() == false) {
+                        insert.setEnabled(false);
+                        back.setEnabled(false);
+                        Client client = new Client();
+                        if (txtPhone.getText().toString().equals("")) {
+                            client.setPhone("null");
+                        } else {
+                            String phone = txtPhone.getText().toString();
+                            phone = phone.substring(0, 4) + "-" + phone.substring(4, phone.length());
+                            client.setPhone(phone);
+                        }
+                        if (txtCellphone.getText().toString().equals("")) {
+                            client.setCellPhone("null");
+                        } else {
+                            String cellPhone = txtPhone.getText().toString();
+                            cellPhone = cellPhone.substring(0, 4) + "-" + cellPhone.substring(4, cellPhone.length());
+                            client.setCellPhone(cellPhone);
+                        }
+                        client.setName(txtName.getText().toString());
+                        client.setFirstName(txtFirstName.getText().toString());
+                        client.setSecondName(txtSecondName.getText().toString());
+                        client.setEmail(txtEmail.getText().toString());
+                        client.setAddress(txtAddress.getText().toString());
+                        client.setCode(txtCode.getText().toString());
+                        if (txtNameCompany.getText().toString().equals("")) {
+                            client.setNameCompany("null");
+                        } else {
+                            client.setNameCompany(txtNameCompany.getText().toString());
+                        }
+                        String response = contextdb.insertClients(client, token);
+                        switch (response) {
+                            case "200":
+                                Toast.makeText(getApplicationContext(), "Cliente ingresado correctamente", Toast.LENGTH_LONG).show();
+                                // SLEEP 2 SECONDS HERE ...
+                                final Handler handler = new Handler();
+                                Timer t = new Timer();
+                                t.schedule(new TimerTask() {
+                                    public void run() {
+                                        handler.post(new Runnable() {
+                                            public void run() {
+                                                insert.setEnabled(true);
+                                                back.setEnabled(true);
+                                                Intent menu = new Intent(InsertClientsActivity.this, ClientsActivity.class);
+                                                startActivity(menu);
+                                                finish();
+                                            }
+                                        });
+                                    }
+                                }, 1000);
+                                break;
+                            case "400":
+                                insert.setEnabled(true);
+                                back.setEnabled(true);
+                                Toast.makeText(getApplicationContext(), "El codigo ingresado ya existe en el sistema", Toast.LENGTH_LONG).show();
+                                break;
+                            case "500":
+                                insert.setEnabled(true);
+                                back.setEnabled(true);
+                                Toast.makeText(getApplicationContext(), "Fallo al insertar cliente", Toast.LENGTH_LONG).show();
+                                break;
+                            default:
+                                insert.setEnabled(true);
+                                back.setEnabled(true);
+                                break;
+                        }
                     }
                 }
             }
@@ -134,9 +147,18 @@ public class InsertClientsActivity extends AppCompatActivity {
                  Toast.makeText(getApplicationContext(), "Ingrese nombre y apellidos completos", Toast.LENGTH_LONG).show();
                  return false;
          }
+         if(txtNameCompany.getText().toString().equals("")){
+             Toast.makeText(getApplicationContext(), "Ingrese un nombre de compañia", Toast.LENGTH_LONG).show();
+             return false;
+         }
          if(txtCellphone.getText().toString().equals("")&&txtPhone.getText().toString().equals("")){
              Toast.makeText(getApplicationContext(), "Ingrese un numero de telefono residencial o uno celular", Toast.LENGTH_LONG).show();
              return false;
+         }else {
+             if(txtCellphone.getText().length()<8 && txtPhone.getText().length()<8){
+                 Toast.makeText(getApplicationContext(), "El formato de telefono residencial o celular no valido", Toast.LENGTH_LONG).show();
+                 return false;
+             }
          }
          if(txtAddress.getText().toString().equals("")){
              Toast.makeText(getApplicationContext(), "Ingrese una dirección del cliente", Toast.LENGTH_LONG).show();
@@ -155,7 +177,7 @@ public class InsertClientsActivity extends AppCompatActivity {
          }
          return true;
      }
-    public void session(){
+    public boolean session(){
         String responce = contextdb.getSession(token);
         if(responce.toString().equals("false")){
             Toast.makeText(getApplicationContext(), "Sesión expirada, por favor vuelva a loguear su cuenta!", Toast.LENGTH_LONG).show();
@@ -166,11 +188,14 @@ public class InsertClientsActivity extends AppCompatActivity {
                 public void run() {
                     handler.post(new Runnable() {
                         public void run() {
+                            Intent menu = new Intent(InsertClientsActivity.this, MainActivity.class);
+                            startActivity(menu);
                             finish();
                         }
                     });
                 }
             }, 1000);
+            return true;
         }else if(responce.toString().equals("error")){
             Toast.makeText(getApplicationContext(), "Error en la conexion con el servidor!", Toast.LENGTH_LONG).show();
             // SLEEP 2 SECONDS HERE ...
@@ -180,11 +205,15 @@ public class InsertClientsActivity extends AppCompatActivity {
                 public void run() {
                     handler.post(new Runnable() {
                         public void run() {
+                            Intent menu = new Intent(InsertClientsActivity.this, MainActivity.class);
+                            startActivity(menu);
                             finish();
                         }
                     });
                 }
             }, 1000);
+            return true;
         }
+        return false;
     }
 }

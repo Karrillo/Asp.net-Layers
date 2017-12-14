@@ -26,7 +26,8 @@
         <activity android:name=".InvoicesActivity"></activity>
         <activity android:name=".InsertClientsActivity"></activity>
         <activity android:name=".InsertInvoiceActivity"></activity>
-        <activity android:name=".DeviceListActivity"></activity>
+        <activity android:name=".DeviceListActivity"
+            android:theme="@android:style/Theme.DeviceDefault.Dialog"></activity>
         <activity android:name=".MainPrintActivity"></activity>
         <activity android:name=".InvoiceClientsActivity"></activity>
         <activity android:name=".InvoiceProductsActivity"></activity>
