@@ -58,7 +58,7 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
     BluetoothDevice mBluetoothDevice;
 
     private static ListView list;
-    private CheckBox checkExpired;
+    private static CheckBox checkExpired;
     private Button add;
     private Button back;
     private static String token = "";
@@ -239,86 +239,84 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
 
     }
     public static void refresh(){
-        listInvoices = contextdb.getAllInvoices(token);
-        if (listInvoices.size()==0) {
-            List<String> search = new ArrayList<String>();
-            search.add("Facturas no encontradas");
+        if (checkExpired.isChecked() == true) {
+            checkExpired.setChecked(false);
+        }else {
+            listInvoices = contextdb.getAllInvoices(token);
+            if (listInvoices.size() == 0) {
+                List<String> search = new ArrayList<String>();
+                search.add("Facturas no encontradas");
 
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, search);
-            //se setean los datos en el listView
-            list.setAdapter(adapter);
-        } else{
-            final String[] color = new String[listInvoices.size()];
-            Invoice invoice;
-            String dateNow="";
-            Date date = new Date();
-            Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.DATE, 0);
-            date = calendar.getTime();
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            dateNow = format.format(date);
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, search);
+                //se setean los datos en el listView
+                list.setAdapter(adapter);
+            } else {
+                final String[] color = new String[listInvoices.size()];
+                Invoice invoice;
+                String dateNow = "";
+                Date date = new Date();
+                Calendar calendar = Calendar.getInstance();
+                calendar.add(Calendar.DATE, 0);
+                date = calendar.getTime();
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                dateNow = format.format(date);
 
-            for(int x =0; x < listInvoices.size(); x++){
-                invoice = listInvoices.get(x);
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                try {
-                    Date date_now = formatter.parse(dateNow.toString());
-                    Date date_curent = formatter.parse(invoice.getCurrentDate().toString());
-                    Date date_limit = formatter.parse(invoice.getLimitDate().toString());
-                    if(date_curent.equals(date_limit)){
-                        if(invoice.getTotal() == 0.0){
-                            color[x] = "1";
-                        }else {
-                            color[x] = "0";
+                for (int x = 0; x < listInvoices.size(); x++) {
+                    invoice = listInvoices.get(x);
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                    try {
+                        Date date_now = formatter.parse(dateNow.toString());
+                        Date date_curent = formatter.parse(invoice.getCurrentDate().toString());
+                        Date date_limit = formatter.parse(invoice.getLimitDate().toString());
+                        if (date_curent.equals(date_limit)) {
+                            if (invoice.getTotal() == 0.0) {
+                                color[x] = "1";
+                            } else {
+                                color[x] = "0";
+                            }
+                        } else {
+                            if (invoice.getTotal() == 0) {
+                                color[x] = "1";
+                            } else if (date_limit.after(date_now) && invoice.getTotal() != invoice.getRode()) {
+                                color[x] = "2";
+                            } else if (date_limit.before(date_now) && invoice.getTotal() != invoice.getRode()) {
+                                color[x] = "3";
+                            }
                         }
-                    }else {
-                        if(invoice.getTotal() == 0){
-                            color[x] = "1";
-                        }else if(date_limit.after(date_now) && invoice.getTotal() != invoice.getRode()){
-                            color[x] = "2";
-                        }else if(date_limit.before(date_now) && invoice.getTotal() != invoice.getRode()) {
-                            color[x] = "3";
+                        if (invoice.getState().toString().equals("false")) {
+                            color[x] = "4";
                         }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
                     }
-                    if(invoice.getState().toString().equals("false")){
-                        color[x] = "4";
-                    }
-                } catch (ParseException e) {
-                    e.printStackTrace();
                 }
-            }
 
-            final ArrayAdapter arrayAdapter2 = new ArrayAdapter
-                    (context, android.R.layout.simple_list_item_1, listInvoices){
-                @Override
-                public View getView(int position, View convertView, ViewGroup parent){
+                final ArrayAdapter arrayAdapter2 = new ArrayAdapter
+                        (context, android.R.layout.simple_list_item_1, listInvoices) {
+                    @Override
+                    public View getView(int position, View convertView, ViewGroup parent) {
 
-                    View view = super.getView(position,convertView,parent);
-                    if(color[position] == "0")
-                    {
-                        view.setBackgroundColor(Color.parseColor("#ec3e3e"));
+                        View view = super.getView(position, convertView, parent);
+                        if (color[position] == "0") {
+                            view.setBackgroundColor(Color.parseColor("#ec3e3e"));
+                        } else if (color[position] == "1") {
+                            view.setBackgroundColor(Color.parseColor("#2bc81e"));
+                        } else if (color[position] == "2") {
+                            view.setBackgroundColor(Color.parseColor("#ffbf00"));
+                        } else if (color[position] == "3") {
+                            view.setBackgroundColor(Color.parseColor("#ec3e3e"));
+                        } else if (color[position] == "4") {
+                            view.setBackgroundColor(Color.parseColor("#a4a4a4"));
+                        }
+                        return view;
                     }
-                    else if(color[position] == "1")
-                    {
-                        view.setBackgroundColor(Color.parseColor("#2bc81e"));
-                    }else if(color[position] == "2")
-                    {
-                        view.setBackgroundColor(Color.parseColor("#ffbf00"));
-                    }else if(color[position] == "3")
-                    {
-                        view.setBackgroundColor(Color.parseColor("#ec3e3e"));
-                    }else if(color[position] == "4")
-                    {
-                        view.setBackgroundColor(Color.parseColor("#a4a4a4"));
-                    }
-                    return view;
-                }
-            };
-            type = color;
+                };
+                type = color;
 // DataBind ListView with items from ArrayAdapter
-            list.setAdapter(arrayAdapter2);
+                list.setAdapter(arrayAdapter2);
 
 
+            }
         }
     }
     public void display() {
@@ -805,12 +803,12 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                     BILL = BILL + "\n";
                     BILL = BILL + "\n";
 
-                    BILL = BILL + "Total de Cuenta: \n" +
-                            ""+ totalInvoice + "\n";
                     BILL = BILL + "Total de Abonos: \n" +
                             ""+ totalRode + "\n";
-                    BILL = BILL + "Total Abonado: \n" +
+                    BILL = BILL + "Cantidad Abonado: \n" +
                             ""+ total + "\n";
+                    BILL = BILL + "Total de Cuenta: \n" +
+                            ""+ totalInvoice + "\n";
 
                     BILL = BILL
                             + "-------------------------------\n";
@@ -866,7 +864,8 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                 }
             }, 1000);
             return true;
-        }else if(responce.toString().equals("error")){
+        }
+        if(responce.toString().equals("error")){
             Toast.makeText(getApplicationContext(), "Error en la conexion con el servidor!", Toast.LENGTH_LONG).show();
             // SLEEP 2 SECONDS HERE ...
             final Handler handler = new Handler();

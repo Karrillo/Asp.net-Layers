@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/fondo">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/linearV_primera">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="5sp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="5sp"
+                    android:text=""
+                    android:textSize="8sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:id="@+id/linearH_segunda">
+
+                <TextView
+                    android:id="@+id/Agent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="46dp"
+                    android:layout_weight="0.10"
+                    android:text="Buscar:"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp" />
+
+                <EditText
+                    android:id="@+id/txt_search"
+                    android:layout_width="171dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="0.60"
+                    android:gravity="center"
+                    android:digits="qwertyuiopasdfghjklñzxcvbnm0123456789 QWERTYUIOPASDFGHJKLÑZXCVBNM"
+                    android:ems="10"
+                    android:hint="Facturas"
+                    android:inputType="textPersonName"
+                    android:maxLength="60"
+                    android:textAlignment="center"
+                    android:textSize="13sp"
+                    android:textColor="#FFFFFF" />
+
+                <Button
+                    android:id="@+id/btn_add"
+                    android:layout_width="84dp"
+                    android:layout_height="25sp"
+                    android:background="@drawable/custom_button_border"
+                    android:textColor="#FFFFFF"
+                    android:text="Agregar" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/linearH_quinta">
+
+                <CheckBox
+                    android:id="@+id/cb_expired"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFFFFF"
+                    android:text="Vencidas" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="340dp"
+                android:orientation="horizontal">
+
+                <ListView
+                    android:id="@+id/list_invoices"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30sp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="25sp"
+                    android:background="@drawable/custom_button_border"
+                    android:text="Salir"
+                    android:textColor="#FFFFFF" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="0px"
+            android:layout_height="0px"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+            <requestFocus />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -31,6 +31,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
                     android:gravity="center"
+                    android:textColor="#ffffff"
                     android:text="Cantidad de producto:"
                     android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                     android:textSize="18sp" />
@@ -42,8 +43,9 @@
                     android:hint="Cantidad"
                     android:gravity="center"
                     android:layout_weight="1"
-                    android:maxLength="7"
+                    android:maxLength="4"
                     android:ems="10"
+                    android:textColor="#ffffff"
                     android:inputType="number" />
 
             </LinearLayout>
@@ -55,6 +57,7 @@
 
                 <ListView
                     android:id="@+id/list_products"
+                    android:textColor="#ffffff"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 

@@ -28,6 +28,7 @@
 
                 <ListView
                     android:id="@+id/list_categorys"
+                    android:textColor="#ffffff"
                     android:layout_width="match_parent"
                     android:layout_height="414dp"
                     android:layout_weight="6.10" />

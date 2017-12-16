@@ -147,9 +147,18 @@ public class InsertClientsActivity extends AppCompatActivity {
                  Toast.makeText(getApplicationContext(), "Ingrese nombre y apellidos completos", Toast.LENGTH_LONG).show();
                  return false;
          }
+         if(txtNameCompany.getText().toString().equals("")){
+             Toast.makeText(getApplicationContext(), "Ingrese un nombre de compañia", Toast.LENGTH_LONG).show();
+             return false;
+         }
          if(txtCellphone.getText().toString().equals("")&&txtPhone.getText().toString().equals("")){
              Toast.makeText(getApplicationContext(), "Ingrese un numero de telefono residencial o uno celular", Toast.LENGTH_LONG).show();
              return false;
+         }else {
+             if(txtCellphone.getText().length()<8 && txtPhone.getText().length()<8){
+                 Toast.makeText(getApplicationContext(), "El formato de telefono residencial o celular no valido", Toast.LENGTH_LONG).show();
+                 return false;
+             }
          }
          if(txtAddress.getText().toString().equals("")){
              Toast.makeText(getApplicationContext(), "Ingrese una dirección del cliente", Toast.LENGTH_LONG).show();

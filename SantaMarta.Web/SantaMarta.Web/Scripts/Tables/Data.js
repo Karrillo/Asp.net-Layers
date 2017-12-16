@@ -12,8 +12,11 @@
                 next: "Siguiente",
                 last: "Ultimo"
             }
-        }
+        },
+        //"ordering": true
+        "order": [[0, "desc"]]
     });
+
     $('#example2').DataTable({
         "paging": true,
         "lengthChange": false,

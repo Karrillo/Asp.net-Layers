@@ -28,6 +28,7 @@
                     android:id="@+id/list_clients"
                     android:layout_width="match_parent"
                     android:layout_height="414dp"
+                    android:textColor="#ffffff"
                     android:layout_weight="6.10" />
 
             </LinearLayout>

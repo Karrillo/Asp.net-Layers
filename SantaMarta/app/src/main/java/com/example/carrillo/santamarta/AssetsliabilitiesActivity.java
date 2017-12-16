@@ -120,15 +120,21 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
                         switch (response) {
                             case "200":
                                 Toast.makeText(getApplicationContext(), "Abono ingresado correctamente", Toast.LENGTH_LONG).show();
-                                DecimalFormat df = new DecimalFormat("#.00");
-                                Double total = invoiceSelect.getTotal() - invoiceSelect.getRode();
-                                Double quantity = Double.parseDouble(txtQuantity.getText().toString()) + invoiceSelect.getRode();
+                                DecimalFormat df = new DecimalFormat("#,00");
+                                String text1 = txtTotal.getText().toString();
+                                text1 = text1.replace(",",".");
+                                String text2 = txtQuantity.getText().toString();
+                                text2 = text2.replace(",",".");
+                                Double temp1 = Double.parseDouble(text1);
+                                Double temp2 = Double.parseDouble(text2);
+                                Double quantity = temp2 + Double.parseDouble(txtRode.getText().toString());
+                                Double total = temp1 - Double.parseDouble(txtRode.getText().toString());
                                 if (total == 0) {
                                     InvoicesActivity.printRode(txtClient.getText().toString(), invoiceSelect.getCode(), dateNow, String.valueOf(total),
-                                            df.format(quantity), txtRode.getText().toString());
+                                            String.valueOf(quantity), String.valueOf(Double.parseDouble(txtRode.getText().toString())));
                                 } else {
-                                    InvoicesActivity.printRode(txtClient.getText().toString(), invoiceSelect.getCode(), dateNow, df.format(total),
-                                            df.format(quantity), txtRode.getText().toString());
+                                    InvoicesActivity.printRode(txtClient.getText().toString(), invoiceSelect.getCode(), dateNow, String.valueOf(total),
+                                            String.valueOf(quantity), String.valueOf(Double.parseDouble(txtRode.getText().toString())));
                                 }
 
                                 // SLEEP 2 SECONDS HERE ...
@@ -167,6 +173,10 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
         });
     }
     public boolean check(){
+        if (txtRode.getText().toString().startsWith(".") == true) {
+            Toast.makeText(getApplicationContext(), "La cantidad ingresada contiene un formato no valido", Toast.LENGTH_LONG).show();
+            return false;
+        }
         if(txtRode.getText().toString().equals("")){
             Toast.makeText(getApplicationContext(), "Ingrese la cantidad a abonar a la factura", Toast.LENGTH_LONG).show();
             return false;
@@ -175,32 +185,36 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Ingrese la descripcion de la factura", Toast.LENGTH_LONG).show();
             return false;
         }
-        if(txtAccount.getText().toString().equals("No Seleccionado")){
+        if(txtAccount.getText().toString().equals("No seleccionado")){
             Toast.makeText(getApplicationContext(), "Ingrese una cuenta", Toast.LENGTH_LONG).show();
             return false;
         }
-        if(txtCategory.getText().toString().equals("No Seleccionado")){
+        if(txtCategory.getText().toString().equals("No seleccionado")){
             Toast.makeText(getApplicationContext(), "Ingrese una categoria", Toast.LENGTH_LONG).show();
             return false;
         }
-        if(txtSubcategory.getText().toString().equals("No Seleccionado")){
+        if(txtSubcategory.getText().toString().equals("No seleccionado")){
             Toast.makeText(getApplicationContext(), "Ingrese una subcategoria", Toast.LENGTH_LONG).show();
-            return false;
-        }
-        if(MainActivity.idUSer.toString().equals("0")){
-            Toast.makeText(getApplicationContext(), "Error con los datos del usuario, por favor vuelva a loguear", Toast.LENGTH_LONG).show();
             return false;
         }
         DecimalFormat df = new DecimalFormat("#.00");
         Double more = Double.parseDouble(txtRode.getText().toString());
         Double less = 0.0;
         if(invoiceSelect.getTotal()<1){
-            less = Double.parseDouble(df.format(invoiceSelect.getTotal()));
+            String total = "0" + df.format(invoiceSelect.getTotal());
+            total = total.replace(",",".");
+            less = Double.parseDouble(total);
         }else {
-            less = invoiceSelect.getTotal();
+            String total = df.format(invoiceSelect.getTotal());
+            total = total.replace(",",".");
+            less = Double.parseDouble(total);
         }
         if(more > less){
             Toast.makeText(getApplicationContext(), "Ingrese un monto menor o igual al faltante no abonado de la factura", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        if(MainActivity.idUSer.toString().equals("0")){
+            Toast.makeText(getApplicationContext(), "Error con los datos del usuario, por favor vuelva a loguear", Toast.LENGTH_LONG).show();
             return false;
         }
         return true;
@@ -208,16 +222,25 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
 
     public void display(Invoice invoice) {
         DecimalFormat df = new DecimalFormat("#.00");
+        DecimalFormat dfd = new DecimalFormat("0.00");
         if(invoice.getNameCompany().toString().equals("null")){
             txtClient.setText(invoice.getName());
             txtCode.setText(invoice.getCode());
             if(invoice.getTotal()<1){
-                txtTotal.setText(String.valueOf(invoice.getTotal()));
+                if(invoice.getTotal()>0){
+                    txtTotal.setText(dfd.format(invoice.getTotal()));
+                }else {
+                    txtTotal.setText(String.valueOf(invoice.getTotal()));
+                }
             }else {
                 txtTotal.setText(df.format(invoice.getTotal()));
             }
             if(invoice.getRode()<1){
-                txtQuantity.setText(String.valueOf(invoice.getRode()));
+                if(invoice.getRode()>0){
+                    txtQuantity.setText(dfd.format(invoice.getTotal()));
+                }else {
+                    txtQuantity.setText(String.valueOf(invoice.getRode()));
+                }
             }else {
                 txtQuantity.setText(df.format(invoice.getRode()));
             }
@@ -235,12 +258,20 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
             txtClient.setText(invoice.getNameCompany());
             txtCode.setText(invoice.getCode());
             if(invoice.getTotal()<1){
-                txtTotal.setText(String.valueOf(invoice.getTotal()));
+                if(invoice.getTotal()>0){
+                    txtTotal.setText(dfd.format(invoice.getTotal()));
+                }else {
+                    txtTotal.setText(String.valueOf(invoice.getTotal()));
+                }
             }else {
                 txtTotal.setText(df.format(invoice.getTotal()));
             }
             if(invoice.getRode()<1){
-                txtQuantity.setText(String.valueOf(invoice.getRode()));
+                if(invoice.getRode()>0){
+                    txtQuantity.setText(dfd.format(invoice.getTotal()));
+                }else {
+                    txtQuantity.setText(String.valueOf(invoice.getRode()));
+                }
             }else {
                 txtQuantity.setText(df.format(invoice.getRode()));
             }
