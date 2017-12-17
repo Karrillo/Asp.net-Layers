@@ -56,7 +56,6 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
     private ProgressDialog mBluetoothConnectProgressDialog;
     private static BluetoothSocket mBluetoothSocket;
     BluetoothDevice mBluetoothDevice;
-
     private static ListView list;
     private static CheckBox checkExpired;
     private Button add;
@@ -70,6 +69,10 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
     public static Invoice invoice;
     private EditText txtsearch;
     private TextWatcher text = null;
+    /**
+     * @param savedInstanceState
+     * metodo onCreate de InvoicesActivity
+     */
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invoices);
@@ -84,12 +87,9 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
         final Contextdb contextdb = new Contextdb();
         listInvoices = contextdb.getAllInvoices(token);
         display();
-
         text = new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 listInvoicesSearch = new ArrayList<Invoice>();
@@ -121,13 +121,9 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                 }
             }
             @Override
-            public void afterTextChanged(Editable s) {
-
-            }
+            public void afterTextChanged(Editable s) {}
         };
-
         txtsearch.addTextChangedListener(text);
-
         checkExpired.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
         {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
@@ -144,7 +140,6 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                 }
             }
         });
-
         list.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -152,7 +147,7 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                     if(type[position] =="0" || type[position] =="2" || type[position] =="3"){
                         if(session()==false) {
                             if (mBluetoothAdapter != null) {
-                                Toast.makeText(getApplicationContext(), "Impresora no conectada, por favor conecte el dispocitivo", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "¡Impresora no conectada, por favor conecte el dispocitivo!", Toast.LENGTH_LONG).show();
                                 // SLEEP 2 SECONDS HERE ...
                                 final Handler handler = new Handler();
                                 Timer t = new Timer();
@@ -187,7 +182,6 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                 }
             }
         });
-
         back.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -198,13 +192,12 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                 }
             }
         });
-
         add.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 if(session()==false) {
                     if (mBluetoothAdapter != null) {
-                        Toast.makeText(getApplicationContext(), "Impresora no conectada, por favor conecte el dispocitivo", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "¡Impresora no conectada, por favor conecte el dispocitivo!", Toast.LENGTH_LONG).show();
                         // SLEEP 2 SECONDS HERE ...
                         final Handler handler = new Handler();
                         Timer t = new Timer();
@@ -238,6 +231,9 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
         });
 
     }
+    /**
+     *metodo para mostrar Invoice
+     */
     public static void refresh(){
         if (checkExpired.isChecked() == true) {
             checkExpired.setChecked(false);
@@ -246,7 +242,6 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
             if (listInvoices.size() == 0) {
                 List<String> search = new ArrayList<String>();
                 search.add("Facturas no encontradas");
-
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, search);
                 //se setean los datos en el listView
                 list.setAdapter(adapter);
@@ -260,7 +255,6 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                 date = calendar.getTime();
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                 dateNow = format.format(date);
-
                 for (int x = 0; x < listInvoices.size(); x++) {
                     invoice = listInvoices.get(x);
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -290,7 +284,6 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                         e.printStackTrace();
                     }
                 }
-
                 final ArrayAdapter arrayAdapter2 = new ArrayAdapter
                         (context, android.R.layout.simple_list_item_1, listInvoices) {
                     @Override
@@ -312,18 +305,17 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                     }
                 };
                 type = color;
-// DataBind ListView with items from ArrayAdapter
                 list.setAdapter(arrayAdapter2);
-
-
             }
         }
     }
+    /**
+     *metodo para mostrar Invoice
+     */
     public void display() {
         if (listInvoices.size()==0) {
             List<String> search = new ArrayList<String>();
             search.add("Facturas no encontradas");
-
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, search);
             //se setean los datos en el listView
             list.setAdapter(adapter);
@@ -337,7 +329,6 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
             date = calendar.getTime();
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             dateNow = format.format(date);
-
             for(int x =0; x < listInvoices.size(); x++){
                 invoice = listInvoices.get(x);
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -367,7 +358,6 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                     e.printStackTrace();
                 }
             }
-
             final ArrayAdapter arrayAdapter2 = new ArrayAdapter
                     (context, android.R.layout.simple_list_item_1, listInvoices){
                 @Override
@@ -395,17 +385,16 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                 }
             };
             type = color;
-// DataBind ListView with items from ArrayAdapter
             list.setAdapter(arrayAdapter2);
-
-
         }
     }
+    /**
+     *metodo para mostrar Invoice
+     */
     public void displaySearch() {
         if (listInvoicesSearch.size()==0) {
             List<String> search = new ArrayList<String>();
             search.add("Facturas no encontradas");
-
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, search);
             //se setean los datos en el listView
             list.setAdapter(adapter);
@@ -419,7 +408,6 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
             date = calendar.getTime();
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             dateNow = format.format(date);
-
             for(int x =0; x < listInvoicesSearch.size(); x++){
                 invoice = listInvoicesSearch.get(x);
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -449,7 +437,6 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                     e.printStackTrace();
                 }
             }
-
             final ArrayAdapter arrayAdapter2 = new ArrayAdapter
                     (context, android.R.layout.simple_list_item_1, listInvoicesSearch){
                 @Override
@@ -477,13 +464,12 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                 }
             };
             type = color;
-// DataBind ListView with items from ArrayAdapter
             list.setAdapter(arrayAdapter2);
-
-
         }
     }
-
+    /**
+     *metodo onDestroy
+     */
     @Override
     protected void onDestroy() {
         // TODO Auto-generated method stub
@@ -495,7 +481,9 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
             Log.e("Tag", "Exe ", e);
         }
     }
-
+    /**
+     *metodo onBackPressed
+     */
     @Override
     public void onBackPressed() {
         try {
@@ -507,11 +495,15 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
         setResult(RESULT_CANCELED);
         finish();
     }
-
+    /**
+     * @param mRequestCode
+     * @param mResultCode
+     * @param mDataIntent
+     * metodo onActivityResult
+     */
     public void onActivityResult(int mRequestCode, int mResultCode,
                                  Intent mDataIntent) {
         super.onActivityResult(mRequestCode, mResultCode, mDataIntent);
-
         switch (mRequestCode) {
             case REQUEST_CONNECT_DEVICE:
                 if (mResultCode == Activity.RESULT_OK) {
@@ -529,7 +521,6 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                     // progress dialog with thread
                 }
                 break;
-
             case REQUEST_ENABLE_BT:
                 if (mResultCode == Activity.RESULT_OK) {
                     ListPairedDevices();
@@ -542,7 +533,9 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                 break;
         }
     }
-
+    /**
+     *metodo ListPairedDevices
+     */
     private void ListPairedDevices() {
         Set<BluetoothDevice> mPairedDevices = mBluetoothAdapter
                 .getBondedDevices();
@@ -553,7 +546,9 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
             }
         }
     }
-
+    /**
+     *metodo run
+     */
     public void run() {
         try {
             mBluetoothSocket = mBluetoothDevice
@@ -567,7 +562,10 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
             return;
         }
     }
-
+    /**
+     * @param nOpenSocket
+     * metodo closeSocket
+     */
     private void closeSocket(BluetoothSocket nOpenSocket) {
         try {
             nOpenSocket.close();
@@ -576,32 +574,50 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
             Log.d(TAG, "CouldNotCloseSocket");
         }
     }
-
+    /**
+     *metodo Handler de mHandler
+     */
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             mBluetoothConnectProgressDialog.dismiss();
-            Toast.makeText(InvoicesActivity.this, "DeviceConnected", Toast.LENGTH_SHORT).show();
+            Toast.makeText(InvoicesActivity.this, "Dispositivo Conectado", Toast.LENGTH_SHORT).show();
         }
     };
-
+    /**
+     * @param value
+     * @return byte
+     * metodo intToByteArray
+     */
     public static byte intToByteArray(int value) {
         byte[] b = ByteBuffer.allocate(4).putInt(value).array();
-
         for (int k = 0; k < b.length; k++) {
             System.out.println("Selva  [" + k + "] = " + "0x"
                     + UnicodeFormatter.byteToHex(b[k]));
         }
-
         return b[3];
     }
-
+    /**
+     * @param val
+     * @return byte
+     * metodo sel
+     */
     public byte[] sel(int val) {
         ByteBuffer buffer = ByteBuffer.allocate(2);
         buffer.putInt(val);
         buffer.flip();
         return buffer.array();
     }
+    /**
+     * @param client
+     * @param numInvoice
+     * @param dateCurent
+     * @param credit
+     * @param productlist
+     * @param discount
+     * @param total
+     * metodo para imprimir Invoices
+     */
     public static void printInvoice(final String client, final String numInvoice, final String dateCurent, final String credit, final List<Product> productlist,
                                           final String discount, final String total){
         final DecimalFormat df = new DecimalFormat("#.00");
@@ -612,7 +628,6 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                     OutputStream os = mBluetoothSocket
                             .getOutputStream();
                     String BILL = "";
-
                     BILL = "     PRODUCTOS ALIMENTICIOS \n"
                             + "          SANTA MARTA \n" +
                             "      Telefono: 2473 15 16 \n" +
@@ -623,8 +638,6 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                             ""+ client + "\n";
                     BILL = BILL
                             + "-------------------------------\n";
-
-
                     BILL = BILL + " Nombre          Codigo ";
                     BILL = BILL + "\n";
                     BILL = BILL
@@ -636,7 +649,6 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                     BILL = BILL
                             + "\n-------------------------------\n";
                     BILL = BILL + "\n\n ";
-
                     BILL = BILL + "Cantidad Impuesto  Total";
                     BILL = BILL + "\n";
                     BILL = BILL
@@ -645,7 +657,6 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                         product = productlist.get(x);
                         BILL = BILL + "\n " + product.getQuantity()+"    "+product.getTax()+"   "+df.format(product.getTotal());
                     }
-
                     BILL = BILL
                             + "\n-------------------------------";
                     BILL = BILL + "\n";
@@ -654,7 +665,6 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                     BILL = BILL + " Descuento: " + discount + " %" + "\n";
                     BILL = BILL + " Total de Factura: \n";
                     BILL = BILL + " "+ total +"\n";
-
                     BILL = BILL
                             + "-------------------------------\n";
                     BILL = BILL + "\n";
@@ -664,7 +674,6 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                     BILL = BILL + "\n";
                     os.write(BILL.getBytes());
                     //This is printer specific code you can comment ==== > Start
-
                     // Setting height
                     int gs = 29;
                     os.write(intToByteArray(gs));
@@ -672,7 +681,6 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                     os.write(intToByteArray(h));
                     int n = 162;
                     os.write(intToByteArray(n));
-
                     // Setting Width
                     int gs_width = 29;
                     os.write(intToByteArray(gs_width));
@@ -680,8 +688,6 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                     os.write(intToByteArray(w));
                     int n_width = 2;
                     os.write(intToByteArray(n_width));
-
-
                 } catch (Exception e) {
                     Log.e("MainPrintActivity", "Exe ", e);
                 }
@@ -689,6 +695,17 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
         };
         t.start();
     }
+    /**
+     * @param client
+     * @param numInvoice
+     * @param dateCurent
+     * @param dateLimit
+     * @param credit
+     * @param productlist
+     * @param discount
+     * @param total
+     * metodo para imprimir Invoices
+     */
     public static void printInvoiceCredit(final String client, final String numInvoice, final String dateCurent, final String dateLimit, final String credit, final List<Product> productlist,
                                     final String discount, final String total){
         final DecimalFormat df = new DecimalFormat("#.00");
@@ -699,7 +716,6 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                     OutputStream os = mBluetoothSocket
                             .getOutputStream();
                     String BILL = "";
-
                     BILL = "     PRODUCTOS ALIMENTICIOS \n"
                             + "          SANTA MARTA \n" +
                             "      Telefono: 2473 15 16 \n" +
@@ -712,8 +728,6 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                             ""+ client + "\n";
                     BILL = BILL
                             + "-------------------------------\n";
-
-
                     BILL = BILL + " Nombre          Codigo ";
                     BILL = BILL + "\n";
                     BILL = BILL
@@ -725,7 +739,6 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                     BILL = BILL
                             + "\n-------------------------------\n";
                     BILL = BILL + "\n\n ";
-
                     BILL = BILL + "Cantidad Impuesto  Total";
                     BILL = BILL + "\n";
                     BILL = BILL
@@ -734,16 +747,13 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                         product = productlist.get(x);
                         BILL = BILL + "\n " + product.getQuantity()+"    "+product.getTax()+"   "+df.format(product.getTotal());
                     }
-
                     BILL = BILL
                             + "\n-------------------------------";
                     BILL = BILL + "\n";
                     BILL = BILL + "\n";
-
                     BILL = BILL + " Descuento: " + discount + " %" + "\n";
                     BILL = BILL + " Total de Factura: \n";
                     BILL = BILL + " "+ total +"\n";
-
                     BILL = BILL
                             + "-------------------------------\n";
                     BILL = BILL + "\n";
@@ -753,7 +763,6 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                     BILL = BILL + "\n";
                     os.write(BILL.getBytes());
                     //This is printer specific code you can comment ==== > Start
-
                     // Setting height
                     int gs = 29;
                     os.write(intToByteArray(gs));
@@ -761,7 +770,6 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                     os.write(intToByteArray(h));
                     int n = 162;
                     os.write(intToByteArray(n));
-
                     // Setting Width
                     int gs_width = 29;
                     os.write(intToByteArray(gs_width));
@@ -769,8 +777,6 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                     os.write(intToByteArray(w));
                     int n_width = 2;
                     os.write(intToByteArray(n_width));
-
-
                 } catch (Exception e) {
                     Log.e("MainPrintActivity", "Exe ", e);
                 }
@@ -778,6 +784,15 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
         };
         t.start();
     }
+    /**
+     * @param client
+     * @param numInvoice
+     * @param dateCurent
+     * @param totalInvoice
+     * @param totalRode
+     * @param total
+     * metodo para imprimir Assetsliabilities
+     */
     public static void printRode(final String client, final String numInvoice, final String dateCurent, final String totalInvoice,
                                     final String totalRode, final String total){
         final DecimalFormat df = new DecimalFormat("#.00");
@@ -788,7 +803,6 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                     OutputStream os = mBluetoothSocket
                             .getOutputStream();
                     String BILL = "";
-
                     BILL = "     PRODUCTOS ALIMENTICIOS \n"
                             + "          SANTA MARTA \n" +
                             "      Telefono: 2473 15 16 \n" +
@@ -797,22 +811,18 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                             "Fecha: " + dateCurent +"\n" +
                             "Cliente: \n" +
                             ""+ client + "\n";
-
                     BILL = BILL
                             + "\n-------------------------------";
                     BILL = BILL + "\n";
                     BILL = BILL + "\n";
-
                     BILL = BILL + "Total de Abonos: \n" +
                             ""+ totalRode + "\n";
                     BILL = BILL + "Cantidad Abonado: \n" +
                             ""+ total + "\n";
                     BILL = BILL + "Total de Cuenta: \n" +
                             ""+ totalInvoice + "\n";
-
                     BILL = BILL
                             + "-------------------------------\n";
-
                     BILL = BILL + "\n";
                     BILL = BILL + "  Mejorando la calidad cada dia \n";
                     BILL = BILL + "\n";
@@ -820,7 +830,6 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                     BILL = BILL + "\n";
                     os.write(BILL.getBytes());
                     //This is printer specific code you can comment ==== > Start
-
                     // Setting height
                     int gs = 29;
                     os.write(intToByteArray(gs));
@@ -828,7 +837,6 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                     os.write(intToByteArray(h));
                     int n = 162;
                     os.write(intToByteArray(n));
-
                     // Setting Width
                     int gs_width = 29;
                     os.write(intToByteArray(gs_width));
@@ -836,8 +844,6 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
                     os.write(intToByteArray(w));
                     int n_width = 2;
                     os.write(intToByteArray(n_width));
-
-
                 } catch (Exception e) {
                     Log.e("MainPrintActivity", "Exe ", e);
                 }
@@ -845,10 +851,14 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
         };
         t.start();
     }
+    /**
+     * @return boolean
+     * metodo de verificacion de sesion
+     */
     public boolean session(){
         String responce = contextdb.getSession(token);
         if(responce.toString().equals("false")){
-            Toast.makeText(getApplicationContext(), "Sesión expirada, por favor vuelva a loguear su cuenta!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "¡Sesión expirada, por favor vuelva a loguear su cuenta!", Toast.LENGTH_LONG).show();
             // SLEEP 2 SECONDS HERE ...
             final Handler handler = new Handler();
             Timer t = new Timer();
@@ -866,7 +876,7 @@ public class InvoicesActivity extends AppCompatActivity implements Runnable{
             return true;
         }
         if(responce.toString().equals("error")){
-            Toast.makeText(getApplicationContext(), "Error en la conexion con el servidor!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "¡Error en la conexión con el servidor!", Toast.LENGTH_LONG).show();
             // SLEEP 2 SECONDS HERE ...
             final Handler handler = new Handler();
             Timer t = new Timer();

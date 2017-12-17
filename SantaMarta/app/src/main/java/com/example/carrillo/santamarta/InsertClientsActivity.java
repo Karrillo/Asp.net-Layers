@@ -14,11 +14,9 @@ import android.widget.Toast;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.regex.Pattern;
-
 /**
  * Created by Carrillo on 9/21/2017.
  */
-
 public class InsertClientsActivity extends AppCompatActivity {
     private EditText txtCode;
     private EditText txtName;
@@ -33,10 +31,13 @@ public class InsertClientsActivity extends AppCompatActivity {
     private Button back;
     private String token = "";
     private Contextdb contextdb = new Contextdb();
+    /**
+     * @param savedInstanceState
+     * metodo onCreate de InsertClientsActivity
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clients_create);
-
         txtCode = (EditText) findViewById(R.id.txt_code);
         txtName = (EditText) findViewById(R.id.txt_Name);
         txtFirstName = (EditText) findViewById(R.id.txt_firstName);
@@ -50,7 +51,6 @@ public class InsertClientsActivity extends AppCompatActivity {
         back = (Button) findViewById(R.id.btn_back);
         token = MainActivity.token;
         final Contextdb contextdb = new Contextdb();
-
         back.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -61,7 +61,6 @@ public class InsertClientsActivity extends AppCompatActivity {
                 }
             }
         });
-
         insert.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -119,12 +118,12 @@ public class InsertClientsActivity extends AppCompatActivity {
                             case "400":
                                 insert.setEnabled(true);
                                 back.setEnabled(true);
-                                Toast.makeText(getApplicationContext(), "El codigo ingresado ya existe en el sistema", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "¡El codigo ingresado ya existe en el sistema!", Toast.LENGTH_LONG).show();
                                 break;
                             case "500":
                                 insert.setEnabled(true);
                                 back.setEnabled(true);
-                                Toast.makeText(getApplicationContext(), "Fallo al insertar cliente", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "¡Fallo al insertar cliente!", Toast.LENGTH_LONG).show();
                                 break;
                             default:
                                 insert.setEnabled(true);
@@ -136,51 +135,61 @@ public class InsertClientsActivity extends AppCompatActivity {
             }
         });
      }
-
+    /**
+     * @param email
+     * @return boolean
+     * metodo de validar email
+     */
     private boolean validatedEmail(String email) {
         Pattern pattern = Patterns.EMAIL_ADDRESS;
         return pattern.matcher(email).matches();
     }
-
+    /**
+     * @return
+     */
      public boolean check(){
          if(txtName.getText().toString().equals("") || txtFirstName.getText().toString().equals("") || txtSecondName.getText().toString().equals("")){
-                 Toast.makeText(getApplicationContext(), "Ingrese nombre y apellidos completos", Toast.LENGTH_LONG).show();
+                 Toast.makeText(getApplicationContext(), "¡Ingrese nombre y apellidos completos!", Toast.LENGTH_LONG).show();
                  return false;
          }
          if(txtNameCompany.getText().toString().equals("")){
-             Toast.makeText(getApplicationContext(), "Ingrese un nombre de compañia", Toast.LENGTH_LONG).show();
+             Toast.makeText(getApplicationContext(), "¡Ingrese un nombre de compañia!", Toast.LENGTH_LONG).show();
              return false;
          }
          if(txtCellphone.getText().toString().equals("")&&txtPhone.getText().toString().equals("")){
-             Toast.makeText(getApplicationContext(), "Ingrese un numero de telefono residencial o uno celular", Toast.LENGTH_LONG).show();
+             Toast.makeText(getApplicationContext(), "¡Ingrese un numero de telefono residencial o uno celular!", Toast.LENGTH_LONG).show();
              return false;
          }else {
              if(txtCellphone.getText().length()<8 && txtPhone.getText().length()<8){
-                 Toast.makeText(getApplicationContext(), "El formato de telefono residencial o celular no valido", Toast.LENGTH_LONG).show();
+                 Toast.makeText(getApplicationContext(), "¡El formato de telefono residencial o celular no valido!", Toast.LENGTH_LONG).show();
                  return false;
              }
          }
          if(txtAddress.getText().toString().equals("")){
-             Toast.makeText(getApplicationContext(), "Ingrese una dirección del cliente", Toast.LENGTH_LONG).show();
+             Toast.makeText(getApplicationContext(), "¡Ingrese una dirección del cliente!", Toast.LENGTH_LONG).show();
              return false;
          }
          if(txtCode.getText().toString().equals("")){
-             Toast.makeText(getApplicationContext(), "Ingrese el codigo del cliente", Toast.LENGTH_LONG).show();
+             Toast.makeText(getApplicationContext(), "¡Ingrese el codigo del cliente!", Toast.LENGTH_LONG).show();
              return false;
          }
          if(!txtEmail.getText().toString().equals("")){
              boolean validated = validatedEmail(txtEmail.getText().toString());
              if (validated==false){
-                 Toast.makeText(getApplicationContext(), "Formato de correo incorrecto", Toast.LENGTH_LONG).show();
+                 Toast.makeText(getApplicationContext(), "¡Formato de correo incorrecto!", Toast.LENGTH_LONG).show();
                  return false;
              }
          }
          return true;
      }
+    /**
+     * @return boolean
+     * metodo de verificacion de sesion
+     */
     public boolean session(){
         String responce = contextdb.getSession(token);
         if(responce.toString().equals("false")){
-            Toast.makeText(getApplicationContext(), "Sesión expirada, por favor vuelva a loguear su cuenta!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "¡Sesión expirada, por favor vuelva a loguear su cuenta!", Toast.LENGTH_LONG).show();
             // SLEEP 2 SECONDS HERE ...
             final Handler handler = new Handler();
             Timer t = new Timer();
@@ -197,7 +206,7 @@ public class InsertClientsActivity extends AppCompatActivity {
             }, 1000);
             return true;
         }else if(responce.toString().equals("error")){
-            Toast.makeText(getApplicationContext(), "Error en la conexion con el servidor!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "¡Error en la conexión con el servidor!", Toast.LENGTH_LONG).show();
             // SLEEP 2 SECONDS HERE ...
             final Handler handler = new Handler();
             Timer t = new Timer();

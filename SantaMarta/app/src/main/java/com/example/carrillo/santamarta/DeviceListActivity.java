@@ -3,7 +3,6 @@ package com.example.carrillo.santamarta;
 /**
  * Created by joser on 16/11/2017.
  */
-
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -19,29 +18,26 @@ import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
 import java.util.Set;
-
-
 public class DeviceListActivity extends Activity {
     protected static final String TAG = "TAG";
     private BluetoothAdapter mBluetoothAdapter;
     private ArrayAdapter<String> mPairedDevicesArrayAdapter;
-
+    /**
+     * @param mSavedInstanceState
+     * metodo onCreate de DeviceListActivity
+     */
     @Override
     protected void onCreate(Bundle mSavedInstanceState) {
         super.onCreate(mSavedInstanceState);
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.device_list);
-
         setResult(Activity.RESULT_CANCELED);
         mPairedDevicesArrayAdapter = new ArrayAdapter<String>(this, R.layout.device_name);
-
         ListView mPairedListView = (ListView) findViewById(R.id.paired_devices);
         mPairedListView.setAdapter(mPairedDevicesArrayAdapter);
         mPairedListView.setOnItemClickListener(mDeviceClickListener);
-
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         Set<BluetoothDevice> mPairedDevices = mBluetoothAdapter.getBondedDevices();
-
         if (mPairedDevices.size() > 0) {
             findViewById(R.id.title_paired_devices).setVisibility(View.VISIBLE);
             for (BluetoothDevice mDevice : mPairedDevices) {
@@ -52,7 +48,9 @@ public class DeviceListActivity extends Activity {
             mPairedDevicesArrayAdapter.add(mNoDevices);
         }
     }
-
+    /**
+     *metodo onDestroy de DeviceListActivity
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -60,13 +58,12 @@ public class DeviceListActivity extends Activity {
             mBluetoothAdapter.cancelDiscovery();
         }
     }
-
+    /**
+     *metodo OnItemClickListener de mDeviceClickListener
+     */
     private OnItemClickListener mDeviceClickListener = new OnItemClickListener() {
         public void onItemClick(AdapterView<?> mAdapterView, View mView, int mPosition, long mLong) {
-
             try {
-
-
                 mBluetoothAdapter.cancelDiscovery();
                 String mDeviceInfo = ((TextView) mView).getText().toString();
                 String mDeviceAddress = mDeviceInfo.substring(mDeviceInfo.length() - 17);
@@ -78,10 +75,7 @@ public class DeviceListActivity extends Activity {
                 mBackIntent.putExtras(mBundle);
                 setResult(Activity.RESULT_OK, mBackIntent);
                 finish();
-            } catch (Exception ex) {
-
-            }
+            } catch (Exception ex) {}
         }
     };
-
 }

@@ -22,7 +22,6 @@ import java.util.TimerTask;
  */
 
 public class InvoiceProductsActivity extends AppCompatActivity {
-
     private ListView list;
     private EditText txtQuantity;
     private Button back;
@@ -30,10 +29,13 @@ public class InvoiceProductsActivity extends AppCompatActivity {
     private Contextdb contextdb = new Contextdb();
     private List<Product> listProducts;
     private Product product;
+    /**
+     * @param savedInstanceState
+     * metodo onCreate de InvoiceProductsActivity
+     */
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invoices_product);
-
         list = (ListView) findViewById(R.id.list_products);
         txtQuantity = (EditText) findViewById(R.id.txt_quantity);
         back = (Button) findViewById(R.id.btn_back);
@@ -49,13 +51,12 @@ public class InvoiceProductsActivity extends AppCompatActivity {
                 }
             }
         });
-
         list.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(!txtQuantity.getText().toString().equals("")){
                     if(Integer.parseInt(txtQuantity.getText().toString())<1){
-                        Toast.makeText(getApplicationContext(), "Ingrese una cantidad de producto mayor cero", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "¡Ingrese una cantidad de producto mayor a cero!", Toast.LENGTH_LONG).show();
                     }else {
                         if(session()==false) {
                             product = listProducts.get(position);
@@ -66,13 +67,16 @@ public class InvoiceProductsActivity extends AppCompatActivity {
                         }
                     }
                 }else {
-                    Toast.makeText(getApplicationContext(), "El campo de cantidad de producto esta vacio, por favor ingrese una cantidad", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "¡El campo de cantidad de producto esta vacio, por favor ingrese una cantidad!", Toast.LENGTH_LONG).show();
                 }
 
             }
         });
     }
-
+    /**
+     * @param Products
+     * metodo para mostrar Products
+     */
     public void display(List<Product> Products) {
         if (Products.size()==0) {
             List<String> search = new ArrayList<String>();
@@ -86,10 +90,14 @@ public class InvoiceProductsActivity extends AppCompatActivity {
             list.setAdapter(adapter);
         }
     }
+    /**
+     * @return boolean
+     * metodo de verificacion de sesion
+     */
     public boolean session(){
         String responce = contextdb.getSession(token);
         if(responce.toString().equals("false")){
-            Toast.makeText(getApplicationContext(), "Sesión expirada, por favor vuelva a loguear su cuenta!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "¡Sesión expirada, por favor vuelva a loguear su cuenta!", Toast.LENGTH_LONG).show();
             // SLEEP 2 SECONDS HERE ...
             final Handler handler = new Handler();
             Timer t = new Timer();
@@ -106,7 +114,7 @@ public class InvoiceProductsActivity extends AppCompatActivity {
             }, 1000);
             return true;
         }else if(responce.toString().equals("error")){
-            Toast.makeText(getApplicationContext(), "Error en la conexion con el servidor!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "¡Error en la conexión con el servidor!", Toast.LENGTH_LONG).show();
             // SLEEP 2 SECONDS HERE ...
             final Handler handler = new Handler();
             Timer t = new Timer();

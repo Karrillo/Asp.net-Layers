@@ -30,7 +30,6 @@ import java.util.TimerTask;
 /**
  * Created by Carrillo on 10/11/2017.
  */
-
 public class InsertInvoiceActivity extends AppCompatActivity {
     private static TextView txtClient;
     private TextView txtCredit;
@@ -47,10 +46,13 @@ public class InsertInvoiceActivity extends AppCompatActivity {
     private static int provider;
     private static Double total;
     private static Print print = new Print();
+    /**
+     * @param savedInstanceState
+     * metodo onCreate de InsertInvoiceActivity
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invoices_create);
-
         txtClient = (TextView) findViewById(R.id.txt_client);
         txtCredit = (TextView) findViewById(R.id.txt_credit);
         txtDiscont = (TextView) findViewById(R.id.txt_discont);
@@ -73,7 +75,6 @@ public class InsertInvoiceActivity extends AppCompatActivity {
         total = 0.0;
         token = MainActivity.token;
         final Contextdb contextdb = new Contextdb();
-
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
@@ -99,7 +100,6 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                 return true;
             }
         });
-
         checkCredit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
         {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
@@ -112,19 +112,15 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                 }
             }
         });
-
         barCredit.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 // TODO Auto-generated method stub
             }
-
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
                 // TODO Auto-generated method stub
             }
-
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress,boolean fromUser) {
                 switch (progress) {
@@ -145,18 +141,14 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                 }
             }
         });
-
         back.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 if(session()==false) {
-                    //Intent menu = new Intent(InsertInvoiceActivity.this, InvoicesActivity.class);
-                    //startActivity(menu);
                     finish();
                 }
             }
         });
-
         client.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -166,7 +158,6 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                 }
             }
         });
-
         product.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -176,7 +167,6 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                 }
             }
         });
-
         more.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -186,7 +176,6 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                 }
             }
         });
-
         less.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -196,7 +185,6 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                 }
             }
         });
-
         invoice.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -251,7 +239,7 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                                                     invoice.setEnabled(true);
                                                     back.setEnabled(true);
                                                     checkCredit.setEnabled(true);
-                                                    Toast.makeText(getApplicationContext(), "Error, factura mal ingresada al sistema", Toast.LENGTH_LONG).show();
+                                                    Toast.makeText(getApplicationContext(), "¡Error, factura mal ingresada al sistema!", Toast.LENGTH_LONG).show();
                                                     break;
                                                 }
                                                 if (responseSale.equals("200")) {
@@ -282,8 +270,6 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                                                                     invoice.setEnabled(true);
                                                                     back.setEnabled(true);
                                                                     checkCredit.setEnabled(true);
-                                                                    //Intent menu = new Intent(InsertInvoiceActivity.this, InvoicesActivity.class);
-                                                                    //startActivity(menu);
                                                                     finish();
                                                                 }
                                                             });
@@ -300,7 +286,7 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                                             invoice.setEnabled(true);
                                             back.setEnabled(true);
                                             checkCredit.setEnabled(true);
-                                            Toast.makeText(getApplicationContext(), "Error, factura mal ingresada al sistema", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getApplicationContext(), "¡Error, factura mal ingresada al sistema!", Toast.LENGTH_LONG).show();
                                         }
                                     } else {
                                         more.setEnabled(true);
@@ -310,7 +296,7 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                                         invoice.setEnabled(true);
                                         back.setEnabled(true);
                                         checkCredit.setEnabled(true);
-                                        Toast.makeText(getApplicationContext(), "Error al intentar ingresar la factura al sistema", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getApplicationContext(), "¡Error al intentar ingresar la factura al sistema!", Toast.LENGTH_LONG).show();
                                     }
                                 } else {
                                     calendar.add(Calendar.DATE, 0);
@@ -341,7 +327,7 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                                                     invoice.setEnabled(true);
                                                     back.setEnabled(true);
                                                     checkCredit.setEnabled(true);
-                                                    Toast.makeText(getApplicationContext(), "Error, factura mal ingresada al sistema", Toast.LENGTH_LONG).show();
+                                                    Toast.makeText(getApplicationContext(), "¡Error, factura mal ingresada al sistema!", Toast.LENGTH_LONG).show();
                                                     break;
                                                 }
                                                 if (responseSale.equals("200")) {
@@ -372,8 +358,6 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                                                                     invoice.setEnabled(true);
                                                                     back.setEnabled(true);
                                                                     checkCredit.setEnabled(true);
-                                                                    //Intent menu = new Intent(InsertInvoiceActivity.this, InvoicesActivity.class);
-                                                                    //startActivity(menu);
                                                                     finish();
                                                                 }
                                                             });
@@ -390,7 +374,7 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                                             invoice.setEnabled(true);
                                             back.setEnabled(true);
                                             checkCredit.setEnabled(true);
-                                            Toast.makeText(getApplicationContext(), "Error, factura mal ingresada al sistema", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getApplicationContext(), "¡Error, factura mal ingresada al sistema!", Toast.LENGTH_LONG).show();
                                         }
                                     } else {
                                         more.setEnabled(true);
@@ -400,23 +384,26 @@ public class InsertInvoiceActivity extends AppCompatActivity {
                                         invoice.setEnabled(true);
                                         back.setEnabled(true);
                                         checkCredit.setEnabled(true);
-                                        Toast.makeText(getApplicationContext(), "Error al intentar ingresar la factura al sistema", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getApplicationContext(), "¡Error al intentar ingresar la factura al sistema!", Toast.LENGTH_LONG).show();
                                     }
                                 }
                             }
                         }else {
-                            Toast.makeText(getApplicationContext(), "Por favor ingrese una lista de productos activity_assetsliabilities vender", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "¡Por favor ingrese productos a la lista de venta!", Toast.LENGTH_LONG).show();
                         }
                     }else {
-                        Toast.makeText(getApplicationContext(), "Por favor seleccione un cliente", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "¡Por favor seleccione un cliente!", Toast.LENGTH_LONG).show();
                     }
                 }else {
-                    Toast.makeText(getApplicationContext(), "Error de autentificacion, por favor vuelva salir y volver activity_assetsliabilities loguear ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "¡Error de autentificación, por favor vuelva salir y volver loguear!", Toast.LENGTH_LONG).show();
                 }
             }
         });
     }
-
+    /**
+     * @param product
+     * metodo para mostrar product
+     */
     public static void display(Product product) {
             provider = product.getIdProvider();
             listProducts.add(new Product(product.getIDProduct(),product.getName(),product.getCode(),
@@ -427,14 +414,19 @@ public class InsertInvoiceActivity extends AppCompatActivity {
             list.setAdapter(adapter);
             total();
     }
-
+    /**
+     *metodo para refrescar Product
+     */
     public static void display_delete() {
         ArrayAdapter<Product> adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, listProducts);
         //se setean los datos en el listView
         list.setAdapter(adapter);
         total();
     }
-
+    /**
+     * @param client
+     * metodo para mostrar client
+     */
     public static void display_client(Client client){
         clientSelect = client;
         if(client.getNameCompany().equals("null")) {
@@ -443,7 +435,9 @@ public class InsertInvoiceActivity extends AppCompatActivity {
             txtClient.setText(client.getName() + " " + client.getFirstName() + " / " + client.getNameCompany());
         }
     }
-
+    /**
+     *metodo para mostrar total
+     */
     public static void total(){
         if(listProducts.size()>0){
             total = 0.0;
@@ -467,10 +461,14 @@ public class InsertInvoiceActivity extends AppCompatActivity {
             txtTotal.setText("0");
         }
     }
+    /**
+     * @return boolean
+     * metodo de verificacion de sesion
+     */
     public boolean session(){
         String responce = contextdb.getSession(token);
         if(responce.toString().equals("false")){
-            Toast.makeText(getApplicationContext(), "Sesión expirada, por favor vuelva a loguear su cuenta!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "¡Sesión expirada, por favor vuelva a loguear su cuenta!", Toast.LENGTH_LONG).show();
             // SLEEP 2 SECONDS HERE ...
             final Handler handler = new Handler();
             Timer t = new Timer();
@@ -487,7 +485,7 @@ public class InsertInvoiceActivity extends AppCompatActivity {
             }, 1000);
             return true;
         }else if(responce.toString().equals("error")){
-            Toast.makeText(getApplicationContext(), "Error en la conexion con el servidor!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "¡Error en la conexión con el servidor!", Toast.LENGTH_LONG).show();
             // SLEEP 2 SECONDS HERE ...
             final Handler handler = new Handler();
             Timer t = new Timer();

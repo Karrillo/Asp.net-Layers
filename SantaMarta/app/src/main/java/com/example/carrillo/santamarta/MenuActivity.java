@@ -14,17 +14,18 @@ import java.util.TimerTask;
 /**
  * Created by Carrillo on 9/21/2017.
  */
-
 public class MenuActivity extends AppCompatActivity {
-
     private Button invoices, clients, logout;
     private static String token = "";
     private static Contextdb contextdb = new Contextdb();
+    /**
+     * @param savedInstanceState
+     * metodo onCreate de MenuActivity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-
         invoices = (Button) findViewById(R.id.btn_invoices);
         clients = (Button) findViewById(R.id.btn_clients);
         logout = (Button) findViewById(R.id.btn_logout);
@@ -40,7 +41,6 @@ public class MenuActivity extends AppCompatActivity {
                 }
             }
         });
-
         clients.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -51,7 +51,6 @@ public class MenuActivity extends AppCompatActivity {
                 }
             }
         });
-
         logout.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -60,10 +59,14 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
     }
+    /**
+     * @return boolean
+     * metodo de verificacion de sesion
+     */
     public boolean session(){
         String responce = contextdb.getSession(token);
         if(responce.toString().equals("false")){
-            Toast.makeText(getApplicationContext(), "Sesión expirada, por favor vuelva a loguear su cuenta!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "¡Sesión expirada, por favor vuelva a loguear su cuenta!", Toast.LENGTH_LONG).show();
             // SLEEP 2 SECONDS HERE ...
             final Handler handler = new Handler();
             Timer t = new Timer();
@@ -80,7 +83,7 @@ public class MenuActivity extends AppCompatActivity {
             }, 1000);
             return true;
         }else if(responce.toString().equals("error")){
-            Toast.makeText(getApplicationContext(), "Error en la conexion con el servidor!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "¡Error en la conexión con el servidor!", Toast.LENGTH_LONG).show();
             // SLEEP 2 SECONDS HERE ...
             final Handler handler = new Handler();
             Timer t = new Timer();
