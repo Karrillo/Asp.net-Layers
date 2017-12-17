@@ -23,7 +23,7 @@ namespace SantaMarta.Data.Models.Products
         public Boolean State { get; set; }
 
         [RegularExpression(@"^([.,ñÑa-zA-Z0-9]+\s)*[.,ñÑa-zA-Z0-9]+$", ErrorMessage = "Caracteres no permitidas")]
-        [StringLength(50, MinimumLength = 1, ErrorMessage = "El numero de caracteres debe ser menor a 50")]
+        [StringLength(70, MinimumLength = 1, ErrorMessage = "El numero de caracteres debe ser menor a 70")]
         [DataType(DataType.MultilineText)]
         public String Description { get; set; }
 

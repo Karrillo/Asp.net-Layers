@@ -15,24 +15,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
 /**
  * Created by joser on 27/11/2017.
  */
-
 public class AssetsliabilitiesSubCategoryActivity extends AppCompatActivity {
-
     private ListView list;
-
     private Button back;
     private String token = "";
     private Contextdb contextdb = new Contextdb();
     private List<SubCategory> listSubCategorys;
     private SubCategory subcategory;
+    /**
+     * @param savedInstanceState
+     * metodo onCreate de AssetsliabilitiesSubCategoryActivity
+     */
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_assetsliabilities_subcategory);
-
         list = (ListView) findViewById(R.id.list_subcategorys);
         back = (Button) findViewById(R.id.btn_back);
         token = MainActivity.token;
@@ -47,7 +46,6 @@ public class AssetsliabilitiesSubCategoryActivity extends AppCompatActivity {
                 }
             }
         });
-
         list.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -61,7 +59,10 @@ public class AssetsliabilitiesSubCategoryActivity extends AppCompatActivity {
             }
         });
     }
-
+    /**
+     * @param SubCategorys
+     * metodo para mostrar SubCategorys
+     */
     public void display(List<SubCategory> SubCategorys) {
         if (SubCategorys.size()==0) {
             List<String> search = new ArrayList<String>();
@@ -75,10 +76,14 @@ public class AssetsliabilitiesSubCategoryActivity extends AppCompatActivity {
             list.setAdapter(adapter);
         }
     }
+    /**
+     * @return boolean
+     * metodo de verificacion de sesion
+     */
     public boolean session(){
         String responce = contextdb.getSession(token);
         if(responce.toString().equals("false")){
-            Toast.makeText(getApplicationContext(), "Sesión expirada, por favor vuelva a loguear su cuenta!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "¡Sesión expirada, por favor vuelva a loguear su cuenta!", Toast.LENGTH_LONG).show();
             // SLEEP 2 SECONDS HERE ...
             final Handler handler = new Handler();
             Timer t = new Timer();
@@ -95,7 +100,7 @@ public class AssetsliabilitiesSubCategoryActivity extends AppCompatActivity {
             }, 1000);
             return true;
         }else if(responce.toString().equals("error")){
-            Toast.makeText(getApplicationContext(), "Error en la conexion con el servidor!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "¡Error en la conexión con el servidor!", Toast.LENGTH_LONG).show();
             // SLEEP 2 SECONDS HERE ...
             final Handler handler = new Handler();
             Timer t = new Timer();

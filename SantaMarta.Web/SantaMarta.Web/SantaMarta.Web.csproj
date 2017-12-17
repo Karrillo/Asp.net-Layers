@@ -1069,6 +1069,8 @@
     <Content Include="Scripts\Home\DashboardV1.js" />
     <Content Include="Scripts\Home\DashboardV2-menu.js" />
     <Content Include="Scripts\Home\DashboardV2.js" />
+    <Content Include="Scripts\Invoices\Purchases.js" />
+    <Content Include="Scripts\Invoices\Sales.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />

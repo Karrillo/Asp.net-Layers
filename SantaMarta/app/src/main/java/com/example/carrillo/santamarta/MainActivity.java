@@ -10,28 +10,28 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 public class MainActivity extends AppCompatActivity {
-
     private EditText nick, password;
     private Button insert;
     public static String token;
     public static String idUSer;
+    /**
+     * @param savedInstanceState
+     * metodo onCreate de MainActivity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         nick = (EditText)findViewById(R.id.txt_nick);
         password = (EditText) findViewById(R.id.txt_password);
         insert = (Button) findViewById(R.id.btn_login);
         final Contextdb contextdb = new Contextdb();
-
         insert.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 if(nick.getText().toString().equals("") || password.getText().toString().equals("")){
-                    Toast.makeText(getApplicationContext(), "Ingrese el usuario y la contraseña", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "¡Ingrese el usuario y la contraseña!", Toast.LENGTH_LONG).show();
                 }else {
                     insert.setEnabled(false);
                     String response = contextdb.getCheck(nick.getText().toString(),password.getText().toString());
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
                     if(!response.toString().equals("0") && !response.toString().equals("false")) {
                         token= contextdb.getToken();
                         if(token.toString().equals("error")){
-                            Toast.makeText(getApplicationContext(), "No se pudo obtener certificacion de segurridad, por favor vuelva a loguear", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "¡No se pudo obtener certificacion de segurridad, por favor vuelva a loguear!", Toast.LENGTH_LONG).show();
                             insert.setEnabled(true);
                         }else {
                             idUSer = response;
@@ -48,10 +48,10 @@ public class MainActivity extends AppCompatActivity {
                             startActivity(menu);
                         }
                     }else if(response.toString().equals("0")){
-                        Toast.makeText(getApplicationContext(), "Usuario o contraseña incorrectos", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "¡Usuario o contraseña incorrectos!", Toast.LENGTH_LONG).show();
                         insert.setEnabled(true);
                     }else {
-                        Toast.makeText(getApplicationContext(), "Fallo en la conexion con el servidor", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "¡Fallo en la conexion con el servidor!", Toast.LENGTH_LONG).show();
                         insert.setEnabled(true);
                     }
                 }

@@ -17,13 +17,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
-
 /**
  * Created by joser on 27/11/2017.
  */
-
 public class AssetsliabilitiesActivity extends AppCompatActivity {
-
     private static EditText txtQuantity, txtTotal, txtRode, txtCode,txtClient, txtDate, txtDescription;
     private static TextView txtAccount, txtCategory, txtSubcategory;
     private Button back, insert, account, category;
@@ -34,11 +31,13 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
     private static Account accountSelect;
     private static Category categorySelect;
     private static SubCategory subCategorySelect;
+    /**
+     * @param savedInstanceState
+     * metodo onCreate de AssetsliabilitiesActivity
+     */
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_assetsliabilities);
-
-
         txtQuantity = (EditText) findViewById(R.id.txt_total_rode);
         txtTotal = (EditText) findViewById(R.id.txt_total);
         txtRode = (EditText) findViewById(R.id.txt_rode);
@@ -58,7 +57,6 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
         subCategory.setEnabled(false);
         final Contextdb contextdb = new Contextdb();
         display(InvoicesActivity.invoice);
-
         back.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -67,7 +65,6 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
                 }
             }
         });
-
         account.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -77,7 +74,6 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
                 }
             }
         });
-
         category.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -87,7 +83,6 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
                 }
             }
         });
-
         subCategory.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -97,7 +92,6 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
                 }
             }
         });
-
         insert.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -162,7 +156,7 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
                                 category.setEnabled(true);
                                 subCategory.setEnabled(true);
                                 back.setEnabled(true);
-                                Toast.makeText(getApplicationContext(), "Fallo al insertar el abono", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "¡Fallo al insertar el abono!", Toast.LENGTH_LONG).show();
                                 break;
                             default:
                                 break;
@@ -172,29 +166,33 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
             }
         });
     }
+    /**
+     * @return
+     * metodo check de Assetsliabilities
+     */
     public boolean check(){
         if (txtRode.getText().toString().startsWith(".") == true) {
-            Toast.makeText(getApplicationContext(), "La cantidad ingresada contiene un formato no valido", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "¡La cantidad ingresada contiene un formato no valido!", Toast.LENGTH_LONG).show();
             return false;
         }
         if(txtRode.getText().toString().equals("")){
-            Toast.makeText(getApplicationContext(), "Ingrese la cantidad a abonar a la factura", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "¡Ingrese la cantidad a abonar a la factura!", Toast.LENGTH_LONG).show();
             return false;
         }
         if(txtDescription.getText().toString().equals("")){
-            Toast.makeText(getApplicationContext(), "Ingrese la descripcion de la factura", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "¡Ingrese la descripción de la factura!", Toast.LENGTH_LONG).show();
             return false;
         }
         if(txtAccount.getText().toString().equals("No seleccionado")){
-            Toast.makeText(getApplicationContext(), "Ingrese una cuenta", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "¡Ingrese una cuenta!", Toast.LENGTH_LONG).show();
             return false;
         }
         if(txtCategory.getText().toString().equals("No seleccionado")){
-            Toast.makeText(getApplicationContext(), "Ingrese una categoria", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "¡Ingrese una categoria!", Toast.LENGTH_LONG).show();
             return false;
         }
         if(txtSubcategory.getText().toString().equals("No seleccionado")){
-            Toast.makeText(getApplicationContext(), "Ingrese una subcategoria", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "¡Ingrese una subcategoria!", Toast.LENGTH_LONG).show();
             return false;
         }
         DecimalFormat df = new DecimalFormat("#.00");
@@ -210,16 +208,19 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
             less = Double.parseDouble(total);
         }
         if(more > less){
-            Toast.makeText(getApplicationContext(), "Ingrese un monto menor o igual al faltante no abonado de la factura", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "¡Ingrese un monto menor o igual al faltante no abonado de la factura!", Toast.LENGTH_LONG).show();
             return false;
         }
         if(MainActivity.idUSer.toString().equals("0")){
-            Toast.makeText(getApplicationContext(), "Error con los datos del usuario, por favor vuelva a loguear", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "¡Error con los datos del usuario, por favor vuelva a loguear!", Toast.LENGTH_LONG).show();
             return false;
         }
         return true;
     }
-
+    /**
+     * @param invoice
+     * metodo para mostrar invoice
+     */
     public void display(Invoice invoice) {
         DecimalFormat df = new DecimalFormat("#.00");
         DecimalFormat dfd = new DecimalFormat("0.00");
@@ -287,10 +288,18 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
             txtRode.setFilters(new InputFilter[]{ new InputFilter.LengthFilter(txtTotal.getText().length()) });
         }
     }
+    /**
+     * @param account
+     * metodo para mostrar account
+     */
     public static void display_account(Account account){
         accountSelect = account;
         txtAccount.setText(accountSelect.getName());
     }
+    /**
+     * @param category
+     * metodo para mostrar category
+     */
     public static void display_category(Category category){
         categorySelect = category;
         txtCategory.setText(categorySelect.getName());
@@ -298,18 +307,29 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
         txtSubcategory.setText("No Seleccionado");
         subCategorySelect = null;
     }
+    /**
+     * @param subCategory
+     * metodo para mostrar subCategory
+     */
     public static void display_subCategory(SubCategory subCategory){
         subCategorySelect = subCategory;
         txtSubcategory.setText(subCategorySelect.getName());
     }
+    /**
+     * @return categorySelect
+     * metodo para mostrar categorySelect
+     */
     public static int select_Category(){
         return categorySelect.getId();
     }
-
+    /**
+     * @return boolean
+     * metodo de verificacion de sesion
+     */
     public boolean session(){
         String responce = contextdb.getSession(token);
         if(responce.toString().equals("false")){
-            Toast.makeText(getApplicationContext(), "Sesión expirada, por favor vuelva a loguear su cuenta!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "¡Sesión expirada, por favor vuelva a loguear su cuenta!", Toast.LENGTH_LONG).show();
             // SLEEP 2 SECONDS HERE ...
             final Handler handler = new Handler();
             Timer t = new Timer();
@@ -326,7 +346,7 @@ public class AssetsliabilitiesActivity extends AppCompatActivity {
             }, 1000);
             return true;
         }else if(responce.toString().equals("error")){
-            Toast.makeText(getApplicationContext(), "Error en la conexion con el servidor!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "¡Error en la conexión con el servidor!", Toast.LENGTH_LONG).show();
             // SLEEP 2 SECONDS HERE ...
             final Handler handler = new Handler();
             Timer t = new Timer();

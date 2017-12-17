@@ -32,7 +32,7 @@
             @Html.ValidationMessageFor(model => model.Nickname, "", new { @class = "text-danger", id = "nameValidation" })
             <br>
             Contraseña:
-            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", data_toggle = "password", data_placement = "before", Type = "password", placeholder = "Password", maxlength = "15" } })
+            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", data_toggle = "password", data_placement = "before", Type = "password", placeholder = "Password", maxlength = "10" } })
             @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
             <br>
             <div class="form-group">

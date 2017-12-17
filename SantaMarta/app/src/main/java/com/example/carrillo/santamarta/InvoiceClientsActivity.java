@@ -21,18 +21,19 @@ import java.util.TimerTask;
  */
 
 public class InvoiceClientsActivity extends AppCompatActivity {
-
     private ListView list;
-
     private Button back;
     private String token = "";
     private Contextdb contextdb = new Contextdb();
     private List<Client> listClients;
     private Client client;
+    /**
+     * @param savedInstanceState
+     * metodo onCreate de InvoiceClientsActivity
+     */
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invoices_clients);
-
         list = (ListView) findViewById(R.id.list_clients);
         back = (Button) findViewById(R.id.btn_back);
         token = MainActivity.token;
@@ -47,7 +48,6 @@ public class InvoiceClientsActivity extends AppCompatActivity {
                 }
             }
         });
-
         list.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -61,7 +61,10 @@ public class InvoiceClientsActivity extends AppCompatActivity {
             }
         });
     }
-
+    /**
+     * @param clients
+     * metodo para mostrar clients
+     */
     public void display(List<Client> clients) {
         if (clients.size()==0) {
             List<String> search = new ArrayList<String>();
@@ -75,10 +78,14 @@ public class InvoiceClientsActivity extends AppCompatActivity {
             list.setAdapter(adapter);
         }
     }
+    /**
+     * @return boolean
+     * metodo de verificacion de sesion
+     */
     public boolean session(){
         String responce = contextdb.getSession(token);
         if(responce.toString().equals("false")){
-            Toast.makeText(getApplicationContext(), "Sesión expirada, por favor vuelva a loguear su cuenta!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "¡Sesión expirada, por favor vuelva a loguear su cuenta!", Toast.LENGTH_LONG).show();
             // SLEEP 2 SECONDS HERE ...
             final Handler handler = new Handler();
             Timer t = new Timer();
@@ -95,7 +102,7 @@ public class InvoiceClientsActivity extends AppCompatActivity {
             }, 1000);
             return true;
         }else if(responce.toString().equals("error")){
-            Toast.makeText(getApplicationContext(), "Error en la conexion con el servidor!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "¡Error en la conexión con el servidor!", Toast.LENGTH_LONG).show();
             // SLEEP 2 SECONDS HERE ...
             final Handler handler = new Handler();
             Timer t = new Timer();

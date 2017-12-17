@@ -50,9 +50,9 @@ namespace SantaMarta.DataAccess.ProductsProviders
         {
             try
             {
-                String code = db.Check_CodeProduct(products.Name);
+                String code = db.Check_CodeProduct(products.Code);
 
-                if (code == null || code == GetById(products.IDProduct).Name)
+                if (code == null || code == GetById(id).Code)
                 {
                     db.Update_Product(products, id);
                     return 200;
@@ -73,7 +73,7 @@ namespace SantaMarta.DataAccess.ProductsProviders
         {
             try
             {
-                if (db.Check_CodeProduct(products.Name) == null)
+                if (db.Check_CodeProduct(products.Code) == null)
                 {
                     db.Insert_Product(products);
                     return 200;

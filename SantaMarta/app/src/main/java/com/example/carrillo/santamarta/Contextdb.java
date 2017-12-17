@@ -22,27 +22,26 @@ import java.util.List;
 import java.util.Map;
 
 import static android.content.Context.MODE_PRIVATE;
-
 /**
  * Created by Carrillo on 10/4/2017.
  */
-
 public class Contextdb {
-
+    /**
+     * @param nickname
+     * @param password
+     * @return String
+     * metodo getCheck
+     */
     public String getCheck(String nickname, String password) {
-        String sql = "http://192.168.0.2:49161/api/User";
-
+        String sql = "http://192.168.43.121:49161/api/User";
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
         URL url = null;
         HttpURLConnection conn;
-
         try {
             Map<String, Object> params = new LinkedHashMap<>();
             params.put("nickname", nickname);
             params.put("password", password);
-
             StringBuilder postData = new StringBuilder();
             for (Map.Entry<String, Object> param : params.entrySet()) {
                 if (postData.length() != 0) postData.append('&');
@@ -51,34 +50,25 @@ public class Contextdb {
                 postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
             }
             byte[] postDataBytes = postData.toString().getBytes("UTF-8");
-
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(60 * 1000);
+            conn.setConnectTimeout(60 * 1000);
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-
             conn.setDoOutput(true);
             conn.getOutputStream().write(postDataBytes);
-
             BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
             String inputLine;
-
             StringBuffer response = new StringBuffer();
-
             String json = "";
-
             while ((inputLine = in.readLine()) != null) {
                 response.append(inputLine);
             }
-
             json = response.toString();
-
             if (!json.equals("500")) {
                 JSONObject jsonArr = null;
-
                 jsonArr = new JSONObject(json);
-
                 return jsonArr.optString("IDUser");
             } else {
                 return "0";
@@ -94,21 +84,19 @@ public class Contextdb {
             return "false";
         }
     }
-
+    /**
+     * @return String
+     * metodo getToken
+     */
     public String getToken() {
-        String sql = "http://192.168.0.2:49161/token";
-
+        String sql = "http://192.168.43.121:49161/token";
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
         URL url = null;
         HttpURLConnection conn;
-
         try {
             Map<String, Object> params = new LinkedHashMap<>();
             params.put("grant_type", "password");
-
-
             StringBuilder postData = new StringBuilder();
             for (Map.Entry<String, Object> param : params.entrySet()) {
                 if (postData.length() != 0) postData.append('&');
@@ -117,45 +105,33 @@ public class Contextdb {
                 postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
             }
             byte[] postDataBytes = postData.toString().getBytes("UTF-8");
-
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(60 * 1000);
+            conn.setConnectTimeout(60 * 1000);
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-
             conn.setDoOutput(true);
             conn.getOutputStream().write(postDataBytes);
-
             int responseCode = conn.getResponseCode();
             //String responseMsg = connection.getResponseMessage();
-
             if (responseCode == 200) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
                 String inputLine;
-
                 StringBuffer response = new StringBuffer();
-
                 String json = "";
-
                 while ((inputLine = in.readLine()) != null) {
                     response.append(inputLine);
                 }
-
                 json = response.toString();
-
                 JSONObject jsonArr = null;
-
                 jsonArr = new JSONObject(json);
                 String token = "";
-
                 token = jsonArr.optString("access_token");
-
                 return token;
             }else {
                 return "error";
             }
-
         } catch (MalformedURLException e) {
             e.printStackTrace();
             return "error";
@@ -167,15 +143,17 @@ public class Contextdb {
             return "error";
         }
     }
+    /**
+     * @param token
+     * @return String
+     * metodo getSession
+     */
     public String getSession(String token) {
-        String sql = "http://192.168.0.2:49161/api/User/GetSession";
-
+        String sql = "http://192.168.43.121:49161/api/User/GetSession";
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
         URL url = null;
         HttpURLConnection conn;
-
         try {
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
@@ -183,10 +161,8 @@ public class Contextdb {
             conn.setConnectTimeout(60 * 1000);
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Authorization", "Bearer " + token);
-
             int responseCode = conn.getResponseCode();
             //String responseMsg = connection.getResponseMessage();
-
             if (responseCode == 200) {
                 return "true";
             }else if (responseCode == 401){
@@ -202,42 +178,38 @@ public class Contextdb {
             return "error";
         }
     }
+    /**
+     * @param token
+     * @return Client
+     * metodo getAllClients
+     */
     public List<Client> getAllClients(String token) {
-        String sql = "http://192.168.0.2:49161/api/Client";
-
+        String sql = "http://192.168.43.121:49161/api/Client";
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
         URL url = null;
         HttpURLConnection conn;
         List<Client> listClients = new ArrayList<Client>();
         try {
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(60 * 1000);
+            conn.setConnectTimeout(60 * 1000);
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Authorization", "Bearer " + token);
-
             int responseCode = conn.getResponseCode();
             //String responseMsg = connection.getResponseMessage();
-
             if (responseCode == 200) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
                 String inputLine;
-
                 StringBuffer response = new StringBuffer();
-
                 String json = "";
-
                 while ((inputLine = in.readLine()) != null) {
                     response.append(inputLine);
                 }
-
                 json = response.toString();
-
                 JSONArray jsonArr = null;
                 jsonArr = new JSONArray(json);
-
                 for (int i = 0; i < jsonArr.length(); i++) {
                     JSONObject jsonObject = jsonArr.getJSONObject(i);
                     if(!jsonObject.optString("NameCompany").equals("null")){
@@ -267,16 +239,18 @@ public class Contextdb {
         }
         return listClients;
     }
-
+    /**
+     * @param client
+     * @param token
+     * @return String
+     * metodo insertClients
+     */
     public String insertClients(Client client, String token) {
-        String sql = "http://192.168.0.2:49161/api/Client";
-
+        String sql = "http://192.168.43.121:49161/api/Client";
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
         URL url = null;
         HttpURLConnection conn;
-
         try {
             Map<String, Object> params = new LinkedHashMap<>();
             params.put("Name", client.getName());
@@ -288,7 +262,6 @@ public class Contextdb {
             params.put("Address", client.getAddress());
             params.put("NameCompany", client.getNameCompany());
             params.put("Code", client.getCode());
-
             StringBuilder postData = new StringBuilder();
             for (Map.Entry<String, Object> param : params.entrySet()) {
                 if (postData.length() != 0) postData.append('&');
@@ -297,34 +270,26 @@ public class Contextdb {
                 postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
             }
             byte[] postDataBytes = postData.toString().getBytes("UTF-8");
-
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(60 * 1000);
+            conn.setConnectTimeout(60 * 1000);
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             conn.setRequestProperty("Authorization", "Bearer " + token);
-
             conn.setDoOutput(true);
             conn.getOutputStream().write(postDataBytes);
-
             int responseCode = conn.getResponseCode();
             //String responseMsg = connection.getResponseMessage();
-
             if (responseCode == 200) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
                 String inputLine;
-
                 StringBuffer response = new StringBuffer();
-
                 String json = "";
-
                 while ((inputLine = in.readLine()) != null) {
                     response.append(inputLine);
                 }
-
                 json = response.toString();
-
                 if(json.toString().equals("200")){
                     return "200";
                 }else if (json.toString().equals("400")){
@@ -347,39 +312,36 @@ public class Contextdb {
             return "500";
         }
     }
-
+    /**
+     * @param token
+     * @param name
+     * @return Client
+     * metodo searchClients
+     */
     public List<Client> searchClients(String token, String name) {
-        String sql = "http://192.168.0.2:49161/api/Client/GetName/"+name;
-
+        String sql = "http://192.168.43.121:49161/api/Client/GetName/"+name;
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
         URL url = null;
         HttpURLConnection conn;
         List<Client> listClients = new ArrayList<Client>();
         try {
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(60 * 1000);
+            conn.setConnectTimeout(60 * 1000);
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Authorization", "Bearer " + token);
-
             int responseCode = conn.getResponseCode();
             //String responseMsg = connection.getResponseMessage();
-
             if (responseCode == 200) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
                 String inputLine;
-
                 StringBuffer response = new StringBuffer();
-
                 String json = "";
-
                 while ((inputLine = in.readLine()) != null) {
                     response.append(inputLine);
                 }
-
-
                 json = response.toString();
                 if(!json.toString().equals("false")) {
                     if (json.toString().equals("[]")) {
@@ -408,7 +370,6 @@ public class Contextdb {
             }else {
                 return listClients;
             }
-
         } catch (MalformedURLException e) {
             e.printStackTrace();
             return listClients;
@@ -421,42 +382,38 @@ public class Contextdb {
         }
         return listClients;
     }
+    /**
+     * @param token
+     * @return Invoice
+     * metodo getAllInvoices
+     */
     public List<Invoice> getAllInvoices(String token) {
-        String sql = "http://192.168.0.2:49161/api/Invoice/GetInvoicesAllSales";
-
+        String sql = "http://192.168.43.121:49161/api/Invoice/GetInvoicesAllSales";
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
         URL url = null;
         HttpURLConnection conn;
         List<Invoice> listInvoices = new ArrayList<Invoice>();
         try {
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(60 * 1000);
+            conn.setConnectTimeout(60 * 1000);
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Authorization", "Bearer " + token);
-
             int responseCode = conn.getResponseCode();
             //String responseMsg = connection.getResponseMessage();
-
             if (responseCode == 200) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
                 String inputLine;
-
                 StringBuffer response = new StringBuffer();
-
                 String json = "";
-
                 while ((inputLine = in.readLine()) != null) {
                     response.append(inputLine);
                 }
-
                 json = response.toString();
-
                 JSONArray jsonArr = null;
                 jsonArr = new JSONArray(json);
-
                 for (int i = 0; i < jsonArr.length(); i++) {
                     JSONObject jsonObject = jsonArr.getJSONObject(i);
                     if(jsonObject.optString("Rode")=="null"){
@@ -494,42 +451,39 @@ public class Contextdb {
             return listInvoices;
         }
     }
+    /**
+     * @param token
+     * @return Invoice
+     * metodo getAllInvoicesExpired
+     */
     public List<Invoice> getAllInvoicesExpired(String token) {
-        String sql = "http://192.168.0.2:49161/api/Invoice/GetInvoicesAllSalesExpired";
-
+        String sql = "http://192.168.43.121:49161/api/Invoice/GetInvoicesAllSalesExpired";
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
         URL url = null;
         HttpURLConnection conn;
         List<Invoice> listInvoices = new ArrayList<Invoice>();
         try {
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(60 * 1000);
+            conn.setConnectTimeout(60 * 1000);
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Authorization", "Bearer " + token);
-
             int responseCode = conn.getResponseCode();
             //String responseMsg = connection.getResponseMessage();
-
             if (responseCode == 200) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
                 String inputLine;
-
                 StringBuffer response = new StringBuffer();
-
                 String json = "";
 
                 while ((inputLine = in.readLine()) != null) {
                     response.append(inputLine);
                 }
-
                 json = response.toString();
-
                 JSONArray jsonArr = null;
                 jsonArr = new JSONArray(json);
-
                 for (int i = 0; i < jsonArr.length(); i++) {
                     JSONObject jsonObject = jsonArr.getJSONObject(i);
                     if(jsonObject.optString("Rode")=="null"){
@@ -567,42 +521,38 @@ public class Contextdb {
             return listInvoices;
         }
     }
+    /**
+     * @param token
+     * @return Product
+     * metodo getAllProducts
+     */
     public List<Product> getAllProducts(String token) {
-        String sql = "http://192.168.0.2:49161/api/Product";
-
+        String sql = "http://192.168.43.121:49161/api/Product";
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
         URL url = null;
         HttpURLConnection conn;
         List<Product> listProducts = new ArrayList<Product>();
         try {
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(60 * 1000);
+            conn.setConnectTimeout(60 * 1000);
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Authorization", "Bearer " + token);
-
             int responseCode = conn.getResponseCode();
             //String responseMsg = connection.getResponseMessage();
-
             if (responseCode == 200) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
                 String inputLine;
-
                 StringBuffer response = new StringBuffer();
-
                 String json = "";
-
                 while ((inputLine = in.readLine()) != null) {
                     response.append(inputLine);
                 }
-
                 json = response.toString();
-
                 JSONArray jsonArr = null;
                 jsonArr = new JSONArray(json);
-
                 for (int i = 0; i < jsonArr.length(); i++) {
                     JSONObject jsonObject = jsonArr.getJSONObject(i);
                     if(jsonObject.optString("Tax").toString().equals("null")){
@@ -630,39 +580,36 @@ public class Contextdb {
             return listProducts;
         }
     }
+    /**
+     * @param id
+     * @param token
+     * @return String
+     * metodo getDetail
+     */
     public String getDetail(String id, String token) {
-        String sql = "http://192.168.0.2:49161/api/Detail/"+id;
-
+        String sql = "http://192.168.43.121:49161/api/Detail/"+id;
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
         URL url = null;
         HttpURLConnection conn;
-
         try {
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(60 * 1000);
+            conn.setConnectTimeout(60 * 1000);
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Authorization", "Bearer " + token);
-
             int responseCode = conn.getResponseCode();
             //String responseMsg = connection.getResponseMessage();
-
             if (responseCode == 200) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
                 String inputLine;
-
                 StringBuffer response = new StringBuffer();
-
                 String json = "";
-
                 while ((inputLine = in.readLine()) != null) {
                     response.append(inputLine);
                 }
-
                 json = response.toString();
-
                 if (!json.equals("false")) {
                     return json;
                 } else {
@@ -679,39 +626,35 @@ public class Contextdb {
             return "false";
         }
     }
+    /**
+     * @param token
+     * @return String
+     * metodo getCode
+     */
     public String getCode(String token) {
-        String sql = "http://192.168.0.2:49161/api/Invoice/GetCode";
-
+        String sql = "http://192.168.43.121:49161/api/Invoice/GetCode";
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
         URL url = null;
         HttpURLConnection conn;
-
         try {
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(60 * 1000);
+            conn.setConnectTimeout(60 * 1000);
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Authorization", "Bearer " + token);
-
             int responseCode = conn.getResponseCode();
             //String responseMsg = connection.getResponseMessage();
-
             if (responseCode == 200) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
                 String inputLine;
-
                 StringBuffer response = new StringBuffer();
-
                 String json = "";
-
                 while ((inputLine = in.readLine()) != null) {
                     response.append(inputLine);
                 }
-
                 json = response.toString();
-
                 if (!json.equals("false")) {
                     return json;
                 } else {
@@ -728,12 +671,23 @@ public class Contextdb {
             return "false";
         }
     }
+    /**
+     * @param LimitDate
+     * @param Code
+     * @param Discount
+     * @param Total
+     * @param State
+     * @param IdClient
+     * @param IdProvider
+     * @param IdDetail
+     * @param token
+     * @return String
+     * metodo insertInvoices
+     */
     public String insertInvoices(String LimitDate, String Code, int Discount, Double Total, Boolean State, int IdClient, int IdProvider, long IdDetail, String token) {
-        String sql = "http://192.168.0.2:49161/api/Invoice";
-
+        String sql = "http://192.168.43.121:49161/api/Invoice";
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
         URL url = null;
         HttpURLConnection conn;
         DecimalFormat df = new DecimalFormat("#.00");
@@ -747,7 +701,6 @@ public class Contextdb {
             params.put("IdClient", IdClient);
             params.put("IdProvider", IdProvider);
             params.put("IdDetail", IdDetail);
-
             StringBuilder postData = new StringBuilder();
             for (Map.Entry<String, Object> param : params.entrySet()) {
                 if (postData.length() != 0) postData.append('&');
@@ -756,34 +709,26 @@ public class Contextdb {
                 postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
             }
             byte[] postDataBytes = postData.toString().getBytes("UTF-8");
-
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(60 * 1000);
+            conn.setConnectTimeout(60 * 1000);
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             conn.setRequestProperty("Authorization", "Bearer " + token);
-
             conn.setDoOutput(true);
             conn.getOutputStream().write(postDataBytes);
-
             int responseCode = conn.getResponseCode();
             //String responseMsg = connection.getResponseMessage();
-
             if (responseCode == 200) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
                 String inputLine;
-
                 StringBuffer response = new StringBuffer();
-
                 String json = "";
-
                 while ((inputLine = in.readLine()) != null) {
                     response.append(inputLine);
                 }
-
                 json = response.toString();
-
                 if(json.toString().equals("200")){
                     return "200";
                 }else  if(json.toString().equals("501")){
@@ -794,7 +739,6 @@ public class Contextdb {
             }else {
                 return "500";
             }
-
         } catch (MalformedURLException e) {
             e.printStackTrace();
             return "500";
@@ -803,12 +747,20 @@ public class Contextdb {
             return "500";
         }
     }
+    /**
+     * @param Code
+     * @param Quantity
+     * @param Total
+     * @param IdProduct
+     * @param IdDetails
+     * @param token
+     * @return String
+     * metodo insertSales
+     */
     public String insertSales(String Code, int Quantity, Double Total, int IdProduct, long IdDetails, String token) {
-        String sql = "http://192.168.0.2:49161/api/Sale";
-
+        String sql = "http://192.168.43.121:49161/api/Sale";
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
         URL url = null;
         HttpURLConnection conn;
         DecimalFormat df = new DecimalFormat("#.00");
@@ -819,7 +771,6 @@ public class Contextdb {
             params.put("Total", Total);
             params.put("IdProduct", IdProduct);
             params.put("IdDetails", IdDetails);
-
             StringBuilder postData = new StringBuilder();
             for (Map.Entry<String, Object> param : params.entrySet()) {
                 if (postData.length() != 0) postData.append('&');
@@ -828,34 +779,26 @@ public class Contextdb {
                 postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
             }
             byte[] postDataBytes = postData.toString().getBytes("UTF-8");
-
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(60 * 1000);
+            conn.setConnectTimeout(60 * 1000);
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             conn.setRequestProperty("Authorization", "Bearer " + token);
-
             conn.setDoOutput(true);
             conn.getOutputStream().write(postDataBytes);
-
             int responseCode = conn.getResponseCode();
             //String responseMsg = connection.getResponseMessage();
-
             if (responseCode == 200) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
                 String inputLine;
-
                 StringBuffer response = new StringBuffer();
-
                 String json = "";
-
                 while ((inputLine = in.readLine()) != null) {
                     response.append(inputLine);
                 }
-
                 json = response.toString();
-
                 if(json.toString().equals("200")){
                     return "200";
                 }else {
@@ -872,39 +815,36 @@ public class Contextdb {
             return "500";
         }
     }
+    /**
+     * @param token
+     * @return Account
+     * metodo getAllAccounts
+     */
     public List<Account> getAllAccounts(String token) {
-        String sql = "http://192.168.0.2:49161/api/Accounts";
-
+        String sql = "http://192.168.43.121:49161/api/Accounts";
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
         URL url = null;
         HttpURLConnection conn;
         List<Account> listAccounts = new ArrayList<Account>();
         try {
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(60 * 1000);
+            conn.setConnectTimeout(60 * 1000);
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Authorization", "Bearer " + token);
-
             int responseCode = conn.getResponseCode();
             //String responseMsg = connection.getResponseMessage();
-
             if (responseCode == 200) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
                 String inputLine;
-
                 StringBuffer response = new StringBuffer();
-
                 String json = "";
-
                 while ((inputLine = in.readLine()) != null) {
                     response.append(inputLine);
                 }
-
                 json = response.toString();
-
                 JSONArray jsonArr = null;
                 jsonArr = new JSONArray(json);
 
@@ -927,42 +867,38 @@ public class Contextdb {
             return listAccounts;
         }
     }
+    /**
+     * @param token
+     * @return Category
+     * metodo getAllCategorys
+     */
     public List<Category> getAllCategorys(String token) {
-        String sql = "http://192.168.0.2:49161/api/Categories";
-
+        String sql = "http://192.168.43.121:49161/api/Categories";
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
         URL url = null;
         HttpURLConnection conn;
         List<Category> listCategorys = new ArrayList<Category>();
         try {
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(60 * 1000);
+            conn.setConnectTimeout(60 * 1000);
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Authorization", "Bearer " + token);
-
             int responseCode = conn.getResponseCode();
             //String responseMsg = connection.getResponseMessage();
-
             if (responseCode == 200) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
                 String inputLine;
-
                 StringBuffer response = new StringBuffer();
-
                 String json = "";
-
                 while ((inputLine = in.readLine()) != null) {
                     response.append(inputLine);
                 }
-
                 json = response.toString();
-
                 JSONArray jsonArr = null;
                 jsonArr = new JSONArray(json);
-
                 for (int i = 0; i < jsonArr.length(); i++) {
                     JSONObject jsonObject = jsonArr.getJSONObject(i);
                     listCategorys.add(new Category(Integer.parseInt(jsonObject.optString("IDCategory")),jsonObject.optString("Name")));
@@ -982,39 +918,37 @@ public class Contextdb {
             return listCategorys;
         }
     }
+    /**
+     * @param id
+     * @param token
+     * @return SubCategory
+     * metodo getAllSubCategorys
+     */
     public List<SubCategory> getAllSubCategorys(int id, String token) {
-        String sql = "http://192.168.0.2:49161/api/SubCategories/" + id;
-
+        String sql = "http://192.168.43.121:49161/api/SubCategories/" + id;
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
         URL url = null;
         HttpURLConnection conn;
         List<SubCategory> listSubCategorys = new ArrayList<SubCategory>();
         try {
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(60 * 1000);
+            conn.setConnectTimeout(60 * 1000);
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Authorization", "Bearer " + token);
-
             int responseCode = conn.getResponseCode();
             //String responseMsg = connection.getResponseMessage();
-
             if (responseCode == 200) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
                 String inputLine;
-
                 StringBuffer response = new StringBuffer();
-
                 String json = "";
-
                 while ((inputLine = in.readLine()) != null) {
                     response.append(inputLine);
                 }
-
                 json = response.toString();
-
                 JSONArray jsonArr = null;
                 jsonArr = new JSONArray(json);
 
@@ -1039,13 +973,27 @@ public class Contextdb {
             return listSubCategorys;
         }
     }
+    /**
+     * @param CurrentDate
+     * @param Code
+     * @param Rode
+     * @param Type
+     * @param Description
+     * @param Name
+     * @param State
+     * @param IdInvoice
+     * @param IdAccount
+     * @param IdSubCategory
+     * @param IdUser
+     * @param token
+     * @return String
+     * metodo insertAssetsLiabilities
+     */
     public String insertAssetsLiabilities(String CurrentDate, String Code, Double Rode, Boolean Type, String Description, String Name,
                                           Boolean State, Long IdInvoice, int IdAccount, int IdSubCategory, int IdUser, String token) {
-        String sql = "http://192.168.0.2:49161/api/AssetLiability";
-
+        String sql = "http://192.168.43.121:49161/api/AssetLiability";
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
         URL url = null;
         HttpURLConnection conn;
         DecimalFormat df = new DecimalFormat("#.00");
@@ -1062,7 +1010,6 @@ public class Contextdb {
             params.put("IdAccount", IdAccount);
             params.put("IdSubCategory", IdSubCategory);
             params.put("IdUser", IdUser);
-
             StringBuilder postData = new StringBuilder();
             for (Map.Entry<String, Object> param : params.entrySet()) {
                 if (postData.length() != 0) postData.append('&');
@@ -1071,34 +1018,26 @@ public class Contextdb {
                 postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
             }
             byte[] postDataBytes = postData.toString().getBytes("UTF-8");
-
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(60 * 1000);
+            conn.setConnectTimeout(60 * 1000);
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             conn.setRequestProperty("Authorization", "Bearer " + token);
-
             conn.setDoOutput(true);
             conn.getOutputStream().write(postDataBytes);
-
             int responseCode = conn.getResponseCode();
             //String responseMsg = connection.getResponseMessage();
-
             if (responseCode == 200) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
                 String inputLine;
-
                 StringBuffer response = new StringBuffer();
-
                 String json = "";
-
                 while ((inputLine = in.readLine()) != null) {
                     response.append(inputLine);
                 }
-
                 json = response.toString();
-
                 if(json.toString().equals("200")){
                     return "200";
                 }else {
@@ -1107,7 +1046,6 @@ public class Contextdb {
             }else {
                 return "500";
             }
-
         } catch (MalformedURLException e) {
             e.printStackTrace();
             return "500";

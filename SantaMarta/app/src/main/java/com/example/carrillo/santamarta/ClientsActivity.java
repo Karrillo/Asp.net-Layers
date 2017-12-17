@@ -18,13 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
 /**
  * Created by Carrillo on 9/21/2017.
  */
-
 public class ClientsActivity extends AppCompatActivity{
-
     private ListView list;
     private EditText txtsearch;
     private Button add;
@@ -34,17 +31,19 @@ public class ClientsActivity extends AppCompatActivity{
     private TextWatcher text = null;
     private List<Client> listClients;
     private List<Client> listSearchClients;
+    /**
+     * @param savedInstanceState
+     * metodo onCreate de ClientsActivity
+     */
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clients);
-
         list = (ListView) findViewById(R.id.list_clients);
         txtsearch = (EditText) findViewById(R.id.txt_search);
         add = (Button) findViewById(R.id.btn_add);
         back = (Button) findViewById(R.id.btn_back);
         token = MainActivity.token;
         final Contextdb contextdb = new Contextdb();
-
         listClients = contextdb.getAllClients(token);
         display(listClients);
         back.setOnClickListener(new View.OnClickListener(){
@@ -57,7 +56,6 @@ public class ClientsActivity extends AppCompatActivity{
                 }
             }
         });
-
         add.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -68,12 +66,9 @@ public class ClientsActivity extends AppCompatActivity{
                 }
             }
         });
-
         text = new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(txtsearch.getText().toString().equals("")) {
@@ -85,16 +80,15 @@ public class ClientsActivity extends AppCompatActivity{
                     }
                 }
             }
-
             @Override
-            public void afterTextChanged(Editable s) {
-
-            }
+            public void afterTextChanged(Editable s) {}
         };
-
         txtsearch.addTextChangedListener(text);
     }
-
+    /**
+     * @param clients
+     * metodo para mostrar clients
+     */
     public void display(List<Client> clients) {
         if (clients.size()==0) {
             List<String> search = new ArrayList<String>();
@@ -108,10 +102,14 @@ public class ClientsActivity extends AppCompatActivity{
             list.setAdapter(adapter);
         }
     }
+    /**
+     * @return boolean
+     * metodo de verificacion de sesion
+     */
     public boolean session(){
         String responce = contextdb.getSession(token);
         if(responce.toString().equals("false")){
-            Toast.makeText(getApplicationContext(), "Sesión expirada, por favor vuelva a loguear su cuenta!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "¡Sesión expirada, por favor vuelva a loguear su cuenta!", Toast.LENGTH_LONG).show();
             // SLEEP 2 SECONDS HERE ...
             final Handler handler = new Handler();
             Timer t = new Timer();
@@ -128,7 +126,7 @@ public class ClientsActivity extends AppCompatActivity{
             }, 1000);
             return true;
         }else if(responce.toString().equals("error")){
-            Toast.makeText(getApplicationContext(), "Error en la conexion con el servidor!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "¡Error en la conexión con el servidor!", Toast.LENGTH_LONG).show();
             // SLEEP 2 SECONDS HERE ...
             final Handler handler = new Handler();
             Timer t = new Timer();
