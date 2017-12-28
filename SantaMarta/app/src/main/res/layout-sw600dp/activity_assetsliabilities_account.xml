@@ -24,8 +24,10 @@
             <ListView
                 android:id="@+id/list_accounts"
                 android:layout_width="match_parent"
+                style="@style/Widget.AppCompat.ListView"
                 android:layout_height="850dp"
                 android:layout_weight="1"
+                android:background="@android:color/darker_gray"
                 android:textColor="#ffffff" />
 
         </LinearLayout>

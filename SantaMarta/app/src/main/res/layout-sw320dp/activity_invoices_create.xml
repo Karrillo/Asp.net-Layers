@@ -105,10 +105,12 @@
 
                 <ListView
                     android:id="@+id/list_invoices"
+                    style="@style/Widget.AppCompat.ListView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textColor="#ffffff"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:background="@android:color/darker_gray"
+                    android:textColor="#ffffff" />
 
             </LinearLayout>
 

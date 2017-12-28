@@ -33,7 +33,7 @@ public class Contextdb {
      * metodo getCheck
      */
     public String getCheck(String nickname, String password) {
-        String sql = "http://192.168.43.121:49161/api/User";
+        String sql = "http://192.168.1.4:49161/api/User";
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         URL url = null;
@@ -52,8 +52,8 @@ public class Contextdb {
             byte[] postDataBytes = postData.toString().getBytes("UTF-8");
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(60 * 1000);
-            conn.setConnectTimeout(60 * 1000);
+            conn.setReadTimeout(30 * 1000);
+            conn.setConnectTimeout(30 * 1000);
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             conn.setDoOutput(true);
@@ -89,7 +89,7 @@ public class Contextdb {
      * metodo getToken
      */
     public String getToken() {
-        String sql = "http://192.168.43.121:49161/token";
+        String sql = "http://192.168.1.4:49161/token";
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         URL url = null;
@@ -107,8 +107,8 @@ public class Contextdb {
             byte[] postDataBytes = postData.toString().getBytes("UTF-8");
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(60 * 1000);
-            conn.setConnectTimeout(60 * 1000);
+            conn.setReadTimeout(30 * 1000);
+            conn.setConnectTimeout(30 * 1000);
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             conn.setDoOutput(true);
@@ -149,7 +149,7 @@ public class Contextdb {
      * metodo getSession
      */
     public String getSession(String token) {
-        String sql = "http://192.168.43.121:49161/api/User/GetSession";
+        String sql = "http://192.168.1.4:49161/api/User/GetSession";
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         URL url = null;
@@ -157,8 +157,8 @@ public class Contextdb {
         try {
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(60 * 1000);
-            conn.setConnectTimeout(60 * 1000);
+            conn.setReadTimeout(30 * 1000);
+            conn.setConnectTimeout(30 * 1000);
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Authorization", "Bearer " + token);
             int responseCode = conn.getResponseCode();
@@ -184,7 +184,7 @@ public class Contextdb {
      * metodo getAllClients
      */
     public List<Client> getAllClients(String token) {
-        String sql = "http://192.168.43.121:49161/api/Client";
+        String sql = "http://192.168.1.4:49161/api/Client";
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         URL url = null;
@@ -193,8 +193,8 @@ public class Contextdb {
         try {
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(60 * 1000);
-            conn.setConnectTimeout(60 * 1000);
+            conn.setReadTimeout(30 * 1000);
+            conn.setConnectTimeout(30 * 1000);
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Authorization", "Bearer " + token);
             int responseCode = conn.getResponseCode();
@@ -246,7 +246,7 @@ public class Contextdb {
      * metodo insertClients
      */
     public String insertClients(Client client, String token) {
-        String sql = "http://192.168.43.121:49161/api/Client";
+        String sql = "http://192.168.1.4:49161/api/Client";
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         URL url = null;
@@ -272,8 +272,8 @@ public class Contextdb {
             byte[] postDataBytes = postData.toString().getBytes("UTF-8");
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(60 * 1000);
-            conn.setConnectTimeout(60 * 1000);
+            conn.setReadTimeout(30 * 1000);
+            conn.setConnectTimeout(30 * 1000);
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             conn.setRequestProperty("Authorization", "Bearer " + token);
@@ -319,7 +319,7 @@ public class Contextdb {
      * metodo searchClients
      */
     public List<Client> searchClients(String token, String name) {
-        String sql = "http://192.168.43.121:49161/api/Client/GetName/"+name;
+        String sql = "http://192.168.1.4:49161/api/Client/GetName/"+name;
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         URL url = null;
@@ -328,8 +328,8 @@ public class Contextdb {
         try {
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(60 * 1000);
-            conn.setConnectTimeout(60 * 1000);
+            conn.setReadTimeout(30 * 1000);
+            conn.setConnectTimeout(30 * 1000);
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Authorization", "Bearer " + token);
             int responseCode = conn.getResponseCode();
@@ -388,7 +388,7 @@ public class Contextdb {
      * metodo getAllInvoices
      */
     public List<Invoice> getAllInvoices(String token) {
-        String sql = "http://192.168.43.121:49161/api/Invoice/GetInvoicesAllSales";
+        String sql = "http://192.168.1.4:49161/api/Invoice/GetInvoicesAllSales";
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         URL url = null;
@@ -397,8 +397,8 @@ public class Contextdb {
         try {
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(60 * 1000);
-            conn.setConnectTimeout(60 * 1000);
+            conn.setReadTimeout(30 * 1000);
+            conn.setConnectTimeout(30 * 1000);
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Authorization", "Bearer " + token);
             int responseCode = conn.getResponseCode();
@@ -457,7 +457,7 @@ public class Contextdb {
      * metodo getAllInvoicesExpired
      */
     public List<Invoice> getAllInvoicesExpired(String token) {
-        String sql = "http://192.168.43.121:49161/api/Invoice/GetInvoicesAllSalesExpired";
+        String sql = "http://192.168.1.4:49161/api/Invoice/GetInvoicesAllSalesExpired";
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         URL url = null;
@@ -466,8 +466,8 @@ public class Contextdb {
         try {
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(60 * 1000);
-            conn.setConnectTimeout(60 * 1000);
+            conn.setReadTimeout(30 * 1000);
+            conn.setConnectTimeout(30 * 1000);
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Authorization", "Bearer " + token);
             int responseCode = conn.getResponseCode();
@@ -527,7 +527,7 @@ public class Contextdb {
      * metodo getAllProducts
      */
     public List<Product> getAllProducts(String token) {
-        String sql = "http://192.168.43.121:49161/api/Product";
+        String sql = "http://192.168.1.4:49161/api/Product";
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         URL url = null;
@@ -536,8 +536,8 @@ public class Contextdb {
         try {
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(60 * 1000);
-            conn.setConnectTimeout(60 * 1000);
+            conn.setReadTimeout(30 * 1000);
+            conn.setConnectTimeout(30 * 1000);
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Authorization", "Bearer " + token);
             int responseCode = conn.getResponseCode();
@@ -587,7 +587,7 @@ public class Contextdb {
      * metodo getDetail
      */
     public String getDetail(String id, String token) {
-        String sql = "http://192.168.43.121:49161/api/Detail/"+id;
+        String sql = "http://192.168.1.4:49161/api/Detail/"+id;
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         URL url = null;
@@ -595,8 +595,8 @@ public class Contextdb {
         try {
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(60 * 1000);
-            conn.setConnectTimeout(60 * 1000);
+            conn.setReadTimeout(30 * 1000);
+            conn.setConnectTimeout(30 * 1000);
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Authorization", "Bearer " + token);
             int responseCode = conn.getResponseCode();
@@ -632,7 +632,7 @@ public class Contextdb {
      * metodo getCode
      */
     public String getCode(String token) {
-        String sql = "http://192.168.43.121:49161/api/Invoice/GetCode";
+        String sql = "http://192.168.1.4:49161/api/Invoice/GetCode";
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         URL url = null;
@@ -640,8 +640,8 @@ public class Contextdb {
         try {
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(60 * 1000);
-            conn.setConnectTimeout(60 * 1000);
+            conn.setReadTimeout(30 * 1000);
+            conn.setConnectTimeout(30 * 1000);
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Authorization", "Bearer " + token);
             int responseCode = conn.getResponseCode();
@@ -685,7 +685,7 @@ public class Contextdb {
      * metodo insertInvoices
      */
     public String insertInvoices(String LimitDate, String Code, int Discount, Double Total, Boolean State, int IdClient, int IdProvider, long IdDetail, String token) {
-        String sql = "http://192.168.43.121:49161/api/Invoice";
+        String sql = "http://192.168.1.4:49161/api/Invoice";
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         URL url = null;
@@ -711,8 +711,8 @@ public class Contextdb {
             byte[] postDataBytes = postData.toString().getBytes("UTF-8");
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(60 * 1000);
-            conn.setConnectTimeout(60 * 1000);
+            conn.setReadTimeout(30 * 1000);
+            conn.setConnectTimeout(30 * 1000);
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             conn.setRequestProperty("Authorization", "Bearer " + token);
@@ -758,7 +758,7 @@ public class Contextdb {
      * metodo insertSales
      */
     public String insertSales(String Code, int Quantity, Double Total, int IdProduct, long IdDetails, String token) {
-        String sql = "http://192.168.43.121:49161/api/Sale";
+        String sql = "http://192.168.1.4:49161/api/Sale";
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         URL url = null;
@@ -781,8 +781,8 @@ public class Contextdb {
             byte[] postDataBytes = postData.toString().getBytes("UTF-8");
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(60 * 1000);
-            conn.setConnectTimeout(60 * 1000);
+            conn.setReadTimeout(30 * 1000);
+            conn.setConnectTimeout(30 * 1000);
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             conn.setRequestProperty("Authorization", "Bearer " + token);
@@ -821,7 +821,7 @@ public class Contextdb {
      * metodo getAllAccounts
      */
     public List<Account> getAllAccounts(String token) {
-        String sql = "http://192.168.43.121:49161/api/Accounts";
+        String sql = "http://192.168.1.4:49161/api/Accounts";
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         URL url = null;
@@ -830,8 +830,8 @@ public class Contextdb {
         try {
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(60 * 1000);
-            conn.setConnectTimeout(60 * 1000);
+            conn.setReadTimeout(30 * 1000);
+            conn.setConnectTimeout(30 * 1000);
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Authorization", "Bearer " + token);
             int responseCode = conn.getResponseCode();
@@ -873,7 +873,7 @@ public class Contextdb {
      * metodo getAllCategorys
      */
     public List<Category> getAllCategorys(String token) {
-        String sql = "http://192.168.43.121:49161/api/Categories";
+        String sql = "http://192.168.1.4:49161/api/Categories";
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         URL url = null;
@@ -882,8 +882,8 @@ public class Contextdb {
         try {
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(60 * 1000);
-            conn.setConnectTimeout(60 * 1000);
+            conn.setReadTimeout(30 * 1000);
+            conn.setConnectTimeout(30 * 1000);
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Authorization", "Bearer " + token);
             int responseCode = conn.getResponseCode();
@@ -925,7 +925,7 @@ public class Contextdb {
      * metodo getAllSubCategorys
      */
     public List<SubCategory> getAllSubCategorys(int id, String token) {
-        String sql = "http://192.168.43.121:49161/api/SubCategories/" + id;
+        String sql = "http://192.168.1.4:49161/api/SubCategories/" + id;
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         URL url = null;
@@ -934,8 +934,8 @@ public class Contextdb {
         try {
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(60 * 1000);
-            conn.setConnectTimeout(60 * 1000);
+            conn.setReadTimeout(30 * 1000);
+            conn.setConnectTimeout(30 * 1000);
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Authorization", "Bearer " + token);
             int responseCode = conn.getResponseCode();
@@ -991,7 +991,7 @@ public class Contextdb {
      */
     public String insertAssetsLiabilities(String CurrentDate, String Code, Double Rode, Boolean Type, String Description, String Name,
                                           Boolean State, Long IdInvoice, int IdAccount, int IdSubCategory, int IdUser, String token) {
-        String sql = "http://192.168.43.121:49161/api/AssetLiability";
+        String sql = "http://192.168.1.4:49161/api/AssetLiability";
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         URL url = null;
@@ -1020,8 +1020,8 @@ public class Contextdb {
             byte[] postDataBytes = postData.toString().getBytes("UTF-8");
             url = new URL(sql);
             conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(60 * 1000);
-            conn.setConnectTimeout(60 * 1000);
+            conn.setReadTimeout(30 * 1000);
+            conn.setConnectTimeout(30 * 1000);
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             conn.setRequestProperty("Authorization", "Bearer " + token);

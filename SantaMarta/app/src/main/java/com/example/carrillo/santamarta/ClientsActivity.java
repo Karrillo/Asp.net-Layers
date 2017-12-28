@@ -1,17 +1,21 @@
 package com.example.carrillo.santamarta;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -31,6 +35,7 @@ public class ClientsActivity extends AppCompatActivity{
     private TextWatcher text = null;
     private List<Client> listClients;
     private List<Client> listSearchClients;
+    private static Context context;
     /**
      * @param savedInstanceState
      * metodo onCreate de ClientsActivity
@@ -44,6 +49,7 @@ public class ClientsActivity extends AppCompatActivity{
         back = (Button) findViewById(R.id.btn_back);
         token = MainActivity.token;
         final Contextdb contextdb = new Contextdb();
+        context = getBaseContext();
         listClients = contextdb.getAllClients(token);
         display(listClients);
         back.setOnClickListener(new View.OnClickListener(){
@@ -97,9 +103,17 @@ public class ClientsActivity extends AppCompatActivity{
             //se setean los datos en el listView
             list.setAdapter(adapter);
         } else{
-            ArrayAdapter<Client> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, clients);
+            //ArrayAdapter<Client> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, clients);
             //se setean los datos en el listView
-            list.setAdapter(adapter);
+            final ArrayAdapter arrayAdapter2 = new ArrayAdapter
+                    (context, android.R.layout.simple_list_item_1, clients){
+                @Override
+                public View getView(int position, View convertView, ViewGroup parent){
+                    View view = super.getView(position,convertView,parent);
+                    return view;
+                }
+            };
+            list.setAdapter(arrayAdapter2);
         }
     }
     /**

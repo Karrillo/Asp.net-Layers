@@ -77,9 +77,11 @@
 
             <ListView
                 android:id="@+id/list_clients"
-                android:textColor="#ffffff"
+                style="@style/Widget.AppCompat.ListView"
                 android:layout_width="match_parent"
-                android:layout_height="350dp"/>
+                android:layout_height="350dp"
+                android:background="@android:color/darker_gray"
+                android:textColor="#ffffff" />
         </LinearLayout>
 
         <LinearLayout

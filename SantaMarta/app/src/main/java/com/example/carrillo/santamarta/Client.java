@@ -169,12 +169,12 @@ public class Client {
     @Override
     public String toString() {
         return
-                "Name: " + Name + ' ' + FirstName + ' ' + SecondName + '\n' +
+                "Nombre: " + Name + ' ' + FirstName + ' ' + SecondName + '\n' +
                 "Email: " + Email + '\n' +
-                "Phone: " + Phone + '\n' +
-                "CellPhone: " + CellPhone + '\n' +
-                "Address: " + Address + '\n' +
-                "NameCompany: " + NameCompany + '\n' +
-                "Code: " + Code ;
+                "Telefono: " + Phone + '\n' +
+                "Celular: " + CellPhone + '\n' +
+                "Dirrección: " + Address + '\n' +
+                "Compañia: " + NameCompany + '\n' +
+                "Codigo: " + Code ;
     }
 }

@@ -96,8 +96,10 @@
 
                 <ListView
                     android:id="@+id/list_invoices"
+                    style="@style/Widget.AppCompat.ListView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/darker_gray" />
             </LinearLayout>
 
             <LinearLayout
